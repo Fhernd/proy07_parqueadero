@@ -1,0 +1,9 @@
+id,documento,nombres,apellidos,telefono,email,direccion,created_at,updated_at,parqueadero_id
+,123456789,Juan,Perez,1234567890,juan.perez@example.com,Calle 123,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,987654321,Maria,Gonzalez,9876543210,maria.gonzalez@example.com,Carrera 456,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,789012345,Pedro,Lopez,7890123450,pedro.lopez@example.com,Avenida 789,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,567890123,Ana,Martin,5678901230,ana.martin@example.com,Calle 567,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,345678901,Carlos,Gomez,3456789010,carlos.gomez@example.com,Carrera 345,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,1234567890,Sofia,Garcia,12345678901,sofia.garcia@example.com,Avenida 123,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,9876543210,David,Rodriguez,98765432101,david.rodriguez@example.com,Carrera 987,2024-04-16 00:00:00,2024-04-16 00:00:00,1
+,7890123450,Laura,Flores,78901234501,laura.flores@example.com,Avenida 789,2024-04-16 00:00:00,2024-04-16 00:00:00,1
