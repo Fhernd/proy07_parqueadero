@@ -2,7 +2,7 @@ from app import app
 
 
 @app.route("/")
-def hello():
+def index():
     return "¡Hola a todos!"
 
 
