@@ -6,7 +6,7 @@
 
 <body>
     <h1>¡Hola, {{ nombre }}!</h1>
-    {% if len(nombre) >= 5 %}
+    {% if nombre|length >= 5 %}
     <p>¡Tu nombre es muy largo!</p>
     {% else %}
     <p>¡Tu nombre es muy corto!</p>
