@@ -1,0 +1,16 @@
+<html>
+
+<head>
+    <title>Sistema Gestión de Parqueadero - {{ titulo }}</title>
+</head>
+
+<body>
+    <h1>¡Hola, {{ nombre }}!</h1>
+    {% if nombre|length >= 5 %}
+    <p>¡Tu nombre es muy largo!</p>
+    {% else %}
+    <p>¡Tu nombre es muy corto!</p>
+    {% endif %}
+</body>
+
+</html>
