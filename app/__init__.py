@@ -5,10 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-current_path = os.getcwd()
-ruta_bd = f'{current_path}/app.db'
+base_dir = os.path.abspath(os.path.dirname(__file__))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{ruta_bd}'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(base_dir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
