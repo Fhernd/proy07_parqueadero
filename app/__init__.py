@@ -16,4 +16,7 @@ class User(db.Model):
         return f'<User {self.username}>'
 
 
+with app.app_context():
+    db.create_all()
+
 from app import routes
