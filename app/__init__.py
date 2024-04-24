@@ -19,4 +19,13 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
+
+new_user = User(username='johno', email='johno@mail.co')
+db.session.add(new_user)
+db.session.commit()
+
+# Consultar usuarios
+users = User.query.all()
+print(users)
+
 from app import routes
