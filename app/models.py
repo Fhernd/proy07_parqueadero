@@ -36,6 +36,9 @@ class Parqueadero(db.Model):
 
 
 class Pais(db.Model):
+    """
+    Representa un país.
+    """
     __tablename__ = 'pais'  # Nombre de la tabla en la base de datos
     
     # Definición de columnas
@@ -49,6 +52,9 @@ class Pais(db.Model):
 
 
 class Usuario(db.Model):
+    """
+    Representa un usuario.
+    """
     __tablename__ = 'usuario'  # Nombre de la tabla en la base de datos
 
     # Definición de columnas
@@ -67,3 +73,28 @@ class Usuario(db.Model):
 
     def __repr__(self):
         return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
+
+
+class Cliente(db.Model):
+    """
+    Representa un cliente.
+    """
+    __tablename__ = 'cliente'  # Nombre de la tabla en la base de datos
+
+    # Definición de columnas
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    documento = db.Column(db.String(16), nullable=False, unique=True)
+    nombres = db.Column(db.String(32), nullable=False)
+    apellidos = db.Column(db.String(32), nullable=False)
+    telefono = db.Column(db.String(16), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    direccion = db.Column(db.String(255), nullable=False)
+    parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    # Relaciones
+    parqueadero = db.relationship("Parqueadero", back_populates="clientes")
+
+    def __repr__(self):
+        return f"<Cliente(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
