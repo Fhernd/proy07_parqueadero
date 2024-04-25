@@ -265,8 +265,8 @@ class MedioPago(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(64), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=func.current_timestamp())
-    updated_at = db.Column(db.DateTime, server_default=func.current_timestamp())
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     parqueos = db.relationship("Parqueo", back_populates="medio_pago")
 
