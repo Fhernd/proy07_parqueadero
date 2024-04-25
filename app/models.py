@@ -33,3 +33,16 @@ class Parqueadero(db.Model):
 
     def __repr__(self):
         return f'<Parqueadero {self.vehiculo_placa}>'
+
+
+class Pais(db.Model):
+    __tablename__ = 'pais'  # Nombre de la tabla en la base de datos
+    
+    # Definición de columnas
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(64), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"<Pais(nombre='{self.nombre}')>"
