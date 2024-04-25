@@ -134,3 +134,21 @@ class Periodicidad(db.Model):
 
     def __repr__(self):
         return f"<Periodicidad(nombre='{self.nombre}', dias={self.dias})>"
+
+
+class Redimir(db.Model):
+    """
+    Representa la acción de redimir puntos acumulados.
+    """
+    __tablename__ = 'redimir'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cantidad = db.Column(db.Integer, nullable=False)
+    puntos_id = db.Column(db.Integer, db.ForeignKey('punto.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    punto = db.relationship("Punto", back_populates="redimidos")
+
+    def __repr__(self):
+        return f"<Redimir(cantidad={self.cantidad})>"
