@@ -98,3 +98,20 @@ class Cliente(db.Model):
 
     def __repr__(self):
         return f"<Cliente(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
+
+
+class Rol(db.Model):
+    """
+    Representa un rol en el sistema.
+    """
+    __tablename__ = 'rol'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(32), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    usuarios = db.relationship('Usuario', back_populates='rol', lazy='dynamic')
+
+    def __repr__(self):
+        return f"<Rol(nombre='{self.nombre}')>"
