@@ -115,3 +115,22 @@ class Rol(db.Model):
 
     def __repr__(self):
         return f"<Rol(nombre='{self.nombre}')>"
+
+
+class Periodicidad(db.Model):
+    """
+    Representa la periodicidad de ciertos eventos o pagos en el sistema.
+    """
+    __tablename__ = 'periodicidad'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(64), nullable=False)
+    dias = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
+
+    parqueadero = db.relationship("Parqueadero", back_populates="periodicidades")
+
+    def __repr__(self):
+        return f"<Periodicidad(nombre='{self.nombre}', dias={self.dias})>"
