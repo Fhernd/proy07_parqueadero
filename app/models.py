@@ -1,13 +1,16 @@
 from app import db
 
 
-class User(db.Model):
+class Sede(db.Model):
     """
-    Representa un usuario.
+    Representa una sede.
     """
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    nombre = db.Column(db.String(64), nullable=False)
+    direccion = db.Column(db.String(255), nullable=False)
+    telefono = db.Column(db.String(16), nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<Sede {self.nombre}>'
