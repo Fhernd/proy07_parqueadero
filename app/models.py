@@ -46,3 +46,24 @@ class Pais(db.Model):
 
     def __repr__(self):
         return f"<Pais(nombre='{self.nombre}')>"
+
+
+class Usuario(db.Model):
+    __tablename__ = 'usuario'  # Nombre de la tabla en la base de datos
+
+    # Definición de columnas
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    documento = db.Column(db.String(16), nullable=False, unique=True)
+    password = db.Column(db.String(256), nullable=False)
+    nombres = db.Column(db.String(32), nullable=False)
+    apellidos = db.Column(db.String(32), nullable=False)
+    telefono = db.Column(db.String(16), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False)  # Asume que la tabla 'rol' y su columna 'id' existen
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    rol = db.relationship("Rol", back_populates="usuarios")
+
+    def __repr__(self):
+        return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
