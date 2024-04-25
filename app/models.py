@@ -152,3 +152,21 @@ class Redimir(db.Model):
 
     def __repr__(self):
         return f"<Redimir(cantidad={self.cantidad})>"
+
+
+class Punto(db.Model):
+    """
+    Representa los puntos acumulados por un cliente.
+    """
+    __tablename__ = 'punto'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cantidad = db.Column(db.Integer, default=0, nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    cliente = db.relationship("Cliente", back_populates="puntos")
+
+    def __repr__(self):
+        return f"<Punto(id={self.id}, cantidad={self.cantidad})>"
