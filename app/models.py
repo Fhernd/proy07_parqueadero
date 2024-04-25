@@ -258,3 +258,17 @@ class Vehiculo(db.Model):
 
     def __repr__(self):
         return f"<Vehiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}')>"
+
+
+class MedioPago(db.Model):
+    __tablename__ = 'medio_pago'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(64), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=func.current_timestamp())
+
+    parqueos = db.relationship("Parqueo", back_populates="medio_pago")
+
+    def __repr__(self):
+        return f"<MedioPago(nombre='{self.nombre}')>"
