@@ -170,3 +170,91 @@ class Punto(db.Model):
 
     def __repr__(self):
         return f"<Punto(id={self.id}, cantidad={self.cantidad})>"
+
+
+class Modulo(db.Model):
+    __tablename__ = 'modulo'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(32), nullable=False)
+    habilitado = db.Column(db.Boolean, default=True, nullable=False)
+    descripcion = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    sede_id = db.Column(db.Integer, db.ForeignKey('sede.id'), nullable=False)
+    sede = db.relationship("Sede", back_populates="modulos")
+
+    def __repr__(self):
+        return f"<Modulo(id={self.id}, nombre='{self.nombre}', habilitado={self.habilitado})>"
+
+
+class TarifaTipo(db.Model):
+    __tablename__ = 'tarifa_tipo'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(64), nullable=False)
+    unidad = db.Column(db.SmallInteger, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"<TarifaTipo(id={self.id}, nombre='{self.nombre}', unidad={self.unidad})>"
+
+
+class Tarifa(db.Model):
+    __tablename__ = 'tarifa'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(128), nullable=False)
+    costo = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
+    tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
+
+    def __repr__(self):
+        return f"<Tarifa(id={self.id}, nombre='{self.nombre}', costo={self.costo})>"
+
+
+class Parqueo(db.Model):
+    __tablename__ = 'parqueo'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    fecha_hora_entrada = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    fecha_hora_salida = db.Column(db.DateTime)
+    modulo_id = db.Column(db.Integer, db.ForeignKey('modulo.id'), nullable=False)
+    vehiculo_placa = db.Column(db.String(12), db.ForeignKey('vehiculo.placa'), nullable=False)
+    medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=False)
+    tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    modulo = db.relationship("Modulo", back_populates="parqueos")
+    vehiculo = db.relationship("Vehiculo", back_populates="parqueos")
+    medio_pago = db.relationship("MedioPago", back_populates="parqueos")
+    tarifa = db.relationship("Tarifa", back_populates="parqueos")
+
+    def __repr__(self):
+        return f"<Parqueo(id={self.id}, fecha_hora_entrada='{self.fecha_hora_entrada}', fecha_hora_salida='{self.fecha_hora_salida}')>"
+
+
+class VehiculoTipo(db.Model):
+    __tablename__ = 'vehiculo_tipo'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(32), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"<VehiculoTipo(id={self.id}, nombre='{self.nombre}')>"
+
+
+class Vehiculo(db.Model):
+    __tablename__ = 'vehiculo'
+    placa = db.Column(db.String(12), primary_key=True)
+    marca = db.Column(db.String(32))
+    modelo = db.Column(db.String(4))
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    vehiculo_tipo_id = db.Column(db.Integer, db.ForeignKey('vehiculo_tipo.id'), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    vehiculo_tipo = db.relationship("VehiculoTipo", back_populates="vehiculos")
+    cliente = db.relationship("Cliente", back_populates="vehiculos")
+
+    def __repr__(self):
+        return f"<Vehiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}')>"
