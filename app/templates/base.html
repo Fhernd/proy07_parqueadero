@@ -13,9 +13,9 @@
         <!-- Sidebar Navigation -->
         <aside>
             <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('charts') }}">Charts</a></li>
-                <li><a href="{{ url_for('tables') }}">Tables</a></li>
+                <li><a href="">Dashboard</a></li>
+                <li><a href="">Charts</a></li>
+                <li><a href="">Tables</a></li>
                 <!-- Other navigation items -->
             </ul>
         </aside>
@@ -25,7 +25,7 @@
         <!-- Top Navigation Bar -->
         <div>
             <!-- Search Form -->
-            <form action="{{ url_for('search') }}" method="GET">
+            <form action="" method="GET">
                 <input type="text" name="q" placeholder="Search...">
             </form>
             <!-- Notifications Area -->
@@ -34,8 +34,8 @@
                 <div>
                     <img src="{{ url_for('static', filename='images/user_avatar.png') }}" alt="User">
                     <ul>
-                        <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        <li><a href="">Profile</a></li>
+                        <li><a href="">Logout</a></li>
                     </ul>
                 </div>
             </div>
