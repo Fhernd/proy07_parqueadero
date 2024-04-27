@@ -1,16 +1,12 @@
-<html>
+<!-- templates/index.html -->
+{% extends 'base.html' %}
 
-<head>
-    <title>Sistema Gestión de Parqueadero - {{ titulo }}</title>
-</head>
+{% block title %}Dashboard{% endblock %}
 
-<body>
-    <h1>¡Hola, {{ nombre }}!</h1>
-    {% if nombre|length >= 5 %}
-    <p>¡Tu nombre es muy largo!</p>
-    {% else %}
-    <p>¡Tu nombre es muy corto!</p>
-    {% endif %}
-</body>
-
-</html>
+{% block content %}
+<div class="dashboard">
+    <!-- Dashboard Content -->
+    <h1>Welcome to the Dashboard</h1>
+    <!-- More content -->
+</div>
+{% endblock %}

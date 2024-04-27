@@ -1,0 +1,58 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Aplicación{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- Other head elements -->
+</head>
+<body>
+    <nav>
+        <!-- Sidebar Navigation -->
+        <aside>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('charts') }}">Charts</a></li>
+                <li><a href="{{ url_for('tables') }}">Tables</a></li>
+                <!-- Other navigation items -->
+            </ul>
+        </aside>
+    </nav>
+
+    <header>
+        <!-- Top Navigation Bar -->
+        <div>
+            <!-- Search Form -->
+            <form action="{{ url_for('search') }}" method="GET">
+                <input type="text" name="q" placeholder="Search...">
+            </form>
+            <!-- Notifications Area -->
+            <div>
+                <!-- User Menu -->
+                <div>
+                    <img src="{{ url_for('static', filename='images/user_avatar.png') }}" alt="User">
+                    <ul>
+                        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Main Content Area -->
+        {% block content %}
+        <!-- Content from child templates will go here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
