@@ -274,5 +274,26 @@ class MedioPago(db.Model):
         return f"<MedioPago(nombre='{self.nombre}')>"
 
 
+@db.Model.metadata.ddl_events.listen('after-create', db.Model.metadata)
+def insert_data(mapper, connection):
+    # Insertar los datos en la tabla vehiculo_tipo
+    session = db.session
+    session.execute(
+        """
+        INSERT INTO `parqueadero`.`vehiculo_tipo` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+        (1, 'Motocicleta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (2, 'Automóvil', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (3, 'Camioneta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (4, 'Camión', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (5, 'Bus', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (6, 'Bicicleta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (7, 'Motocicleta Deportiva', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (8, 'Automóvil Familiar', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (9, 'Camioneta SUV', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
+        (10, 'Camión Articulado', '2024-04-17 00:00:00', '2024-04-17 00:00:00')
+        """
+    )
+    session.commit()
+
 with app.app_context():
     db.create_all()
