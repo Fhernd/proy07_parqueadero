@@ -1,4 +1,4 @@
-from app import db
+from app import app, db
 
 
 class Sede(db.Model):
@@ -272,3 +272,7 @@ class MedioPago(db.Model):
 
     def __repr__(self):
         return f"<MedioPago(nombre='{self.nombre}')>"
+
+
+with app.app_context():
+    db.create_all()
