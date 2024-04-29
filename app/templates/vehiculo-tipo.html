@@ -6,6 +6,45 @@
 
 <h3>Gestión de Tipos de Vehículo</h2>
 
+    <table id="tblDatos" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí irían las filas de la tabla generadas dinámicamente -->
+        </tbody>
+    </table>
 
+    <script>
+        $(document).ready(function () {
+            $('#tblDatos').DataTable({
+                "paging": true,
+                "searching": true, // Esto habilitará la búsqueda global
+                "columnDefs": [
+                    {
+                        "targets": 2, // Índice de la columna de acciones
+                        "data": null,
+                        "defaultContent": "<button class='edit'>Editar</button> <button class='delete'>Eliminar</button>"
+                    }
+                ]
+            });
 
-{% endblock %}
+            $('#tblDatos tbody').on('click', 'button.edit', function () {
+                var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+                // Lógica para editar la fila, donde 'data' es la información de la fila actual
+                alert('Editar ID: ' + data[0]);
+            });
+
+            $('#tblDatos tbody').on('click', 'button.delete', function () {
+                var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+                // Lógica para eliminar la fila, donde 'data' es la información de la fila actual
+                alert('Eliminar ID: ' + data[0]);
+            });
+        });
+
+    </script>
+    {% endblock %}
