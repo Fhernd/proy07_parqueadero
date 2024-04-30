@@ -8,7 +8,4 @@ app.config.from_object(ConfigDevelopment)
 
 db = SQLAlchemy(app)
 
-from app import models
-
-
 from app import routes

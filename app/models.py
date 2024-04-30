@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from sqlalchemy import event
+
 from app import app, db
 
 
@@ -274,26 +278,18 @@ class MedioPago(db.Model):
         return f"<MedioPago(nombre='{self.nombre}')>"
 
 
-@db.Model.metadata.ddl_events.listen('after-create', db.Model.metadata)
-def insert_data(mapper, connection):
-    # Insertar los datos en la tabla vehiculo_tipo
-    session = db.session
-    session.execute(
-        """
-        INSERT INTO `parqueadero`.`vehiculo_tipo` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-        (1, 'Motocicleta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (2, 'Automóvil', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (3, 'Camioneta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (4, 'Camión', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (5, 'Bus', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (6, 'Bicicleta', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (7, 'Motocicleta Deportiva', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (8, 'Automóvil Familiar', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (9, 'Camioneta SUV', '2024-04-17 00:00:00', '2024-04-17 00:00:00'),
-        (10, 'Camión Articulado', '2024-04-17 00:00:00', '2024-04-17 00:00:00')
-        """
-    )
-    session.commit()
+def insert_initial_values():
+    data = [
+        VehiculoTipo(id=1, nombre='Motocicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+        VehiculoTipo(id=2, nombre='Automóvil', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+        VehiculoTipo(id=3, nombre='Camioneta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
+    ]
+
+    if not VehiculoTipo.query.first():
+        db.session.bulk_save_objects(data)
+        db.session.commit()
 
 with app.app_context():
     db.create_all()
+
+    event.listen(VehiculoTipo.__table__, 'after_create', insert_initial_values)
