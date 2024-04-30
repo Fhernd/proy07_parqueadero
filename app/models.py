@@ -35,6 +35,9 @@ class Parqueadero(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
+    clientes = db.relationship("Cliente", back_populates="parqueadero")
+    periodicidades = db.relationship("Periodicidad", back_populates="parqueadero")
+
     def __repr__(self):
         return f'<Parqueadero {self.vehiculo_placa}>'
 
@@ -279,17 +282,24 @@ class MedioPago(db.Model):
 
 
 def insert_initial_values():
-    data = [
-        VehiculoTipo(id=1, nombre='Motocicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-        VehiculoTipo(id=2, nombre='Automóvil', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-        VehiculoTipo(id=3, nombre='Camioneta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
-    ]
-
     if not VehiculoTipo.query.first():
+        data = [
+            VehiculoTipo(id=1, nombre='Motocicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=2, nombre='Automóvil', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=3, nombre='Camioneta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=4, nombre='Camión', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=5, nombre='Bus', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=6, nombre='Bicicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=7, nombre='Motocicleta Deportiva', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=8, nombre='Automóvil Familiar', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=9, nombre='Camioneta SUV', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=10, nombre='Camión Articulado', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
+        ]
+        
         db.session.bulk_save_objects(data)
         db.session.commit()
 
 with app.app_context():
     db.create_all()
 
-    event.listen(VehiculoTipo.__table__, 'after_create', insert_initial_values)
+    insert_initial_values()
