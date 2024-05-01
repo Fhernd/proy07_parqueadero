@@ -209,6 +209,8 @@ class TarifaTipo(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
+    tarifas = db.relationship('Tarifa', back_populates='tarifa_tipo')
+
     def __repr__(self):
         return f"<TarifaTipo(id={self.id}, nombre='{self.nombre}', unidad={self.unidad})>"
 
@@ -221,6 +223,7 @@ class Tarifa(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
+    
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
 
     def __repr__(self):
