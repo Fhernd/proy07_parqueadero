@@ -102,6 +102,7 @@ class Cliente(db.Model):
 
     # Relaciones
     parqueadero = db.relationship("Parqueadero", back_populates="clientes")
+    puntos = db.relationship("Punto", back_populates="cliente")
 
     def __repr__(self):
         return f"<Cliente(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
@@ -174,6 +175,7 @@ class Punto(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     cliente = db.relationship("Cliente", back_populates="puntos")
+    redimidos = db.relationship("Redimir", back_populates="punto")
 
     def __repr__(self):
         return f"<Punto(id={self.id}, cantidad={self.cantidad})>"
