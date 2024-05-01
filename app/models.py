@@ -16,6 +16,8 @@ class Sede(db.Model):
     email = db.Column(db.String(64), unique=True, nullable=False)
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
 
+    parqueadero = db.relationship("Parqueadero", back_populates="sedes")
+
     def __repr__(self):
         return f'<Sede {self.nombre}>'
 
@@ -37,6 +39,7 @@ class Parqueadero(db.Model):
 
     clientes = db.relationship("Cliente", back_populates="parqueadero")
     periodicidades = db.relationship("Periodicidad", back_populates="parqueadero")
+    sedes = db.relationship("Sede", back_populates="parqueadero")
 
     def __repr__(self):
         return f'<Parqueadero {self.vehiculo_placa}>'
