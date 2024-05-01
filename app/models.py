@@ -17,6 +17,7 @@ class Sede(db.Model):
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
 
     parqueadero = db.relationship("Parqueadero", back_populates="sedes")
+    modulos = db.relationship("Modulo", back_populates="sede")
 
     def __repr__(self):
         return f'<Sede {self.nombre}>'
@@ -193,6 +194,7 @@ class Modulo(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     sede_id = db.Column(db.Integer, db.ForeignKey('sede.id'), nullable=False)
+    
     sede = db.relationship("Sede", back_populates="modulos")
 
     def __repr__(self):
