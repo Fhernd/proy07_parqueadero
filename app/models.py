@@ -196,6 +196,7 @@ class Modulo(db.Model):
     sede_id = db.Column(db.Integer, db.ForeignKey('sede.id'), nullable=False)
     
     sede = db.relationship("Sede", back_populates="modulos")
+    parqueos = db.relationship('Parqueo', back_populates='modulo')
 
     def __repr__(self):
         return f"<Modulo(id={self.id}, nombre='{self.nombre}', habilitado={self.habilitado})>"
@@ -241,6 +242,7 @@ class Parqueo(db.Model):
     tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    
     modulo = db.relationship("Modulo", back_populates="parqueos")
     vehiculo = db.relationship("Vehiculo", back_populates="parqueos")
     medio_pago = db.relationship("MedioPago", back_populates="parqueos")
