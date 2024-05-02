@@ -312,6 +312,24 @@ def insert_initial_values():
         
         db.session.bulk_save_objects(data)
         db.session.commit()
+    
+    if not MedioPago.query.first():
+        medios_pago = [
+            {'id': 1, 'nombre': 'Efectivo', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 2, 'nombre': 'Tarjeta de crédito', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 3, 'nombre': 'Tarjeta débito', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 4, 'nombre': 'Nequi', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 5, 'nombre': 'DaviPlata', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 6, 'nombre': 'Transferencia', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'id': 7, 'nombre': 'Otro', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)}
+        ]
+
+        for medio in medios_pago:
+            mp = MedioPago(**medio)
+            db.session.add(mp)
+
+        db.session.commit()
+
 
 with app.app_context():
     db.create_all()
