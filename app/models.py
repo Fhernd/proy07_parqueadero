@@ -104,9 +104,9 @@ class Cliente(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
-    # Relaciones
     parqueadero = db.relationship("Parqueadero", back_populates="clientes")
     puntos = db.relationship("Punto", back_populates="cliente")
+    vehiculos = db.relationship('Vehiculo', back_populates='cliente')
 
     def __repr__(self):
         return f"<Cliente(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
