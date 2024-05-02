@@ -226,7 +226,7 @@ class Tarifa(db.Model):
     tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
     
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
-    parqueos = db.relationship("Parqueo" back_populates="tarifa")
+    parqueos = db.relationship("Parqueo", back_populates="tarifa")
 
     def __repr__(self):
         return f"<Tarifa(id={self.id}, nombre='{self.nombre}', costo={self.costo})>"
@@ -260,6 +260,8 @@ class VehiculoTipo(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
+    vehiculos = db.relationship("Vehiculo", back_populates="vehiculo_tipo")
+
     def __repr__(self):
         return f"<VehiculoTipo(id={self.id}, nombre='{self.nombre}')>"
 
@@ -273,10 +275,10 @@ class Vehiculo(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     vehiculo_tipo_id = db.Column(db.Integer, db.ForeignKey('vehiculo_tipo.id'), nullable=False)
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
-    vehiculo_tipo = db.relationship("VehiculoTipo", back_populates="vehiculos")
-    cliente = db.relationship("Cliente", back_populates="vehiculos")
 
     parqueos = db.relationship('Parqueo', back_populates='vehiculo')
+    cliente = db.relationship("Cliente", back_populates="vehiculos")
+    vehiculo_tipo = db.relationship("VehiculoTipo", back_populates="vehiculos")
 
     def __repr__(self):
         return f"<Vehiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}')>"
