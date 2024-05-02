@@ -50,9 +50,8 @@ class Pais(db.Model):
     """
     Representa un país.
     """
-    __tablename__ = 'pais'  # Nombre de la tabla en la base de datos
+    __tablename__ = 'pais'
     
-    # Definición de columnas
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(64), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
@@ -66,9 +65,8 @@ class Usuario(db.Model):
     """
     Representa un usuario.
     """
-    __tablename__ = 'usuario'  # Nombre de la tabla en la base de datos
+    __tablename__ = 'usuario'
 
-    # Definición de columnas
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     documento = db.Column(db.String(16), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
@@ -90,9 +88,8 @@ class Cliente(db.Model):
     """
     Representa un cliente.
     """
-    __tablename__ = 'cliente'  # Nombre de la tabla en la base de datos
+    __tablename__ = 'cliente'
 
-    # Definición de columnas
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     documento = db.Column(db.String(16), nullable=False, unique=True)
     nombres = db.Column(db.String(32), nullable=False)
