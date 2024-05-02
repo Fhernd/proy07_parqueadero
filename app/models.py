@@ -330,6 +330,37 @@ def insert_initial_values():
 
         db.session.commit()
 
+    if not Pais.query.first():
+        paises = [
+            {'nombre': 'Colombia', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
+            {'nombre': 'Argentina', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Bolivia', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Brasil', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Chile', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Costa Rica', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Cuba', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Ecuador', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'El Salvador', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Guatemala', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Honduras', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'México', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Nicaragua', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Panamá', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Paraguay', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Perú', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Puerto Rico', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'República Dominicana', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Uruguay', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Venezuela', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Canadá', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)},
+            {'nombre': 'Estados Unidos', 'created_at': datetime(2024, 4, 16, 23, 34, 17), 'updated_at': datetime(2024, 4, 16, 23, 34, 17)}
+        ]
+
+        for pais_info in paises:
+            pais = Pais(**pais_info)
+            db.session.add(pais)
+        
+        db.session.commit()
 
 with app.app_context():
     db.create_all()
