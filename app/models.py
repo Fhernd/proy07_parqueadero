@@ -439,6 +439,35 @@ def insert_initial_values():
         
         db.session.commit()
 
+    if not Sede.query.first():
+        sedes = [
+            Sede(
+                id=1,
+                nombre='SuperParking Sede Norte',
+                direccion='Calle 170 # 20-13',
+                telefono='3011001123',
+                email='norte@superparking.co',
+                parqueadero_id=1,
+                created_at=datetime(2024, 4, 15),
+                updated_at=datetime(2024, 4, 15)
+            ),
+            Sede(
+                id=2,
+                nombre='SuperParking Sede Centro',
+                direccion='Calle 19 # 2-29',
+                telefono='30110001124',
+                email='centro@superparking.co',
+                parqueadero_id=1,
+                created_at=datetime(2024, 4, 15),
+                updated_at=datetime(2024, 4, 15)
+            )
+        ]
+
+        for sede in sedes:
+            db.session.add(sede)
+        
+        db.session.commit()
+
 with app.app_context():
     db.create_all()
 
