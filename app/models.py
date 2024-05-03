@@ -362,6 +362,18 @@ def insert_initial_values():
         
         db.session.commit()
 
+    if not Rol.query.first():
+        roles = [
+            Rol(id=1, nombre='Administrador', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Rol(id=2, nombre='Operario', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
+        ]
+
+        for rol in roles:
+            db.session.add(rol)
+
+        db.session.commit()
+
+
 with app.app_context():
     db.create_all()
 
