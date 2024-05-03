@@ -404,6 +404,40 @@ def insert_initial_values():
         for usuario in usuarios:
             db.session.add(usuario)
 
+    if not Parqueadero.query.first():
+        parqueaderos = [
+            Parqueadero(
+                id=1,
+                rut='1001',
+                nombre='SuperParking',
+                direccion='Calle 1 # 3-45',
+                telefono='3011001123',
+                email='principal@superparking.co',
+                ciudad='Bogotá',
+                usuario_id=1,
+                pais_id=1,
+                created_at=datetime(2024, 4, 15),
+                updated_at=datetime(2024, 4, 15)
+            ),
+            Parqueadero(
+                id=2,
+                rut='1002',
+                nombre='Parqueadero Los Autos',
+                direccion='Carrera 9 # 4-29',
+                telefono='3021002789',
+                email='contacto@parqueaderolosautos.co',
+                ciudad='Neiva',
+                usuario_id=2,
+                pais_id=1,
+                created_at=datetime(2024, 4, 18),
+                updated_at=datetime(2024, 4, 18)
+            )
+        ]
+
+        for parqueadero in parqueaderos:
+            db.session.add(parqueadero)
+        
+        db.session.commit()
 
 with app.app_context():
     db.create_all()
