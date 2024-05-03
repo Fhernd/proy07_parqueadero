@@ -16,6 +16,9 @@ class Sede(db.Model):
     email = db.Column(db.String(64), unique=True, nullable=False)
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
 
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
     parqueadero = db.relationship("Parqueadero", back_populates="sedes")
     modulos = db.relationship("Modulo", back_populates="sede")
 
@@ -31,6 +34,8 @@ class Parqueadero(db.Model):
     rut = db.Column(db.String(32), unique=True, nullable=False)
     nombre = db.Column(db.String(64), nullable=False)
     direccion = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    ciudad = db.Column(db.String(64), nullable=False)
     telefono = db.Column(db.String(16), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     pais_id = db.Column(db.Integer, db.ForeignKey('pais.id'), nullable=False)
