@@ -373,6 +373,37 @@ def insert_initial_values():
 
         db.session.commit()
 
+    if not Usuario.query.first():
+        usuarios = [
+            Usuario(
+                id=1,
+                documento='2001',
+                password='abcasdasdfqwerasdfasdfasdf',
+                nombres='Pepé',
+                apellidos='Pérez',
+                telefono='3011001101',
+                email='pepe.peres@superparking.co',
+                rol_id=1,
+                created_at=datetime(2024, 4, 15),
+                updated_at=datetime(2024, 4, 15)
+            ),
+            Usuario(
+                id=2,
+                documento='2002',
+                password='xyslkaslkdfjklasdkljfklñjasdkñjla',
+                nombres='Laura',
+                apellidos='Gómez',
+                telefono='3202020100',
+                email='laura@parqueaderolosautos.co',
+                rol_id=1,
+                created_at=datetime(2024, 4, 18),
+                updated_at=datetime(2024, 4, 18)
+            )
+        ]
+
+        for usuario in usuarios:
+            db.session.add(usuario)
+
 
 with app.app_context():
     db.create_all()
