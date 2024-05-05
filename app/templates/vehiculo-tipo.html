@@ -15,7 +15,16 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Aquí irían las filas de la tabla generadas dinámicamente -->
+            {% for tipo in tipos_vehiculo %}
+                <tr>
+                    <td>{{ tipo.id }}</td>
+                    <td>{{ tipo.nombre }}</td>
+                    <td>
+                        <button class="btn btn-warning">Editar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

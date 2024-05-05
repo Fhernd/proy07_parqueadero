@@ -12,4 +12,6 @@ def index():
 @app.route("/vehiculo-tipo", methods=['GET'])
 def vehiculo_tipo():
     tipos_vehiculo = VehiculoTipo.query.all()
+    print(tipos_vehiculo)
+    print(len(tipos_vehiculo))
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
