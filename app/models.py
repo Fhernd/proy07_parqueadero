@@ -486,7 +486,23 @@ def insert_initial_values():
             db.session.add(m)
         
         db.session.commit()
-        
+    
+    if not Cliente.query.first():
+        clientes = [
+            Cliente(documento='123456789', nombres='Juan', apellidos='Perez', telefono='1234567890', email='juan.perez@example.com', direccion='Calle 123', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='987654321', nombres='Maria', apellidos='Gonzalez', telefono='9876543210', email='maria.gonzalez@example.com', direccion='Carrera 456', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='789012345', nombres='Pedro', apellidos='Lopez', telefono='7890123450', email='pedro.lopez@example.com', direccion='Avenida 789', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='567890123', nombres='Ana', apellidos='Martin', telefono='5678901230', email='ana.martin@example.com', direccion='Calle 567', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='345678901', nombres='Carlos', apellidos='Gomez', telefono='3456789010', email='carlos.gomez@example.com', direccion='Carrera 345', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='1234567890', nombres='Sofia', apellidos='Garcia', telefono='12345678901', email='sofia.garcia@example.com', direccion='Avenida 123', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='9876543210', nombres='David', apellidos='Rodriguez', telefono='98765432101', email='david.rodriguez@example.com', direccion='Carrera 987', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Cliente(documento='7890123450', nombres='Laura', apellidos='Flores', telefono='78901234501', email='laura.flores@example.com', direccion='Avenida 789', parqueadero_id=1, created_at=datetime.now(), updated_at=datetime.now())
+        ]
+
+        db.session.add_all(clientes)
+        db.session.commit()
+    
+
 with app.app_context():
     db.create_all()
 
