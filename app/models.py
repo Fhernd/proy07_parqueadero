@@ -473,6 +473,20 @@ def insert_initial_values():
         
         db.session.commit()
 
+    if not Modulo.query.first():
+        modulos = []
+
+        for i in range(1, 21):
+            modulos.append(Modulo(id=i, nombre=f'M{i}', habilitado=True, descripcion=f'Módulo {i}', sede_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)))
+        
+        for i in range(21, 41):
+            modulos.append(Modulo(id=i, nombre=f'M{i}', habilitado=True, descripcion=f'Módulo {i}', sede_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)))
+        
+        for m in modulos:
+            db.session.add(m)
+        
+        db.session.commit()
+        
 with app.app_context():
     db.create_all()
 
