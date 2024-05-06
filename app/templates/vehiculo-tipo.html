@@ -12,7 +12,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="tblDatos" class="table" style="width:100%">
+            <table id="tblDatos" class="table table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -44,8 +44,10 @@
                         "data": null,
                         "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
                     }
-                ]
+                ],
             });
+
+            $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
             $('#tblDatos tbody').on('click', 'button.edit', function () {
                 var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
