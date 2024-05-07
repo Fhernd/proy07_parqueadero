@@ -46,8 +46,8 @@
         <form id="frmCrearEditar">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="nombreInput">Nombre</label>
-                    <input type="text" class="form-control" id="nombreInput" name="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombreInput" name="nombre" id="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
                 </div>
             </div>
             <div class="modal-footer">
@@ -122,7 +122,12 @@
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
-            const data = $(this).serialize();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
             const url = '/vehiculo-tipo';
             const method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
@@ -132,7 +137,7 @@
             $.ajax({
                 url: url,
                 type: method,
-                data: data,
+                data: JSON.stringify(data),
                 contentType: 'application/json',
                 dataType: 'json',
                 success: (response) => {
