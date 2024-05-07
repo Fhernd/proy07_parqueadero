@@ -55,25 +55,42 @@
         });
 
         $('#tblDatos tbody').on('click', 'button.delete', function () {
-            const respuesta = confirm('¿Está seguro de eliminar el registro?');
+            Swal.fire({
+                title: "¿Está seguro de querer eliminar este registro?",
+                text: "Esta operación una vez confirmada es irreversible.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            if (respuesta) {
-                var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-
-                $.ajax({
-                    url: '/vehiculo-tipo/' + data[0],
-                    type: 'DELETE',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status == 'success') {
-                            alert('Registro eliminado correctamente');
-                            location.reload();
-                        } else {
-                            alert('Error al eliminar el registro');
+                    $.ajax({
+                        url: '/vehiculo-tipo/' + data[0],
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: "Registro eliminado",
+                                    text: "El registro fue eliminado de forma satisfactoria",
+                                    icon: "success"
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar eliminar el registro",
+                                    icon: "error"
+                                });
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
     });
 
