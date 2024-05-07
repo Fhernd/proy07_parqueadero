@@ -22,10 +22,10 @@
                 </thead>
                 <tbody>
                     {% for tipo in tipos_vehiculo %}
-                        <tr>
-                            <td>{{ tipo.id }}</td>
-                            <td>{{ tipo.nombre }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ tipo.id }}</td>
+                        <td>{{ tipo.nombre }}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -33,30 +33,33 @@
     </div>
 </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#tblDatos').DataTable({
-                "paging": true,
-                "searching": true,
-                "columnDefs": [
-                    {
-                        "targets": 2,
-                        "data": null,
-                        "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
-                    }
-                ],
-            });
+<script>
+    $(document).ready(function () {
+        $('#tblDatos').DataTable({
+            "paging": true,
+            "searching": true,
+            "columnDefs": [
+                {
+                    "targets": 2,
+                    "data": null,
+                    "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
+                }
+            ],
+        });
 
-            $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
-            $('#tblDatos tbody').on('click', 'button.edit', function () {
+        $('#tblDatos tbody').on('click', 'button.edit', function () {
+            var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+            alert('Editar ID: ' + data[0]);
+        });
+
+        $('#tblDatos tbody').on('click', 'button.delete', function () {
+            const respuesta = confirm('¿Está seguro de eliminar el registro?');
+
+            if (respuesta) {
                 var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-                alert('Editar ID: ' + data[0]);
-            });
 
-            $('#tblDatos tbody').on('click', 'button.delete', function () {
-                var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-                
                 $.ajax({
                     url: '/vehiculo-tipo/' + data[0],
                     type: 'DELETE',
@@ -70,8 +73,9 @@
                         }
                     }
                 });
-            });
+            }
         });
+    });
 
-    </script>
-    {% endblock %}
+</script>
+{% endblock %}
