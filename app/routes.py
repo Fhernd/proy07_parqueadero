@@ -42,7 +42,10 @@ def vehiculo_tipo_create():
         db.session.add(vehiculo_tipo)
         db.session.commit()
 
-        return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado'}), 201
+        return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado', 'data': {
+            'id': vehiculo_tipo.id,
+            'nombre': vehiculo_tipo.nombre
+        }}), 201
 
     except Exception as e:
         print(e)
