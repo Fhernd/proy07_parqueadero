@@ -38,21 +38,21 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="mdlCrearEditarLabel">Nuevo Nombre</h5>
+          <h5 class="modal-title" id="mdlCrearEditarLabel">Tipo de Vehículo - Crear</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form>
+        <form id="frmCrearEditar">
             <div class="modal-body">
                 <div class="form-group">
                     <label for="nombreInput">Nombre</label>
-                    <input type="text" class="form-control" id="nombreInput" name="nombre" placeholder="Ingresa tu nombre">
+                    <input type="text" class="form-control" id="nombreInput" name="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Crear</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success">Crear</button>
             </div>
         </form>
       </div>
@@ -115,6 +115,42 @@
                             }
                         }
                     });
+                }
+            });
+        });
+        
+        $('#frmCrearEditar').submit(function (e) {
+            e.preventDefault();
+
+            const data = $(this).serialize();
+            const url = '/vehiculo-tipo';
+            const method = 'POST';
+            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+                url += '/' + $('#idInput').val();
+                method = 'PUT';
+            }
+            $.ajax({
+                url: url,
+                type: method,
+                data: data,
+                dataType: 'json',
+                success: (response) => {
+                    if (response.status == 'success') {
+                        Swal.fire({
+                            title: "Registro guardado",
+                            text: "El registro fue guardado de forma satisfactoria.",
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlCrearEditar').modal('hide');
+                            dataTable.row.add([response.data.id, response.data.nombre]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el registro.",
+                            icon: "error"
+                        });
+                    }
                 }
             });
         });
