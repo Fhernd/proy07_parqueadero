@@ -20,9 +20,18 @@ def vehiculo_tipo_delete(id):
     vehiculo_tipo = VehiculoTipo.query.get(id)
     
     if vehiculo_tipo is None:
-        return 'No existe el tipo de vehículo', 404
+        return {
+            'status': 'failure',
+            'data': None
+        }, 204
     
     db.session.delete(vehiculo_tipo)
     db.session.commit()
     
-    return 'Tipo de vehículo eliminado', 200
+    return {
+        'status': 'success',
+        'data': {
+            'id': vehiculo_tipo.id,
+            'nombre': vehiculo_tipo.nombre
+        }
+    }, 204
