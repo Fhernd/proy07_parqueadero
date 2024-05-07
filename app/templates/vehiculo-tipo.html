@@ -51,14 +51,24 @@
 
             $('#tblDatos tbody').on('click', 'button.edit', function () {
                 var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-                // Lógica para editar la fila, donde 'data' es la información de la fila actual
                 alert('Editar ID: ' + data[0]);
             });
 
             $('#tblDatos tbody').on('click', 'button.delete', function () {
                 var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-                // Lógica para eliminar la fila, donde 'data' es la información de la fila actual
-                alert('Eliminar ID: ' + data[0]);
+                
+                $.ajax({
+                    url: '/vehiculo-tipo/' + data[0],
+                    type: 'DELETE',
+                    success: function (response) {
+                        if (response.status == 'success') {
+                            alert('Registro eliminado correctamente');
+                            location.reload();
+                        } else {
+                            alert('Error al eliminar el registro');
+                        }
+                    }
+                });
             });
         });
 
