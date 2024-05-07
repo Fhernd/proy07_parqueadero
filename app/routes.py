@@ -1,4 +1,4 @@
-from flask import jsonify, render_template
+from flask import jsonify, render_template, request
 
 from app import app, db
 
@@ -27,6 +27,22 @@ def vehiculo_tipo_delete(id):
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Tipo de vehículo eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/vehiculo-tipo', methods=['POST'])
+def vehiculo_tipo_create():
+    try:
+        data = request.get_json()
+        vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'))
+
+        db.session.add(vehiculo_tipo)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado'}), 201
 
     except Exception as e:
         db.session.rollback()
