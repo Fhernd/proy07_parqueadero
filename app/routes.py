@@ -45,5 +45,6 @@ def vehiculo_tipo_create():
         return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado'}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
