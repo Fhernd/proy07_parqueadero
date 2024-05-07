@@ -35,7 +35,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#tblDatos').DataTable({
+        const dataTable = $('#tblDatos').DataTable({
             "paging": true,
             "searching": true,
             "columnDefs": [
@@ -72,14 +72,15 @@
                         url: '/vehiculo-tipo/' + data[0],
                         type: 'DELETE',
                         dataType: 'json',
-                        success: function (response) {
+                        success: (response) => {
                             if (response.status == 'success') {
                                 Swal.fire({
                                     title: "Registro eliminado",
                                     text: "El registro fue eliminado de forma satisfactoria",
                                     icon: "success"
                                 }).then((result) => {
-                                    $('#tblDatos').DataTable().row($(this).parents('tr')).remove().draw();
+                                    var row = $(this).closest('tr');
+                                    dataTable.row(row).remove().draw();
                                 });
                             } else {
                                 Swal.fire({
