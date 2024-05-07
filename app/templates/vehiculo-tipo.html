@@ -79,7 +79,7 @@
                                     text: "El registro fue eliminado de forma satisfactoria",
                                     icon: "success"
                                 }).then((result) => {
-                                    location.reload();
+                                    $('#tblDatos').DataTable().row($(this).parents('tr')).remove().draw();
                                 });
                             } else {
                                 Swal.fire({
