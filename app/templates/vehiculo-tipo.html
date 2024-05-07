@@ -11,6 +11,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar">Crear</button>
         <div class="table-responsive">
             <table id="tblDatos" class="table table-bordered" style="width:100%">
                 <thead>
@@ -46,8 +47,6 @@
                 }
             ],
         });
-
-        $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
         $('#tblDatos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
