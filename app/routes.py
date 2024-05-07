@@ -17,21 +17,17 @@ def vehiculo_tipo():
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
 def vehiculo_tipo_delete(id):
-    vehiculo_tipo = VehiculoTipo.query.get(id)
-    
-    if vehiculo_tipo is None:
-        return jsonify({
-            'status': 'failure',
-            'data': None
-        }), 204
-    
-    db.session.delete(vehiculo_tipo)
-    db.session.commit()
-    
-    return jsonify({
-        'status': 'success',
-        'data': {
-            'id': vehiculo_tipo.id,
-            'nombre': vehiculo_tipo.nombre
-        }
-    }), 204
+    try:
+        vehiculo_tipo = VehiculoTipo.query.get(id)
+
+        if vehiculo_tipo is None:
+            return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
+
+        db.session.delete(vehiculo_tipo)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Tipo de vehículo eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
