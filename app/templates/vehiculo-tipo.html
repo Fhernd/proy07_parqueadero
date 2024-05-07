@@ -34,6 +34,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mdlCrearEditarLabel">Nuevo Nombre</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nombreInput">Nombre</label>
+                    <input type="text" class="form-control" id="nombreInput" name="nombre" placeholder="Ingresa tu nombre">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         const dataTable = $('#tblDatos').DataTable({
