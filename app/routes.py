@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import jsonify, render_template
 
 from app import app, db
 
@@ -20,18 +20,18 @@ def vehiculo_tipo_delete(id):
     vehiculo_tipo = VehiculoTipo.query.get(id)
     
     if vehiculo_tipo is None:
-        return {
+        return jsonify({
             'status': 'failure',
             'data': None
-        }, 204
+        }), 204
     
     db.session.delete(vehiculo_tipo)
     db.session.commit()
     
-    return {
+    return jsonify({
         'status': 'success',
         'data': {
             'id': vehiculo_tipo.id,
             'nombre': vehiculo_tipo.nombre
         }
-    }, 204
+    }), 204

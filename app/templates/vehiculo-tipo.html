@@ -60,6 +60,7 @@
                 $.ajax({
                     url: '/vehiculo-tipo/' + data[0],
                     type: 'DELETE',
+                    dataType: 'json',
                     success: function (response) {
                         if (response.status == 'success') {
                             alert('Registro eliminado correctamente');
