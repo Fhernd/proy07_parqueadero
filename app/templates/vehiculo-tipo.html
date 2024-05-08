@@ -45,6 +45,7 @@
         </div>
         <form id="frmCrearEditar">
             <div class="modal-body">
+                <input type="hidden" id="id" name="id">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
@@ -77,7 +78,12 @@
 
         $('#tblDatos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
-            alert('Editar ID: ' + data[0]);
+
+            $('#mdlCrearEditarLabel').text('Tipo de Vehículo - Editar');
+            $('#id').val(data[0]);
+            $('#nombre').val(data[1]);
+
+            $('#mdlCrearEditar').modal('show');
         });
 
         $('#tblDatos tbody').on('click', 'button.delete', function () {
