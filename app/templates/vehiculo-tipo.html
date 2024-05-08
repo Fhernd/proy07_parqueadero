@@ -139,12 +139,13 @@
                 data[key] = value;
             });
 
-            const url = '/vehiculo-tipo';
-            const method = 'POST';
+            let url = '/vehiculo-tipo';
+            let method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
-                url += '/' + $('#idInput').val();
+                url += '/' + $('#id').val();
                 method = 'PUT';
             }
+
             $.ajax({
                 url: url,
                 type: method,
