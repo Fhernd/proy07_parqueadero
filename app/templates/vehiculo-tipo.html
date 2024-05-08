@@ -161,6 +161,12 @@
                         }).then((result) => {
                             $('#mdlCrearEditar').modal('hide');
                             $('#nombre').val('');
+                            if (method == 'PUT') {
+                                dataTable.row($('#tblDatos tbody tr').find('td').filter(function () {
+                                    return $(this).text() == $('#id').val();
+                                }).closest('tr')).remove().draw();
+                            }
+
                             dataTable.row.add([response.data.id, response.data.nombre]).draw();
                         });
                     } else {
