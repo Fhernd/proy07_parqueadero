@@ -2,7 +2,7 @@ from flask import jsonify, render_template, request
 
 from app import app, db
 
-from app.models import VehiculoTipo
+from app.models import TarifaTipo, VehiculoTipo
 
 
 @app.route("/")
@@ -81,3 +81,12 @@ def vehiculo_tipo_update(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/tarifa-tipo", methods=['GET'])
+def vehiculo_tipo():
+    """
+    Muestra la lista de tipos de tarifa.
+    """
+    entidades = TarifaTipo.query.all()
+    return render_template("tarifa-tipo.html", titulo='Tipo de Tarifa', entidades=entidades)
