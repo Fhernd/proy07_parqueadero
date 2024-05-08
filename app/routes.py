@@ -84,7 +84,7 @@ def vehiculo_tipo_update(id):
 
 
 @app.route("/tarifa-tipo", methods=['GET'])
-def vehiculo_tipo():
+def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
     """
