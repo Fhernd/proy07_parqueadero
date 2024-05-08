@@ -47,7 +47,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombreInput" name="nombre" id="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
                 </div>
             </div>
             <div class="modal-footer">
@@ -72,6 +72,8 @@
                 }
             ],
         });
+
+        $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
         $('#tblDatos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
@@ -148,6 +150,7 @@
                             icon: "success"
                         }).then((result) => {
                             $('#mdlCrearEditar').modal('hide');
+                            $('#nombre').val('');
                             dataTable.row.add([response.data.id, response.data.nombre]).draw();
                         });
                     } else {
