@@ -69,6 +69,7 @@ def vehiculo_tipo_update(id):
             return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
 
         vehiculo_tipo.nombre = data.get('nombre')
+        vehiculo_tipo.updated_at = db.func.current_timestamp()
 
         db.session.commit()
 
