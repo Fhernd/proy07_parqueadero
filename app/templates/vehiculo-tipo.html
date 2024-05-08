@@ -179,6 +179,14 @@
                 }
             });
         });
+    
+        $('#mdlCrearEditar').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            $('#mdlCrearEditarLabel').text('Tipo de Vehículo - Crear');
+            $('#mdlCrearEditar button[type="submit"]').text('Crear');
+            $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+        });
     });
 
 </script>
