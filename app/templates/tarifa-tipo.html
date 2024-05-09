@@ -145,7 +145,7 @@
                 data[key] = value;
             });
 
-            let url = '/vehiculo-tipo';
+            let url = '/tarifa-tipo';
             let method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#id').val();
@@ -173,7 +173,7 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            dataTable.row.add([response.data.id, response.data.nombre]).draw();
+                            dataTable.row.add([response.data.id, response.data.nombre, response.data.unidad]).draw();
                         });
                     } else {
                         Swal.fire({
