@@ -502,6 +502,20 @@ def insert_initial_values():
         db.session.add_all(clientes)
         db.session.commit()
     
+    if not TarifaTipo.query.first():
+        tipos_tarifa = [
+            TarifaTipo(id=1, nombre='Minutos', unidad=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            TarifaTipo(id=2, nombre='Horas', unidad=2, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            TarifaTipo(id=3, nombre='Días', unidad=3, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            TarifaTipo(id=4, nombre='Semanas', unidad=4, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            TarifaTipo(id=5, nombre='Meses', unidad=5, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            TarifaTipo(id=6, nombre='Años', unidad=6, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
+        ]
+
+        db.session.add_all(tipos_tarifa)
+
+        db.session.commit()
+    
 
 with app.app_context():
     db.create_all()
