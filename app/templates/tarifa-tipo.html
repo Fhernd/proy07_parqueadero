@@ -111,7 +111,7 @@
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
-                        url: '/vehiculo-tipo/' + data[0],
+                        url: '/tarifa-tipo/' + data[0],
                         type: 'DELETE',
                         dataType: 'json',
                         success: (response) => {
