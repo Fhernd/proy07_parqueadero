@@ -179,4 +179,4 @@ def medio_pago():
     Muestra la lista de tipos de tarifa.
     """
     entidades = MedioPago.query.all()
-    return render_template("medio-pago.html", titulo='Medios de Pago', entidades=entidades)
+    return render_template('medio-pago.html', titulo='Medios de Pago', entidades=entidades)
