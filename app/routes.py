@@ -115,3 +115,35 @@ def tarifa_tipo_create():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/tarifa-tipo/<int:id>', methods=['PUT'])
+def tarifa_tipo_update(id):
+    """
+    Actualiza un tipo de tarifa.
+
+    :param id: Identificador del tipo de tarifa.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = TarifaTipo.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Tipo de tarifa encontrado'}), 404
+
+        entidad.nombre = data.get('nombre')
+        entidad.unidad = data.get('unidad')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Tipo de tarifa actualizado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'unidad': entidad.unidad
+        }}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
