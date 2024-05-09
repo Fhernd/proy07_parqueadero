@@ -161,9 +161,11 @@
                 dataType: 'json',
                 success: (response) => {
                     if (response.status == 'success') {
+                        const operacion = method == 'POST' ? 'guardado' : 'editado';
+
                         Swal.fire({
                             title: "Registro guardado",
-                            text: "El registro fue guardado de forma satisfactoria.",
+                            text: `El registro fue ${operacion} de forma satisfactoria.`,
                             icon: "success"
                         }).then((result) => {
                             $('#mdlCrearEditar').modal('hide');
