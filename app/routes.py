@@ -234,3 +234,27 @@ def medio_pago_update(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/medio-pago/<int:id>', methods=['DELETE'])
+def medio_pago_delete(id):
+    """
+    Elimina un medio de pago.
+
+    :param id: Identificador del medio de pago.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = MedioPago.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Medio de pago encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Medio de pago eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
