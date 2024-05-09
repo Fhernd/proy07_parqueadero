@@ -90,3 +90,28 @@ def tarifa_tipo():
     """
     entidades = TarifaTipo.query.all()
     return render_template("tarifa-tipo.html", titulo='Tipo de Tarifa', entidades=entidades)
+
+
+@app.route('/tarifa-tipo', methods=['POST'])
+def tarifa_tipo_create():
+    """
+    Crea un nuevo tipo de tarifa.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = TarifaTipo(nombre=data.get('nombre'), unidad=data.get('unidad'))
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Tipo de tarifa creado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'unidad': entidad.unidad
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
