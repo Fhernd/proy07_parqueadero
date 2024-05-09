@@ -175,7 +175,7 @@
                         const operacion = method == 'POST' ? 'guardado' : 'editado';
 
                         Swal.fire({
-                            title: "Registro guardado",
+                            title: `Registro ${operacion}`,
                             text: `El registro fue ${operacion} de forma satisfactoria.`,
                             icon: "success"
                         }).then((result) => {
