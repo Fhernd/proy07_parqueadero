@@ -147,3 +147,27 @@ def tarifa_tipo_update(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/tarifa-tipo/<int:id>', methods=['DELETE'])
+def tarifa_tipo_delete(id):
+    """
+    Elimina un tipo de tarifa.
+
+    :param id: Identificador del tipo de tarifa.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = TarifaTipo.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Tipo de tarifa encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Tipo de tarifa eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
