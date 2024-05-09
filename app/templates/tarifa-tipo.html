@@ -108,6 +108,8 @@
                 cancelButtonText: "No"
             }).then((result) => {
                 if (result.isConfirmed) {
+                    $.LoadingOverlay('show');
+                    
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
@@ -115,6 +117,8 @@
                         type: 'DELETE',
                         dataType: 'json',
                         success: (response) => {
+                            $.LoadingOverlay('hide');
+
                             if (response.status == 'success') {
                                 Swal.fire({
                                     title: "Registro eliminado",
@@ -131,6 +135,15 @@
                                     icon: "error"
                                 });
                             }
+                        },
+                        error: (error) => {
+                            $.LoadingOverlay('hide');
+
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar eliminar el registro",
+                                icon: "error"
+                            });
                         }
                     });
                 }
@@ -192,7 +205,7 @@
                 },
                 error: (error) => {
                     $.LoadingOverlay('hide');
-                    
+
                     Swal.fire({
                         title: "Error",
                         text: "Ocurrió un error al intentar guardar el registro.",
