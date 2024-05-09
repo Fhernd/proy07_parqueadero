@@ -180,3 +180,27 @@ def medio_pago():
     """
     entidades = MedioPago.query.all()
     return render_template('medio-pago.html', titulo='Medios de Pago', entidades=entidades)
+
+
+@app.route('/medio-pago', methods=['POST'])
+def medio_pago_create():
+    """
+    Crea un nuevo medio de pago.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = MedioPago(nombre=data.get('nombre'))
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Medio de pago creado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
