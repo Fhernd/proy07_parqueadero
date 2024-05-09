@@ -2,7 +2,7 @@ from flask import jsonify, render_template, request
 
 from app import app, db
 
-from app.models import TarifaTipo, VehiculoTipo
+from app.models import MedioPago, TarifaTipo, VehiculoTipo
 
 
 @app.route("/")
@@ -171,3 +171,12 @@ def tarifa_tipo_delete(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/medio-pago", methods=['GET'])
+def medio_pago():
+    """
+    Muestra la lista de tipos de tarifa.
+    """
+    entidades = MedioPago.query.all()
+    return render_template("medio-pago.html", titulo='Medios de Pago', entidades=entidades)
