@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+    </div>
+    <div class="card-body">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar">Crear</button>
+        <div class="table-responsive">
+            <table id="tblDatos" class="table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Nombre completo</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Direccion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in entidades %}
+                    <tr>
+                        <td>{{ e.documento }}</td>
+                        <td>{{ e.nombres + ' ' + e.apellidos  }}</td>
+                        <td>{{ e.telefono }}</td>
+                        <td>{{ e.email }}</td>
+                        <td>{{ e.direccion }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="frmCrearEditar">
+            <div class="modal-body">
+                <input type="hidden" id="id" name="id">
+                <div class="form-group">
+                    <label for="documento">Documento</label>
+                    <input type="text" class="form-control" id="documento" name="documento" placeholder="Ingresa el número de documento">
+                </div>
+                <div class="form-group">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingresa los nombres">
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingresa los apellidos">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingresa el teléfono">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingresa la dirección">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-success">Crear</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const dataTable = $('#tblDatos').DataTable({
+            "paging": true,
+            "searching": true,
+            "columnDefs": [
+                {
+                    "targets": 5,
+                    "data": null,
+                    "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
+                }
+            ],
+        });
+
+        $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
+
+        $('#tblDatos tbody').on('click', 'button.edit', function () {
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            $('#mdlCrearEditarLabel').text('Cliente - Editar');
+            $('#id').val(data[0]);
+            $('#documento').val(data[0]);
+            $('#nombres').val(data[1].split(' ')[0]);
+            $('#apellidos').val(data[1].split(' ')[1]);
+            $('#telefono').val(data[2]);
+            $('#email').val(data[3]);
+            $('#direccion').val(data[4]);
+
+            $('#documento').prop('disabled', true);
+
+            $('#mdlCrearEditar button[type="submit"]').text('Editar');
+            $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
+
+            $('#mdlCrearEditar').modal('show');
+        });
+
+        $('#tblDatos tbody').on('click', 'button.delete', function () {
+            Swal.fire({
+                title: "¿Está seguro de querer eliminar este registro?",
+                text: "Esta operación una vez confirmada es irreversible.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.LoadingOverlay('show');
+                    
+                    var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+                    $.ajax({
+                        url: '/cliente/' + data[0],
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: (response) => {
+                            $.LoadingOverlay('hide');
+
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: "Registro eliminado",
+                                    text: "El registro fue eliminado de forma satisfactoria",
+                                    icon: "success"
+                                }).then((result) => {
+                                    var row = $(this).closest('tr');
+                                    dataTable.row(row).remove().draw();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar eliminar el registro",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: (error) => {
+                            $.LoadingOverlay('hide');
+
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar eliminar el registro",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        
+        $('#frmCrearEditar').submit(function (e) {
+            e.preventDefault();
+
+            $.LoadingOverlay('show');
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            data['parqueadero_id'] = 1
+
+            let url = '/cliente';
+            let method = 'POST';
+            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+                url += '/' + $('#id').val();
+                method = 'PUT';
+
+                $('#documento').prop('disabled', false);
+                data['documento'] = $('#documento').val();
+                $('#documento').prop('disabled', true);
+            }
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    
+                    if (response.status == 'success') {
+                        const operacion = method == 'POST' ? 'guardado' : 'editado';
+
+                        Swal.fire({
+                            title: "Registro guardado",
+                            text: `El registro fue ${operacion} de forma satisfactoria.`,
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlCrearEditar').modal('hide');
+                            $('#nombre').val('');
+                            if (method == 'PUT') {
+                                dataTable.row($('#tblDatos tbody tr').find('td').filter(function () {
+                                    return $(this).text() == $('#id').val();
+                                }).closest('tr')).remove().draw();
+                            }
+
+                            dataTable.row.add([response.data.documento, response.data.nombres + ' ' + response.data.apellidos, response.data.telefono, response.data.email, response.data.direccion]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el registro.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar guardar el registro.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    
+        $('#mdlCrearEditar').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            $('#mdlCrearEditarLabel').text('Cliente - Crear');
+            $('#mdlCrearEditar button[type="submit"]').text('Crear');
+            $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+
+            $('#documento').prop('disabled', false);
+        });
+    });
+
+</script>
+{% endblock %}

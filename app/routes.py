@@ -2,7 +2,7 @@ from flask import jsonify, render_template, request
 
 from app import app, db
 
-from app.models import Cliente, MedioPago, Rol, TarifaTipo, VehiculoTipo
+from app.models import Cliente, MedioPago, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
 @app.route("/")
@@ -371,3 +371,12 @@ def rol():
     """
     entidades = Rol.query.all()
     return render_template('rol.html', titulo='Roles', entidades=entidades)
+
+
+@app.route("/usuario", methods=['GET'])
+def usuario():
+    """
+    Muestra la lista de usuarios.
+    """
+    entidades = Usuario.query.all()
+    return render_template('usuario.html', titulo='Usuarios', entidades=entidades)
