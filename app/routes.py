@@ -340,8 +340,8 @@ def cliente_actualizar(documento):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/cliente/<int:id>', methods=['DELETE'])
-def cliente_eliminar(id):
+@app.route('/cliente/<string:documento>', methods=['DELETE'])
+def cliente_eliminar(documento):
     """
     Elimina un cliente.
 
@@ -349,7 +349,7 @@ def cliente_eliminar(id):
     :return: Respuesta JSON.
     """
     try:
-        entidad = Cliente.query.get(id)
+        entidad = Cliente.query.filter_by(documento=documento).first()
 
         if entidad is None:
             return jsonify({'status': 'failure', 'message': 'Cliente encontrado'}), 404
