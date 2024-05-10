@@ -278,7 +278,7 @@ def cliente_crear():
     """
     try:
         data = request.get_json()
-        entidad = Cliente(documento=data.get('documento'), nombres=data.get('nombres'), apellidos=data.get('apellidos'), apellidos=data.get('telefono'), email=data.get('email'), direccion=data.get('direccion'), parqueadero_id=data.get('parqueadero_id'))
+        entidad = Cliente(documento=data.get('documento'), nombres=data.get('nombres'), apellidos=data.get('apellidos'), telefono=data.get('telefono'), email=data.get('email'), direccion=data.get('direccion'), parqueadero_id=data.get('parqueadero_id'))
 
         db.session.add(entidad)
         db.session.commit()
@@ -295,5 +295,6 @@ def cliente_crear():
         }}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
