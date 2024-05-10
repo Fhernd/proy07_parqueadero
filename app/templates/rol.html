@@ -48,7 +48,7 @@
                 <input type="hidden" id="id" name="id">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del medio de pago">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del rol">
                 </div>
             </div>
             <div class="modal-footer">
@@ -79,10 +79,9 @@
         $('#tblDatos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            $('#mdlCrearEditarLabel').text('Medio de Pago - Editar');
+            $('#mdlCrearEditarLabel').text('Rol - Editar');
             $('#id').val(data[0]);
             $('#nombre').val(data[1]);
-            $('#unidad').val(data[2]);
 
             $('#mdlCrearEditar button[type="submit"]').text('Editar');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
@@ -107,7 +106,7 @@
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
-                        url: '/medio-pago/' + data[0],
+                        url: '/rol/' + data[0],
                         type: 'DELETE',
                         dataType: 'json',
                         success: (response) => {
@@ -116,7 +115,7 @@
                             if (response.status == 'success') {
                                 Swal.fire({
                                     title: "Registro eliminado",
-                                    text: "El registro fue eliminado de forma satisfactoria",
+                                    text: "El registro fue eliminado de forma satisfactoria.",
                                     icon: "success"
                                 }).then((result) => {
                                     var row = $(this).closest('tr');
@@ -135,7 +134,7 @@
 
                             Swal.fire({
                                 title: "Error",
-                                text: "Ocurrió un error al intentar eliminar el registro",
+                                text: "Ocurrió un error en el servidor. Intente de nuevo.",
                                 icon: "error"
                             });
                         }
@@ -155,7 +154,7 @@
                 data[key] = value;
             });
 
-            let url = '/medio-pago';
+            let url = '/rol';
             let method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#id').val();
