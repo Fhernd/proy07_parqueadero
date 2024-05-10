@@ -34,7 +34,7 @@ def vehiculo_tipo_delete(id):
 
 
 @app.route('/vehiculo-tipo', methods=['POST'])
-def vehiculo_tipo_create():
+def vehiculo_tipo_crear():
     try:
         data = request.get_json()
         vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'))
@@ -48,7 +48,6 @@ def vehiculo_tipo_create():
         }}), 201
 
     except Exception as e:
-        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -295,7 +294,6 @@ def cliente_crear():
         }}), 201
 
     except Exception as e:
-        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 

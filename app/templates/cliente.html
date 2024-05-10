@@ -194,6 +194,10 @@
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#id').val();
                 method = 'PUT';
+
+                $('#documento').prop('disabled', false);
+                data['documento'] = $('#documento').val();
+                $('#documento').prop('disabled', true);
             }
 
             $.ajax({
