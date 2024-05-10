@@ -16,18 +16,22 @@
             <table id="tblDatos" class="table table-bordered" style="width:100%">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Unidad</th>
+                        <th>Documento</th>
+                        <th>Nombre completo</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Direccion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for tipo in entidades %}
+                    {% for e in entidades %}
                     <tr>
-                        <td>{{ tipo.id }}</td>
-                        <td>{{ tipo.nombre }}</td>
-                        <td>{{ tipo.unidad }}</td>
+                        <td>{{ e.documento }}</td>
+                        <td>{{ e.nombres + ' ' + e.apellidos  }}</td>
+                        <td>{{ e.telefono }}</td>
+                        <td>{{ e.email }}</td>
+                        <td>{{ e.direccion }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -73,7 +77,7 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 3,
+                    "targets": 5,
                     "data": null,
                     "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
                 }
