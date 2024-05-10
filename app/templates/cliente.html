@@ -139,7 +139,7 @@
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
-                        url: '/tarifa-tipo/' + data[0],
+                        url: '/cliente/' + data[0],
                         type: 'DELETE',
                         dataType: 'json',
                         success: (response) => {

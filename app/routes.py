@@ -338,3 +338,27 @@ def cliente_actualizar(documento):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/cliente/<int:id>', methods=['DELETE'])
+def cliente_eliminar(id):
+    """
+    Elimina un cliente.
+
+    :param id: Identificador del cliente.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = Cliente.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Cliente encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Cliente eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
