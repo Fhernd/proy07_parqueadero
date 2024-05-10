@@ -2,7 +2,7 @@ from flask import jsonify, render_template, request
 
 from app import app, db
 
-from app.models import Cliente, MedioPago, TarifaTipo, VehiculoTipo
+from app.models import Cliente, MedioPago, Rol, TarifaTipo, VehiculoTipo
 
 
 @app.route("/")
@@ -362,3 +362,12 @@ def cliente_eliminar(documento):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/rol", methods=['GET'])
+def rol():
+    """
+    Muestra la lista de roles.
+    """
+    entidades = Rol.query.all()
+    return render_template('rol.html', titulo='Roles', entidades=entidades)
