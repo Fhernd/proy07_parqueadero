@@ -298,3 +298,45 @@ def cliente_crear():
         print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/cliente/<string:documento>', methods=['PUT'])
+def cliente_actualizar(documento):
+    """
+    Actualiza un cliente.
+
+    :param id: Identificador del cliente.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Cliente.query.filter_by(documento=documento).first()
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Cliente encontrado'}), 404
+
+        entidad.documento = data.get('documento')
+        entidad.nombres = data.get('nombres')
+        entidad.apellidos = data.get('apellidos')
+        entidad.telefono = data.get('telefono')
+        entidad.email = data.get('email')
+        entidad.direccion = data.get('direccion')
+        entidad.parqueadero_id = data.get('parqueadero_id')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Cliente actualizado', 'data': {
+            'id': entidad.id,
+            'documento': entidad.documento,
+            'nombres': entidad.nombres,
+            'apellidos': entidad.apellidos,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'direccion': entidad.direccion,
+            'parqueadero_id': entidad.parqueadero_id
+        }}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500

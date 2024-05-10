@@ -103,7 +103,7 @@
         $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
         $('#tblDatos tbody').on('click', 'button.edit', function () {
-            var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
             $('#mdlCrearEditarLabel').text('Cliente - Editar');
             $('#id').val(data[0]);
