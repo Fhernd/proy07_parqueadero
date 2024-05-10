@@ -379,4 +379,5 @@ def usuario():
     Muestra la lista de usuarios.
     """
     entidades = Usuario.query.all()
-    return render_template('usuario.html', titulo='Usuarios', entidades=entidades)
+    roles = Rol.query.all()
+    return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles)

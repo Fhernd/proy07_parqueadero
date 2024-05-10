@@ -75,8 +75,9 @@
                 <div class="form-group">
                     <label for="rol">Rol</label>
                     <select class="form-control" id="direccion" name="direccion" placeholder="Ingresa la dirección">
-                        <option value="1">Administrador</option>
-                        <option value="2">Cliente</option>
+                        {% for r in roles %}
+                            <option value="{{ r.id }}">{{ r.nombre }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
