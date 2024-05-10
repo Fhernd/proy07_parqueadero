@@ -105,10 +105,14 @@
         $('#tblDatos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            $('#mdlCrearEditarLabel').text('Tipo de Vehículo - Editar');
+            $('#mdlCrearEditarLabel').text('Cliente - Editar');
             $('#id').val(data[0]);
-            $('#nombre').val(data[1]);
-            $('#unidad').val(data[2]);
+            $('#documento').val(data[0]);
+            $('#nombres').val(data[1].split(' ')[0]);
+            $('#apellidos').val(data[1].split(' ')[1]);
+            $('#telefono').val(data[2]);
+            $('#email').val(data[3]);
+            $('#direccion').val(data[4]);
 
             $('#mdlCrearEditar button[type="submit"]').text('Editar');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
