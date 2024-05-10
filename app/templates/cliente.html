@@ -114,6 +114,8 @@
             $('#email').val(data[3]);
             $('#direccion').val(data[4]);
 
+            $('#documento').prop('disabled', true);
+
             $('#mdlCrearEditar button[type="submit"]').text('Editar');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
 
@@ -244,9 +246,11 @@
         $('#mdlCrearEditar').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
 
-            $('#mdlCrearEditarLabel').text('Tipo de Vehículo - Crear');
+            $('#mdlCrearEditarLabel').text('Cliente - Crear');
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+
+            $('#documento').prop('disabled', false);
         });
     });
 
