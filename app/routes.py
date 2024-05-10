@@ -261,7 +261,7 @@ def medio_pago_delete(id):
 
 
 @app.route("/cliente", methods=['GET'])
-def medio_pago():
+def cliente():
     """
     Muestra la lista de tipos de tarifa.
     """
