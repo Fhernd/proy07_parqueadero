@@ -79,7 +79,7 @@ class Usuario(db.Model):
     apellidos = db.Column(db.String(32), nullable=False)
     telefono = db.Column(db.String(16), nullable=False)
     email = db.Column(db.String(64), nullable=False)
-    rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False)  # Asume que la tabla 'rol' y su columna 'id' existen
+    rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
