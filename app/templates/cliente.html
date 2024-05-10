@@ -181,6 +181,8 @@
                 data[key] = value;
             });
 
+            data['parqueadero_id'] = 1
+
             let url = '/cliente';
             let method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {

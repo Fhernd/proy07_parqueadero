@@ -267,3 +267,33 @@ def cliente():
     """
     entidades = Cliente.query.all()
     return render_template('cliente.html', titulo='Clientes', entidades=entidades)
+
+
+@app.route('/cliente', methods=['POST'])
+def cliente_crear():
+    """
+    Crea un nuevo cliente.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Cliente(documento=data.get('documento'), nombres=data.get('nombres'), apellidos=data.get('apellidos'), apellidos=data.get('telefono'), email=data.get('email'), direccion=data.get('direccion'), parqueadero_id=data.get('parqueadero_id'))
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Cliente creado', 'data': {
+            'id': entidad.id,
+            'documento': entidad.documento,
+            'nombres': entidad.nombres,
+            'apellidos': entidad.apellidos,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'direccion': entidad.direccion,
+            'parqueadero_id': entidad.parqueadero_id
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
