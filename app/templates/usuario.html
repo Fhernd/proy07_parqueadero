@@ -107,7 +107,7 @@
                 {
                     "targets": 5,
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button>"
+                    "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button> <button class='btn btn-secondary cambiar-password'>Cambiar contraseña</button>"
                 }
             ],
         });
@@ -195,6 +195,12 @@
             });
         });
         
+        $('#tblDatos tbody').on('click', 'button.cambiar-password', function () {
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            
+        });
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
