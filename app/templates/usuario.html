@@ -64,11 +64,11 @@
                     <label for="apellidos">Apellidos</label>
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingresa los apellidos">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divPassword">
                     <label for="password">Contraseña</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divPasswordRepetir">
                     <label for="passwordRepetir">Repetir contraseña</label>
                     <input type="password" class="form-control" id="passwordRepetir" name="passwordRepetir" placeholder="">
                 </div>
@@ -131,9 +131,9 @@
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
 
             $('#password').prop('disabled', true);
-            $('#password').hide();
+            $('#divPassword').hide();
             $('#passwordRepetir').prop('disabled', true);
-            $('#passwordRepetir').hide();
+            $('#divPasswordRepetir').hide();
 
             $('#mdlCrearEditar').modal('show');
         });
@@ -286,9 +286,9 @@
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
 
             $('#password').prop('disabled', false);
-            $('#password').show();
+            $('#divPasssword').show();
             $('#passwordRepetir').prop('disabled', false);
-            $('#passwordRepetir').show();
+            $('#divPasswordRepetir').show();
 
             $('#documento').prop('disabled', false);
         });
