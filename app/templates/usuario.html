@@ -124,6 +124,9 @@
             $('#apellidos').val(data[1].split(' ')[1]);
             $('#telefono').val(data[2]);
             $('#email').val(data[3]);
+            $('#rolId').val($('#rolId option').filter(function () {
+                return $(this).html() == data[4];
+            }).val());
 
             $('#documento').prop('disabled', true);
 
