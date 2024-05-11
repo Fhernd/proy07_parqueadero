@@ -394,7 +394,7 @@ def usuario_crear():
     try:
         data = request.get_json()
 
-        hashed_password = generate_password_hash(data.get('password'), method='sha256')
+        hashed_password = generate_password_hash(data.get('password'), method='pbkdf2:sha256')
 
         entidad = Usuario(
             documento=data.get('documento'),
@@ -402,9 +402,8 @@ def usuario_crear():
             apellidos=data.get('apellidos'),
             telefono=data.get('telefono'),
             email=data.get('email'),
-            direccion=data.get('direccion'),
             rol_id=data.get('rolId'),
-            password=data.get('password')
+            password=hashed_password
         )
 
         db.session.add(entidad)
@@ -412,11 +411,15 @@ def usuario_crear():
 
         return jsonify({'status': 'success', 'message': 'Usuario creado', 'data': {
             'id': entidad.id,
-            'usuario': entidad.usuario,
-            'clave': entidad.clave,
+            'documento': entidad.documento,
+            'nombres': entidad.nombres,
+            'apellidos': entidad.apellidos,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
             'rol_id': entidad.rol_id
         }}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
