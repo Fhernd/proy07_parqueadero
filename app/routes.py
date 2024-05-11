@@ -462,3 +462,27 @@ def usuario_actualizar(documento):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/usuario/<string:documento>', methods=['DELETE'])
+def usuario_eliminar(documento):
+    """
+    Elimina un usuario.
+
+    :param id: Identificador del usuario.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = Usuario.query.filter_by(documento=documento).first()
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Usuario encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Usuario eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
