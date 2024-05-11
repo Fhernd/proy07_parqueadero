@@ -98,6 +98,39 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdlCambiarPassword" tabindex="-1" role="dialog" aria-labelledby="mdlCambiarPasswordLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Cambiar Contraseña</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="readonlyField" readonly id="passwordGenerado">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordField">Contraseña</label>
+                        <input type="password" class="form-control" id="passwordField">
+                    </div>
+                    <div class="form-group">
+                        <label for="repeatPasswordField">Repetir Contraseña</label>
+                        <input type="password" class="form-control" id="repeatPasswordField">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="generatePasswordButton">Generar Contraseña</button>
+                <button type="button" class="btn btn-success" id="changePasswordButton">Cambiar Contraseña</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         const dataTable = $('#tblDatos').DataTable({
@@ -198,7 +231,7 @@
         $('#tblDatos tbody').on('click', 'button.cambiar-password', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            
+            $('#mdlCambiarPassword').modal('show');
         });
 
         $('#frmCrearEditar').submit(function (e) {
