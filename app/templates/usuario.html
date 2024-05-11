@@ -199,6 +199,17 @@
                 data[key] = value;
             });
 
+            if ($('#password').val() != $('#passwordRepetir').val()) {
+                $.LoadingOverlay('hide');
+                
+                Swal.fire({
+                    title: "Error",
+                    text: "Las contraseñas no coinciden.",
+                    icon: "error"
+                });
+                return;
+            }
+
             let url = '/usuario';
             let method = 'POST';
             if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
