@@ -486,3 +486,31 @@ def usuario_eliminar(documento):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/usuario/cambiar-password', methods=['POST'])
+def usuario_cambiar_password():
+    """
+    Cambia la contraseña de un usuario.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Usuario.query.filter_by(documento=data.get('documento')).first()
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Usuario encontrado'}), 404
+
+        hashed_password = generate_password_hash(data.get('password'), method='pbkdf2:sha256')
+
+        entidad.password = hashed_password
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Contraseña actualizada'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
