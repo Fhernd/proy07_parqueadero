@@ -234,6 +234,62 @@
             $('#mdlCambiarPassword').modal('show');
         });
 
+        $('#changePasswordButton').click(function () {
+            $.LoadingOverlay('show');
+
+            if ($('#passwordField').val() != $('#repeatPasswordField').val()) {
+                $.LoadingOverlay('hide');
+                
+                Swal.fire({
+                    title: "Error",
+                    text: "Las contraseñas no coinciden.",
+                    icon: "error"
+                });
+                return;
+            }
+
+            const data = {
+                id: $('#id').val(),
+                password: $('#passwordField').val()
+            };
+
+            $.ajax({
+                url: '/usuario/cambiar-password',
+                type: 'PUT',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'success') {
+                        Swal.fire({
+                            title: "Contraseña cambiada",
+                            text: "La contraseña fue cambiada de forma satisfactoria",
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlCambiarPassword').modal('hide');
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar cambiar la contraseña",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar cambiar la contraseña",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+
         $('#generatePasswordButton').click(function () {
             const password = Math.random().toString(36).slice(-8);
             $('#readonlyField').val(password);
