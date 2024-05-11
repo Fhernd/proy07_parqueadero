@@ -124,12 +124,16 @@
             $('#apellidos').val(data[1].split(' ')[1]);
             $('#telefono').val(data[2]);
             $('#email').val(data[3]);
-            $('#direccion').val(data[4]);
 
             $('#documento').prop('disabled', true);
 
             $('#mdlCrearEditar button[type="submit"]').text('Editar');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
+
+            $('#password').prop('disabled', true);
+            $('#password').hide();
+            $('#passwordRepetir').prop('disabled', true);
+            $('#passwordRepetir').hide();
 
             $('#mdlCrearEditar').modal('show');
         });
@@ -280,6 +284,11 @@
             $('#mdlCrearEditarLabel').text('Usuario - Crear');
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+
+            $('#password').prop('disabled', false);
+            $('#password').show();
+            $('#passwordRepetir').prop('disabled', false);
+            $('#passwordRepetir').show();
 
             $('#documento').prop('disabled', false);
         });
