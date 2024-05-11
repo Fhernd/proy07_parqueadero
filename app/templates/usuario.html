@@ -234,6 +234,14 @@
             $('#mdlCambiarPassword').modal('show');
         });
 
+        $('#generatePasswordButton').click(function () {
+            const password = Math.random().toString(36).slice(-8);
+            $('#readonlyField').val(password);
+
+            $('#passwordField').val(password);
+            $('#repeatPasswordField').val(password);
+        });
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
