@@ -246,7 +246,13 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            dataTable.row.add([response.data.documento, response.data.nombres + ' ' + response.data.apellidos, response.data.telefono, response.data.email, response.data.direccion]).draw();
+                            dataTable.row.add([
+                                $('#documento').val(),
+                                $('#nombres').val() + ' ' + $('#apellidos').val(),
+                                $('#telefono').val(),
+                                $('#email').val(),
+                                $('#rolId option:selected').text()
+                            ]).draw();
                         });
                     } else {
                         Swal.fire({
