@@ -422,3 +422,43 @@ def usuario_crear():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/usuario/<string:documento>', methods=['PUT'])
+def usuario_actualizar(documento):
+    """
+    Actualiza un usuario.
+
+    :param id: Identificador del usuario.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Usuario.query.filter_by(documento=documento).first()
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Usuario encontrado'}), 404
+
+        entidad.documento = data.get('documento')
+        entidad.nombres = data.get('nombres')
+        entidad.apellidos = data.get('apellidos')
+        entidad.telefono = data.get('telefono')
+        entidad.email = data.get('email')
+        entidad.rol_id = data.get('rolId')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Usuario actualizado', 'data': {
+            'id': entidad.id,
+            'documento': entidad.documento,
+            'nombres': entidad.nombres,
+            'apellidos': entidad.apellidos,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'rol_id': entidad.rol_id
+        }}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
