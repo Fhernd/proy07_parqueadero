@@ -254,7 +254,7 @@
             }
 
             const data = {
-                documento: $('#id').val(),
+                documento: $('#documentoCambioPassword').val(),
                 password: $('#passwordField').val()
             };
 
@@ -274,6 +274,9 @@
                             icon: "success"
                         }).then((result) => {
                             $('#mdlCambiarPassword').modal('hide');
+
+                            $('#passwordField').val('');
+                            $('#repeatPasswordField').val('');
                         });
                     } else {
                         Swal.fire({
@@ -284,8 +287,6 @@
                     }
                 },
                 error: (error) => {
-                    console.log(error);
-                    
                     $.LoadingOverlay('hide');
 
                     Swal.fire({
