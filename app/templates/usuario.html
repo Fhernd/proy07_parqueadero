@@ -4,6 +4,8 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
 
 <div class="card shadow mb-4">
@@ -151,7 +153,7 @@
                 {
                     "targets": 5,
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning edit'>Editar</button> <button class='btn btn-danger delete'>Eliminar</button> <button class='btn btn-secondary cambiar-password'>Cambiar contraseña</button>"
+                    "defaultContent": "<button class='btn btn-warning edit'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password'><i class='fas fa-lock'></i></button>"
                 }
             ],
         });
