@@ -488,7 +488,7 @@ def usuario_eliminar(documento):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/usuario/cambiar-password', methods=['POST'])
+@app.route('/usuario/cambiar-password', methods=['PUT'])
 def usuario_cambiar_password():
     """
     Cambia la contraseña de un usuario.
@@ -500,7 +500,7 @@ def usuario_cambiar_password():
         entidad = Usuario.query.filter_by(documento=data.get('documento')).first()
 
         if entidad is None:
-            return jsonify({'status': 'failure', 'message': 'Usuario encontrado'}), 404
+            return jsonify({'status': 'failure', 'message': 'Usuario no encontrado'}), 404
 
         hashed_password = generate_password_hash(data.get('password'), method='pbkdf2:sha256')
 
