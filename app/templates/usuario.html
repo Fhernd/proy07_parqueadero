@@ -109,6 +109,7 @@
               </div>
             <div class="modal-body">
                 <form>
+                    <input type="hidden" id="documentoCambioPassword" name="documentoCambioPassword">
                     <div class="form-group">
                         <input type="text" class="form-control" id="readonlyField" readonly id="passwordGenerado">
                     </div>
@@ -231,6 +232,10 @@
         $('#tblDatos tbody').on('click', 'button.cambiar-password', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
+            const documento = data[0];
+
+            $('#documentoCambioPassword').val(documento);
+
             $('#mdlCambiarPassword').modal('show');
         });
 
@@ -249,7 +254,7 @@
             }
 
             const data = {
-                id: $('#id').val(),
+                documento: $('#id').val(),
                 password: $('#passwordField').val()
             };
 
@@ -279,6 +284,8 @@
                     }
                 },
                 error: (error) => {
+                    console.log(error);
+                    
                     $.LoadingOverlay('hide');
 
                     Swal.fire({
