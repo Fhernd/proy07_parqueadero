@@ -28,7 +28,7 @@
                     {% for e in entidades %}
                     <tr>
                         <td>{{ e.documento }}</td>
-                        <td>{{ e.nombres + ' ' + e.apellidos  }}</td>
+                        <td>{{ e.nombres + ' ' + e.apellidos }}</td>
                         <td>{{ e.telefono }}</td>
                         <td>{{ e.email }}</td>
                         <td>{{ e.rol.nombre }}</td>
@@ -42,76 +42,82 @@
 
 <div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form id="frmCrearEditar">
-            <div class="modal-body">
-                <input type="hidden" id="id" name="id">
-                <div class="form-group">
-                    <label for="documento">Documento</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="Ingresa el número de documento">
-                </div>
-                <div class="form-group">
-                    <label for="nombres">Nombres</label>
-                    <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingresa los nombres">
-                </div>
-                <div class="form-group">
-                    <label for="apellidos">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingresa los apellidos">
-                </div>
-                <div class="form-group" id="divPassword">
-                    <label for="password">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="">
-                </div>
-                <div class="form-group" id="divPasswordRepetir">
-                    <label for="passwordRepetir">Repetir contraseña</label>
-                    <input type="password" class="form-control" id="passwordRepetir" name="passwordRepetir" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingresa el teléfono">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
-                </div>
-                <div class="form-group">
-                    <label for="rol">Rol</label>
-                    <select class="form-control" id="rolId" name="rolId">
-                        {% for r in roles %}
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="frmCrearEditar">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="documento">Documento</label>
+                        <input type="text" class="form-control" id="documento" name="documento"
+                            placeholder="Ingresa el número de documento">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" class="form-control" id="nombres" name="nombres"
+                            placeholder="Ingresa los nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellidos"
+                            placeholder="Ingresa los apellidos">
+                    </div>
+                    <div class="form-group" id="divPassword">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="">
+                    </div>
+                    <div class="form-group" id="divPasswordRepetir">
+                        <label for="passwordRepetir">Repetir contraseña</label>
+                        <input type="password" class="form-control" id="passwordRepetir" name="passwordRepetir"
+                            placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono"
+                            placeholder="Ingresa el teléfono">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
+                    </div>
+                    <div class="form-group">
+                        <label for="rol">Rol</label>
+                        <select class="form-control" id="rolId" name="rolId">
+                            {% for r in roles %}
                             <option value="{{ r.id }}">{{ r.nombre }}</option>
-                        {% endfor %}
-                    </select>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Crear</button>
-            </div>
-        </form>
-      </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Crear</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div class="modal fade" id="mdlCambiarPassword" tabindex="-1" role="dialog" aria-labelledby="mdlCambiarPasswordLabel" aria-hidden="true">
+<div class="modal fade" id="mdlCambiarPassword" tabindex="-1" role="dialog" aria-labelledby="mdlCambiarPasswordLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Cambiar Contraseña</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
-              </div>
+            </div>
             <div class="modal-body">
                 <form>
                     <input type="hidden" id="documentoCambioPassword" name="documentoCambioPassword">
                     <div class="form-group">
-                        <input type="password" class="form-control" id="readonlyField" readonly id="passwordGenerado">
+                        <input type="password" class="form-control" readonly id="passwordGenerado">
                     </div>
                     <div class="form-group">
                         <label for="visibilizarPassword">Visibilizar Contraseña</label>
@@ -192,7 +198,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.LoadingOverlay('show');
-                    
+
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
@@ -232,7 +238,7 @@
                 }
             });
         });
-        
+
         $('#tblDatos tbody').on('click', 'button.cambiar-password', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
@@ -248,7 +254,7 @@
 
             if ($('#passwordField').val() != $('#repeatPasswordField').val()) {
                 $.LoadingOverlay('hide');
-                
+
                 Swal.fire({
                     title: "Error",
                     text: "Las contraseñas no coinciden.",
@@ -323,7 +329,7 @@
 
             if ($('#password').val() != $('#passwordRepetir').val()) {
                 $.LoadingOverlay('hide');
-                
+
                 Swal.fire({
                     title: "Error",
                     text: "Las contraseñas no coinciden.",
@@ -351,7 +357,7 @@
                 dataType: 'json',
                 success: (response) => {
                     $.LoadingOverlay('hide');
-                    
+
                     if (response.status == 'success') {
                         const operacion = method == 'POST' ? 'guardado' : 'editado';
 
@@ -395,7 +401,7 @@
                 }
             });
         });
-    
+
         $('#mdlCrearEditar').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
 
@@ -410,6 +416,14 @@
 
             $('#documento').prop('disabled', false);
         });
+
+        $('#visibilizarPassword').change(function () {
+            if ($(this).is(':checked')) {
+                $('#passwordGenerado').attr('type', 'text');
+            } else {
+                $('#passwordGenerado').attr('type', 'password');
+            }
+        }
     });
 
 </script>
