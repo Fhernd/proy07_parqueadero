@@ -514,3 +514,12 @@ def usuario_cambiar_password():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/registro", methods=['GET'])
+def registro():
+    """
+    Muestra la ruta para el registro de un administrador para el parqueadero.
+    """
+    roles = Rol.query.all()
+    return render_template('registro.html', titulo='Registro', roles=roles)
