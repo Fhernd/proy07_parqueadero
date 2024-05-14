@@ -56,7 +56,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Crear cuenta</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" id="frmCrearUsuario">
                                 <div class="form-group">
                                     <input type="documento" class="form-control form-control-user" id="documento"
                                         placeholder="Digite su documento">
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="repeatPassword" placeholder="Repeat Password">
+                                            id="repeatPassword" placeholder="Repetir contraseña">
                                     </div>
                                 </div>
                                 <a href="login.html" class="btn btn-primary btn-user btn-block">
@@ -118,6 +118,68 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('#frmCrearUsuario').submit(function (e) {
+                e.preventDefault();
+                var documento = $('#documento').val();
+                var nombres = $('#nombres').val();
+                var apellidos = $('#exampleLastName').val();
+                var telefono = $('#telefono').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var repeatPassword = $('#repeatPassword').val();
+
+                if (documento == '' || nombres == '' || apellidos == '' || telefono == '' || email == '' || password == '' || repeatPassword == '') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Todos los campos son obligatorios'
+                    });
+                    return;
+                }
+
+                if (password != repeatPassword) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Las contraseñas no coinciden'
+                    });
+                    return;
+                }
+
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: 'http://localhost:5000/usuario',
+                    type: 'POST',
+                    data: {
+                        documento: documento,
+                        nombres: nombres,
+                        apellidos: apellidos,
+                        telefono: telefono,
+                        email: email,
+                        password: password
+                    },
+                    success: function (response) {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Usuario creado',
+                            text: 'El usuario ha sido creado exitosamente'
+                        });
+                    },
+                    error: function (error) {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ha ocurrido un error al crear el usuario.'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
