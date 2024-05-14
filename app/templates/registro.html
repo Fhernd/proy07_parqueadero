@@ -40,6 +40,8 @@
 
     <script src="{{ url_for('static', filename='vendor/jquery-loading-overlay/loadingoverlay.min.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -89,9 +91,9 @@
                                             id="repeatPassword" placeholder="Repetir contraseña">
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Crear cuenta
-                                </a>
+                                </button>
                             </form>
                             <hr>
                             <div class="text-center">
