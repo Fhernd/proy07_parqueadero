@@ -78,7 +78,7 @@
                                             placeholder="Digite su nombre(s)" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        <input type="text" class="form-control form-control-user" id="apellidos"
                                             placeholder="Digite su apellido(s)" required>
                                     </div>
                                 </div>
@@ -122,13 +122,54 @@
     <script>
         $(document).ready(function () {
             $.extend($.validator.messages, { required: "Este campo es obligatorio."});
-            $('#frmCrearUsuario').validate();
+            $('#frmCrearUsuario').validate({
+                rules: {
+                    documento: {
+                        required: true
+                    },
+                    nombres: {
+                        required: true
+                    },
+                    exampleLastName: {
+                        required: true
+                    },
+                    telefono: {
+                        required: true
+                    },
+                    email: {
+                        required: true
+                    },
+                    password: {
+                        required: true
+                    },
+                    repeatPassword: {
+                        required: true,
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    telefono: {
+                        required: "Por favor, digite su teléfono."
+                    },
+                    email: {
+                        required: "Por favor, digite su correo electrónico.",
+                        email: true
+                    },
+                    password: {
+                        required: "Por favor, digite su contraseña."
+                    },
+                    repeatPassword: {
+                        required: "Por favor, repita su contraseña.",
+                        equalTo: "Las contraseñas no coinciden."
+                    }
+                }
+            });
             
             $('#frmCrearUsuario').submit(function (e) {
                 e.preventDefault();
                 var documento = $('#documento').val();
                 var nombres = $('#nombres').val();
-                var apellidos = $('#exampleLastName').val();
+                var apellidos = $('#apellidos').val();
                 var telefono = $('#telefono').val();
                 var email = $('#email').val();
                 var password = $('#password').val();
