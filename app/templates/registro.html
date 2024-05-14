@@ -61,34 +61,34 @@
                             <form class="user" id="frmCrearUsuario">
                                 <div class="form-group">
                                     <input type="documento" class="form-control form-control-user" id="documento"
-                                        placeholder="Digite su documento">
+                                        placeholder="Digite su documento" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="nombres"
-                                            placeholder="Digite su nombre(s)">
+                                            placeholder="Digite su nombre(s)" required>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Digite su apellido(s)">
+                                            placeholder="Digite su apellido(s)" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="tel" class="form-control form-control-user" id="telefono"
-                                        placeholder="Teléfono">
+                                        placeholder="Teléfono"  required>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                        placeholder="Dirección de correo electrónico">
+                                        placeholder="Dirección de correo electrónico" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="password" placeholder="Contraseña">
+                                            id="password" placeholder="Contraseña" required>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="repeatPassword" placeholder="Repetir contraseña">
+                                            id="repeatPassword" placeholder="Repetir contraseña" required>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -110,18 +110,10 @@
 
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
     <script>
         $(document).ready(function () {
+            $('#frmCrearUsuario').validate();
+            
             $('#frmCrearUsuario').submit(function (e) {
                 e.preventDefault();
                 var documento = $('#documento').val();
