@@ -132,24 +132,6 @@
                 var password = $('#password').val();
                 var repeatPassword = $('#repeatPassword').val();
 
-                if (documento == '' || nombres == '' || apellidos == '' || telefono == '' || email == '' || password == '' || repeatPassword == '') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Todos los campos son obligatorios'
-                    });
-                    return;
-                }
-
-                if (password != repeatPassword) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Las contraseñas no coinciden'
-                    });
-                    return;
-                }
-
                 $.LoadingOverlay("show");
                 $.ajax({
                     url: 'http://localhost:5000/usuario',
