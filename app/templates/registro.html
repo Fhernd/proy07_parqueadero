@@ -42,6 +42,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
+    <style>
+        .error {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -112,6 +121,7 @@
 
     <script>
         $(document).ready(function () {
+            $.extend($.validator.messages, { required: "Este campo es obligatorio."});
             $('#frmCrearUsuario').validate();
             
             $('#frmCrearUsuario').submit(function (e) {
