@@ -195,52 +195,43 @@
                     }
                 },
                 submitHandler: function(form) {
-                    
-                    var formData = new FormData(form);
+                    $.LoadingOverlay("show");
+
+                    const datos = $(form).serializeArray();
+                    const usuario = {};
+
+                    datos.forEach((item) => {
+                        usuario[item.name] = item.value;
+                    });
 
                     $.ajax({
                         url: "{{ url_for('registro') }}",
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        beforeSend: function () {
-                            $.LoadingOverlay("show");
-                        },
-                        success: function (response) {
-                            $.LoadingOverlay("hide");
-                            if (response.status == 'success') {
-                                Swal.fire({
-                                    title: 'Registro exitoso',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonText: 'Aceptar'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        window.location.href = "{{ url_for('login') }}";
-                                    }
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: response.message,
-                                    icon: 'error',
-                                    confirmButtonText: 'Aceptar'
-                                });
-                            }
-                        },
-                        error: function (error) {
+                        type: "POST",
+                        data: JSON.stringify(usuario),
+                        contentType: "application/json",
+                        success: function(response) {
                             $.LoadingOverlay("hide");
                             Swal.fire({
-                                title: 'Error',
-                                text: 'Ocurrió un error al intentar registrar el usuario.',
+                                title: '¡Registro exitoso!',
+                                text: 'Usuario creado correctamente.',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "{{ url_for('login') }}";
+                                }
+                            });
+                        },
+                        error: function(error) {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: '¡Error!',
+                                text: 'Ocurrió un error al crear el usuario.',
                                 icon: 'error',
                                 confirmButtonText: 'Aceptar'
                             });
                         }
                     });
-
-                    form.submit();
                 }
             });
         });
