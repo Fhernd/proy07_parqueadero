@@ -122,84 +122,128 @@
     <script>
         $(document).ready(function () {
             $.validator.setDefaults({
-            errorClass: 'text-danger',
-            highlight: function (element) {
-                $(element).closest('.form-control-user').addClass('is-invalid');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-control-user').removeClass('is-invalid');
-            }
-        });
-
-        $.extend($.validator.messages, {
-            required: "Este campo es obligatorio.",
-            email: "Por favor, escribe una dirección de correo válida.",
-            number: "Por favor, escribe un número válido.",
-            digits: "Por favor, escribe sólo dígitos.",
-            equalTo: "Por favor, escribe el mismo valor de nuevo.",
-            minlength: $.validator.format("Por favor, no escribas menos de {0} caracteres."),
-            maxlength: $.validator.format("Por favor, no escribas más de {0} caracteres."),
-        });
-
-        $("#frmCrearUsuario").validate({
-            rules: {
-                documento: {
-                    required: true,
-                    digits: true
+                errorClass: 'text-danger',
+                highlight: function (element) {
+                    $(element).closest('.form-control-user').addClass('is-invalid');
                 },
-                nombres: {
-                    required: true
-                },
-                apellidos: {
-                    required: true
-                },
-                telefono: {
-                    required: true,
-                    digits: true
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                password: {
-                    required: true,
-                    minlength: 6
-                },
-                repeatPassword: {
-                    required: true,
-                    equalTo: "#password"
+                unhighlight: function (element) {
+                    $(element).closest('.form-control-user').removeClass('is-invalid');
                 }
-            },
-            messages: {
-                documento: {
-                    required: "Por favor, ingrese su documento.",
-                    digits: "Por favor, ingrese sólo dígitos."
+            });
+
+            $.extend($.validator.messages, {
+                required: "Este campo es obligatorio.",
+                email: "Por favor, escribe una dirección de correo válida.",
+                number: "Por favor, escribe un número válido.",
+                digits: "Por favor, escribe sólo dígitos.",
+                equalTo: "Por favor, escribe el mismo valor de nuevo.",
+                minlength: $.validator.format("Por favor, no escribas menos de {0} caracteres."),
+                maxlength: $.validator.format("Por favor, no escribas más de {0} caracteres."),
+            });
+
+            $("#frmCrearUsuario").validate({
+                rules: {
+                    documento: {
+                        required: true,
+                        digits: true
+                    },
+                    nombres: {
+                        required: true
+                    },
+                    apellidos: {
+                        required: true
+                    },
+                    telefono: {
+                        required: true,
+                        digits: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    repeatPassword: {
+                        required: true,
+                        equalTo: "#password"
+                    }
                 },
-                nombres: "Por favor, ingrese su nombre.",
-                apellidos: "Por favor, ingrese su apellido.",
-                telefono: {
-                    required: "Por favor, ingrese su teléfono.",
-                    digits: "Por favor, ingrese sólo dígitos."
+                messages: {
+                    documento: {
+                        required: "Por favor, ingrese su documento.",
+                        digits: "Por favor, ingrese sólo dígitos."
+                    },
+                    nombres: "Por favor, ingrese su nombre.",
+                    apellidos: "Por favor, ingrese su apellido.",
+                    telefono: {
+                        required: "Por favor, ingrese su teléfono.",
+                        digits: "Por favor, ingrese sólo dígitos."
+                    },
+                    email: {
+                        required: "Por favor, ingrese su correo electrónico.",
+                        email: "Por favor, ingrese un correo electrónico válido."
+                    },
+                    password: {
+                        required: "Por favor, ingrese una contraseña.",
+                        minlength: "La contraseña debe tener al menos 6 caracteres."
+                    },
+                    repeatPassword: {
+                        required: "Por favor, repita su contraseña.",
+                        equalTo: "Las contraseñas no coinciden."
+                    }
                 },
-                email: {
-                    required: "Por favor, ingrese su correo electrónico.",
-                    email: "Por favor, ingrese un correo electrónico válido."
-                },
-                password: {
-                    required: "Por favor, ingrese una contraseña.",
-                    minlength: "La contraseña debe tener al menos 6 caracteres."
-                },
-                repeatPassword: {
-                    required: "Por favor, repita su contraseña.",
-                    equalTo: "Las contraseñas no coinciden."
+                submitHandler: function(form) {
+                    
+                    var formData = new FormData(form);
+
+                    $.ajax({
+                        url: "{{ url_for('registro') }}",
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $.LoadingOverlay("show");
+                        },
+                        success: function (response) {
+                            $.LoadingOverlay("hide");
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: 'Registro exitoso',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        window.location.href = "{{ url_for('login') }}";
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un error al intentar registrar el usuario.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    });
+
+                    form.submit();
                 }
-            },
-            submitHandler: function(form) {
-                // Aquí puedes agregar la lógica para enviar el formulario
-                form.submit();
-            }
+            });
         });
-    });
     </script>
 </body>
 
