@@ -523,3 +523,43 @@ def registro():
     """
     roles = Rol.query.all()
     return render_template('registro.html', titulo='Registro', roles=roles)
+
+
+@app.route('/registro', methods=['POST'])
+def registro_crear():
+    """
+    Crea un nuevo usuario administrador para el parqueadero.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+
+        hashed_password = generate_password_hash(data.get('password'), method='pbkdf2:sha256')
+
+        entidad = Usuario(
+            documento=data.get('documento'),
+            nombres=data.get('nombres'),
+            apellidos=data.get('apellidos'),
+            telefono=data.get('telefono'),
+            email=data.get('email'),
+            rol_id=data.get('rolId'),
+            password=hashed_password
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Usuario creado', 'data': {
+            'id': entidad.id,
+            'documento': entidad.documento,
+            'nombres': entidad.nombres,
+            'apellidos': entidad.apellidos,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'rol_id': entidad.rol_id
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
