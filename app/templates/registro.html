@@ -291,6 +291,96 @@
                     });
                 }
             });
+        
+            $("#frmParqueaderoCrear").validate({
+                rules: {
+                    rutParqueadero: {
+                        required: true
+                    },
+                    nombreParqueadero: {
+                        required: true
+                    },
+                    direccionParqueadero: {
+                        required: true
+                    },
+                    telefonoParqueadero: {
+                        required: true
+                    },
+                    emailParqueadero: {
+                        required: true,
+                        email: true
+                    },
+                    ciudadParqueadero: {
+                        required: true
+                    },
+                    paisId: {
+                        required: true
+                    }
+                },
+                messages: {
+                    rutParqueadero: {
+                        required: "Por favor, ingrese el RUT."
+                    },
+                    nombreParqueadero: {
+                        required: "Por favor, ingrese el nombre."
+                    },
+                    direccionParqueadero: {
+                        required: "Por favor, ingrese la dirección."
+                    },
+                    telefonoParqueadero: {
+                        required: "Por favor, ingrese el teléfono."
+                    },
+                    emailParqueadero: {
+                        required: "Por favor, ingrese el correo electrónico.",
+                        email: "Por favor, ingrese un correo electrónico válido."
+                    },
+                    ciudadParqueadero: {
+                        required: "Por favor, ingrese la ciudad."
+                    },
+                    paisId: {
+                        required: "Por favor, seleccione un país."
+                    }
+                },
+                submitHandler: function (form) {
+                    $.LoadingOverlay("show");
+
+                    const datos = $(form).serializeArray();
+                    const parqueadero = {};
+
+                    datos.forEach((item) => {
+                        parqueadero[item.name] = item.value;
+                    });
+
+                    $.ajax({
+                        url: "{{ url_for('parqueadero_crear') }}",
+                        type: "POST",
+                        data: JSON.stringify(parqueadero),
+                        contentType: "application/json",
+                        success: function (response) {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: '¡Registro exitoso!',
+                                text: 'Parqueadero creado correctamente.',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "{{ url_for('login') }}";
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: '¡Error!',
+                                text: 'Ocurrió un error al crear el parqueadero.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>
