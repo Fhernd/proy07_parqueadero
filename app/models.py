@@ -48,7 +48,7 @@ class Parqueadero(db.Model):
     sedes = db.relationship("Sede", back_populates="parqueadero")
 
     def __repr__(self):
-        return f'<Parqueadero {self.vehiculo_placa}>'
+        return f'<Parqueadero {self.rut}>'
 
 
 class Pais(db.Model):
