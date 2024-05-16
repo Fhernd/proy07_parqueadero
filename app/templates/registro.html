@@ -273,7 +273,6 @@
                                 confirmButtonText: 'Aceptar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    console.log('response', response);
                                     $('#usuarioId').val(response.data.id);
                                     
                                     $('#mdlParqueadero').modal('show');
@@ -352,8 +351,6 @@
                         const name = item.name.replace('Parqueadero', '');
                         parqueadero[name] = item.value;
                     });
-
-                    console.log(parqueadero);
 
                     $.ajax({
                         url: "{{ url_for('parqueadero') }}",

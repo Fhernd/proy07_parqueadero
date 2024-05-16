@@ -604,3 +604,8 @@ def parqueadero():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/login", methods=['GET'])
+def login():
+    return render_template('login.html', titulo='Iniciar Sesión')
