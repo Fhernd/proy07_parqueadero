@@ -543,7 +543,7 @@ def registro_crear():
             apellidos=data.get('apellidos'),
             telefono=data.get('telefono'),
             email=data.get('email'),
-            rol_id=data.get('rolId'),
+            rol_id=1,
             password=hashed_password,
             es_propietario=True
         )
@@ -598,5 +598,6 @@ def parqueadero():
         }}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
