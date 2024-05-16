@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from app import app, db
 
-from app.models import Cliente, MedioPago, Rol, TarifaTipo, Usuario, VehiculoTipo
+from app.models import Cliente, MedioPago, Pais, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
 @app.route("/")
@@ -521,8 +521,8 @@ def registro():
     """
     Muestra la ruta para el registro de un administrador para el parqueadero.
     """
-    roles = Rol.query.all()
-    return render_template('registro.html', titulo='Registro', roles=roles)
+    paises = Pais.query.all()
+    return render_template('registro.html', titulo='Registro', paises=paises)
 
 
 @app.route('/registro', methods=['POST'])
