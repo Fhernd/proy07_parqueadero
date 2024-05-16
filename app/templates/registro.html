@@ -352,7 +352,7 @@
                     });
 
                     $.ajax({
-                        url: "{{ url_for('parqueadero_crear') }}",
+                        url: "{{ url_for('parqueadero') }}",
                         type: "POST",
                         data: JSON.stringify(parqueadero),
                         contentType: "application/json",

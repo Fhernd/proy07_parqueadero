@@ -567,7 +567,7 @@ def registro_crear():
 
 
 @app.route("/parqueadero", methods=['POST'])
-def parqueadero_crear():
+def parqueadero():
     """
     Crea un nuevo parqueadero.
 
