@@ -544,7 +544,8 @@ def registro_crear():
             telefono=data.get('telefono'),
             email=data.get('email'),
             rol_id=data.get('rolId'),
-            password=hashed_password
+            password=hashed_password,
+            es_propietario=True
         )
 
         db.session.add(entidad)

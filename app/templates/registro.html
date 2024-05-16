@@ -204,8 +204,6 @@
                         usuario[item.name] = item.value;
                     });
 
-                    usuario['rolId'] = 1;
-
                     $.ajax({
                         url: "{{ url_for('registro') }}",
                         type: "POST",
