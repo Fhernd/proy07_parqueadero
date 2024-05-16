@@ -562,6 +562,7 @@ def registro_crear():
         }}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -576,12 +577,14 @@ def parqueadero():
     try:
         data = request.get_json()
         entidad = Parqueadero(
+            rut=data.get('rut'),
             nombre=data.get('nombre'),
             direccion=data.get('direccion'),
             telefono=data.get('telefono'),
             email=data.get('email'),
-            pais_id=data.get('paisId'),
-            usuario_id=data.get('usuarioId')
+            ciudad=data.get('ciudad'),
+            usuario_id=data.get('usuarioId'),
+            pais_id=data.get('paisId')
         )
 
         print('entidad', entidad)

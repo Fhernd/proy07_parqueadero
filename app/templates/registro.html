@@ -131,7 +131,7 @@
                         <h5 class="modal-title" id="mdlParqueaderoLabel">Registrar Parqueadero</h5>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="usuarioId">
+                        <input type="hidden" name="usuarioId" id="usuarioId">
                         <div class="form-group">
                             <label for="rutParqueadero">RUT</label>
                             <input type="text" class="form-control" id="rutParqueadero" name="rutParqueadero" required>
@@ -273,6 +273,7 @@
                                 confirmButtonText: 'Aceptar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    console.log('response', response);
                                     $('#usuarioId').val(response.data.id);
                                     
                                     $('#mdlParqueadero').modal('show');
@@ -348,7 +349,8 @@
                     const parqueadero = {};
 
                     datos.forEach((item) => {
-                        parqueadero[item.name] = item.value;
+                        const name = item.name.replace('Parqueadero', '');
+                        parqueadero[name] = item.value;
                     });
 
                     console.log(parqueadero);
