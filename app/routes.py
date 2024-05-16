@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from app import app, db
 
-from app.models import Cliente, MedioPago, Pais, Rol, TarifaTipo, Usuario, VehiculoTipo
+from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
 @app.route("/")
@@ -559,6 +559,42 @@ def registro_crear():
             'telefono': entidad.telefono,
             'email': entidad.email,
             'rol_id': entidad.rol_id
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route("/parqueadero", methods=['POST'])
+def parqueadero_crear():
+    """
+    Crea un nuevo parqueadero.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Parqueadero(
+            nombre=data.get('nombre'),
+            direccion=data.get('direccion'),
+            telefono=data.get('telefono'),
+            email=data.get('email'),
+            pais_id=data.get('paisId'),
+            usuario_id=data.get('usuarioId')
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Parqueadero creado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'direccion': entidad.direccion,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'pais_id': entidad.pais_id,
+            'usuario_id': entidad.usuario_id
         }}), 201
 
     except Exception as e:
