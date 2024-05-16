@@ -351,6 +351,8 @@
                         parqueadero[item.name] = item.value;
                     });
 
+                    console.log(parqueadero);
+
                     $.ajax({
                         url: "{{ url_for('parqueadero') }}",
                         type: "POST",

@@ -584,6 +584,8 @@ def parqueadero():
             usuario_id=data.get('usuarioId')
         )
 
+        print('entidad', entidad)
+
         db.session.add(entidad)
         db.session.commit()
 
