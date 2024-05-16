@@ -129,11 +129,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="mdlParqueaderoLabel">Registrar Parqueadero</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" name="usuarioId">
                         <div class="form-group">
                             <label for="rutParqueadero">RUT</label>
                             <input type="text" class="form-control" id="rutParqueadero" name="rutParqueadero" required>
@@ -275,6 +273,8 @@
                                 confirmButtonText: 'Aceptar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    $('#usuarioId').val(response.data.id);
+                                    
                                     $('#mdlParqueadero').modal('show');
                                 }
                             });
