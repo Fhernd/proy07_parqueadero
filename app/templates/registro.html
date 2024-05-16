@@ -158,7 +158,15 @@
                             <label for="ciudadParqueadero">Ciudad</label>
                             <input type="text" class="form-control" id="ciudadParqueadero" required name="ciudadParqueadero">
                         </div>
-                        <!-- Aquí puedes agregar campos para usuario_id y pais_id si es necesario -->
+                        <div class="form-group">
+                            <label for="paisId">País</label>
+                            <select name="paisId" id="paisId" class="form-control" required>
+                                <option value="">Seleccione un país</option>
+                                {% for pais in paises %}
+                                    <option value="{{ pais.id }}">{{ pais.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="saveButton">Guardar</button>
