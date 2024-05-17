@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import event
+from werkzeug.security import generate_password_hash
 
 from app import app, db
 
@@ -88,6 +89,14 @@ class Usuario(db.Model):
 
     def __repr__(self):
         return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
+    
+    def set_password(self, password):
+        """
+        Establece la contraseña del usuario.
+
+        :param password: Contraseña del usuario.
+        """
+        self.password = generate_password_hash(password)
 
 
 class Cliente(db.Model):
