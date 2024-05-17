@@ -384,7 +384,7 @@ def insert_initial_values():
             Usuario(
                 id=1,
                 documento='2001',
-                password='abcasdasdfqwerasdfasdfasdf',
+                password='pbkdf2:sha256:600000$G6h5feHBUNL3C2s0$68fbe625bf5b2f8c924d1da94d93c4005c7c7c0642e5268421678f836ce40322',
                 nombres='Pepé',
                 apellidos='Pérez',
                 telefono='3011001101',
@@ -396,7 +396,7 @@ def insert_initial_values():
             Usuario(
                 id=2,
                 documento='2002',
-                password='xyslkaslkdfjklasdkljfklñjasdkñjla',
+                password='pbkdf2:sha256:600000$G6h5feHBUNL3C2s0$68fbe625bf5b2f8c924d1da94d93c4005c7c7c0642e5268421678f836ce40322',
                 nombres='Laura',
                 apellidos='Gómez',
                 telefono='3202020100',
