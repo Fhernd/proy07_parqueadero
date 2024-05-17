@@ -4,6 +4,8 @@ from flask_login import UserMixin
 from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from app import login
+
 from app import app, db
 
 
@@ -107,6 +109,17 @@ class Usuario(UserMixin, db.Model):
         :return: True si la contraseña es correcta, False en caso contrario.
         """
         return check_password_hash(self.password, password)
+
+
+@login.user_loader
+def load_user(id):
+    """
+    Carga un usuario por su ID.
+
+    :param id: ID del usuario.
+    :return: Usuario con el ID especificado.
+    """
+    return Usuario.query.get(int(id))
 
 
 class Cliente(db.Model):
