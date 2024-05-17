@@ -1,4 +1,5 @@
 from flask import jsonify, render_template, request
+from flask_login import current_user, login_user
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -9,6 +10,16 @@ from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, U
 @app.route("/")
 def index():
     return render_template("index.html", titulo='Inicio', nombre='Alex')
+
+
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    """
+    Muestra el dashboard de la aplicación.
+
+    :return: Plantilla HTML.
+    """
+    return render_template('dashboard.html', titulo='Dashboard')
 
 @app.route("/vehiculo-tipo", methods=['GET'])
 def vehiculo_tipo():
@@ -609,3 +620,10 @@ def parqueadero():
 @app.route("/login", methods=['GET'])
 def login():
     return render_template('login.html', titulo='Iniciar Sesión')
+
+
+@app.route("/login", methods=['POST'])
+def login_post():
+    if current_user.is_authenticated:
+        return jsonify({'status': 'success', 'message': 'Usuario autenticado'}), 200
+    
