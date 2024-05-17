@@ -1,4 +1,4 @@
-from flask import jsonify, render_template, request
+from flask import jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user
 from werkzeug.security import generate_password_hash
 
@@ -624,6 +624,22 @@ def login():
 
 @app.route("/login", methods=['POST'])
 def login_post():
+    """
+    Inicia sesión en la aplicación.
+
+    :return: Redirección a la página de inicio.
+    """
     if current_user.is_authenticated:
-        return jsonify({'status': 'success', 'message': 'Usuario autenticado'}), 200
+        return redirect(url_for('dashboard'))
     
+    data = request.get_json()
+    email = data.get('email')
+
+    usuario = Usuario.query.filter_by(email=email).first()
+
+    if usuario is None or not usuario.check_password(data.get('password')):
+        return redirect(url_for('login'))
+
+    login_user(usuario)
+
+    return redirect(url_for('dashboard'))
