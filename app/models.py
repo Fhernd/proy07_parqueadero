@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from flask_login import UserMixin
 from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -67,7 +68,7 @@ class Pais(db.Model):
         return f"<Pais(nombre='{self.nombre}')>"
 
 
-class Usuario(db.Model):
+class Usuario(UserMixin, db.Model):
     """
     Representa un usuario.
     """
