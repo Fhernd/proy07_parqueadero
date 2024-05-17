@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import event
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import app, db
 
@@ -97,6 +97,15 @@ class Usuario(db.Model):
         :param password: Contraseña del usuario.
         """
         self.password = generate_password_hash(password)
+    
+    def check_password(self, password):
+        """
+        Verifica si la contraseña ingresada es correcta.
+
+        :param password: Contraseña a verificar.
+        :return: True si la contraseña es correcta, False en caso contrario.
+        """
+        return check_password_hash(self.password, password)
 
 
 class Cliente(db.Model):
