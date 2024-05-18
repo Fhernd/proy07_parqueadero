@@ -1,5 +1,5 @@
 from flask import jsonify, redirect, render_template, request, url_for
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -651,4 +651,5 @@ def logout():
 
     :return: Redirección a la página de inicio.
     """
+    logout_user()
     return redirect(url_for('login'))
