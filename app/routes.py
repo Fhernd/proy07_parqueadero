@@ -630,7 +630,7 @@ def login_post():
     :return: Redirección a la página de inicio.
     """
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     
     data = request.get_json()
     email = data.get('email')
@@ -638,8 +638,7 @@ def login_post():
     usuario = Usuario.query.filter_by(email=email).first()
 
     if usuario is None or not usuario.check_password(data.get('password')):
-        return redirect(url_for('login'))
+        return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
 
     login_user(usuario)
-
-    return redirect(url_for('dashboard'))
+    return jsonify({"success": True, "redirect_url": url_for('dashboard')})

@@ -83,13 +83,13 @@
                                     </div>
                                     <form class="user" id="frmInicioSesion">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="email" aria-describedby="emailHelp"
-                                                placeholder="Ingrese el correo" name="email">
+                                            <input type="email" class="form-control form-control-user" id="email"
+                                                aria-describedby="emailHelp" placeholder="Ingrese el correo"
+                                                name="email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" placeholder="Contraseña">
+                                            <input type="password" class="form-control form-control-user" id="password"
+                                                placeholder="Contraseña">
                                         </div>
                                         <div class="form-group">
                                             <!-- <div class="custom-control custom-checkbox small">
@@ -154,8 +154,20 @@
                         url: `{{ url_for('login_post') }}`,
                         type: 'POST',
                         data: JSON.stringify(usuario),
+                        contentType: 'application/json',
                         success: function (response) {
                             $.LoadingOverlay("hide");
+
+                            if (response.success) {
+                                window.location.href = response.redirect_url;
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            }
                         },
                         error: function (error) {
                             $.LoadingOverlay("hide");
@@ -167,6 +179,7 @@
                             });
                         }
                     });
+
                 }
             });
         });
