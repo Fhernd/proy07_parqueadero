@@ -1,5 +1,5 @@
 from flask import jsonify, redirect, render_template, request, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -95,6 +95,7 @@ def vehiculo_tipo_update(id):
 
 
 @app.route("/tarifa-tipo", methods=['GET'])
+@login_required
 def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
@@ -104,6 +105,7 @@ def tarifa_tipo():
 
 
 @app.route('/tarifa-tipo', methods=['POST'])
+@login_required
 def tarifa_tipo_create():
     """
     Crea un nuevo tipo de tarifa.
@@ -129,6 +131,7 @@ def tarifa_tipo_create():
 
 
 @app.route('/tarifa-tipo/<int:id>', methods=['PUT'])
+@login_required
 def tarifa_tipo_update(id):
     """
     Actualiza un tipo de tarifa.
@@ -161,6 +164,7 @@ def tarifa_tipo_update(id):
 
 
 @app.route('/tarifa-tipo/<int:id>', methods=['DELETE'])
+@login_required
 def tarifa_tipo_delete(id):
     """
     Elimina un tipo de tarifa.
@@ -185,6 +189,7 @@ def tarifa_tipo_delete(id):
 
 
 @app.route("/medio-pago", methods=['GET'])
+@login_required
 def medio_pago():
     """
     Muestra la lista de tipos de tarifa.
@@ -194,6 +199,7 @@ def medio_pago():
 
 
 @app.route('/medio-pago', methods=['POST'])
+@login_required
 def medio_pago_create():
     """
     Crea un nuevo medio de pago.
@@ -218,6 +224,7 @@ def medio_pago_create():
 
 
 @app.route('/medio-pago/<int:id>', methods=['PUT'])
+@login_required
 def medio_pago_update(id):
     """
     Actualiza un medio de pago.
@@ -248,6 +255,7 @@ def medio_pago_update(id):
 
 
 @app.route('/medio-pago/<int:id>', methods=['DELETE'])
+@login_required
 def medio_pago_delete(id):
     """
     Elimina un medio de pago.
@@ -272,6 +280,7 @@ def medio_pago_delete(id):
 
 
 @app.route("/cliente", methods=['GET'])
+@login_required
 def cliente():
     """
     Muestra la lista de tipos de tarifa.
@@ -281,6 +290,7 @@ def cliente():
 
 
 @app.route('/cliente', methods=['POST'])
+@login_required
 def cliente_crear():
     """
     Crea un nuevo cliente.
@@ -311,6 +321,7 @@ def cliente_crear():
 
 
 @app.route('/cliente/<string:documento>', methods=['PUT'])
+@login_required
 def cliente_actualizar(documento):
     """
     Actualiza un cliente.
@@ -353,6 +364,7 @@ def cliente_actualizar(documento):
 
 
 @app.route('/cliente/<string:documento>', methods=['DELETE'])
+@login_required
 def cliente_eliminar(documento):
     """
     Elimina un cliente.
@@ -377,6 +389,7 @@ def cliente_eliminar(documento):
 
 
 @app.route("/rol", methods=['GET'])
+@login_required
 def rol():
     """
     Muestra la lista de roles.
@@ -386,6 +399,7 @@ def rol():
 
 
 @app.route("/usuario", methods=['GET'])
+@login_required
 def usuario():
     """
     Muestra la lista de usuarios.
@@ -396,6 +410,7 @@ def usuario():
 
 
 @app.route('/usuario', methods=['POST'])
+@login_required
 def usuario_crear():
     """
     Crea un nuevo usuario.
@@ -436,6 +451,7 @@ def usuario_crear():
 
 
 @app.route('/usuario/<string:documento>', methods=['PUT'])
+@login_required
 def usuario_actualizar(documento):
     """
     Actualiza un usuario.
@@ -476,6 +492,7 @@ def usuario_actualizar(documento):
 
 
 @app.route('/usuario/<string:documento>', methods=['DELETE'])
+@login_required
 def usuario_eliminar(documento):
     """
     Elimina un usuario.
@@ -500,6 +517,7 @@ def usuario_eliminar(documento):
 
 
 @app.route('/usuario/cambiar-password', methods=['PUT'])
+@login_required
 def usuario_cambiar_password():
     """
     Cambia la contraseña de un usuario.
@@ -578,6 +596,7 @@ def registro_crear():
 
 
 @app.route("/parqueadero", methods=['POST'])
+@login_required
 def parqueadero():
     """
     Crea un nuevo parqueadero.
