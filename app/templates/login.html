@@ -81,7 +81,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Inicio de sesión</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" id="frmInicioSesion">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="email" aria-describedby="emailHelp"
@@ -120,6 +120,57 @@
         </div>
 
     </div>
+
+    <script>
+        $(document).ready(() => {
+            $('#frmInicioSesion').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    }
+                },
+                messages: {
+                    email: {
+                        required: 'El correo es obligatorio',
+                        email: 'El correo no es válido'
+                    },
+                    password: {
+                        required: 'La contraseña es obligatoria'
+                    }
+                },
+                submitHandler: function (form) {
+                    $.LoadingOverlay("show");
+
+                    const usuario = {
+                        email: $('#email').val(),
+                        password: $('#password').val()
+                    }
+
+                    $.ajax({
+                        url: `{{ url_for('login_post') }}`,
+                        type: 'POST',
+                        data: JSON.stringify(usuario),
+                        success: function (response) {
+                            $.LoadingOverlay("hide");
+                        },
+                        error: function (error) {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un error al intentar iniciar sesión',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
