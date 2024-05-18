@@ -642,3 +642,13 @@ def login_post():
 
     login_user(usuario)
     return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+
+
+@app.route("/logout", methods=['GET'])
+def logout():
+    """
+    Cierra sesión en la aplicación.
+
+    :return: Redirección a la página de inicio.
+    """
+    return redirect(url_for('login'))
