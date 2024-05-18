@@ -172,9 +172,9 @@
                         error: function (error) {
                             $.LoadingOverlay("hide");
                             Swal.fire({
-                                title: 'Error',
-                                text: 'Ocurrió un error al intentar iniciar sesión',
-                                icon: 'error',
+                                title: 'Advertencia',
+                                text: 'Las credenciales no son válidas',
+                                icon: 'warning',
                                 confirmButtonText: 'Aceptar'
                             });
                         }
