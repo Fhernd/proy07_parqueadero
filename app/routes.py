@@ -666,7 +666,14 @@ def login_post():
         return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
 
     login_user(usuario)
-    return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+
+    next = request.args.get('next')
+    print('next', next)
+
+    if not next:
+        return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+    else:
+        return jsonify({"success": True, "redirect_url": next})
 
 
 @app.route("/logout", methods=['GET'])

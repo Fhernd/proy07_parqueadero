@@ -150,8 +150,13 @@
                         password: $('#password').val()
                     }
 
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const next = urlParams.get('next');
+
+                    const url = next ? `{{ url_for('login_post') }}?next=${next}` : `{{ url_for('login_post') }}`;
+
                     $.ajax({
-                        url: `{{ url_for('login_post') }}`,
+                        url: url,
                         type: 'POST',
                         data: JSON.stringify(usuario),
                         contentType: 'application/json',
