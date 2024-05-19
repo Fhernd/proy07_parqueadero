@@ -9,10 +9,11 @@ from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, U
 
 @app.route("/")
 def index():
-    return render_template("index.html", titulo='Inicio', nombre='Alex')
+    return render_template("login.html", titulo='Inicio', nombre='Alex')
 
 
 @app.route('/dashboard', methods=['GET'])
+@login_required
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
@@ -21,13 +22,16 @@ def dashboard():
     """
     return render_template('dashboard.html', titulo='Dashboard')
 
+
 @app.route("/vehiculo-tipo", methods=['GET'])
+@login_required
 def vehiculo_tipo():
     tipos_vehiculo = VehiculoTipo.query.all()
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
 
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
+@login_required
 def vehiculo_tipo_delete(id):
     try:
         vehiculo_tipo = VehiculoTipo.query.get(id)
@@ -46,6 +50,7 @@ def vehiculo_tipo_delete(id):
 
 
 @app.route('/vehiculo-tipo', methods=['POST'])
+@login_required
 def vehiculo_tipo_crear():
     try:
         data = request.get_json()
@@ -65,6 +70,7 @@ def vehiculo_tipo_crear():
 
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['PUT'])
+@login_required
 def vehiculo_tipo_update(id):
     """
     Actualiza un tipo de vehículo.
