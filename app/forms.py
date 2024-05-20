@@ -10,7 +10,7 @@ class UsuarioForm(FlaskForm):
     apellidos = StringField('Apellidos', validators=[DataRequired(), Length(max=32)])
     telefono = StringField('Teléfono', validators=[DataRequired(), Length(max=16)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=64)])
-    rol_id = IntegerField('ID del Rol', validators=[DataRequired()])
+    rol = StringField('Rol')
     es_propietario = BooleanField('Es Propietario')
     
     submit = SubmitField('Registrar')
