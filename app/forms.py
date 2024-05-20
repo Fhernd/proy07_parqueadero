@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from models import Usuario  # Importa tu modelo de usuario
+from app.models import Usuario
+
 
 class UsuarioForm(FlaskForm):
     documento = StringField('Documento', validators=[DataRequired(), Length(max=16)])
