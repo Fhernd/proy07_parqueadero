@@ -685,3 +685,14 @@ def logout():
     """
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/perfil', methods=['GET'])
+@login_required
+def perfil():
+    """
+    Muestra el perfil del usuario.
+
+    :return: Plantilla HTML.
+    """
+    return render_template('perfil.html', titulo='Perfil')
