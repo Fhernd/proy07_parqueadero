@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash
 
 from app import app, db
 
+from app.forms import UsuarioForm
 from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
@@ -695,4 +696,5 @@ def perfil():
 
     :return: Plantilla HTML.
     """
-    return render_template('perfil.html', titulo='Perfil')
+    form = UsuarioForm()
+    return render_template('perfil.html', titulo='Perfil', form=form)
