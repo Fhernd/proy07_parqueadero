@@ -3,6 +3,17 @@
 {% block title %}{{ titulo }}{% endblock %}
 
 {% block content %}
+
+<style>
+    .btn span.glyphicon {
+        opacity: 0;
+    }
+
+    .btn.active span.glyphicon {
+        opacity: 1;
+    }
+</style>
+
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
 
 <div class="card shadow mb-4">
@@ -19,7 +30,8 @@
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         {{ form.documento.label(class="form-label") }}
-                        {{ form.documento(class="form-control", id="documento", value=current_user.documento, readonly=True) }}
+                        {{ form.documento(class="form-control", id="documento", value=current_user.documento,
+                        readonly=True) }}
                     </div>
                     <div class="form-group">
                         {{ form.nombres.label(class="form-label") }}
@@ -35,16 +47,19 @@
                     </div>
                     <div class="form-group">
                         {{ form.email.label(class="form-label") }}
-                        {{ form.email(class="form-control", id="email", value=current_user.email) }}
+                        {{ form.email(class="form-control", id="email", value=current_user.email, readonly=True) }}
                     </div>
                     <div class="form-group">
                         {{ form.rol.label(class="form-label") }}
                         {{ form.rol(class="form-control", id="rol", value=current_user.rol.nombre, readonly=True) }}
                     </div>
-                    <div class="form-group form-check">
-                        {{ form.es_propietario.label(class="form-check-label") }}
-                        {{ form.es_propietario(class="form-check-input", id="es_propietario", value=current_user.es_propietario) }}
+                    <div class="form-group">
+                        ¿Es propietario?
                     </div>
+                    <label class="btn btn-success active">
+                        {{ form.es_propietario(value=current_user.es_propietario) }}
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </label>
                 </div>
                 <div class="modal-footer">
                     {{ form.submit(class="btn btn-warning") }}
