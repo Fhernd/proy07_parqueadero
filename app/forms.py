@@ -5,7 +5,7 @@ from app.models import Usuario
 
 
 class UsuarioForm(FlaskForm):
-    documento = StringField('Documento', validators=[DataRequired(), Length(max=16)])
+    documento = StringField('Documento')
     nombres = StringField('Nombres', validators=[DataRequired(), Length(max=32)])
     apellidos = StringField('Apellidos', validators=[DataRequired(), Length(max=32)])
     telefono = StringField('Teléfono', validators=[DataRequired(), Length(max=16)])
