@@ -10,7 +10,51 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <h2>Aquí irá el formulario</h2>
+        <form id="frmUsuarioRegistrar" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdlUsuarioLabel">Registrar Usuario</h5>
+                </div>
+                <div class="modal-body">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.documento.label(class="form-label") }}
+                        {{ form.documento(class="form-control", id="documento", value=current_user.documento) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", id="password") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.nombres.label(class="form-label") }}
+                        {{ form.nombres(class="form-control", id="nombres", value=current_user.nombres) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.apellidos.label(class="form-label") }}
+                        {{ form.apellidos(class="form-control", id="apellidos", value=current_user.apellidos) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.telefono.label(class="form-label") }}
+                        {{ form.telefono(class="form-control", id="telefono", value=current_user.telefono) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", id="email", value=current_user.email) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.rol_id.label(class="form-label") }}
+                        {{ form.rol_id(class="form-control", id="rol_id", value=current_user.rol_id) }}
+                    </div>
+                    <div class="form-group form-check">
+                        {{ form.es_propietario.label(class="form-check-label") }}
+                        {{ form.es_propietario(class="form-check-input", id="es_propietario", value=current_user.es_propietario) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{ form.submit(class="btn btn-warning") }}
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
