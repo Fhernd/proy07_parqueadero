@@ -12,6 +12,14 @@
     .btn.active span.glyphicon {
         opacity: 1;
     }
+
+    .custom-checkbox input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
 </style>
 
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
@@ -23,9 +31,6 @@
     <div class="card-body">
         <form id="frmUsuarioRegistrar" method="POST">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mdlUsuarioLabel">Registrar Usuario</h5>
-                </div>
                 <div class="modal-body">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
@@ -56,9 +61,8 @@
                     <div class="form-group">
                         ¿Es propietario?
                     </div>
-                    <label class="btn btn-success active">
-                        {{ form.es_propietario(value=current_user.es_propietario) }}
-                        <span class="glyphicon glyphicon-ok"></span>
+                    <label class="btn btn-{{'success' if current_user.es_propietario else 'warning'}} active">
+                        <span class="fas fa-{{'check' if current_user.es_propietario else 'ban'}}"></span>
                     </label>
                 </div>
                 <div class="modal-footer">
