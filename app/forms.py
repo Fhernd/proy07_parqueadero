@@ -27,3 +27,13 @@ class UsuarioForm(FlaskForm):
             user = Usuario.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('El email ya está registrado. Por favor, usa uno diferente.')
+
+
+class CambiarClaveForm(FlaskForm):
+    """
+    Formulario para cambiar la clave de un usuario.
+    """
+    clave_actual = PasswordField('Clave actual', validators=[DataRequired()])
+    clave_nueva = PasswordField('Clave nueva', validators=[DataRequired()])
+    confirmar_clave = PasswordField('Confirmar clave nueva', validators=[DataRequired(), EqualTo('clave_nueva')])
+    submit = SubmitField('Cambiar clave')
