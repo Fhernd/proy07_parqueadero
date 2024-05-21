@@ -698,7 +698,19 @@ def perfil():
     """
     form = UsuarioForm()
 
+    print('current_user', current_user)
+    print('Estado del formulariio', form.validate_on_submit())
+
+    # Leer cada uno de los datos del formulario:
+    print('documento', form.documento.data)
+    print('nombres', form.nombres.data)
+    print('apellidos', form.apellidos.data)
+    print('telefono', form.telefono.data)
+    # Mostrar todos los errores que tiene el formulario:
+    print('Errores', form.errors)
+
     if form.validate_on_submit():
+        print('form', form)
         documento = form.documento.data
         nombres = form.nombres.data
         apellidos = form.apellidos.data
