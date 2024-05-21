@@ -1,10 +1,11 @@
+from curses import flash
 from flask import jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 
 from app import app, db
 
-from app.forms import UsuarioForm
+from app.forms import CambiarClaveForm, UsuarioForm
 from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
@@ -722,15 +723,20 @@ def perfil_cambiar_password():
 
     :return: Respuesta JSON.
     """
-    data = request.get_json()
-    password = data.get('password')
+    form = CambiarClaveForm()
 
-    if not current_user.check_password(password):
-        return jsonify({'status': 'error', 'message': 'Contraseña actual incorrecta'}), 400
+    if form.validate_on_submit():
+        clave_actual = form.clave_actual.data
+        clave_nueva = form.clave_nueva.data
 
-    new_password = data.get('newPassword')
-    current_user.set_password(new_password)
+        if not current_user.check_password(clave_actual):
+            flash('La contraseña actual es incorrecta', 'danger')
 
-    db.session.commit()
+        current_user.set_password(clave_nueva)
+        db.session.commit()
 
-    return jsonify({'status': 'success', 'message': 'Contraseña actualizada'}), 200
+        flash('La contraseña ha sido cambiada', 'success')
+    
+    return render_template('perfil.html', titulo='Perfil', form=form)
+    
+
