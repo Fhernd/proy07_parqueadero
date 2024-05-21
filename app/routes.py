@@ -688,7 +688,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/perfil', methods=['GET'])
+@app.route('/perfil', methods=['GET', 'POST'])
 @login_required
 def perfil():
     """
@@ -697,4 +697,19 @@ def perfil():
     :return: Plantilla HTML.
     """
     form = UsuarioForm()
+
+    if form.validate_on_submit():
+        documento = form.documento.data
+        nombres = form.nombres.data
+        apellidos = form.apellidos.data
+        telefono = form.telefono.data
+
+        current_user.documento = documento
+        current_user.nombres = nombres
+        current_user.apellidos = apellidos
+        current_user.telefono = telefono
+
+        db.session.commit()
+
+
     return render_template('perfil.html', titulo='Perfil', form=form)
