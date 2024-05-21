@@ -1,3 +1,4 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -16,11 +17,13 @@ class UsuarioForm(FlaskForm):
     submit = SubmitField('Registrar')
 
     def validate_documento(self, documento):
-        user = Usuario.query.filter_by(documento=documento.data).first()
-        if user:
-            raise ValidationError('El documento ya está registrado. Por favor, usa uno diferente.')
+        if documento.data != current_user.documento:
+            user = Usuario.query.filter_by(documento=documento.data).first()
+            if user:
+                raise ValidationError('El documento ya está registrado. Por favor, usa uno diferente.')
 
     def validate_email(self, email):
-        user = Usuario.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('El email ya está registrado. Por favor, usa uno diferente.')
+        if email.data != current_user.email:
+            user = Usuario.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('El email ya está registrado. Por favor, usa uno diferente.')
