@@ -712,3 +712,25 @@ def perfil():
         db.session.commit()
 
     return render_template('perfil.html', titulo='Perfil', form=form)
+
+
+@app.route('/perfil/cambiar-password', methods=['POST'])
+@login_required
+def perfil_cambiar_password():
+    """
+    Cambia la contraseña del usuario.
+
+    :return: Respuesta JSON.
+    """
+    data = request.get_json()
+    password = data.get('password')
+
+    if not current_user.check_password(password):
+        return jsonify({'status': 'error', 'message': 'Contraseña actual incorrecta'}), 400
+
+    new_password = data.get('newPassword')
+    current_user.set_password(new_password)
+
+    db.session.commit()
+
+    return jsonify({'status': 'success', 'message': 'Contraseña actualizada'}), 200
