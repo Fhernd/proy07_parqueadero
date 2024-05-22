@@ -698,8 +698,9 @@ def perfil():
     :return: Plantilla HTML.
     """
     form = UsuarioForm()
+    cambiar_clave_form = CambiarClaveForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() and 'submit' in form.submit.data:
         documento = form.documento.data
         nombres = form.nombres.data
         apellidos = form.apellidos.data
@@ -711,6 +712,18 @@ def perfil():
         current_user.telefono = telefono
 
         db.session.commit()
+    
+    if cambiar_clave_form.validate_on_submit() and 'submit' in cambiar_clave_form.submit.data:
+        clave_actual = cambiar_clave_form.clave_actual.data
+
+        if not current_user.check_password(clave_actual):
+            flash('La contraseña actual es incorrecta', 'danger')
+            return redirect(url_for('perfil'))
+
+        current_user.set_password(cambiar_clave_form.password.data)
+        db.session.commit()
+        flash('Contraseña cambiada correctamente.', 'success')
+        return redirect(url_for('perfil'))
 
     return render_template('perfil.html', titulo='Perfil', form=form)
 
