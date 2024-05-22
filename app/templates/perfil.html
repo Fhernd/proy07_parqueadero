@@ -75,11 +75,23 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Cambio contraseña</h6>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                        <div class="alert alert-warning">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </div>
     <div class="card-body">
         <form id="frmCambioPassword" method="POST" action="">
             <div class="modal-content">
                 <div class="modal-body">
+                    {{ cambiar_clave_form.hidden_tag() }}
                     <div class="form-group">
                         {{ cambiar_clave_form.clave_actual.label(class="form-label") }}
                         {{ cambiar_clave_form.clave_actual(class="form-control", id="clave_actual") }}
