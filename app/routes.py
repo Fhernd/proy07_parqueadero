@@ -725,7 +725,7 @@ def perfil():
         flash('Contraseña cambiada correctamente.', 'success')
         return redirect(url_for('perfil'))
 
-    return render_template('perfil.html', titulo='Perfil', form=form)
+    return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
 
 
 @app.route('/perfil/cambiar-password', methods=['POST'])

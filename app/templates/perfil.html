@@ -80,10 +80,22 @@
         <form id="frmCambioPassword" method="POST" action="">
             <div class="modal-content">
                 <div class="modal-body">
-                   
+                    <div class="form-group">
+                        {{ cambiar_clave_form.clave_actual.label(class="form-label") }}
+                        {{ cambiar_clave_form.clave_actual(class="form-control", id="clave_actual") }}
+                    </div>
+                    <div class="form-group">
+                        {{ cambiar_clave_form.clave_nueva.label(class="form-label") }}
+                        {{ cambiar_clave_form.clave_nueva(class="form-control", id="clave_nueva") }}
+                    </div>
+                    <div class="form-group">
+                        {{ cambiar_clave_form.confirmar_clave.label(class="form-label") }}
+                        {{ cambiar_clave_form.confirmar_clave(class="form-control", id="confirmar_clave") }}
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    
+                    {{ cambiar_clave_form.submit(class="btn btn-warning", form="frmCambioPassword", id="submitCambioPassword") }}
                 </div>
             </div>
         </form>
