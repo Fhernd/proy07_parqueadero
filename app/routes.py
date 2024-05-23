@@ -699,32 +699,26 @@ def perfil():
     form = UsuarioForm()
     cambiar_clave_form = CambiarClaveForm()
 
-    if form.validate_on_submit() and 'submit' in form.submit.data:
-        documento = form.documento.data
-        nombres = form.nombres.data
-        apellidos = form.apellidos.data
-        telefono = form.telefono.data
-
-        current_user.documento = documento
-        current_user.nombres = nombres
-        current_user.apellidos = apellidos
-        current_user.telefono = telefono
+    if form.submit.data and form.validate_on_submit():
+        current_user.documento = form.documento.data
+        current_user.nombres = form.nombres.data
+        current_user.apellidos = form.apellidos.data
+        current_user.telefono = form.telefono.data
 
         db.session.commit()
+        flash('Perfil actualizado correctamente.', 'success')
+        return redirect(url_for('perfil'))
 
-    print('Errores', cambiar_clave_form.errors)
-
-    if cambiar_clave_form.validate_on_submit():
+    if cambiar_clave_form.submit.data and cambiar_clave_form.validate_on_submit():
         clave_actual = cambiar_clave_form.clave_actual.data
 
         if not current_user.check_password(clave_actual):
-            flash('La contraseña actual es incorrecta', 'warning')
+            flash('La contraseña actual es incorrecta', 'danger')
+        else:
+            current_user.set_password(cambiar_clave_form.clave_nueva.data)
+            db.session.commit()
+            flash('Contraseña cambiada correctamente.', 'success')
             return redirect(url_for('perfil'))
-
-        current_user.set_password(cambiar_clave_form.clave_nueva.data)
-        db.session.commit()
-        flash('Contraseña cambiada correctamente.', 'success')
-        return redirect(url_for('perfil'))
 
     return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
 

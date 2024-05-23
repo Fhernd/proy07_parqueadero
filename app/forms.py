@@ -35,5 +35,5 @@ class CambiarClaveForm(FlaskForm):
     """
     clave_actual = PasswordField('Clave actual', validators=[DataRequired()])
     clave_nueva = PasswordField('Clave nueva', validators=[DataRequired()])
-    confirmar_clave = PasswordField('Confirmar clave nueva', validators=[DataRequired(), EqualTo('clave_nueva')])
+    confirmar_clave = PasswordField('Confirmar clave nueva', validators=[DataRequired(), EqualTo('clave_nueva', message='Las contraseñas no coinciden.')])
     submit = SubmitField('Cambiar clave')

@@ -76,16 +76,16 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Cambio contraseña</h6>
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <p>Sí hay mensajes</p>
-                <div class="alert-container">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        {% if messages %}
+        <p>Sí hay mensajes</p>
+        <div class="alert-container">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% endwith %}
     </div>
     <div class="card-body">
@@ -96,25 +96,28 @@
                     <div class="form-group">
                         {{ cambiar_clave_form.clave_actual.label(class="form-label") }}
                         {{ cambiar_clave_form.clave_actual(class="form-control", id="clave_actual") }}
+                        {% if cambiar_clave_form.clave_actual.errors %}
+                        <div class="alert alert-warning">{{ cambiar_clave_form.clave_actual.errors[0] }}</div>
+                        {% endif %}
                     </div>
                     <div class="form-group">
                         {{ cambiar_clave_form.clave_nueva.label(class="form-label") }}
                         {{ cambiar_clave_form.clave_nueva(class="form-control", id="clave_nueva") }}
-                        {% if cambiar_clave_form.clave_actual.errors %}
-                            <div class="alert alert-warning">{{ cambiar_clave_form.clave_actual.errors[0] }}</div>
+                        {% if cambiar_clave_form.clave_nueva.errors %}
+                        <div class="alert alert-warning">{{ cambiar_clave_form.clave_nueva.errors[0] }}</div>
                         {% endif %}
                     </div>
                     <div class="form-group">
                         {{ cambiar_clave_form.confirmar_clave.label(class="form-label") }}
                         {{ cambiar_clave_form.confirmar_clave(class="form-control", id="confirmar_clave") }}
-                        {% if cambiar_clave_form.clave_nueva.errors %}
-                            <div class="alert alert-danger">{{ cambiar_clave_form.clave_nueva.errors[0] }}</div>
+                        {% if cambiar_clave_form.confirmar_clave.errors %}
+                        <div class="alert alert-danger">{{ cambiar_clave_form.confirmar_clave.errors[0] }}</div>
                         {% endif %}
                     </div>
-
                 </div>
                 <div class="modal-footer">
-                    {{ cambiar_clave_form.submit(class="btn btn-warning", form="frmCambioPassword", id="submitCambioPassword") }}
+                    {{ cambiar_clave_form.submit(class="btn btn-warning", form="frmCambioPassword",
+                    id="submitCambioPassword") }}
                 </div>
             </div>
         </form>
