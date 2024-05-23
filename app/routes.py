@@ -715,7 +715,6 @@ def perfil():
     print('Es válido', cambiar_clave_form.validate_on_submit())
 
     if cambiar_clave_form.validate_on_submit():
-        print('en el submit de cambiar clave')
         clave_actual = cambiar_clave_form.clave_actual.data
 
         if not current_user.check_password(clave_actual):

@@ -88,7 +88,7 @@
         {% endwith %}
     </div>
     <div class="card-body">
-        <form id="frmCambioPassword" method="POST" action="">
+        <form id="frmCambioPassword" method="POST" action="{{ url_for('perfil') }}">
             <div class="modal-content">
                 <div class="modal-body">
                     {{ cambiar_clave_form.hidden_tag() }}
