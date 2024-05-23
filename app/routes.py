@@ -1,5 +1,4 @@
-from curses import flash
-from flask import jsonify, redirect, render_template, request, url_for
+from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 
