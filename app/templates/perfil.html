@@ -100,15 +100,15 @@
                     <div class="form-group">
                         {{ cambiar_clave_form.clave_nueva.label(class="form-label") }}
                         {{ cambiar_clave_form.clave_nueva(class="form-control", id="clave_nueva") }}
-                        {% if form.clave_actual.errors %}
-                            <div class="alert alert-warning">{{ form.clave_actual.errors[0] }}</div>
+                        {% if cambiar_clave_form.clave_actual.errors %}
+                            <div class="alert alert-warning">{{ cambiar_clave_form.clave_actual.errors[0] }}</div>
                         {% endif %}
                     </div>
                     <div class="form-group">
                         {{ cambiar_clave_form.confirmar_clave.label(class="form-label") }}
                         {{ cambiar_clave_form.confirmar_clave(class="form-control", id="confirmar_clave") }}
-                        {% if form.clave_nueva.errors %}
-                            <div class="alert alert-danger">{{ form.clave_nueva.errors[0] }}</div>
+                        {% if cambiar_clave_form.clave_nueva.errors %}
+                            <div class="alert alert-danger">{{ cambiar_clave_form.clave_nueva.errors[0] }}</div>
                         {% endif %}
                     </div>
 

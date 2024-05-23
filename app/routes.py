@@ -714,7 +714,7 @@ def perfil():
 
     print('Errores', cambiar_clave_form.errors)
 
-    if cambiar_clave_form.kpMqhqSxpWo():
+    if cambiar_clave_form.validate_on_submit():
         clave_actual = cambiar_clave_form.clave_actual.data
 
         if not current_user.check_password(clave_actual):
