@@ -712,6 +712,8 @@ def perfil():
 
         db.session.commit()
 
+    print('Errores', cambiar_clave_form.errors)
+
     if cambiar_clave_form.validate_on_submit():
         clave_actual = cambiar_clave_form.clave_actual.data
 
@@ -723,7 +725,7 @@ def perfil():
             flash('Las contraseñas no coinciden', 'warning')
             return redirect(url_for('perfil'))
 
-        current_user.set_password(cambiar_clave_form.password.data)
+        current_user.set_password(cambiar_clave_form.clave_nueva.data)
         db.session.commit()
         flash('Contraseña cambiada correctamente.', 'success')
         return redirect(url_for('perfil'))

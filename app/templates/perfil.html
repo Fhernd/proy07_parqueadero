@@ -77,6 +77,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Cambio contraseña</h6>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
+                <p>Sí hay mensajes</p>
                 <div class="alert-container">
                     {% for category, message in messages %}
                         <div class="alert alert-{{ category }}">
