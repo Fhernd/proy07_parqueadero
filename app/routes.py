@@ -711,14 +711,16 @@ def perfil():
         current_user.telefono = telefono
 
         db.session.commit()
-    
-    print('Es válido', cambiar_clave_form.validate_on_submit())
 
     if cambiar_clave_form.validate_on_submit():
         clave_actual = cambiar_clave_form.clave_actual.data
 
         if not current_user.check_password(clave_actual):
-            flash('La contraseña actual es incorrecta', 'danger')
+            flash('La contraseña actual es incorrecta', 'warning')
+            return redirect(url_for('perfil'))
+        
+        if cambiar_clave_form.clave_nueva.data != cambiar_clave_form.confirmar_clave.data:
+            flash('Las contraseñas no coinciden', 'warning')
             return redirect(url_for('perfil'))
 
         current_user.set_password(cambiar_clave_form.password.data)
