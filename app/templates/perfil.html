@@ -29,16 +29,22 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="alert-container">
+        <div class="alert-container alert-dismissible fade show">
             {% for category, message in messages %}
             {% if category == 'perfil-success' %}
             <div class="alert alert-success">
                 {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             {% endif %}
             {% if category == 'perfil-error' %}
-            <div class="alert alert-warning">
+            <div class="alert alert-warning alert-dismissible fade show">
                 {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             {% endif %}
             {% endfor %}
@@ -98,13 +104,19 @@
         <div class="alert-container">
             {% for category, message in messages %}
             {% if category == 'cambio-clave-success' %}
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show">
                 {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             {% endif %}
             {% if category == 'cambio-clave-danger' %}
-            <div class="alert alert-warning">
+            <div class="alert alert-warning alert-dismissible fade show">
                 {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             {% endif %}
             {% endfor %}
