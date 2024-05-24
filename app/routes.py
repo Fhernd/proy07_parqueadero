@@ -706,45 +706,18 @@ def perfil():
         current_user.telefono = form.telefono.data
 
         db.session.commit()
-        flash('Perfil actualizado correctamente.', 'success')
+        flash('Perfil actualizado correctamente.', 'perfil-success')
         return redirect(url_for('perfil'))
 
     if cambiar_clave_form.submit.data and cambiar_clave_form.validate_on_submit():
         clave_actual = cambiar_clave_form.clave_actual.data
 
         if not current_user.check_password(clave_actual):
-            flash('La contraseña actual es incorrecta', 'danger')
+            flash('La contraseña actual es incorrecta', 'cambio-clave-danger')
         else:
             current_user.set_password(cambiar_clave_form.clave_nueva.data)
             db.session.commit()
-            flash('Contraseña cambiada correctamente.', 'success')
+            flash('Contraseña cambiada correctamente.', 'cambio-clave-success')
             return redirect(url_for('perfil'))
 
     return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
-
-
-@app.route('/perfil/cambiar-password', methods=['POST'])
-@login_required
-def perfil_cambiar_password():
-    """
-    Cambia la contraseña del usuario.
-
-    :return: Respuesta JSON.
-    """
-    form = CambiarClaveForm()
-
-    if form.validate_on_submit():
-        clave_actual = form.clave_actual.data
-        clave_nueva = form.clave_nueva.data
-
-        if not current_user.check_password(clave_actual):
-            flash('La contraseña actual es incorrecta', 'danger')
-
-        current_user.set_password(clave_nueva)
-        db.session.commit()
-
-        flash('La contraseña ha sido cambiada', 'success')
-    
-    return render_template('perfil.html', titulo='Perfil', form=form)
-    
-
