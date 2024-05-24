@@ -13,11 +13,11 @@ class CustomFlaskForm(FlaskForm):
         from markupsafe import Markup
         fields = fields or self._fields
         hidden_fields = [f for f in fields if self._fields[f].type == 'HiddenField' and f != 'csrf_token']
-        csrf_token = '<input id="csrf_token_{}" name="csrf_token" type="hidden" value="{}">'.format(self.__class__.__name__, self.csrf_token.current_token())
+        csrf_token = '<input id="csrf_token_{}" name="csrf_token" type="hidden" value="{}">'.format(self.__class__.__name__, self.csrf_token.current_token)
         return Markup(''.join(str(self._fields[f]) for f in hidden_fields) + csrf_token)
 
 
-class UsuarioForm(FlaskForm):
+class UsuarioForm(CustomFlaskForm):
     documento = StringField('Documento')
     nombres = StringField('Nombres', validators=[DataRequired(), Length(max=32)])
     apellidos = StringField('Apellidos', validators=[DataRequired(), Length(max=32)])
@@ -41,7 +41,7 @@ class UsuarioForm(FlaskForm):
                 raise ValidationError('El email ya está registrado. Por favor, usa uno diferente.')
 
 
-class CambiarClaveForm(FlaskForm):
+class CambiarClaveForm(CustomFlaskForm):
     """
     Formulario para cambiar la clave de un usuario.
     """
