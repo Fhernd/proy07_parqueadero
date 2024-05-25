@@ -70,6 +70,14 @@ class Pais(db.Model):
         return f"<Pais(nombre='{self.nombre}')>"
 
 
+usuario_rol = db.Table('usuario_rol',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
+    db.Column('rol_id', db.Integer, db.ForeignKey('rol.id'), primary_key=True),
+    db.Column('created_at', db.DateTime, default=db.func.current_timestamp()),
+    db.Column('updated_at', db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+)
+
+
 class Usuario(UserMixin, db.Model):
     """
     Representa un usuario.
@@ -87,7 +95,8 @@ class Usuario(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
-    rol = db.relationship("Rol", back_populates="usuarios")
+    roles = db.relationship('Rol', secondary=usuario_rol, lazy='subquery',
+                            backref=db.backref('usuarios', lazy=True))
 
     def __repr__(self):
         return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
