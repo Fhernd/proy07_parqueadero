@@ -438,13 +438,13 @@ def insert_initial_values():
                 nombres='Laura',
                 apellidos='Gómez',
                 telefono='3202020100',
-                email='laura@parqueaderolosautos.co',
+                email='laura@superparking.co',
                 created_at=datetime(2024, 4, 18),
                 updated_at=datetime(2024, 4, 18)
             ),
             Usuario(
                 id=3,
-                documento='2002',
+                documento='2003',
                 password='scrypt:32768:8:1$0Nnqo4ZsXiKdleDS$31ee5a713d06202c8164b3346e7289b9602fd18859b79b96335969be735fb28c25f8b7ff4e39e9f4dd8a21ee5233545ec3ca776d7f405615536358b0173e81c4', # john456
                 nombres='Bolívar',
                 apellidos='Rosero',
@@ -471,19 +471,23 @@ def insert_initial_values():
 
     rol_propietario = Rol.query.filter_by(nombre='Propietario').first()
     rol_administrador = Rol.query.filter_by(nombre='Administrador').first()
-    rol_operario = Rol.query.filter_by(nombre='operario').first()
+    rol_operario = Rol.query.filter_by(nombre='Operario').first()
 
     usuario_pepe_perez = Usuario.query.filter_by(documento='2001').first()
     usuario_pepe_perez.roles.append(rol_propietario)
+    db.session.add(usuario_pepe_perez)
 
     usuario_laura_gomez = Usuario.query.filter_by(documento='2002').first()
     usuario_laura_gomez.roles.append(rol_administrador)
+    db.session.add(usuario_laura_gomez)
 
     usuario_bolivar_rosero = Usuario.query.filter_by(documento='2003').first()
     usuario_bolivar_rosero.roles.append(rol_operario)
+    db.session.add(usuario_bolivar_rosero)
 
     usuario_patricia_garcia = Usuario.query.filter_by(documento='2004').first()
     usuario_patricia_garcia.roles.append(rol_propietario)
+    db.session.add(usuario_patricia_garcia)
 
     if not Parqueadero.query.first():
         parqueaderos = [
