@@ -71,8 +71,9 @@ class Pais(db.Model):
 
 
 usuario_rol = db.Table('usuario_rol',
-    db.Column('usuario_id', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
-    db.Column('rol_id', db.Integer, db.ForeignKey('rol.id'), primary_key=True),
+    db.Column('id', db.Integer, primary_key=True, autoincrement=True),
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuario.id')),
+    db.Column('rol_id', db.Integer, db.ForeignKey('rol.id')),
     db.Column('created_at', db.DateTime, default=db.func.current_timestamp()),
     db.Column('updated_at', db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 )
