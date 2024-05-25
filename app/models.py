@@ -469,7 +469,21 @@ def insert_initial_values():
         for usuario in usuarios:
             db.session.add(usuario)
 
-    
+    rol_propietario = Rol.query.filter_by(nombre='Propietario').first()
+    rol_administrador = Rol.query.filter_by(nombre='Administrador').first()
+    rol_operario = Rol.query.filter_by(nombre='operario').first()
+
+    usuario_pepe_perez = Usuario.query.filter_by(documento='2001').first()
+    usuario_pepe_perez.roles.append(rol_propietario)
+
+    usuario_laura_gomez = Usuario.query.filter_by(documento='2002').first()
+    usuario_laura_gomez.roles.append(rol_administrador)
+
+    usuario_bolivar_rosero = Usuario.query.filter_by(documento='2003').first()
+    usuario_bolivar_rosero.roles.append(rol_operario)
+
+    usuario_patricia_garcia = Usuario.query.filter_by(documento='2004').first()
+    usuario_patricia_garcia.roles.append(rol_propietario)
 
     if not Parqueadero.query.first():
         parqueaderos = [
