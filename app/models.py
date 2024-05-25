@@ -408,8 +408,9 @@ def insert_initial_values():
 
     if not Rol.query.first():
         roles = [
-            Rol(id=1, nombre='Administrador', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
-            Rol(id=2, nombre='Operario', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
+            Rol(id=1, nombre='Propietario', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Rol(id=2, nombre='Administrador', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Rol(id=3, nombre='Operario', created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
         ]
 
         for rol in roles:
@@ -426,7 +427,7 @@ def insert_initial_values():
                 nombres='Pepé',
                 apellidos='Pérez',
                 telefono='3011001101',
-                email='pepe.peres@superparking.co',
+                email='pepe.perez@superparking.co',
                 created_at=datetime(2024, 4, 15),
                 updated_at=datetime(2024, 4, 15)
             ),
@@ -440,11 +441,35 @@ def insert_initial_values():
                 email='laura@parqueaderolosautos.co',
                 created_at=datetime(2024, 4, 18),
                 updated_at=datetime(2024, 4, 18)
-            )
+            ),
+            Usuario(
+                id=3,
+                documento='2002',
+                password='scrypt:32768:8:1$0Nnqo4ZsXiKdleDS$31ee5a713d06202c8164b3346e7289b9602fd18859b79b96335969be735fb28c25f8b7ff4e39e9f4dd8a21ee5233545ec3ca776d7f405615536358b0173e81c4', # john456
+                nombres='Bolívar',
+                apellidos='Rosero',
+                telefono='3011001102',
+                email='bolivar.rosero@superparking.co',
+                created_at=datetime(2024, 4, 15),
+                updated_at=datetime(2024, 4, 15)
+            ),
+            Usuario(
+                id=4,
+                documento='2004',
+                password='scrypt:32768:8:1$0Nnqo4ZsXiKdleDS$31ee5a713d06202c8164b3346e7289b9602fd18859b79b96335969be735fb28c25f8b7ff4e39e9f4dd8a21ee5233545ec3ca776d7f405615536358b0173e81c4', # john456
+                nombres='Patricia',
+                apellidos='García',
+                telefono='3202020111',
+                email='patricia.garcia@parqueaderolosautos.co',
+                created_at=datetime(2024, 4, 18),
+                updated_at=datetime(2024, 4, 18)
+            ),
         ]
 
         for usuario in usuarios:
             db.session.add(usuario)
+
+    
 
     if not Parqueadero.query.first():
         parqueaderos = [
@@ -469,7 +494,7 @@ def insert_initial_values():
                 telefono='3021002789',
                 email='contacto@parqueaderolosautos.co',
                 ciudad='Neiva',
-                usuario_id=2,
+                usuario_id=4,
                 pais_id=1,
                 created_at=datetime(2024, 4, 18),
                 updated_at=datetime(2024, 4, 18)
