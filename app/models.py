@@ -552,7 +552,7 @@ def insert_initial_values():
         db.session.add_all(tipos_tarifa)
 
         db.session.commit()
-    
+
 
 with app.app_context():
     db.create_all()

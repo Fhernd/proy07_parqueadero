@@ -1,11 +1,30 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
+from flask_principal import Principal, Permission, RoleNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
 from werkzeug.security import generate_password_hash
 
 from app import app, db
 
 from app.forms import CambiarClaveForm, UsuarioForm
 from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
+
+
+admin_role = RoleNeed('admin')
+propietario_role = RoleNeed('propietario')
+operario_role = RoleNeed('operario')
+
+admin_permission = Permission(admin_role)
+propietario_permission = Permission(propietario_role)
+operario_permission = Permission(operario_role)
+
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    identity.user = current_user
+
+    if not isinstance(current_user, AnonymousIdentity):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.nombre))
 
 
 @app.route("/")
