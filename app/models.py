@@ -33,6 +33,7 @@ class Sede(db.Model):
 
     parqueadero = db.relationship("Parqueadero", back_populates="sedes")
     modulos = db.relationship("Modulo", back_populates="sede")
+    usuarios = db.relationship('SedeUsuario', back_populates='sede')
 
     def __repr__(self):
         return f'<Sede {self.nombre}>'
