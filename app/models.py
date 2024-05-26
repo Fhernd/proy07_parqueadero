@@ -106,6 +106,7 @@ class Usuario(UserMixin, db.Model):
 
     roles = db.relationship('Rol', secondary=usuario_rol, lazy='subquery',
                             backref=db.backref('usuarios', lazy=True))
+    sedes = db.relationship('SedeUsuario', back_populates='usuario')
 
     def __repr__(self):
         return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
