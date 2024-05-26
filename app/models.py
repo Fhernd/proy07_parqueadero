@@ -9,12 +9,21 @@ from app import login
 from app import app, db
 
 
-usuario_rol = db.Table('usuario_rol',
-    db.Column('usuario_id', db.Integer, db.ForeignKey('usuario.id'), primary_key=True),
-    db.Column('rol_id', db.Integer, db.ForeignKey('rol.id'), primary_key=True),
-    db.Column('created_at', db.DateTime, default=db.func.current_timestamp()),
-    db.Column('updated_at', db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-)
+class SedeUsuario(db.Model):
+    __tablename__ = 'sede_usuario'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sede_id = db.Column(db.Integer, db.ForeignKey('sede.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    habilitado = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    sede = db.relationship('Sede', back_populates='usuarios')
+    usuario = db.relationship('Usuario', back_populates='sedes')
+
+    def __repr__(self):
+        return f"<SedeUsuario(sede_id='{self.sede_id}', usuario_id='{self.usuario_id}')>"
 
 
 class Sede(db.Model):
