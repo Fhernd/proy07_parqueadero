@@ -79,8 +79,14 @@
                         {{ form.email(class="form-control", id="email", value=current_user.email, readonly=True) }}
                     </div>
                     <div class="form-group">
-                        {{ form.rol.label(class="form-label") }}
-                        {{ form.rol(class="form-control", id="rol", value=current_user.rol.nombre, readonly=True) }}
+                        <label for="">Roles</label>
+                        <ul class="list-group">
+                            {% for rol in current_user.roles %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ rol.nombre }}
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="form-group">
                         ¿Es propietario?
