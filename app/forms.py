@@ -49,3 +49,15 @@ class CambiarClaveForm(CustomFlaskForm):
     clave_nueva = PasswordField('Clave nueva', validators=[DataRequired()])
     confirmar_clave = PasswordField('Confirmar clave nueva', validators=[DataRequired(), EqualTo('clave_nueva', message='Las contraseñas no coinciden.')])
     submit = SubmitField('Cambiar clave')
+
+
+class ParqueaderoInformacionForm(CustomFlaskForm):
+    """
+    Formulario para actualizar la información de un parqueadero.
+    """
+    nombre = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
+    direccion = StringField('Dirección', validators=[DataRequired(), Length(max=128)])
+    telefono = StringField('Teléfono', validators=[DataRequired(), Length(max=16)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    ciudad = StringField('Ciudad', validators=[DataRequired(), Length(max=32)])
+    submit = SubmitField('Actualizar')
