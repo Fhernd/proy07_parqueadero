@@ -145,7 +145,7 @@ class Usuario(UserMixin, db.Model):
         :return: True si el usuario es propietario, False en caso contrario.
         """
         for role in self.roles:
-            if role.name == 'Propietario':
+            if role.nombre == 'Propietario':
                 return True
         return False
 
