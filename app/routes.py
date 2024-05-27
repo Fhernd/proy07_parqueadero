@@ -740,3 +740,15 @@ def perfil():
             return redirect(url_for('perfil'))
 
     return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
+
+
+@app.route('/parqueadero-informacion', methods=['GET'])
+@login_required
+def parqueadero_informacion():
+    """
+    Muestra la información del parqueadero.
+
+    :return: Plantilla HTML.
+    """
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+    return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero')
