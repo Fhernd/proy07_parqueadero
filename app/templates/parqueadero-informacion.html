@@ -4,6 +4,68 @@
 
 {% block content %}
 
-<h3>Información del parqueadero</h3>
+<h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert-container alert-dismissible fade show">
+            {% for category, message in messages %}
+            {% if category == 'perfil-success' %}
+            <div class="alert alert-success">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% if category == 'perfil-error' %}
+            <div class="alert alert-warning alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="card-body">
+        <form id="frmPerfilUsuario" method="POST" action="">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.nombre.label(class="form-label") }}
+                        {{ form.nombre(class="form-control", id="nombre") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.direccion.label(class="form-label") }}
+                        {{ form.direccion(class="form-control", id="direccion") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.telefono.label(class="form-label") }}
+                        {{ form.telefono(class="form-control", id="telefono") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", id="email") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.ciudad.label(class="form-label") }}
+                        {{ form.ciudad(class="form-control", id="ciudad") }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{ form.submit(class="btn btn-warning") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

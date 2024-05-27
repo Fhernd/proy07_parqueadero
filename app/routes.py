@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 
 from app import app, db
 
-from app.forms import CambiarClaveForm, UsuarioForm
+from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
 
 
@@ -751,4 +751,7 @@ def parqueadero_informacion():
     :return: Plantilla HTML.
     """
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
-    return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero')
+
+    form = ParqueaderoInformacionForm(obj=parqueadero)
+    
+    return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero', form=form)
