@@ -137,6 +137,17 @@ class Usuario(UserMixin, db.Model):
         :return: True si la contraseña es correcta, False en caso contrario.
         """
         return check_password_hash(self.password, password)
+    
+    def es_propietario(self):
+        """
+        Verifica si el usuario tiene el rol de propietario.
+
+        :return: True si el usuario es propietario, False en caso contrario.
+        """
+        for role in self.roles:
+            if role.name == 'Propietario':
+                return True
+        return False
 
 
 @login.user_loader

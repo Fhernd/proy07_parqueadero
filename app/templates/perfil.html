@@ -91,8 +91,8 @@
                     <div class="form-group">
                         ¿Es propietario?
                     </div>
-                    <label class="btn btn-{{'success' if current_user.es_propietario else 'warning'}} active">
-                        <span class="fas fa-{{'check' if current_user.es_propietario else 'ban'}}"></span>
+                    <label class="btn btn-{{'success' if current_user.es_propietario() else 'warning'}} active">
+                        <span class="fas fa-{{'check' if current_user.es_propietario() else 'ban'}}"></span>
                     </label>
                 </div>
                 <div class="modal-footer">
