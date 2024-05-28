@@ -742,7 +742,7 @@ def perfil():
     return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
 
 
-@app.route('/parqueadero-informacion', methods=['GET'])
+@app.route('/parqueadero-informacion', methods=['GET', 'POST'])
 @login_required
 def parqueadero_informacion():
     """
@@ -753,5 +753,11 @@ def parqueadero_informacion():
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
 
     form = ParqueaderoInformacionForm(obj=parqueadero)
+
+    if form.validate_on_submit():
+        form.populate_obj(parqueadero)
+        db.session.commit()
+        flash('Información del parqueadero actualizada correctamente.', 'parqueadero-informacion-success')
+        return redirect(url_for('parqueadero_informacion'))
     
     return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero', form=form)
