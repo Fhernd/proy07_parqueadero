@@ -59,6 +59,6 @@ class ParqueaderoInformacionForm(CustomFlaskForm):
     nombre = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
     direccion = StringField('Dirección', validators=[DataRequired(), Length(max=128)])
     telefono = StringField('Teléfono', validators=[DataRequired(), Length(max=16)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email(message='Dirección de correo inválida.')])
     ciudad = StringField('Ciudad', validators=[DataRequired(), Length(max=32)])
     submit = SubmitField('Actualizar')
