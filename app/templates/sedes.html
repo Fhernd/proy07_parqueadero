@@ -151,7 +151,7 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            dataTable.row.add([response.data.id, response.data.nombre, response.data.unidad]).draw();
+                            dataTable.row.add([response.data.id, response.data.nombre, response.data.direccion, response.data.telefono, response.data.email]).draw();
                         });
                     } else {
                         Swal.fire({
