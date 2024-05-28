@@ -105,6 +105,81 @@
                 "zeroRecords": "Sin resultados encontrados",
             }
         });
+    
+        $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
+
+        $('#frmCrearEditar').submit(function (e) {
+            e.preventDefault();
+
+            $.LoadingOverlay('show');
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            let url = '/sede';
+            let method = 'POST';
+            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+                url += '/' + $('#id').val();
+                method = 'PUT';
+            }
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    
+                    if (response.status == 'success') {
+                        const operacion = method == 'POST' ? 'guardado' : 'editado';
+
+                        Swal.fire({
+                            title: `Registro ${operacion}`,
+                            text: `El registro fue ${operacion} de forma satisfactoria.`,
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlCrearEditar').modal('hide');
+                            $('#nombre').val('');
+                            if (method == 'PUT') {
+                                dataTable.row($('#tblDatos tbody tr').find('td').filter(function () {
+                                    return $(this).text() == $('#id').val();
+                                }).closest('tr')).remove().draw();
+                            }
+
+                            dataTable.row.add([response.data.id, response.data.nombre, response.data.unidad]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el registro.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error en el servidor. Intente nuevamente.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    
+        $('#mdlCrearEditar').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            $('#mdlCrearEditarLabel').text('Medio de Pago - Crear');
+            $('#mdlCrearEditar button[type="submit"]').text('Crear');
+            $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+        });
     });
 </script>
 
