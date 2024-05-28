@@ -55,6 +55,7 @@ class ParqueaderoInformacionForm(CustomFlaskForm):
     """
     Formulario para actualizar la información de un parqueadero.
     """
+    id = IntegerField('ID')
     nombre = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
     direccion = StringField('Dirección', validators=[DataRequired(), Length(max=128)])
     telefono = StringField('Teléfono', validators=[DataRequired(), Length(max=16)])
