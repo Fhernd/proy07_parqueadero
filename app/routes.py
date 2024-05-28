@@ -802,6 +802,7 @@ def sede_crear():
             'nombre': entidad.nombre,
             'direccion': entidad.direccion,
             'telefono': entidad.telefono,
+            'email': entidad.email,
             'parqueadero_id': entidad.parqueadero_id
         }}), 201
 
