@@ -108,6 +108,22 @@
     
         $('#dt-length-0').addClass('custom-select custom-select-sm form-control form-control-sm');
 
+        $('#tblDatos tbody').on('click', 'button.edit', function () {
+            var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            $('#mdlCrearEditarLabel').text('Sede - Editar');
+            $('#id').val(data[0]);
+            $('#nombre').val(data[1]);
+            $('#direccion').val(data[2]);
+            $('#telefono').val(data[3]);
+            $('#email').val(data[4]);
+
+            $('#mdlCrearEditar button[type="submit"]').text('Editar');
+            $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
+
+            $('#mdlCrearEditar').modal('show');
+        });
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
