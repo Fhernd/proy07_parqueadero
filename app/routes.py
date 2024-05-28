@@ -773,3 +773,38 @@ def sedes():
     sedes = Sede.query.filter_by(parqueadero_id=parqueadero.id).all()
 
     return render_template('sedes.html', titulo='Sedes', entidades=sedes)
+
+
+@app.route('/sede', methods=['POST'])
+@login_required
+def sede_crear():
+    """
+    Crea una nueva sede.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+        entidad = Sede(
+            nombre=data.get('nombre'),
+            direccion=data.get('direccion'),
+            telefono=data.get('telefono'),
+            email=data.get('email'),
+            parqueadero_id=parqueadero.id
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Sede creada', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'direccion': entidad.direccion,
+            'telefono': entidad.telefono,
+            'parqueadero_id': entidad.parqueadero_id
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
