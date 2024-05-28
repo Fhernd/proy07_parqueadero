@@ -809,3 +809,41 @@ def sede_crear():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/<int:id>', methods=['PUT'])
+@login_required
+def sede_actualizar(id):
+    """
+    Actualiza una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Sede.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Sede encontrada'}), 404
+
+        entidad.nombre = data.get('nombre')
+        entidad.direccion = data.get('direccion')
+        entidad.telefono = data.get('telefono')
+        entidad.email = data.get('email')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Sede actualizada', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'direccion': entidad.direccion,
+            'telefono': entidad.telefono,
+            'email': entidad.email,
+            'parqueadero_id': entidad.parqueadero_id
+        }}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
