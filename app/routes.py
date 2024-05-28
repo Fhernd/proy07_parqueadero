@@ -772,4 +772,4 @@ def sedes():
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
     sedes = Sede.query.filter_by(parqueadero_id=parqueadero.id).all()
 
-    return render_template('sedes.html', titulo='Sedes', sedes=sedes)
+    return render_template('sedes.html', titulo='Sedes', entidades=sedes)

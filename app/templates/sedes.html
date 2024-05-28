@@ -4,6 +4,43 @@
 
 {% block content %}
 
-<h1>Sedes</h1>
+<h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
+    </div>
+    <div class="card-body">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar">Crear</button>
+        <div class="table-responsive">
+            <table id="tblDatos" class="table table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in entidades %}
+                    <tr>
+                        <td>{{ e.id }}</td>
+                        <td>{{ e.nombre }}</td>
+                        <td>{{ e.direccion }}</td>
+                        <td>{{ e.telefono }}</td>
+                        <td>{{ e.email }}</td>
+                        <td>
+                            ABC
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
