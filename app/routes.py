@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, TarifaTipo, Usuario, VehiculoTipo
+from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo
 
 
 admin_role = RoleNeed('admin')
@@ -769,4 +769,7 @@ def sedes():
     """
     Función de vista para mostrar la página de sedes.
     """
-    return render_template('sedes.html')
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+    sedes = Sede.query.filter_by(parqueadero_id=parqueadero.id).all()
+
+    return render_template('sedes.html', titulo='Sedes', sedes=sedes)
