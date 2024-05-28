@@ -761,3 +761,12 @@ def parqueadero_informacion():
         return redirect(url_for('parqueadero_informacion'))
     
     return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero', form=form)
+
+
+@app.route('/sedes', methods=['GET'])
+@login_required
+def sedes():
+    """
+    Función de vista para mostrar la página de sedes.
+    """
+    return render_template('sedes.html')
