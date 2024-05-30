@@ -847,3 +847,28 @@ def sede_actualizar(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/<int:id>', methods=['DELETE'])
+@login_required
+def sede_eliminar(id):
+    """
+    Elimina una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = Sede.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Sede no encontrada'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Sede eliminada'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
