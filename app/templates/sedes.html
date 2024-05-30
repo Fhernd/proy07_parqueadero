@@ -78,6 +78,25 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdlModulos" tabindex="-1" aria-labelledby="mdlModulosLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlModulosLabel">Módulos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         const dataTable = $('#tblDatos').DataTable({
@@ -249,6 +268,36 @@
             $('#mdlCrearEditarLabel').text('Medio de Pago - Crear');
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+        });
+    
+        $('#tblDatos tbody').on('click', 'button.modulo', function () {
+            // var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+            $('#mdlModulos').modal('show');
+
+            // $.ajax({
+            //     url: '/sede/' + data[0] + '/modulos',
+            //     type: 'GET',
+            //     dataType: 'json',
+            //     success: (response) => {
+            //         if (response.status == 'success') {
+            //             $('#mdlModulos .modal-body').html(response.data);
+            //             $('#mdlModulos').modal('show');
+            //         } else {
+            //             Swal.fire({
+            //                 title: "Error",
+            //                 text: "Ocurrió un error al intentar obtener los módulos de la sede.",
+            //                 icon: "error"
+            //             });
+            //         }
+            //     },
+            //     error: (error) => {
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Ocurrió un error al intentar obtener los módulos de la sede.",
+            //             icon: "error"
+            //         });
+            //     }
+            // });
         });
     });
 </script>
