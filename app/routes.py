@@ -886,4 +886,6 @@ def sede_modulos(id):
     sede = Sede.query.get(id)
     modulos = sede.modulos
 
-    return render_template('sede-modulos.html', titulo='Módulos', sede=sede, modulos=modulos)
+    modulos = jsonify([modulo.to_dict() for modulo in modulos])
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': modulos}), 200
