@@ -295,18 +295,33 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
-                    console.log(response);
+                    console.log(response['data']);
                     if (response.status == 'success') {
                         $('#tblDatosModulos').DataTable({
-                            data: data,
+                            data: [{
+                                id: 1,
+                                nombre: 'Módulo 1',
+                                descripcion: 'Módulo 1',
+                                habilitado: true
+                            }, {
+                                id: 2,
+                                nombre: 'Módulo 2',
+                                descripcion: 'Módulo 2',
+                                habilitado: false
+                            }, {
+                                id: 3,
+                                nombre: 'Módulo 3',
+                                descripcion: 'Módulo 3',
+                                habilitado: true
+                            }],
                             columns: [
                                 { data: 'id' },
                                 { data: 'nombre' },
                                 { data: 'descripcion' },
                                 {
                                     data: 'habilitado',
-                                    render: function (data, type, row) {
-                                        return data ? 'Sí' : 'No';
+                                    render: function (valor, type, row) {
+                                        return valor ? 'Sí' : 'No';
                                     }
                                 }
                             ]
