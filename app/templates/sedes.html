@@ -102,7 +102,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -297,7 +297,21 @@
                 success: (response) => {
                     console.log(response);
                     if (response.status == 'success') {
-                        
+                        $('#tblDatosModulos').DataTable({
+                            data: data,
+                            columns: [
+                                { data: 'id' },
+                                { data: 'nombre' },
+                                { data: 'descripcion' },
+                                {
+                                    data: 'habilitado',
+                                    render: function (data, type, row) {
+                                        return data ? 'Sí' : 'No';
+                                    }
+                                }
+                            ]
+                        });
+
                         $('#mdlModulos').modal('show');
                     } else {
                         Swal.fire({
