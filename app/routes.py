@@ -886,6 +886,9 @@ def sede_modulos(id):
     sede = Sede.query.get(id)
     modulos = sede.modulos
 
-    modulos = jsonify([modulo.to_dict() for modulo in modulos])
-
-    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': modulos}), 200
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': modulo.id,
+        'nombre': modulo.nombre,
+        'habilitado': modulo.habilitado,
+        'descripcion': modulo.descripcion,
+    } for modulo in modulos]}), 200

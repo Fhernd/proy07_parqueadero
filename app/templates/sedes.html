@@ -295,6 +295,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
+                    console.log(response);
                     if (response.status == 'success') {
                         
                         $('#mdlModulos').modal('show');
