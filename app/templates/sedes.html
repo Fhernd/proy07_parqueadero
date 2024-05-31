@@ -289,32 +289,31 @@
         $('#tblDatos tbody').on('click', 'button.modulo', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
             const sedeId = data[0];
-            $('#mdlModulos').modal('show');
 
-            // $.ajax({
-            //     url: '/sede/' + data[0] + '/modulos',
-            //     type: 'GET',
-            //     dataType: 'json',
-            //     success: (response) => {
-            //         if (response.status == 'success') {
-            //             $('#mdlModulos .modal-body').html(response.data);
-            //             $('#mdlModulos').modal('show');
-            //         } else {
-            //             Swal.fire({
-            //                 title: "Error",
-            //                 text: "Ocurrió un error al intentar obtener los módulos de la sede.",
-            //                 icon: "error"
-            //             });
-            //         }
-            //     },
-            //     error: (error) => {
-            //         Swal.fire({
-            //             title: "Error",
-            //             text: "Ocurrió un error al intentar obtener los módulos de la sede.",
-            //             icon: "error"
-            //         });
-            //     }
-            // });
+            $.ajax({
+                url: `/sede/${sedeId}/modulos`,
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    if (response.status == 'success') {
+                        
+                        $('#mdlModulos').modal('show');
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar obtener los módulos de la sede.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar obtener los módulos de la sede.",
+                        icon: "error"
+                    });
+                }
+            });
         });
     });
 </script>
