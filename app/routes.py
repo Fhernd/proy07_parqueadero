@@ -872,3 +872,18 @@ def sede_eliminar(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/<int:id>/modulos', methods=['GET'])
+@login_required
+def sede_modulos(id):
+    """
+    Muestra los módulos de una sede.
+
+    :param id: Identificador de la sede.
+    :return: Plantilla HTML.
+    """
+    sede = Sede.query.get(id)
+    modulos = sede.modulos
+
+    return render_template('sede-modulos.html', titulo='Módulos', sede=sede, modulos=modulos)
