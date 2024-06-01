@@ -81,8 +81,8 @@
     </div>
 </div>
 
-<div class="modal fade modal-xl" id="mdlModulos" tabindex="-1" aria-labelledby="mdlModulosLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="mdlModulos" tabindex="-1" aria-labelledby="mdlModulosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="mdlModulosLabel">Módulos</h5>
@@ -102,7 +102,7 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <!-- Aquí se llenarán los datos dinámicamente -->
                     </tbody>
                 </table>
             </div>
@@ -289,6 +289,8 @@
         $('#tblDatos tbody').on('click', 'button.modulo', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
             const sedeId = data[0];
+
+            $('#mdlModulos').modal('show');
 
             $.ajax({
                 url: `/sede/${sedeId}/modulos`,
