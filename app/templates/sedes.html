@@ -290,14 +290,16 @@
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
             const sedeId = data[0];
 
-            $('#mdlModulos').modal('show');
-
             $.ajax({
                 url: `/sede/${sedeId}/modulos`,
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
                     if (response.status == 'success') {
+                        if ($.fn.dataTable.isDataTable('#tblDatosModulos')) {
+                            $('#tblDatosModulos').DataTable().clear().destroy();
+                        }
+
                         $('#tblDatosModulos').DataTable({
                             data: response['data'],
                             columns: [
