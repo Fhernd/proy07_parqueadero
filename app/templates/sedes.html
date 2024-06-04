@@ -11,7 +11,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar" style="margin-bottom: 7px;">Crear</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar"
+            style="margin-bottom: 7px;">Crear</button>
         <div class="table-responsive">
             <table id="tblDatos" class="table table-bordered" style="width:100%">
                 <thead>
@@ -91,7 +92,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#mdlModuloCrearEditar" style="margin-bottom: 7px;">Crear</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#mdlModuloCrearEditar"
+                    style="margin-bottom: 7px;">Crear</button>
                 <table id="tblDatosModulos" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
@@ -109,6 +111,44 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlModuloCrearEditar" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Crear nuevo módulo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="formNuevoModulo">
+                    <div class="form-group">
+                        <label for="nombreModulo">Nombre</label>
+                        <input type="text" class="form-control" id="nombreModulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="habilitadoModulo">Habilitado</label>
+                        <select class="form-control" id="habilitadoModulo" required>
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcionModulo">Descripción</label>
+                        <textarea class="form-control" id="descripcionModulo" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="enviarFormulario()">Guardar</button>
             </div>
         </div>
     </div>
