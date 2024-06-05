@@ -907,8 +907,8 @@ def sede_modulo_crear(id):
         data = request.get_json()
         entidad = Modulo(
             nombre=data.get('nombre'),
-            descripcion=data.get('descripcion'),
             habilitado=data.get('habilitado'),
+            descripcion=data.get('descripcion'),
             sede_id=id
         )
 
@@ -924,5 +924,6 @@ def sede_modulo_crear(id):
         }}), 201
 
     except Exception as e:
+        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
