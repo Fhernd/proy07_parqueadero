@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo
 
 
 admin_role = RoleNeed('admin')
@@ -892,3 +892,38 @@ def sede_modulos(id):
         'habilitado': modulo.habilitado,
         'descripcion': modulo.descripcion,
     } for modulo in modulos]}), 200
+
+
+@app.route('/sede/<int:id>/modulo', methods=['POST'])
+@login_required
+def sede_modulo_crear(id):
+    """
+    Crea un nuevo módulo en una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        sede = Sede.query.get(id)
+        entidad = Modulo(
+            nombre=data.get('nombre'),
+            descripcion=data.get('descripcion'),
+            habilitado=data.get('habilitado'),
+            sede_id=sede.id
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Módulo creado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'descripcion': entidad.descripcion,
+            'habilitado': entidad.habilitado,
+            'sede_id': entidad.sede_id
+        }}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
