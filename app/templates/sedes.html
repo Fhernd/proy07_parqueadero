@@ -412,6 +412,8 @@
                 data[key] = value;
             });
 
+            data['moduloHabilitado'] = data['moduloHabilitado'] == 'Sí' ? true : false;
+
             const sedeId = $('#btnModuloCrear').attr('data-sede-id');
 
             $.ajax({
