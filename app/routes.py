@@ -906,9 +906,9 @@ def sede_modulo_crear(id):
     try:
         data = request.get_json()
         entidad = Modulo(
-            nombre=data.get('nombre'),
-            habilitado=data.get('habilitado'),
-            descripcion=data.get('descripcion'),
+            nombre=data.get('moduloNombre'),
+            habilitado=data.get('moduloHabilitado'),
+            descripcion=data.get('moduloDescripcion'),
             sede_id=id
         )
 
