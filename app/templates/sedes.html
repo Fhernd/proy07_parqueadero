@@ -92,7 +92,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#mdlModuloCrearEditar"
+                <button class="btn btn-primary" id="btnModuloCrear" data-toggle="modal" data-target="#mdlModuloCrearEditar"
                     style="margin-bottom: 7px;">Crear</button>
                 <table id="tblDatosModulos" class="table table-bordered" style="width:100%">
                     <thead>
@@ -128,7 +128,7 @@
             </div>
             <div class="modal-body">
                 <!-- Formulario -->
-                <form id="formNuevoModulo">
+                <form id="frmModuloCrearEditar">
                     <div class="form-group">
                         <label for="nombreModulo">Nombre</label>
                         <input type="text" class="form-control" id="nombreModulo" required>
@@ -378,6 +378,9 @@
                         });
 
                         $('[id^="dt-length-"]').addClass('custom-select custom-select-sm form-control form-control-sm');
+                        $('')
+
+                        $('#btnModuloCrear').attr('data-sede-id', sedeId);
 
                         $('#mdlModulos').modal('show');
                     } else {
@@ -392,6 +395,61 @@
                     Swal.fire({
                         title: "Error",
                         text: "Ocurrió un error al intentar obtener los módulos de la sede.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    
+        $('#frmModuloCrearEditar').submit(function (e) {
+            e.preventDefault();
+
+            $.LoadingOverlay('show');
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            const sedeId = $('#btnModuloCrear').attr('data-sede-id');
+
+            $.ajax({
+                url: `/sede/${sedeId}/modulo`,
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'success') {
+                        Swal.fire({
+                            title: "Módulo creado",
+                            text: "El módulo fue creado de forma satisfactoria.",
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlModuloCrearEditar').modal('hide');
+                            $('#nombreModulo').val('');
+                            $('#habilitadoModulo').val('Sí');
+                            $('#descripcionModulo').val('');
+
+                            $('#tblDatosModulos').DataTable().row.add([response.data.id, response.data.nombre, response.data.habilitado, response.data.descripcion]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el módulo.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error en el servidor. Intente nuevamente.",
                         icon: "error"
                     });
                 }
