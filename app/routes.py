@@ -905,12 +905,11 @@ def sede_modulo_crear(id):
     """
     try:
         data = request.get_json()
-        sede = Sede.query.get(id)
         entidad = Modulo(
             nombre=data.get('nombre'),
             descripcion=data.get('descripcion'),
             habilitado=data.get('habilitado'),
-            sede_id=sede.id
+            sede_id=id
         )
 
         db.session.add(entidad)
