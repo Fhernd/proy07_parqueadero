@@ -327,6 +327,8 @@
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
 
+        let modulos;
+
         $('#tblDatos tbody').on('click', 'button.modulo', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
             const sedeId = data[0];
@@ -341,7 +343,7 @@
                             $('#tblDatosModulos').DataTable().clear().destroy();
                         }
 
-                        $('#tblDatosModulos').DataTable({
+                        modulos = $('#tblDatosModulos').DataTable({
                             data: response['data'],
                             columns: [
                                 { data: 'id' },
@@ -434,9 +436,14 @@
                             $('#mdlModuloCrearEditar').modal('hide');
                             $('#nombreModulo').val('');
                             $('#habilitadoModulo').val('Sí');
-                            $('#descripcionModulo').val('');
+                            $('#descripcionModulo').val('');                            
 
-                            $('#tblDatosModulos').DataTable().row.add([response.data.id, response.data.nombre, response.data.habilitado, response.data.descripcion]).draw();
+                            modulos.row.add([{
+                                id: response.data.id,
+                                nombre: response.data.nombre,
+                                habilitado: response.data.habilitado,
+                                descripcion: response.data.descripcion
+                            }]).draw();
                         });
                     } else {
                         Swal.fire({
