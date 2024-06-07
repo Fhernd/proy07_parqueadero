@@ -438,12 +438,14 @@
                             $('#habilitadoModulo').val('Sí');
                             $('#descripcionModulo').val('');                            
 
-                            modulos.row.add([{
+                            modulos.row.add({
                                 id: response.data.id,
                                 nombre: response.data.nombre,
                                 habilitado: response.data.habilitado,
                                 descripcion: response.data.descripcion
-                            }]).draw();
+                            }).draw();
+
+                            $('#frmModuloCrearEditar').trigger('reset');
                         });
                     } else {
                         Swal.fire({
