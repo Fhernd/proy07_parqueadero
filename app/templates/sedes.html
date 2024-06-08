@@ -116,13 +116,13 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlModuloCrearEditar" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+<div class="modal fade" id="mdlModuloCrearEditar" tabindex="-1" role="dialog" aria-labelledby="mdlModuloCrearEditarLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="frmModuloCrearEditar">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Crear nuevo módulo</h5>
+                    <h5 class="modal-title" id="mdlModuloCrearEditarLabel">Crear nuevo módulo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -267,7 +267,7 @@
 
             let url = '/sede';
             let method = 'POST';
-            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+            if ($('#mdlModuloCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#id').val();
                 method = 'PUT';
             }
@@ -420,7 +420,7 @@
 
             let url = `/sede/${sedeId}/modulo`;
             let method = 'POST';
-            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+            if ($('#mdlCrearEditarLabel').text().includes('Módulo - Editar')) {
                 url += '/' + $('#moduloId').val();
                 method = 'PUT';
             }
@@ -477,7 +477,7 @@
         $('#tblDatosModulos tbody').on('click', 'button.edit', function () {
             var data = $('#tblDatosModulos').DataTable().row($(this).parents('tr')).data();
 
-            $('#modalLabel').text('Módulo - Editar');
+            $('#mdlModuloCrearEditarLabel').text('Módulo - Editar');
             $('#moduloId').val(data.id);
             $('#moduloNombre').val(data.nombre);
             $('#moduloHabilitado').val(data.habilitado ? 'Sí' : 'No');

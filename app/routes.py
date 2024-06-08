@@ -927,3 +927,41 @@ def sede_modulo_crear(id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['PUT'])
+@login_required
+def sede_modulo_actualizar(id, modulo_id):
+    """
+    Actualiza un módulo en una sede.
+
+    :param id: Identificador de la sede.
+    :param modulo_id: Identificador del módulo.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Modulo.query.get(modulo_id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Módulo no encontrado'}), 404
+
+        entidad.nombre = data.get('moduloNombre')
+        entidad.habilitado = data.get('moduloHabilitado')
+        entidad.descripcion = data.get('moduloDescripcion')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Módulo actualizado', 'data': {
+            'id': entidad.id,
+            'nombre': entidad.nombre,
+            'descripcion': entidad.descripcion,
+            'habilitado': entidad.habilitado,
+            'sede_id': entidad.sede_id
+        }}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
