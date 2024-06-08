@@ -267,7 +267,7 @@
 
             let url = '/sede';
             let method = 'POST';
-            if ($('#mdlModuloCrearEditarLabel').text().includes('Editar')) {
+            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#id').val();
                 method = 'PUT';
             }
@@ -420,7 +420,7 @@
 
             let url = `/sede/${sedeId}/modulo`;
             let method = 'POST';
-            if ($('#mdlCrearEditarLabel').text().includes('Módulo - Editar')) {
+            if ($('#mdlModuloCrearEditarLabel').text().includes('Módulo - Editar')) {
                 url += '/' + $('#moduloId').val();
                 method = 'PUT';
             }
@@ -434,10 +434,12 @@
                 success: (response) => {
                     $.LoadingOverlay('hide');
 
+                    const text = method == 'POST' ? 'creado' : 'editado';
+
                     if (response.status == 'success') {
                         Swal.fire({
-                            title: "Módulo creado",
-                            text: "El módulo fue creado de forma satisfactoria.",
+                            title: `Módulo ${text}`,
+                            text: `El módulo fue ${text} de forma satisfactoria.`,
                             icon: "success"
                         }).then((result) => {
                             $('#mdlModuloCrearEditar').modal('hide');
