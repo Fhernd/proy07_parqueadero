@@ -128,7 +128,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario -->
+                    <input type="hidden" id="moduloId" name="moduloId">
                     <div class="form-group">
                         <label for="moduloNombre">Nombre</label>
                         <input type="text" class="form-control" id="moduloNombre" name="moduloNombre" required>
@@ -418,9 +418,16 @@
 
             const sedeId = $('#btnModuloCrear').attr('data-sede-id');
 
+            let url = `/sede/${sedeId}/modulo`;
+            let method = 'POST';
+            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+                url += '/' + $('#moduloId').val();
+                method = 'PUT';
+            }
+
             $.ajax({
-                url: `/sede/${sedeId}/modulo`,
-                type: 'POST',
+                url: url,
+                type: method,
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 dataType: 'json',
@@ -465,6 +472,21 @@
                     });
                 }
             });
+        });
+        
+        $('#tblDatosModulos tbody').on('click', 'button.edit', function () {
+            var data = $('#tblDatosModulos').DataTable().row($(this).parents('tr')).data();
+
+            $('#modalLabel').text('Módulo - Editar');
+            $('#moduloId').val(data.id);
+            $('#moduloNombre').val(data.nombre);
+            $('#moduloHabilitado').val(data.habilitado ? 'Sí' : 'No');
+            $('#moduloDescripcion').val(data.descripcion);
+
+            $('#mdlModuloCrearEditar button[type="submit"]').text('Editar');
+            $('#mdlModuloCrearEditar button[type="submit"]').removeClass('btn-primary').addClass('btn-warning');
+
+            $('#mdlModuloCrearEditar').modal('show');
         });
     });
 </script>
