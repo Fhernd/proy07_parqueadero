@@ -965,3 +965,30 @@ def sede_modulo_actualizar(id, modulo_id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['DELETE'])
+@login_required
+def sede_modulo_eliminar(id, modulo_id):
+    """
+    Elimina un módulo en una sede.
+
+    :param id: Identificador de la sede.
+    :param modulo_id: Identificador del módulo.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = Modulo.query.get(modulo_id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Módulo no encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Módulo eliminado'}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
