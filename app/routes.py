@@ -432,7 +432,8 @@ def usuario():
     """
     entidades = Usuario.query.all()
     roles = Rol.query.all()
-    return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles)
+    sedes = Sede.query.all()
+    return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles, sedes=sedes)
 
 
 @app.route('/usuario', methods=['POST'])
