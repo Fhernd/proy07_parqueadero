@@ -22,7 +22,7 @@
                         <th>Nombre completo</th>
                         <th>Teléfono</th>
                         <th>Email</th>
-                        <th>Rol</th>
+                        <th>Roles</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -33,7 +33,11 @@
                         <td>{{ e.nombres + ' ' + e.apellidos }}</td>
                         <td>{{ e.telefono }}</td>
                         <td>{{ e.email }}</td>
-                        <td>{{ e.rol.nombre }}</td>
+                        <td>
+                            {% for rol in e.roles %}
+                                {{ rol.nombre }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
