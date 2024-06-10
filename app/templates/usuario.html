@@ -35,7 +35,7 @@
                         <td>{{ e.email }}</td>
                         <td>
                             {% for rol in e.roles %}
-                                {{ rol.nombre }}{% if not loop.last %}, {% endif %}
+                            {{ rol.nombre }}{% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </td>
                     </tr>
@@ -450,9 +450,25 @@
 
             const documento = data[0];
 
-            window.location.href = '/usuario/asignar-sede/' + documento;
+            Swal.fire({
+                title: 'Select an option',
+                html: `
+                    <select id="swal-select" class="swal2-input form-control">
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                `,
+                focusConfirm: false,
+                preConfirm: () => {
+                    return document.getElementById('swal-select').value;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(`You selected: ${result.value}`);
+                }
+            });
         });
     });
-
 </script>
 {% endblock %}
