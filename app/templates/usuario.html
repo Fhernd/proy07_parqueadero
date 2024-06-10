@@ -444,6 +444,14 @@
                 $('#passwordGenerado').attr('type', 'password');
             }
         });
+
+        $('button.asignar-sede').click(function () {
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            const documento = data[0];
+
+            window.location.href = '/usuario/asignar-sede/' + documento;
+        });
     });
 
 </script>
