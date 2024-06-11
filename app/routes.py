@@ -461,11 +461,14 @@ def usuario_crear():
             apellidos=data.get('apellidos'),
             telefono=data.get('telefono'),
             email=data.get('email'),
-            rol_id=data.get('rolId'),
-            password=hashed_password
+            password=hashed_password,
+            parqueadero_id=current_user.parqueadero_id
         )
-
         db.session.add(entidad)
+
+        usuario_rol = UsuarioRol(usuario_id=entidad.id, rol_id=data.get('rolId'))
+
+        db.session.add(usuario_rol)
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Usuario creado', 'data': {
@@ -474,11 +477,11 @@ def usuario_crear():
             'nombres': entidad.nombres,
             'apellidos': entidad.apellidos,
             'telefono': entidad.telefono,
-            'email': entidad.email,
-            'rol_id': entidad.rol_id
+            'email': entidad.email
         }}), 201
 
     except Exception as e:
+        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
