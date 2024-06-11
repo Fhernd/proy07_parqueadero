@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -466,9 +466,9 @@ def usuario_crear():
         )
         db.session.add(entidad)
 
-        usuario_rol = UsuarioRol(usuario_id=entidad.id, rol_id=data.get('rolId'))
+        rol = usuario_rol.insert().values(usuario_id=entidad.id, rol_id=data.get('rolId'))
+        db.session.execute(rol)
 
-        db.session.add(usuario_rol)
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Usuario creado', 'data': {

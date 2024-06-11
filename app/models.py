@@ -371,17 +371,6 @@ class MedioPago(db.Model):
     def __repr__(self):
         return f"<MedioPago(nombre='{self.nombre}')>"
 
-
-class UsuarioRol(db.Model):
-    __tablename__ = 'usuario_rol'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
-    rol_id = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False)
-    
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
-
-
 def insert_initial_values():
     if not VehiculoTipo.query.first():
         data = [
