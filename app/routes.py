@@ -431,6 +431,12 @@ def usuario():
     Muestra la lista de usuarios.
     """
     entidades = Usuario.query.all()
+
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+
+    if parqueadero is not None:
+        entidades = Usuario.query.filter_by(parqueadero_id=parqueadero.id).all()
+
     roles = Rol.query.all()
     sedes = Sede.query.all()
     return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles, sedes=sedes)

@@ -461,6 +461,7 @@ def insert_initial_values():
                 apellidos='Pérez',
                 telefono='3011001101',
                 email='pepe.perez@superparking.co',
+                parqueadero_id=1,
                 created_at=datetime(2024, 4, 15),
                 updated_at=datetime(2024, 4, 15)
             ),
@@ -472,6 +473,7 @@ def insert_initial_values():
                 apellidos='Gómez',
                 telefono='3202020100',
                 email='laura@superparking.co',
+                parqueadero_id=1,
                 created_at=datetime(2024, 4, 18),
                 updated_at=datetime(2024, 4, 18)
             ),
@@ -483,6 +485,7 @@ def insert_initial_values():
                 apellidos='Rosero',
                 telefono='3011001102',
                 email='bolivar.rosero@superparking.co',
+                parqueadero_id=1,
                 created_at=datetime(2024, 4, 15),
                 updated_at=datetime(2024, 4, 15)
             ),
@@ -494,6 +497,7 @@ def insert_initial_values():
                 apellidos='García',
                 telefono='3202020111',
                 email='patricia.garcia@parqueaderolosautos.co',
+                parqueadero_id=2,
                 created_at=datetime(2024, 4, 18),
                 updated_at=datetime(2024, 4, 18)
             ),
