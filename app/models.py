@@ -110,6 +110,8 @@ class Usuario(UserMixin, db.Model):
     apellidos = db.Column(db.String(32), nullable=False)
     telefono = db.Column(db.String(16), nullable=False)
     email = db.Column(db.String(64), nullable=False)
+
+    parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=True)
     
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
