@@ -1002,3 +1002,33 @@ def sede_modulo_eliminar(id, modulo_id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/asignar-usuario', methods=['POST'])
+@login_required
+def sede_asignar_usuario(id):
+    """
+    Asigna un usuario a una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        documento = data.get('documento')
+        sede_id = data.get('sedeId')
+        usuario = Usuario.query.filter_by(documento=documento).first()
+
+        if usuario is None:
+            return jsonify({'status': 'failure', 'message': 'Usuario no encontrado'}), 404
+        
+        sede_usuario = sede_usuario.insert().values(sede_id=sede_id, usuario_id=usuario.id)
+        db.session.execute(sede_usuario)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Usuario asignado a la sede'}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
