@@ -448,8 +448,6 @@
         $('button.asignar-sede').click(function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            const documento = data[0];
-
             Swal.fire({
                 title: 'Seleccione una sede',
                 html: `
@@ -462,10 +460,52 @@
                 focusConfirm: false,
                 preConfirm: () => {
                     return document.getElementById('swal-select').value;
-                }
+                },
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(`You selected: ${result.value}`);
+                    const documento = data[0];
+                    const sedeId = result.value;
+
+                    $.LoadingOverlay('show');
+
+                    $.ajax({
+                        url: '/usuario/asignar-sede',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            documento: documento,
+                            sedeId: sedeId
+                        }),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: (response) => {
+                            $.LoadingOverlay('hide');
+
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: "Sede asignada",
+                                    text: "La sede fue asignada de forma satisfactoria",
+                                    icon: "success"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar asignar la sede",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: (error) => {
+                            $.LoadingOverlay('hide');
+
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar asignar la sede",
+                                icon: "error"
+                            });
+                        }
+                    });
                 }
             });
         });
