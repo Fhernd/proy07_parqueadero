@@ -455,8 +455,76 @@
                 dataType: 'json',
                 success: (response) => {
                     if (response.status == 'success') {
-                        
-                        sede = response.data;
+
+                        const sedesAsociadas = response.data;
+
+                        Swal.fire({
+                            title: 'Seleccione una sede',
+                            html: `
+                                <select id="swal-select" class="swal2-input form-control">
+                                    {%if sedesAsociadas is empty %}
+                                        <option value="">Seleccione una sede</option>
+                                    {% endif %}
+                                    {% for sede in sedes %}
+                                        {% if sede.id == sedesAsociadas[0].sede_id %}
+                                            <option value="{{ sede.id }}" selected>{{ sede.nombre }}</option>
+                                        {% else %}
+                                            <option value="{{ sede.id }}">{{ sede.nombre }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            `,
+                            focusConfirm: false,
+                            preConfirm: () => {
+                                return document.getElementById('swal-select').value;
+                            },
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancelar',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const documento = data[0];
+                                const sedeId = result.value;
+
+                                $.LoadingOverlay('show');
+
+                                $.ajax({
+                                    url: '/sede/asignar-usuario',
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        documento: documento,
+                                        sedeId: sedeId
+                                    }),
+                                    contentType: 'application/json',
+                                    dataType: 'json',
+                                    success: (response) => {
+                                        $.LoadingOverlay('hide');
+
+                                        if (response.status == 'success') {
+                                            Swal.fire({
+                                                title: "Sede asignada",
+                                                text: "La sede fue asignada de forma satisfactoria",
+                                                icon: "success"
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: "Error",
+                                                text: "Ocurrió un error al intentar asignar la sede",
+                                                icon: "error"
+                                            });
+                                        }
+                                    },
+                                    error: (error) => {
+                                        $.LoadingOverlay('hide');
+
+                                        Swal.fire({
+                                            title: "Error",
+                                            text: "Ocurrió un error al intentar asignar la sede",
+                                            icon: "error"
+                                        });
+                                    }
+                                });
+                            }
+                        });
 
                     } else {
                         window.location.href = '/usuario/' + data[0] + '/sede';
