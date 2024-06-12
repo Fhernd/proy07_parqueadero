@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, TarifaTipo, Usuario, VehiculoTipo, usuario_rol
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, TarifaTipo, Usuario, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -1006,7 +1006,7 @@ def sede_modulo_eliminar(id, modulo_id):
 
 @app.route('/sede/asignar-usuario', methods=['POST'])
 @login_required
-def sede_asignar_usuario(id):
+def sede_asignar_usuario():
     """
     Asigna un usuario a una sede.
 
@@ -1022,8 +1022,8 @@ def sede_asignar_usuario(id):
         if usuario is None:
             return jsonify({'status': 'failure', 'message': 'Usuario no encontrado'}), 404
         
-        sede_usuario = sede_usuario.insert().values(sede_id=sede_id, usuario_id=usuario.id)
-        db.session.execute(sede_usuario)
+        asignacion = SedeUsuario(sede_id=sede_id, usuario_id=usuario.id)
+        db.session.add(asignacion)
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Usuario asignado a la sede'}), 200
