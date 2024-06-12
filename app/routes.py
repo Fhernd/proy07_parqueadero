@@ -1032,3 +1032,22 @@ def sede_asignar_usuario():
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/sede/sede-asignada/<int:documento>', methods=['GET'])
+@login_required
+def sede_asignada(documento):
+    """
+    Muestra los usuarios asignados a una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    usuario = Usuario.query.filter_by(documento=documento).first()
+    asignaciones = usuario.sedes
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': asignacion.id,
+        'sede_id': asignacion.sede_id,
+        'usuario_id': asignacion.usuario_id
+    } for asignacion in asignaciones]}), 200
