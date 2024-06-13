@@ -473,10 +473,12 @@
                                 return document.getElementById('swal-select').value;
                             },
                             didOpen: () => {
-                                $('#swal-select').prepend('<option value="" selected>Seleccione una sede...</option>');
-                                console.log(sedesAsociadas);
+                                $('#swal-select').prepend('<option value="0" selected>Seleccione una sede...</option>');
+                                
                                 if (sedesAsociadas.length > 0) {
-                                    document.getElementById('swal-select').value = sedesAsociadas[0].id;
+                                    document.getElementById('swal-select').value = sedesAsociadas[0].sede_id;
+                                } else {
+                                    $('#swal-select').val($('#swal-select option:first').val());
                                 }
                             },
                             showCancelButton: true,
