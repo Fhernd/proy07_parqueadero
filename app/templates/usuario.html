@@ -472,6 +472,13 @@
                             preConfirm: () => {
                                 return document.getElementById('swal-select').value;
                             },
+                            didOpen: () => {
+                                $('#swal-select').prepend('<option value="" selected>Seleccione una sede...</option>');
+                                console.log(sedesAsociadas);
+                                if (sedesAsociadas.length > 0) {
+                                    document.getElementById('swal-select').value = sedesAsociadas[0].id;
+                                }
+                            },
                             showCancelButton: true,
                             cancelButtonText: 'Cancelar',
                         }).then((result) => {
