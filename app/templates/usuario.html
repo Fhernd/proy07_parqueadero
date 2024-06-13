@@ -450,27 +450,21 @@
 
             // Verificar que el usuario actual tiene una sede asignada:
             $.ajax({
-                url: '/usuario/' + data[0] + '/sede',
+                url: '/sede/sede-asignada/' + data[0],
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
+                    console.log(response);
                     if (response.status == 'success') {
 
                         const sedesAsociadas = response.data;
-                        
+
                         Swal.fire({
                             title: 'Seleccione una sede',
                             html: `
                                 <select id="swal-select" class="swal2-input form-control">
-                                    {%if sedesAsociadas is empty %}
-                                        <option value="">Seleccione una sede</option>
-                                    {% endif %}
                                     {% for sede in sedes %}
-                                        {% if sede.id == sedesAsociadas[0].sede_id %}
-                                            <option value="{{ sede.id }}" selected>{{ sede.nombre }}</option>
-                                        {% else %}
-                                            <option value="{{ sede.id }}">{{ sede.nombre }}</option>
-                                        {% endif %}
+                                        <option value="{{ sede.id }}">{{ sede.nombre }}</option>
                                     {% endfor %}
                                 </select>
                             `,
