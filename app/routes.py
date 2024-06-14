@@ -464,11 +464,13 @@ def usuario_crear():
             password=hashed_password,
             parqueadero_id=current_user.parqueadero_id
         )
+
         db.session.add(entidad)
+        db.session.commit()
 
         rol = usuario_rol.insert().values(usuario_id=entidad.id, rol_id=data.get('rolId'))
+        
         db.session.execute(rol)
-
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Usuario creado', 'data': {

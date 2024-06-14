@@ -448,7 +448,6 @@
         $('button.asignar-sede').click(function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            // Verificar que el usuario actual tiene una sede asignada:
             $.ajax({
                 url: '/sede/sede-asignada/' + data[0],
                 type: 'GET',
