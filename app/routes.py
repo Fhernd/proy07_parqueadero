@@ -1024,7 +1024,7 @@ def sede_asignar_usuario():
         
         asignacion = SedeUsuario.query.filter_by(sede_id=sede_id, usuario_id=usuario.id).first()
         if asignacion is not None:
-            return jsonify({'status': 'existente', 'message': 'Usuario ya asignado a la sede'}), 200
+            return jsonify({'status': 'existente', 'message': 'Usuario ya asignado a la sede seleccionada.'}), 200
 
         asignacion = SedeUsuario(sede_id=sede_id, usuario_id=usuario.id)
         db.session.add(asignacion)
