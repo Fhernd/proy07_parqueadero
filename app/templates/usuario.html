@@ -401,6 +401,10 @@
                                 $('#email').val(),
                                 $('#rolId option:selected').text()
                             ]).draw();
+
+                            $('#tblDatos tbody').on('click', 'button.asignar-sede', function() {
+                                console.log('asignar-sede');
+                            });
                         });
                     } else {
                         Swal.fire({
