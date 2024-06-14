@@ -508,6 +508,13 @@
                                                 text: "La sede fue asignada de forma satisfactoria",
                                                 icon: "success"
                                             });
+                                        } 
+                                        else if (response.status == 'existente') {
+                                            Swal.fire({
+                                                title: "Error",
+                                                text: response.message,
+                                                icon: "warning"
+                                            });
                                         } else {
                                             Swal.fire({
                                                 title: "Error",
