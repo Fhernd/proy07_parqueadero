@@ -402,9 +402,9 @@
                                 $('#rolId option:selected').text()
                             ]).draw();
 
-                            $('button.asignar-sede').off('click');
+                            $('#tblDatos tbody').off('click', 'button.asignar-sede');
 
-                            $('button.asignar-sede').on('click', asignarSede);
+                            $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
                         });
                     } else {
                         Swal.fire({
@@ -449,7 +449,7 @@
             }
         });
 
-        $('button.asignar-sede').on('click', asignarSede);
+        $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
     });
 
     function asignarSede() {
