@@ -402,9 +402,9 @@
                                 $('#rolId option:selected').text()
                             ]).draw();
 
-                            $('#tblDatos tbody').on('click', 'button.asignar-sede', function() {
-                                console.log('asignar-sede');
-                            });
+                            $('#tblDatos tbody').off('click', 'button.asignar-sede');
+
+                            $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
                         });
                     } else {
                         Swal.fire({
@@ -449,7 +449,10 @@
             }
         });
 
-        $('button.asignar-sede').click(function () {
+        $('button.asignar-sede').click(asignarSede);
+    });
+
+    function asignarSede() {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
             $.ajax({
@@ -551,7 +554,6 @@
                     });
                 }
             });
-        });
-    });
+        }
 </script>
 {% endblock %}
