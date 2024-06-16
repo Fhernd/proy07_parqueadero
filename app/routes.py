@@ -583,6 +583,31 @@ def usuario_cambiar_password():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
+@app.route('/usuario/<string:documento>', methods=['GET'])
+@login_required
+def usuario_obtener(documento):
+    """
+    Obtiene un usuario.
+
+    :param id: Identificador del usuario.
+    :return: Respuesta JSON.
+    """
+    entidad = Usuario.query.filter_by(documento=documento).first()
+
+    if entidad is None:
+        return jsonify({'status': 'failure', 'message': 'Usuario no encontrado'}), 404
+
+    return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': {
+        'id': entidad.id,
+        'documento': entidad.documento,
+        'nombres': entidad.nombres,
+        'apellidos': entidad.apellidos,
+        'telefono': entidad.telefono,
+        'email': entidad.email,
+        'rol_id': entidad.rol_id
+    }}), 200
+
+
 @app.route("/registro", methods=['GET'])
 def registro():
     """
