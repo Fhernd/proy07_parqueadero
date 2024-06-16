@@ -366,7 +366,7 @@
                 type: method,
                 dataType: 'json',
                 success: (response) => {
-                    if (response.status == 'existente') {
+                    if (response.status != 'existente') {
                         url = '/usuario';
                         method = 'POST';
                         if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
@@ -432,6 +432,14 @@
                                     icon: "error"
                                 });
                             }
+                        });
+                    } else {
+                        $.LoadingOverlay('hide');
+
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: response.message,
+                            icon: "warning"
                         });
                     }
                 },

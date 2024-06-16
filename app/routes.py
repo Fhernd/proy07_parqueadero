@@ -594,18 +594,10 @@ def usuario_obtener(documento):
     """
     entidad = Usuario.query.filter_by(documento=documento).first()
 
-    if entidad is None:
-        return jsonify({'status': 'existente', 'message': 'Usuario no encontrado'}), 200
+    if entidad is not None:
+        return jsonify({'status': 'existente', 'message': 'Ya existe un usuario con el documento dado.'}), 200
 
-    return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': {
-        'id': entidad.id,
-        'documento': entidad.documento,
-        'nombres': entidad.nombres,
-        'apellidos': entidad.apellidos,
-        'telefono': entidad.telefono,
-        'email': entidad.email,
-        'rol_id': entidad.rol_id
-    }}), 200
+    return jsonify({'status': 'faile', 'message': 'Usuario encontrado', 'data': {}}), 200
 
 
 @app.route("/registro", methods=['GET'])
