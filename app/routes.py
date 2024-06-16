@@ -595,7 +595,7 @@ def usuario_obtener(documento):
     entidad = Usuario.query.filter_by(documento=documento).first()
 
     if entidad is None:
-        return jsonify({'status': 'failure', 'message': 'Usuario no encontrado'}), 404
+        return jsonify({'status': 'existente', 'message': 'Usuario no encontrado'}), 200
 
     return jsonify({'status': 'success', 'message': 'Usuario encontrado', 'data': {
         'id': entidad.id,

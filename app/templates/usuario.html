@@ -359,58 +359,79 @@
             }
 
             let url = '/usuario';
-            let method = 'POST';
-            if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
-                url += '/' + $('#id').val();
-                method = 'PUT';
-
-                $('#documento').prop('disabled', false);
-                data['documento'] = $('#documento').val();
-                $('#documento').prop('disabled', true);
-            }
+            let method = 'GET';
 
             $.ajax({
-                url: url,
+                url: `${url}/${$('#documento').val()}`,
                 type: method,
-                data: JSON.stringify(data),
-                contentType: 'application/json',
                 dataType: 'json',
                 success: (response) => {
-                    $.LoadingOverlay('hide');
+                    if (response.status == 'existente') {
+                        url = '/usuario';
+                        method = 'POST';
+                        if ($('#mdlCrearEditarLabel').text().includes('Editar')) {
+                            url += '/' + $('#id').val();
+                            method = 'PUT';
 
-                    if (response.status == 'success') {
-                        const operacion = method == 'POST' ? 'guardado' : 'editado';
+                            $('#documento').prop('disabled', false);
+                            data['documento'] = $('#documento').val();
+                            $('#documento').prop('disabled', true);
+                        }
 
-                        Swal.fire({
-                            title: "Registro guardado",
-                            text: `El registro fue ${operacion} de forma satisfactoria.`,
-                            icon: "success"
-                        }).then((result) => {
-                            $('#mdlCrearEditar').modal('hide');
-                            $('#nombre').val('');
-                            if (method == 'PUT') {
-                                dataTable.row($('#tblDatos tbody tr').find('td').filter(function () {
-                                    return $(this).text() == $('#id').val();
-                                }).closest('tr')).remove().draw();
+                        $.ajax({
+                            url: url,
+                            type: method,
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            success: (response) => {
+                                $.LoadingOverlay('hide');
+
+                                if (response.status == 'success') {
+                                    const operacion = method == 'POST' ? 'guardado' : 'editado';
+
+                                    Swal.fire({
+                                        title: "Registro guardado",
+                                        text: `El registro fue ${operacion} de forma satisfactoria.`,
+                                        icon: "success"
+                                    }).then((result) => {
+                                        $('#mdlCrearEditar').modal('hide');
+                                        $('#nombre').val('');
+                                        if (method == 'PUT') {
+                                            dataTable.row($('#tblDatos tbody tr').find('td').filter(function () {
+                                                return $(this).text() == $('#id').val();
+                                            }).closest('tr')).remove().draw();
+                                        }
+
+                                        dataTable.row.add([
+                                            $('#documento').val(),
+                                            $('#nombres').val() + ' ' + $('#apellidos').val(),
+                                            $('#telefono').val(),
+                                            $('#email').val(),
+                                            $('#rolId option:selected').text()
+                                        ]).draw();
+
+                                        $('#tblDatos tbody').off('click', 'button.asignar-sede');
+
+                                        $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "Ocurrió un error al intentar guardar el registro.",
+                                        icon: "error"
+                                    });
+                                }
+                            },
+                            error: (error) => {
+                                $.LoadingOverlay('hide');
+
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar guardar el registro.",
+                                    icon: "error"
+                                });
                             }
-
-                            dataTable.row.add([
-                                $('#documento').val(),
-                                $('#nombres').val() + ' ' + $('#apellidos').val(),
-                                $('#telefono').val(),
-                                $('#email').val(),
-                                $('#rolId option:selected').text()
-                            ]).draw();
-
-                            $('#tblDatos tbody').off('click', 'button.asignar-sede');
-
-                            $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: "Ocurrió un error al intentar guardar el registro.",
-                            icon: "error"
                         });
                     }
                 },
@@ -453,107 +474,107 @@
     });
 
     function asignarSede() {
-            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+        const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            $.ajax({
-                url: '/sede/sede-asignada/' + data[0],
-                type: 'GET',
-                dataType: 'json',
-                success: (response) => {
-                    console.log(response);
-                    if (response.status == 'success') {
+        $.ajax({
+            url: '/sede/sede-asignada/' + data[0],
+            type: 'GET',
+            dataType: 'json',
+            success: (response) => {
+                console.log(response);
+                if (response.status == 'success') {
 
-                        const sedesAsociadas = response.data;
+                    const sedesAsociadas = response.data;
 
-                        Swal.fire({
-                            title: 'Seleccione una sede',
-                            html: `
+                    Swal.fire({
+                        title: 'Seleccione una sede',
+                        html: `
                                 <select id="swal-select" class="swal2-input form-control">
                                     {% for sede in sedes %}
                                         <option value="{{ sede.id }}">{{ sede.nombre }}</option>
                                     {% endfor %}
                                 </select>
                             `,
-                            focusConfirm: false,
-                            preConfirm: () => {
-                                return document.getElementById('swal-select').value;
-                            },
-                            didOpen: () => {
-                                $('#swal-select').prepend('<option value="0" selected>Seleccione una sede...</option>');
-                                
-                                if (sedesAsociadas.length > 0) {
-                                    document.getElementById('swal-select').value = sedesAsociadas[0].sede_id;
-                                } else {
-                                    $('#swal-select').val($('#swal-select option:first').val());
-                                }
-                            },
-                            showCancelButton: true,
-                            cancelButtonText: 'Cancelar',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const documento = data[0];
-                                const sedeId = result.value;
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            return document.getElementById('swal-select').value;
+                        },
+                        didOpen: () => {
+                            $('#swal-select').prepend('<option value="0" selected>Seleccione una sede...</option>');
 
-                                $.LoadingOverlay('show');
+                            if (sedesAsociadas.length > 0) {
+                                document.getElementById('swal-select').value = sedesAsociadas[0].sede_id;
+                            } else {
+                                $('#swal-select').val($('#swal-select option:first').val());
+                            }
+                        },
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const documento = data[0];
+                            const sedeId = result.value;
 
-                                $.ajax({
-                                    url: '/sede/asignar-usuario',
-                                    type: 'POST',
-                                    data: JSON.stringify({
-                                        documento: documento,
-                                        sedeId: sedeId
-                                    }),
-                                    contentType: 'application/json',
-                                    dataType: 'json',
-                                    success: (response) => {
-                                        $.LoadingOverlay('hide');
+                            $.LoadingOverlay('show');
 
-                                        if (response.status == 'success') {
-                                            Swal.fire({
-                                                title: "Sede asignada",
-                                                text: "La sede fue asignada de forma satisfactoria",
-                                                icon: "success"
-                                            });
-                                        } 
-                                        else if (response.status == 'existente') {
-                                            Swal.fire({
-                                                title: "Advertencia",
-                                                text: response.message,
-                                                icon: "warning"
-                                            });
-                                        } else {
-                                            Swal.fire({
-                                                title: "Error",
-                                                text: "Ocurrió un error al intentar asignar la sede",
-                                                icon: "error"
-                                            });
-                                        }
-                                    },
-                                    error: (error) => {
-                                        $.LoadingOverlay('hide');
+                            $.ajax({
+                                url: '/sede/asignar-usuario',
+                                type: 'POST',
+                                data: JSON.stringify({
+                                    documento: documento,
+                                    sedeId: sedeId
+                                }),
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                success: (response) => {
+                                    $.LoadingOverlay('hide');
 
+                                    if (response.status == 'success') {
+                                        Swal.fire({
+                                            title: "Sede asignada",
+                                            text: "La sede fue asignada de forma satisfactoria",
+                                            icon: "success"
+                                        });
+                                    }
+                                    else if (response.status == 'existente') {
+                                        Swal.fire({
+                                            title: "Advertencia",
+                                            text: response.message,
+                                            icon: "warning"
+                                        });
+                                    } else {
                                         Swal.fire({
                                             title: "Error",
                                             text: "Ocurrió un error al intentar asignar la sede",
                                             icon: "error"
                                         });
                                     }
-                                });
-                            }
-                        });
+                                },
+                                error: (error) => {
+                                    $.LoadingOverlay('hide');
 
-                    } else {
-                        window.location.href = '/usuario/' + data[0] + '/sede';
-                    }
-                },
-                error: (error) => {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Ocurrió un error al intentar verificar la sede asignada al usuario",
-                        icon: "error"
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "Ocurrió un error al intentar asignar la sede",
+                                        icon: "error"
+                                    });
+                                }
+                            });
+                        }
                     });
+
+                } else {
+                    window.location.href = '/usuario/' + data[0] + '/sede';
                 }
-            });
-        }
+            },
+            error: (error) => {
+                Swal.fire({
+                    title: "Error",
+                    text: "Ocurrió un error al intentar verificar la sede asignada al usuario",
+                    icon: "error"
+                });
+            }
+        });
+    }
 </script>
 {% endblock %}
