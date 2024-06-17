@@ -543,6 +543,13 @@ def usuario_eliminar(documento):
 
         if entidad is None:
             return jsonify({'status': 'failure', 'message': 'Usuario encontrado'}), 404
+        
+        # Eliminar de la tabla de relación sede_usuario:
+        sede_usuario = SedeUsuario.query.filter_by(usuario_id=entidad.id).first()
+
+        if sede_usuario is not None:
+            db.session.delete(sede_usuario)
+            db.session.commit()
 
         db.session.delete(entidad)
         db.session.commit()
@@ -550,6 +557,7 @@ def usuario_eliminar(documento):
         return jsonify({'status': 'success', 'message': 'Usuario eliminado'}), 200
 
     except Exception as e:
+        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
