@@ -1084,7 +1084,6 @@ def sede_asignada(documento):
     } for asignacion in asignaciones]}), 200
 
 
-# /cliente/${documento}/vehiculos/
 @app.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
 @login_required
 def cliente_vehiculos(documento):
@@ -1095,7 +1094,9 @@ def cliente_vehiculos(documento):
     :return: Respuesta JSON.
     """
     cliente = Cliente.query.filter_by(documento=documento).first()
+    print('cliente', cliente)
     vehiculos = cliente.vehiculos
+    print('vehiculos', vehiculos)
 
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'placa': vehiculo.placa,

@@ -312,7 +312,7 @@
             $.LoadingOverlay('show');
 
             $.ajax({
-                url: `/cliente/${documento}/vehiculos/`,
+                url: `/cliente/${documento}/vehiculos`,
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
