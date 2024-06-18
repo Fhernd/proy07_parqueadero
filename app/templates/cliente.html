@@ -119,6 +119,49 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdlVehiculoCrearEditar" tabindex="-1" role="dialog"
+    aria-labelledby="mdlVehiculoCrearEditarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="frmVehiculoCrearEditar">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdlVehiculoCrearEditarLabel">Crear nuevo vehículo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="vehiculoId" name="vehiculoId">
+                    <div class="form-group">
+                        <label for="vehiculoPlaca">Placa</label>
+                        <input type="text" class="form-control" id="vehiculoPlaca" name="vehiculoPlaca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehiculoMarca">Marca</label>
+                        <input type="text" class="form-control" id="vehiculoMarca" name="vehiculoMarca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehiculoModelo">Modelo</label>
+                        <input type="text" class="form-control" id="vehiculoModelo" name="vehiculoModelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehiculoTipo">Tipo</label>
+                        <select class="form-control" id="vehiculoTipo" name="vehiculoTipo" required>
+                            <option value="Carro">Carro</option>
+                            <option value="Moto">Moto</option>
+                            <!-- Agrega más opciones de tipo de vehículo si es necesario -->
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         const dataTable = $('#tblDatos').DataTable({
