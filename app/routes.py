@@ -1082,3 +1082,24 @@ def sede_asignada(documento):
         'sede_id': asignacion.sede_id,
         'usuario_id': asignacion.usuario_id
     } for asignacion in asignaciones]}), 200
+
+
+# /cliente/${documento}/vehiculos/
+@app.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
+@login_required
+def cliente_vehiculos(documento):
+    """
+    Muestra los vehículos de un cliente.
+
+    :param documento: Documento del cliente.
+    :return: Respuesta JSON.
+    """
+    cliente = Cliente.query.filter_by(documento=documento).first()
+    vehiculos = cliente.vehiculos
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'placa': vehiculo.placa,
+        'marca': vehiculo.marca,
+        'modelo': vehiculo.modelo,
+        'tipo': vehiculo.tipo.nombre
+    } for vehiculo in vehiculos]}), 200
