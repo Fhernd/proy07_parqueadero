@@ -128,7 +128,7 @@
                 {
                     "targets": 5,
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Eliminar'><i class='fas fa-car'></i></button>"
+                    "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button>"
                 }
             ],
             language: {
@@ -307,7 +307,44 @@
         $('#tblDatos tbody').on('click', 'button.vehiculos', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
-            $('#mdlVehiculos').modal('show');
+            const documento = data[0];
+
+            $.LoadingOverlay('show');
+
+            $.ajax({
+                url: `/cliente/${documento}/vehiculos/`,
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    console.log(response);
+                    if (response.status == 'success') {
+                        $('#mdlVehiculos').modal('show');
+
+                        const dataTableModulos = $('#tblDatosModulos').DataTable();
+                        dataTableModulos.clear().draw();
+
+                        response.data.forEach((e) => {
+                            dataTableModulos.row.add([e.placa, e.marca, e.modelo, e.tipo]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar obtener los vehículos del cliente.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar obtener los vehículos del cliente.",
+                        icon: "error"
+                    });
+                }
+            });
         });
 
 
