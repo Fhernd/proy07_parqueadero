@@ -1102,5 +1102,5 @@ def cliente_vehiculos(documento):
         'placa': vehiculo.placa,
         'marca': vehiculo.marca,
         'modelo': vehiculo.modelo,
-        'tipo': vehiculo.tipo.nombre
+        'tipo': vehiculo.vehiculo_tipo.nombre
     } for vehiculo in vehiculos]}), 200

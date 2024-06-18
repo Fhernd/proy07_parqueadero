@@ -98,7 +98,7 @@
             <div class="modal-body">
                 <button class="btn btn-primary" id="btnModuloCrear" data-toggle="modal"
                     data-target="#mdlVehiculosCrearEditar" style="margin-bottom: 7px;">Crear</button>
-                <table id="tblDatosModulos" class="table table-bordered" style="width:100%">
+                <table id="tblDatosVehiculos" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>Placa</th>
@@ -304,6 +304,8 @@
             $('#documento').prop('disabled', false);
         });
     
+        let vehiculos = null;
+
         $('#tblDatos tbody').on('click', 'button.vehiculos', function () {
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
@@ -317,15 +319,35 @@
                 dataType: 'json',
                 success: (response) => {
                     $.LoadingOverlay('hide');
-                    console.log(response);
                     if (response.status == 'success') {
                         $('#mdlVehiculos').modal('show');
 
-                        const dataTableModulos = $('#tblDatosModulos').DataTable();
-                        dataTableModulos.clear().draw();
-
-                        response.data.forEach((e) => {
-                            dataTableModulos.row.add([e.placa, e.marca, e.modelo, e.tipo]).draw();
+                        vehiculos = $('#tblDatosVehiculos').DataTable({
+                            data: response['data'],
+                            columns: [
+                                { data: 'placa' },
+                                { data: 'marca' },
+                                { data: 'modelo' },
+                                { data: 'tipo' },
+                                {
+                                    data: null,
+                                    defaultContent: "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>"
+                                }
+                            ],
+                            language: {
+                                "decimal": "",
+                                "emptyTable": "No hay información",
+                                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                                "infoPostFix": "",
+                                "thousands": ",",
+                                "lengthMenu": "Mostrar _MENU_ Entradas",
+                                "loadingRecords": "Cargando...",
+                                "processing": "Procesando...",
+                                "search": "Buscar:",
+                                "zeroRecords": "Sin resultados encontrados",
+                            }
                         });
                     } else {
                         Swal.fire({
