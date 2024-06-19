@@ -394,6 +394,8 @@
                         });
 
                         $('[id^="dt-length-"]').addClass('custom-select custom-select-sm form-control form-control-sm');
+
+                        $('#mdlVehiculoCrearEditar').attr('data-cliente-documento', documento);
                     } else {
                         Swal.fire({
                             title: "Error",
@@ -425,9 +427,11 @@
                 data[key] = value;
             });
 
-            data['cliente_documento'] = $('#documento').val();
+            // leer el documento del cliente desde el atributo 'data-cliente-documento':
+            const clienteDocumento = $('#mdlVehiculoCrearEditar').attr('data-cliente-documento');
+            data['clienteDocumento'] = clienteDocumento
 
-            let url = '/vehiculo';
+            let url = '/cliente/crear-vehiculo';
             let method = 'POST';
             if ($('#mdlVehiculoCrearEditarLabel').text().includes('Editar')) {
                 url += '/' + $('#vehiculoId').val();
