@@ -312,7 +312,9 @@ def cliente():
     Muestra la lista de tipos de tarifa.
     """
     entidades = Cliente.query.all()
-    return render_template('cliente.html', titulo='Clientes', entidades=entidades)
+    vehiculos_tipos = VehiculoTipo.query.all()
+
+    return render_template('cliente.html', titulo='Clientes', entidades=entidades, vehiculos_tipos=vehiculos_tipos)
 
 
 @app.route('/cliente', methods=['POST'])
