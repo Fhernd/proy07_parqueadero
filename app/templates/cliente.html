@@ -427,6 +427,8 @@
                 data[key] = value;
             });
 
+            console.log('data', data);
+
             // leer el documento del cliente desde el atributo 'data-cliente-documento':
             const clienteDocumento = $('#mdlVehiculoCrearEditar').attr('data-cliente-documento');
             data['clienteDocumento'] = clienteDocumento

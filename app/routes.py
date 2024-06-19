@@ -1120,13 +1120,12 @@ def cliente_crear_vehiculo():
         data = request.get_json()
 
         cliente = Cliente.query.filter_by(documento=data.get('clienteDocumento')).first()
-        print('cliente encontrado', cliente)
         vehiculo_tipo_id = data.get('vehiculoTipoId')
 
         entidad = Vehiculo(
-            placa=data.get('placa'),
-            marca=data.get('marca'),
-            modelo=data.get('modelo'),
+            placa=data.get('vehiculoPlaca'),
+            marca=data.get('vehiculoMarca'),
+            modelo=data.get('vehiculoModelo'),
             cliente_id=cliente.id,
             vehiculo_tipo_id=vehiculo_tipo_id
         )
