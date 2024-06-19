@@ -147,9 +147,9 @@
                     <div class="form-group">
                         <label for="vehiculoTipo">Tipo</label>
                         <select class="form-control" id="vehiculoTipo" name="vehiculoTipo" required>
-                            <option value="Carro">Carro</option>
-                            <option value="Moto">Moto</option>
-                            <!-- Agrega más opciones de tipo de vehículo si es necesario -->
+                            {% for e in vehiculos_tipos %}
+                                <option value="{{ e.id }}">{{ e.nombre }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
