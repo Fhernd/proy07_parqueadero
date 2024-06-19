@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, TarifaTipo, Usuario, VehiculoTipo, usuario_rol
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -1106,3 +1106,42 @@ def cliente_vehiculos(documento):
         'modelo': vehiculo.modelo,
         'tipo': vehiculo.vehiculo_tipo.nombre
     } for vehiculo in vehiculos]}), 200
+
+
+@app.route('/cliente/crear-vehiculo', methods=['POST'])
+@login_required
+def cliente_crear_vehiculo():
+    """
+    Crea un nuevo vehículo para un cliente.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        
+        cliente = Cliente.query.filter_by(documento=data.get('documento')).first()
+        vehiculo_tipo_id = data.get('vehiculoTipoId')
+
+        entidad = Vehiculo(
+            placa=data.get('placa'),
+            marca=data.get('marca'),
+            modelo=data.get('modelo'),
+            cliente_id=cliente.id,
+            vehiculo_tipo_id=vehiculo_tipo_id
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Vehículo creado', 'data': {
+            'placa': entidad.placa,
+            'marca': entidad.marca,
+            'modelo': entidad.modelo,
+            'cliente_id': entidad.cliente_id,
+            'vehiculo_tipo_id': entidad.vehiculo_tipo_id
+        }}), 201
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500

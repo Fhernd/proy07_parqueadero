@@ -145,8 +145,8 @@
                         <input type="text" class="form-control" id="vehiculoModelo" name="vehiculoModelo" required>
                     </div>
                     <div class="form-group">
-                        <label for="vehiculoTipo">Tipo</label>
-                        <select class="form-control" id="vehiculoTipo" name="vehiculoTipo" required>
+                        <label for="vehiculoTipoId">Tipo</label>
+                        <select class="form-control" id="vehiculoTipoId" name="vehiculoTipoId" required>
                             {% for e in vehiculos_tipos %}
                                 <option value="{{ e.id }}">{{ e.nombre }}</option>
                             {% endfor %}
