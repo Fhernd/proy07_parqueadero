@@ -414,7 +414,76 @@
             });
         });
 
+        $('#frmVehiculoCrearEditar').submit(function (e) {
+            e.preventDefault();
 
+            $.LoadingOverlay('show');
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            data['cliente_documento'] = $('#documento').val();
+
+            let url = '/vehiculo';
+            let method = 'POST';
+            if ($('#mdlVehiculoCrearEditarLabel').text().includes('Editar')) {
+                url += '/' + $('#vehiculoId').val();
+                method = 'PUT';
+            }
+
+            $.ajax({
+                url: url,
+                type: method,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    
+                    if (response.status == 'success') {
+                        const operacion = method == 'POST' ? 'guardado' : 'editado';
+
+                        Swal.fire({
+                            title: "Registro guardado",
+                            text: `El registro fue ${operacion} de forma satisfactoria.`,
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlVehiculoCrearEditar').modal('hide');
+                            $('#vehiculoPlaca').val('');
+                            $('#vehiculoMarca').val('');
+                            $('#vehiculoModelo').val('');
+                            $('#vehiculoTipo').val('');
+
+                            if (method == 'PUT') {
+                                vehiculos.row($('#tblDatosVehiculos tbody tr').find('td').filter(function () {
+                                    return $(this).text() == $('#vehiculoId').val();
+                                }).closest('tr')).remove().draw();
+                            }
+
+                            vehiculos.row.add([response.data.placa, response.data.marca, response.data.modelo, response.data.tipo]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el registro.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar guardar el registro.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     });
 
 </script>
