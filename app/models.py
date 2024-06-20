@@ -342,7 +342,8 @@ class VehiculoTipo(db.Model):
 
 class Vehiculo(db.Model):
     __tablename__ = 'vehiculo'
-    placa = db.Column(db.String(12), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    placa = db.Column(db.String(12))
     marca = db.Column(db.String(32))
     modelo = db.Column(db.String(4))
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
