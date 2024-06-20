@@ -487,7 +487,13 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            vehiculos.row.add([response.data.placa, response.data.marca, response.data.modelo, response.data.tipo]).draw();
+                            vehiculos.row.add({
+                                id: response.data.id,
+                                placa: response.data.placa,
+                                marca: response.data.marca,
+                                modelo: response.data.modelo,
+                                tipo: response.data.tipo
+                            }).draw();
                         });
                     } else {
                         Swal.fire({

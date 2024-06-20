@@ -1134,11 +1134,13 @@ def cliente_crear_vehiculo():
         db.session.commit()
 
         return jsonify({'status': 'success', 'message': 'Vehículo creado', 'data': {
+            'id': entidad.id,
             'placa': entidad.placa,
             'marca': entidad.marca,
             'modelo': entidad.modelo,
             'cliente_id': entidad.cliente_id,
-            'vehiculo_tipo_id': entidad.vehiculo_tipo_id
+            'vehiculo_tipo_id': entidad.vehiculo_tipo_id,
+            'vehiculo_tipo': entidad.vehiculo_tipo.nombre
         }}), 201
 
     except Exception as e:
