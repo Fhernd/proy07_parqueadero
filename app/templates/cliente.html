@@ -28,7 +28,7 @@
                     {% for e in entidades %}
                     <tr>
                         <td>{{ e.documento }}</td>
-                        <td>{{ e.nombres + ' ' + e.apellidos  }}</td>
+                        <td>{{ e.nombres + ' ' + e.apellidos }}</td>
                         <td>{{ e.telefono }}</td>
                         <td>{{ e.email }}</td>
                         <td>{{ e.direccion }}</td>
@@ -42,47 +42,52 @@
 
 <div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="frmCrearEditar">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="documento">Documento</label>
+                        <input type="text" class="form-control" id="documento" name="documento"
+                            placeholder="Ingresa el número de documento">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" class="form-control" id="nombres" name="nombres"
+                            placeholder="Ingresa los nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellidos"
+                            placeholder="Ingresa los apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono"
+                            placeholder="Ingresa el teléfono">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion"
+                            placeholder="Ingresa la dirección">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Crear</button>
+                </div>
+            </form>
         </div>
-        <form id="frmCrearEditar">
-            <div class="modal-body">
-                <input type="hidden" id="id" name="id">
-                <div class="form-group">
-                    <label for="documento">Documento</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="Ingresa el número de documento">
-                </div>
-                <div class="form-group">
-                    <label for="nombres">Nombres</label>
-                    <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingresa los nombres">
-                </div>
-                <div class="form-group">
-                    <label for="apellidos">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingresa los apellidos">
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingresa el teléfono">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
-                </div>
-                <div class="form-group">
-                    <label for="direccion">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingresa la dirección">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Crear</button>
-            </div>
-        </form>
-      </div>
     </div>
 </div>
 
@@ -148,7 +153,7 @@
                         <label for="vehiculoTipoId">Tipo</label>
                         <select class="form-control" id="vehiculoTipoId" name="vehiculoTipoId" required>
                             {% for e in vehiculos_tipos %}
-                                <option value="{{ e.id }}">{{ e.nombre }}</option>
+                            <option value="{{ e.id }}">{{ e.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -225,7 +230,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.LoadingOverlay('show');
-                    
+
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
@@ -265,7 +270,7 @@
                 }
             });
         });
-        
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
@@ -298,7 +303,7 @@
                 dataType: 'json',
                 success: (response) => {
                     $.LoadingOverlay('hide');
-                    
+
                     if (response.status == 'success') {
                         const operacion = method == 'POST' ? 'guardado' : 'editado';
 
@@ -336,7 +341,7 @@
                 }
             });
         });
-    
+
         $('#mdlCrearEditar').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
 
@@ -346,7 +351,7 @@
 
             $('#documento').prop('disabled', false);
         });
-    
+
         let vehiculos = null;
 
         $('#tblDatos tbody').on('click', 'button.vehiculos', function () {
@@ -452,7 +457,7 @@
                 dataType: 'json',
                 success: (response) => {
                     $.LoadingOverlay('hide');
-                    
+
                     if (response.status == 'success') {
                         const operacion = method == 'POST' ? 'guardado' : 'editado';
 
@@ -493,6 +498,17 @@
                     });
                 }
             });
+        });
+
+        $('#tblDatosVehiculos').on('click', '.edit', function () {
+            var data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
+            $('#vehiculoId').val(data.id);
+            $('#vehiculoPlaca').val(data.placa);
+            $('#vehiculoMarca').val(data.marca);
+            $('#vehiculoModelo').val(data.modelo);
+            $('#vehiculoTipo').val(data.tipo);
+            
+            $('#mdlVehiculoCrearEditar').modal('show');
         });
     });
 
