@@ -365,6 +365,10 @@
                     if (response.status == 'success') {
                         $('#mdlVehiculos').modal('show');
 
+                        if (vehiculos) {
+                            vehiculos.destroy();
+                        }
+
                         vehiculos = $('#tblDatosVehiculos').DataTable({
                             data: response['data'],
                             columns: [
