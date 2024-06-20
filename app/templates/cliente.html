@@ -106,6 +106,7 @@
                 <table id="tblDatosVehiculos" class="table table-bordered" style="width:100%">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Placa</th>
                             <th>Marca</th>
                             <th>Modelo</th>
@@ -377,6 +378,7 @@
                         vehiculos = $('#tblDatosVehiculos').DataTable({
                             data: response['data'],
                             columns: [
+                                { data: 'id' },
                                 { data: 'placa' },
                                 { data: 'marca' },
                                 { data: 'modelo' },
@@ -399,7 +401,14 @@
                                 "processing": "Procesando...",
                                 "search": "Buscar:",
                                 "zeroRecords": "Sin resultados encontrados",
-                            }
+                            },
+                            "columnDefs": [
+                                {
+                                    "targets": [0],
+                                    "visible": false,
+                                    "searchable": false
+                                }
+                            ]
                         });
 
                         $('[id^="dt-length-"]').addClass('custom-select custom-select-sm form-control form-control-sm');
