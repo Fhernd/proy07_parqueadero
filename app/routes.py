@@ -1146,3 +1146,43 @@ def cliente_crear_vehiculo():
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/cliente/editar-vehiculo', methods=['PUT'])
+@login_required
+def cliente_editar_vehiculo():
+    """
+    Edita un vehículo de un cliente.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+
+        vehiculo = Vehiculo.query.get(data.get('vehiculoId'))
+
+        if vehiculo is None:
+            return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 404
+
+        vehiculo.placa = data.get('vehiculoPlaca')
+        vehiculo.marca = data.get('vehiculoMarca')
+        vehiculo.modelo = data.get('vehiculoModelo')
+        vehiculo.vehiculo_tipo_id = data.get('vehiculoTipoId')
+        vehiculo.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Vehículo actualizado', 'data': {
+            'id': vehiculo.id,
+            'placa': vehiculo.placa,
+            'marca': vehiculo.marca,
+            'modelo': vehiculo.modelo,
+            'cliente_id': vehiculo.cliente_id,
+            'vehiculo_tipo_id': vehiculo.vehiculo_tipo_id,
+            'vehiculo_tipo': vehiculo.vehiculo_tipo.nombre
+        }}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
