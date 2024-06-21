@@ -520,7 +520,9 @@
         });
 
         $('#tblDatosVehiculos').on('click', '.edit', function () {
-            var data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
+            const data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
+            $('#mdlVehiculoCrearEditarLabel').text('Editar vehículo');
+
             $('#vehiculoId').val(data.id);
             $('#vehiculoPlaca').val(data.placa);
             $('#vehiculoMarca').val(data.marca);
