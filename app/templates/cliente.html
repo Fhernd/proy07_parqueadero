@@ -525,7 +525,13 @@
             $('#vehiculoPlaca').val(data.placa);
             $('#vehiculoMarca').val(data.marca);
             $('#vehiculoModelo').val(data.modelo);
-            $('#vehiculoTipo').val(data.tipo);
+            
+            const tipo = data.tipo;
+            $('#vehiculoTipoId option').each(function() {
+                if ($(this).text() == tipo) {
+                    $(this).prop('selected', true);
+                }
+            });
             
             $('#mdlVehiculoCrearEditar').modal('show');
         });
