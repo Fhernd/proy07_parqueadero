@@ -1148,9 +1148,9 @@ def cliente_crear_vehiculo():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/cliente/editar-vehiculo', methods=['PUT'])
+@app.route('/cliente/editar-vehiculo/<int:vehiculo_id>', methods=['PUT'])
 @login_required
-def cliente_editar_vehiculo():
+def cliente_editar_vehiculo(vehiculo_id):
     """
     Edita un vehículo de un cliente.
 
@@ -1159,7 +1159,7 @@ def cliente_editar_vehiculo():
     try:
         data = request.get_json()
 
-        vehiculo = Vehiculo.query.get(data.get('vehiculoId'))
+        vehiculo = Vehiculo.query.get(vehiculo_id)
 
         if vehiculo is None:
             return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 404
