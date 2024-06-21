@@ -487,13 +487,17 @@
                                 }).closest('tr')).remove().draw();
                             }
 
+                            console.log('response', response.data);
+
                             vehiculos.row.add({
                                 id: response.data.id,
                                 placa: response.data.placa,
                                 marca: response.data.marca,
                                 modelo: response.data.modelo,
-                                tipo: response.data.tipo
+                                tipo: response.data.vehiculo_tipo
                             }).draw();
+
+                            $('#frmVehiculoCrearEditar').trigger('reset');
                         });
                     } else {
                         Swal.fire({
