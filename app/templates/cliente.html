@@ -414,6 +414,10 @@
                         $('[id^="dt-length-"]').addClass('custom-select custom-select-sm form-control form-control-sm');
 
                         $('#mdlVehiculoCrearEditar').attr('data-cliente-documento', documento);
+
+                        $('#mdlVehiculoCrearEditarLabel').text('Crear nuevo vehículo');
+                        $('#mdlVehiculoCrearEditar button[type="submit"]').text('Guardar');
+                        $('#mdlVehiculoCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-primary');
                     } else {
                         Swal.fire({
                             title: "Error",
@@ -536,6 +540,17 @@
             });
             
             $('#mdlVehiculoCrearEditar').modal('show');
+
+            $('#mdlVehiculoCrearEditar button[type="submit"]').text('Editar');
+            $('#mdlVehiculoCrearEditar button[type="submit"]').removeClass('btn-primary').addClass('btn-warning');
+        });
+
+        $('#mdlVehiculoCrearEditar').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            $('#mdlVehiculoCrearEditarLabel').text('Crear nuevo vehículo');
+            $('#mdlVehiculoCrearEditar button[type="submit"]').text('Guardar');
+            $('#mdlVehiculoCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-primary');
         });
     });
 
