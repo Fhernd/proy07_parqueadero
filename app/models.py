@@ -217,6 +217,7 @@ class Periodicidad(db.Model):
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
 
     parqueadero = db.relationship("Parqueadero", back_populates="periodicidades")
+    arrendamientos = db.relationship("Arrendamiento", back_populates="periodicidad")
 
     def __repr__(self):
         return f"<Periodicidad(nombre='{self.nombre}', dias={self.dias})>"
@@ -355,6 +356,7 @@ class Vehiculo(db.Model):
     parqueos = db.relationship('Parqueo', back_populates='vehiculo')
     cliente = db.relationship("Cliente", back_populates="vehiculos")
     vehiculo_tipo = db.relationship("VehiculoTipo", back_populates="vehiculos")
+    arrendamientos = db.relationship("Arrendamiento", back_populates="vehiculo")
 
     def __repr__(self):
         return f"<Vehiculo(placa='{self.placa}', marca='{self.marca}', modelo='{self.modelo}')>"
@@ -369,6 +371,7 @@ class MedioPago(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     parqueos = db.relationship("Parqueo", back_populates="medio_pago")
+    arrendamientos = db.relationship("Arrendamiento", back_populates="medio_pago")
 
     def __repr__(self):
         return f"<MedioPago(nombre='{self.nombre}')>"
