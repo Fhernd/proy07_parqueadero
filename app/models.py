@@ -372,6 +372,26 @@ class MedioPago(db.Model):
     def __repr__(self):
         return f"<MedioPago(nombre='{self.nombre}')>"
 
+
+class Arrendamiento(db.Model):
+    __tablename__ = 'arrendamiento'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    descripcion = db.Column(db.String(256), nullable=True)
+    vehiculo_id = db.Column(db.Integer, db.ForeignKey('vehiculo.id'), nullable=False)
+    periodicidad_id = db.Column(db.Integer, db.ForeignKey('periodicidad.id'), nullable=False)
+    medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    vehiculo = db.relationship('Vehiculo', back_populates='arrendamientos')
+    periodicidad = db.relationship('Periodicidad', back_populates='arrendamientos')
+    medio_pago = db.relationship('MedioPago', back_populates='arrendamientos')
+
+    def __repr__(self):
+        return f"<Arrendamiento(id='{self.id}', descripcion='{self.descripcion}')>"
+
+
 def insert_initial_values():
     if not VehiculoTipo.query.first():
         data = [
