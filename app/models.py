@@ -312,7 +312,7 @@ class Parqueo(db.Model):
     fecha_hora_entrada = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     fecha_hora_salida = db.Column(db.DateTime)
     modulo_id = db.Column(db.Integer, db.ForeignKey('modulo.id'), nullable=False)
-    vehiculo_placa = db.Column(db.String(12), db.ForeignKey('vehiculo.placa'), nullable=False)
+    vehiculo_id = db.Column(db.String(12), db.ForeignKey('vehiculo.id'), nullable=False)
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=False)
     tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
