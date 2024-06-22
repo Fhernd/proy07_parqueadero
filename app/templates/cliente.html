@@ -485,10 +485,15 @@
                             $('#vehiculoTipo').val('');
 
                             if (method == 'PUT') {
-                                vehiculos.row($('#tblDatosVehiculos tbody tr').find('td').filter(function () {
-                                    return $(this).text() == $('#vehiculoId').val();
-                                }).closest('tr')).remove().draw();
+                                var vehiculoId = $('#vehiculoId').val();
+                                $('#tblDatosVehiculos').DataTable().rows().every(function () {
+                                    var data = this.data();
+                                    if (data['id'] == vehiculoId) { // Suponiendo que el ID está en la primera columna (índice 0)
+                                        this.remove().draw();
+                                    }
+                                });
                             }
+
 
                             vehiculos.row.add({
                                 id: response.data.id,
@@ -528,14 +533,14 @@
             $('#vehiculoPlaca').val(data.placa);
             $('#vehiculoMarca').val(data.marca);
             $('#vehiculoModelo').val(data.modelo);
-            
+
             const tipo = data.tipo;
-            $('#vehiculoTipoId option').each(function() {
+            $('#vehiculoTipoId option').each(function () {
                 if ($(this).text() == tipo) {
                     $(this).prop('selected', true);
                 }
             });
-            
+
             $('#mdlVehiculoCrearEditar').modal('show');
 
             $('#mdlVehiculoCrearEditar button[type="submit"]').text('Editar');
