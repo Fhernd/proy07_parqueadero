@@ -1096,7 +1096,7 @@ def cliente_vehiculos(documento):
     :return: Respuesta JSON.
     """
     cliente = Cliente.query.filter_by(documento=documento).first()
-    vehiculos = cliente.vehiculos.filter_by(disponible=True).all()
+    vehiculos = cliente.vehiculos
 
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': vehiculo.id,
