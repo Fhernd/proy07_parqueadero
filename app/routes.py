@@ -1186,3 +1186,30 @@ def cliente_editar_vehiculo(vehiculo_id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/cliente/eliminar-vehiculo/<int:vehiculo_id>', methods=['DELETE'])
+@login_required
+def cliente_eliminar_vehiculo(vehiculo_id):
+    """
+    Elimina un vehículo de un cliente.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        vehiculo = Vehiculo.query.get(vehiculo_id)
+
+        if vehiculo is None:
+            return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 404
+
+        # Cambiar el estado de disponible del vehículo a False:
+        vehiculo.disponible = False
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Vehículo eliminado'}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
