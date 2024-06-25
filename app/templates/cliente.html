@@ -554,6 +554,62 @@
             $('#mdlVehiculoCrearEditar button[type="submit"]').text('Guardar');
             $('#mdlVehiculoCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-primary');
         });
+    
+        $('#tblDatosVehiculos').on('click', '.delete', function () {
+            Swal.fire({
+                title: "¿Está seguro de querer eliminar este registro?",
+                text: "Esta operación una vez confirmada es irreversible.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí",
+                cancelButtonText: "No"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.LoadingOverlay('show');
+
+                    var data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
+
+                    console.log('data', data);
+
+                    $.ajax({
+                        url: '/cliente/eliminar-vehiculo/' + data.id,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: (response) => {
+                            $.LoadingOverlay('hide');
+
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: "Registro eliminado",
+                                    text: "El registro fue eliminado de forma satisfactoria",
+                                    icon: "success"
+                                }).then((result) => {
+                                    var row = $(this).closest('tr');
+                                    vehiculos.row(row).remove().draw();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar eliminar el registro",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: (error) => {
+                            $.LoadingOverlay('hide');
+
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar eliminar el registro",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
 
 </script>
