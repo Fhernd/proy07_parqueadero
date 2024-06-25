@@ -1096,7 +1096,7 @@ def cliente_vehiculos(documento):
     :return: Respuesta JSON.
     """
     cliente = Cliente.query.filter_by(documento=documento).first()
-    vehiculos = cliente.vehiculos
+    vehiculos = cliente.vehiculos.filter_by(disponible=True).all()
 
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': vehiculo.id,
@@ -1202,7 +1202,6 @@ def cliente_eliminar_vehiculo(vehiculo_id):
         if vehiculo is None:
             return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 404
 
-        # Cambiar el estado de disponible del vehículo a False:
         vehiculo.disponible = False
 
         db.session.commit()
