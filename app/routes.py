@@ -1103,7 +1103,8 @@ def cliente_vehiculos(documento):
         'placa': vehiculo.placa,
         'marca': vehiculo.marca,
         'modelo': vehiculo.modelo,
-        'tipo': vehiculo.vehiculo_tipo.nombre
+        'tipo': vehiculo.vehiculo_tipo.nombre,
+        'disponible': vehiculo.disponible
     } for vehiculo in vehiculos]}), 200
 
 
