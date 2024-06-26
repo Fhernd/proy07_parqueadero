@@ -571,14 +571,17 @@
                     $.LoadingOverlay('hide');
 
                     if (response.status == 'success') {
-                        Swal.fire({
-                            title: "Registro eliminado",
-                            text: "El registro fue eliminado de forma satisfactoria",
-                            icon: "success"
-                        }).then((result) => {
-                            var row = $(this).closest('tr');
-                            vehiculos.row(row).remove().draw();
-                        });
+                        data.disponible = !data.disponible;
+
+                        if (data.disponible) {
+                            $(this).removeClass('btn-secondary').addClass('btn-success');
+                            $(this).attr('title', 'Desactivar');
+                            $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+                        } else {
+                            $(this).removeClass('btn-success').addClass('btn-secondary');
+                            $(this).attr('title', 'Activar');
+                            $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+                        }
                     } else {
                         Swal.fire({
                             title: "Error",
