@@ -111,6 +111,7 @@
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Tipo</th>
+                            <th>Disponible</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -383,9 +384,12 @@
                                 { data: 'marca' },
                                 { data: 'modelo' },
                                 { data: 'tipo' },
-                                {
-                                    data: null,
-                                    render: `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Activar/Desactivar'><i class='fas fa-r${data.disponible ? 'eye' : 'eye-slash'}'></i></button>`
+                                { data: 'disponible' },
+                                { 
+                                    data: 'disponible',
+                                    render: function (data, type, row) {
+                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Activar/Desactivar'><i class='fas fa-${row.disponible ? 'eye' : 'eye-slash'}'></i></button>`;
+                                    }
                                 }
                             ],
                             language: {
@@ -404,7 +408,7 @@
                             },
                             "columnDefs": [
                                 {
-                                    "targets": [0],
+                                    "targets": [0, 5],
                                     "visible": false,
                                     "searchable": false
                                 }
@@ -448,8 +452,6 @@
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-
-            console.log('data', data);
 
             const clienteDocumento = $('#mdlVehiculoCrearEditar').attr('data-cliente-documento');
             data['clienteDocumento'] = clienteDocumento
@@ -554,7 +556,7 @@
             $('#mdlVehiculoCrearEditar button[type="submit"]').text('Guardar');
             $('#mdlVehiculoCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-primary');
         });
-    
+
         $('#tblDatosVehiculos').on('click', '.delete', function () {
             Swal.fire({
                 title: "¿Está seguro de querer eliminar este registro?",
@@ -570,8 +572,6 @@
                     $.LoadingOverlay('show');
 
                     var data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
-
-                    console.log('data', data);
 
                     $.ajax({
                         url: '/cliente/eliminar-vehiculo/' + data.id,
