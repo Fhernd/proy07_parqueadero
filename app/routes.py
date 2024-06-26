@@ -1189,7 +1189,7 @@ def cliente_editar_vehiculo(vehiculo_id):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/cliente/eliminar-vehiculo/<int:vehiculo_id>', methods=['DELETE'])
+@app.route('/cliente/vehiculo/<int:vehiculo_id>/cambiar-disponibilidad', methods=['DELETE'])
 @login_required
 def cliente_eliminar_vehiculo(vehiculo_id):
     """
@@ -1203,7 +1203,7 @@ def cliente_eliminar_vehiculo(vehiculo_id):
         if vehiculo is None:
             return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 404
 
-        vehiculo.disponible = False
+        vehiculo.disponible = not vehiculo.disponible
 
         db.session.commit()
 
