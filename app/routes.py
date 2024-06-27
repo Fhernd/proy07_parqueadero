@@ -1181,7 +1181,8 @@ def cliente_editar_vehiculo(vehiculo_id):
             'modelo': vehiculo.modelo,
             'cliente_id': vehiculo.cliente_id,
             'vehiculo_tipo_id': vehiculo.vehiculo_tipo_id,
-            'vehiculo_tipo': vehiculo.vehiculo_tipo.nombre
+            'vehiculo_tipo': vehiculo.vehiculo_tipo.nombre,
+            'disponible': vehiculo.disponible
         }}), 200
 
     except Exception as e:
