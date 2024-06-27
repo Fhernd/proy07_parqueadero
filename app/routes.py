@@ -1127,7 +1127,7 @@ def cliente_crear_vehiculo():
             marca=data.get('vehiculoMarca'),
             modelo=data.get('vehiculoModelo'),
             cliente_id=cliente.id,
-            vehiculo_tipo_id=vehiculo_tipo_id
+            vehiculo_tipo_id=vehiculo_tipo_id,
         )
 
         db.session.add(entidad)
@@ -1140,7 +1140,8 @@ def cliente_crear_vehiculo():
             'modelo': entidad.modelo,
             'cliente_id': entidad.cliente_id,
             'vehiculo_tipo_id': entidad.vehiculo_tipo_id,
-            'vehiculo_tipo': entidad.vehiculo_tipo.nombre
+            'vehiculo_tipo': entidad.vehiculo_tipo.nombre,
+            'disponible': entidad.disponible
         }}), 201
 
     except Exception as e:
