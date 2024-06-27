@@ -302,6 +302,7 @@ class Tarifa(db.Model):
     
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
     parqueos = db.relationship("Parqueo", back_populates="tarifa")
+    arrendamientos = db.relationship("Arrendamiento", back_populates="tarifa")
 
     def __repr__(self):
         return f"<Tarifa(id={self.id}, nombre='{self.nombre}', costo={self.costo})>"
@@ -385,12 +386,14 @@ class Arrendamiento(db.Model):
     vehiculo_id = db.Column(db.Integer, db.ForeignKey('vehiculo.id'), nullable=False)
     periodicidad_id = db.Column(db.Integer, db.ForeignKey('periodicidad.id'), nullable=False)
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=False)
+    tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     vehiculo = db.relationship('Vehiculo', back_populates='arrendamientos')
     periodicidad = db.relationship('Periodicidad', back_populates='arrendamientos')
     medio_pago = db.relationship('MedioPago', back_populates='arrendamientos')
+    tarifa = db.relationship('Tarifa', back_populates='arrendamientos')
 
     def __repr__(self):
         return f"<Arrendamiento(id='{self.id}', descripcion='{self.descripcion}')>"
