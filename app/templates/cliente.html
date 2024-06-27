@@ -388,7 +388,7 @@
                                 {
                                     data: 'disponible',
                                     render: function (data, type, row) {
-                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-${row.disponible ? 'success' : 'secondary'} cambiar-disponibilidad' title='${row.disponible ? 'Desactivar' : 'Activar'}'><i class='fas fa-${row.disponible ? 'eye' : 'eye-slash'}'></i></button>`;
+                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-${row.disponible ? 'success' : 'secondary'} cambiar-disponibilidad' title='${row.disponible ? 'Desactivar' : 'Activar'}'><i class='fas fa-${row.disponible ? 'eye' : 'eye-slash'}'></i></button> <button class='btn btn-info arrendamientos' title='Arrendamientos'><i class='fas fa-parking'></i></button>`;
                                     }
                                 }
                             ],
