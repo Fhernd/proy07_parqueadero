@@ -1215,3 +1215,24 @@ def cliente_eliminar_vehiculo(vehiculo_id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@app.route('/cliente/vehiculo/<int:vehiculo_id>/arrendamientos', methods=['GET'])
+@login_required
+def cliente_vehiculo_arrendamientos(vehiculo_id):
+    """
+    Muestra los arrendamientos de un vehículo.
+
+    :param vehiculo_id: Identificador del vehículo.
+    :return: Respuesta JSON.
+    """
+    vehiculo = Vehiculo.query.get(vehiculo_id)
+    arrendamientos = vehiculo.arrendamientos
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': arrendamiento.id,
+        'vehiculo_id': arrendamiento.vehiculo_id,
+        'periodicidad': arrendamiento.periodicidad_id,
+        'metodo_pago_id': arrendamiento.metodo_pago_id,
+        'created_at': arrendamiento.created_at,
+    } for arrendamiento in arrendamientos]}), 200
