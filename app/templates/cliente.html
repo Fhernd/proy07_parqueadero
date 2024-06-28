@@ -4,6 +4,22 @@
 
 {% block content %}
 
+<style>
+    .modal-dialog-fullscreen {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+    }
+
+    .modal-content-fullscreen {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+</style>
+
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
 
 <div class="card shadow mb-4">
@@ -171,8 +187,8 @@
 
 <div class="modal fade" id="mdlArrendamientos" tabindex="-1" aria-labelledby="mdlArrendamientosLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+        <div class="modal-content modal-content-fullscreen">
             <div class="modal-header">
                 <h5 class="modal-title" id="mdlArrendamientosLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
