@@ -169,11 +169,13 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlArrendamientos" tabindex="-1" aria-labelledby="mdlArrendamientosLabel" aria-hidden="true">
+<div class="modal fade" id="mdlArrendamientos" tabindex="-1" aria-labelledby="mdlArrendamientosLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mdlArrendamientosLabel"><span id="placaVehiculo"></span>: Arrrendamientos</h5>
+                <h5 class="modal-title" id="mdlArrendamientosLabel"><span id="placaVehiculo"></span>: Arrrendamientos
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -649,6 +651,60 @@
                     });
                 }
             });
+        });
+
+        $('#tblDatosVehiculos').on('click', '.arrendamientos', function () {
+            const data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
+
+            const vehiculoId = data.id;
+
+            $.LoadingOverlay('show');
+
+            $.ajax({
+                url: `/cliente/vehiculo/${vehiculoId}/arrendamientos`,
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    if (response.status == 'success') {
+                        $('#mdlArrendamientos').modal('show');
+
+                        $('#placaVehiculo').text(data.placa);
+
+                        $('#tblDatosArrendamientos').DataTable({
+                            data: response['data'],
+                            columns: [
+                                { data: 'id' },
+                                { data: 'periodicidad' },
+                                { data: 'tarifa' },
+                                { data: 'medio_pago' },
+                                {
+                                    data: null,
+                                    render: function (data, type, row) {
+                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>`;
+                                    }
+                                }
+                            ],
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
+                        icon: "error"
+                    });
+                }
+            });
+
         });
     });
 
