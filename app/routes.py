@@ -1232,7 +1232,10 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': arrendamiento.id,
         'vehiculo_id': arrendamiento.vehiculo_id,
-        'periodicidad': arrendamiento.periodicidad_id,
+        'periodicidad_id': arrendamiento.periodicidad_id,
         'metodo_pago_id': arrendamiento.metodo_pago_id,
         'created_at': arrendamiento.created_at,
+        'periodicidad': arrendamiento.periodicidad.nombre,
+        'metodo_pago': arrendamiento.metodo_pago.nombre,
+        'tarifa': arrendamiento.tarifa.nombre
     } for arrendamiento in arrendamientos]}), 200
