@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -138,12 +138,13 @@ def get_tarifa_tipos():
 
     :return: Respuesta JSON.
     """
-    entidades = TarifaTipo.query.all()
+    entidades = Tarifa.query.all()
     
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': entidad.id,
+        'costo': entidad.costo,
         'nombre': entidad.nombre,
-        'costo': entidad.costo
+        'unidad': entidad.unidad
     } for entidad in entidades]}), 200
 
 

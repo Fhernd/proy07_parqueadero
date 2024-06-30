@@ -219,8 +219,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlNuevoFormulario" tabindex="-1" role="dialog"
-    aria-labelledby="mdlNuevoFormularioLabel" aria-hidden="true">
+<div class="modal fade" id="mdlNuevoFormulario" tabindex="-1" role="dialog" aria-labelledby="mdlNuevoFormularioLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="frmNuevoFormulario">
             <div class="modal-content">
@@ -716,8 +716,10 @@
             const vehiculoId = data.id;
             const placa = data.placa;
 
-            if (!primeraVezVistaModalArrendamientos) {
-               cargarDatosModalArrendamientos();
+            if (primeraVezVistaModalArrendamientos) {
+                cargarDatosModalArrendamientos();
+
+                primeraVezVistaModalArrendamientos = false;
             }
 
             $('#mdlArrendamientosLabel').text(`Vehículo ${placa}: Arrrendamientos`);
@@ -775,7 +777,31 @@
     });
 
     function cargarDatosModalArrendamientos() {
-        
+        $.ajax({
+            url: '/tarifa-tipos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const tarifaTipos = response.data;
+
+                    console.log('tarifaTipos', tarifaTipos);
+                    
+                    const tipoTarifa = $('#tipoTarifa');
+                    tipoTarifa.empty();
+
+                    tarifaTipos.forEach(tarifaTipo => {
+                        tipoTarifa.append(`<option value="${tarifaTipo.id}">${tarifaTipo.nombre} - $${tarifaTipo.costo}</option>`);
+                    });
+                } else {
+                    // Aquí puedes agregar el código para manejar el error
+                    console.error('Error al obtener los tipos de tarifa: ', response.message);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error en la solicitud AJAX: ', textStatus, ', ', errorThrown);
+            }
+        });
     }
 
 </script>
