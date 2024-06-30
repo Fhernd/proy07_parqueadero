@@ -238,8 +238,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tipoTarifa">Tipo de tarifa</label>
-                        <select class="form-control" id="tipoTarifa" name="tipoTarifa" required>
+                        <label for="tarifas">Tipo de tarifa</label>
+                        <select class="form-control" id="tarifas" name="tarifas" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
@@ -778,24 +778,36 @@
 
     function cargarDatosModalArrendamientos() {
         $.ajax({
-            url: '/tarifa-tipos',
+            url: '/tarifas',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
                 if (response.status === 'success') {
-                    const tarifaTipos = response.data;
+                    const tarifas = response.data;
 
-                    console.log('tarifaTipos', tarifaTipos);
-                    
-                    const tipoTarifa = $('#tipoTarifa');
-                    tipoTarifa.empty();
+                    const cbxTarifas = $('#tarifas');
+                    cbxTarifas.empty();
 
-                    tarifaTipos.forEach(tarifaTipo => {
-                        tipoTarifa.append(`<option value="${tarifaTipo.id}">${tarifaTipo.nombre} - $${tarifaTipo.costo}</option>`);
+                    tarifas.forEach(e => {
+                        cbxTarifas.append(`<option value="${e.id}">${e.nombre} - $${e.costo}</option>`);
                     });
                 } else {
-                    // Aquí puedes agregar el código para manejar el error
-                    console.error('Error al obtener los tipos de tarifa: ', response.message);
+                    $('#tarifas').prop('disabled', true);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "warning",
+                        title: 'No hay tarifas disponibles. Debe crear al menos una tarifa para poder continuar.'
+                    });
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

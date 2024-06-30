@@ -130,7 +130,7 @@ def tarifa_tipo():
     return render_template("tarifa-tipo.html", titulo='Tipo de Tarifa', entidades=entidades)
 
 
-@app.route("/tarifa-tipos", methods=['GET'])
+@app.route("/tarifas", methods=['GET'])
 @login_required
 def get_tarifa_tipos():
     """
