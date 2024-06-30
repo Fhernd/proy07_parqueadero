@@ -155,46 +155,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlNuevoFormulario" tabindex="-1" role="dialog"
-    aria-labelledby="mdlNuevoFormularioLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form id="frmNuevoFormulario">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mdlNuevoFormularioLabel">Crear nuevo formulario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="periodicidad">Periodicidad</label>
-                        <select class="form-control" id="periodicidad" name="periodicidad" required>
-                            <option value="">Seleccione...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tipoTarifa">Tipo de tarifa</label>
-                        <select class="form-control" id="tipoTarifa" name="tipoTarifa" required>
-                            <option value="">Seleccione...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="medioPago">Medio de pago</label>
-                        <select class="form-control" id="medioPago" name="medioPago" required>
-                            <option value="">Seleccione...</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
 <script>
     $(document).ready(function () {
         const dataTable = $('#tblDatos').DataTable({
