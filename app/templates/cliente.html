@@ -708,11 +708,17 @@
             });
         });
 
+        let primeraVezVistaModalArrendamientos = true;
+
         $('#tblDatosVehiculos').on('click', '.arrendamientos', function () {
             const data = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data();
 
             const vehiculoId = data.id;
             const placa = data.placa;
+
+            if (!primeraVezVistaModalArrendamientos) {
+               cargarDatosModalArrendamientos();
+            }
 
             $('#mdlArrendamientosLabel').text(`Vehículo ${placa}: Arrrendamientos`);
 
@@ -767,6 +773,10 @@
 
         });
     });
+
+    function cargarDatosModalArrendamientos() {
+        
+    }
 
 </script>
 {% endblock %}

@@ -130,6 +130,23 @@ def tarifa_tipo():
     return render_template("tarifa-tipo.html", titulo='Tipo de Tarifa', entidades=entidades)
 
 
+@app.route("/tarifa-tipos", methods=['GET'])
+@login_required
+def get_tarifa_tipos():
+    """
+    Recupera los tipos de tarifa.
+
+    :return: Respuesta JSON.
+    """
+    entidades = TarifaTipo.query.all()
+    
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': entidad.id,
+        'nombre': entidad.nombre,
+        'costo': entidad.costo
+    } for entidad in entidades]}), 200
+
+
 @app.route('/tarifa-tipo', methods=['POST'])
 @login_required
 def tarifa_tipo_create():
