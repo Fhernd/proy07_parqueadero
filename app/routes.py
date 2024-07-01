@@ -241,6 +241,22 @@ def medio_pago():
     return render_template('medio-pago.html', titulo='Medios de Pago', entidades=entidades)
 
 
+@app.route("/medios-pago", methods=['GET'])
+@login_required
+def get_medios_pago():
+    """
+    Recupera los medios de pago.
+
+    :return: Respuesta JSON.
+    """
+    entidades = MedioPago.query.all()
+    
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': entidad.id,
+        'nombre': entidad.nombre,
+    } for entidad in entidades]}), 200
+
+
 @app.route('/medio-pago', methods=['POST'])
 @login_required
 def medio_pago_create():
