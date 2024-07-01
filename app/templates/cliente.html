@@ -815,10 +815,8 @@
             }
         });
 
-        var parqueadero_id = 1; // Reemplaza esto con el ID del parqueadero que estás utilizando
-
         $.ajax({
-            url: '/periodicidades/' + parqueadero_id,
+            url: '/periodicidades',
             type: 'GET',
             dataType: 'json',
             success: function (response) {

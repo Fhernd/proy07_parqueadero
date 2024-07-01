@@ -1258,17 +1258,17 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
     } for arrendamiento in arrendamientos]}), 200
 
 
-@app.route('/periodicidades/<int:parqueadero_id>', methods=['GET'])
+@app.route('/periodicidades', methods=['GET'])
 @login_required
 def periodicidades(parqueadero_id):
     """
     Muestra las periodicidades.
 
-    :param parqueadero_id: Identificador del parqueadero.
-
     :return: Respuesta JSON.
     """
-    periodicidades = Periodicidad.query.filter_by(parqueadero_id=parqueadero_id).all()
+    usuario_id = current_user.id
+    parqueadero = Parqueadero.query.filter_by(usuario_id=usuario_id).first()
+    periodicidades = Periodicidad.query.filter_by(parqueadero_id=parqueadero.id).all()
 
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': entidad.id,
