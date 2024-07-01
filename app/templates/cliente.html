@@ -856,6 +856,45 @@
                 });
             }
         });
+
+        $.ajax({
+            url: '/medios-pago',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const mediosPago = response.data;
+                    
+                    const cbxMediosPago = $('#medioPago');
+                    cbxMediosPago.empty();
+                    
+                    mediosPago.forEach(e => {
+                        cbxMediosPago.append(`<option value="${e.id}">${e.nombre}</option>`);
+                    });
+                } else {
+                    $('#tarifas').prop('disabled', true);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "warning",
+                        title: 'No hay medios de pago disponibles. Debe crear al menos un medio de pago para poder continuar.'
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Aquí puedes agregar el código para manejar el error de la solicitud AJAX
+                console.error('Error en la solicitud AJAX: ', textStatus, ', ', errorThrown);
+            }
+        });
     }
 
 </script>
