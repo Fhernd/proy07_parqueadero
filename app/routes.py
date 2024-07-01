@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
+from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -1256,3 +1256,22 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
         'metodo_pago': arrendamiento.metodo_pago.nombre,
         'tarifa': arrendamiento.tarifa.nombre
     } for arrendamiento in arrendamientos]}), 200
+
+
+@app.route('/periodicidades/<int:parqueadero_id>', methods=['GET'])
+@login_required
+def periodicidades(parqueadero_id):
+    """
+    Muestra las periodicidades.
+
+    :param parqueadero_id: Identificador del parqueadero.
+
+    :return: Respuesta JSON.
+    """
+    periodicidades = Periodicidad.query.filter_by(parqueadero_id=parqueadero_id).all()
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': entidad.id,
+        'nombre': entidad.nombre,
+        'dias': entidad.dias
+    } for entidad in periodicidades]}), 200
