@@ -144,7 +144,6 @@ def get_tarifa_tipos():
         'id': entidad.id,
         'costo': entidad.costo,
         'nombre': entidad.nombre,
-        'unidad': entidad.unidad
     } for entidad in entidades]}), 200
 
 
