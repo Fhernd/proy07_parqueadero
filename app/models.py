@@ -660,6 +660,20 @@ def insert_initial_values():
 
         db.session.commit()
 
+    if not Tarifa.query.first():
+        tarifas = [
+            Tarifa(id=1, nombre='Tarifa por minuto', costo=100, tarifa_tipo_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Tarifa(id=2, nombre='Tarifa por hora', costo=2000, tarifa_tipo_id=2, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Tarifa(id=3, nombre='Tarifa por día', costo=15000, tarifa_tipo_id=3, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Tarifa(id=4, nombre='Tarifa por semana', costo=100000, tarifa_tipo_id=4, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Tarifa(id=5, nombre='Tarifa por mes', costo=300000, tarifa_tipo_id=5, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Tarifa(id=6, nombre='Tarifa por año', costo=2000000, tarifa_tipo_id=6, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
+        ]
+
+        db.session.add_all(tarifas)
+
+        db.session
+
     if not Vehiculo.query.first():
         vehiculos = [
             Vehiculo(placa='ABC123', disponible=True, marca='Chevrolet', modelo='2021', vehiculo_tipo_id=2, cliente_id=1, created_at=datetime.now(), updated_at=datetime.now()),
