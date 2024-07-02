@@ -736,6 +736,10 @@
                     $.LoadingOverlay('hide');
                     if (response.status == 'success') {
                         $('#placaVehiculo').text(data.placa);
+                        
+                        if ($.fn.DataTable.isDataTable('#tblDatosArrendamientos')) {
+                            $('#tblDatosArrendamientos').DataTable().destroy();
+                        }
 
                         $('#tblDatosArrendamientos').DataTable({
                             data: response['data'],
