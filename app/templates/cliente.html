@@ -726,53 +726,54 @@
 
             $('#mdlArrendamientos').modal('show');
 
-            // $.LoadingOverlay('show');
+            $.LoadingOverlay('show');
 
-            // $.ajax({
-            //     url: `/cliente/vehiculo/${vehiculoId}/arrendamientos`,
-            //     type: 'GET',
-            //     dataType: 'json',
-            //     success: (response) => {
-            //         $.LoadingOverlay('hide');
-            //         if (response.status == 'success') {
-            //             $('#mdlArrendamientos').modal('show');
+            $.ajax({
+                url: `/cliente/vehiculo/${vehiculoId}/arrendamientos`,
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+                    if (response.status == 'success') {
+                        $('#placaVehiculo').text(data.placa);
 
-            //             $('#placaVehiculo').text(data.placa);
+                        $('#tblDatosArrendamientos').DataTable({
+                            data: response['data'],
+                            columns: [
+                                { data: 'id' },
+                                { data: 'periodicidad' },
+                                { data: 'tarifa' },
+                                { data: 'medio_pago' },
+                                {
+                                    data: null,
+                                    render: function (data, type, row) {
+                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>`;
+                                    }
+                                }
+                            ],
+                        });
 
-            //             $('#tblDatosArrendamientos').DataTable({
-            //                 data: response['data'],
-            //                 columns: [
-            //                     { data: 'id' },
-            //                     { data: 'periodicidad' },
-            //                     { data: 'tarifa' },
-            //                     { data: 'medio_pago' },
-            //                     {
-            //                         data: null,
-            //                         render: function (data, type, row) {
-            //                             return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>`;
-            //                         }
-            //                     }
-            //                 ],
-            //             });
-            //         } else {
-            //             Swal.fire({
-            //                 title: "Error",
-            //                 text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
-            //                 icon: "error"
-            //             });
-            //         }
-            //     },
-            //     error: (error) => {
-            //         $.LoadingOverlay('hide');
+                        $.LoadingOverlay('hide');
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
+                            icon: "error"
+                        });
 
-            //         Swal.fire({
-            //             title: "Error",
-            //             text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
-            //             icon: "error"
-            //         });
-            //     }
-            // });
+                        $.LoadingOverlay('hide');
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
 
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar obtener los arrendamientos del vehículo.",
+                        icon: "error"
+                    });
+                }
+            });
         });
     });
 
@@ -864,10 +865,10 @@
             success: function (response) {
                 if (response.status === 'success') {
                     const mediosPago = response.data;
-                    
+
                     const cbxMediosPago = $('#medioPago');
                     cbxMediosPago.empty();
-                    
+
                     mediosPago.forEach(e => {
                         cbxMediosPago.append(`<option value="${e.id}">${e.nombre}</option>`);
                     });

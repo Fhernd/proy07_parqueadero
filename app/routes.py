@@ -1276,7 +1276,7 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
 
 @app.route('/periodicidades', methods=['GET'])
 @login_required
-def periodicidades(parqueadero_id):
+def periodicidades():
     """
     Muestra las periodicidades.
 
