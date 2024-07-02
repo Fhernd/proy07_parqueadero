@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
+from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
 admin_role = RoleNeed('admin')
@@ -1291,3 +1291,45 @@ def periodicidades():
         'nombre': entidad.nombre,
         'dias': entidad.dias
     } for entidad in periodicidades]}), 200
+
+
+@app.route('//cliente/vehiculo/arrendamiento', methods=['POST'])
+@login_required
+def cliente_vehiculo_arrendamiento():
+    """
+    Crea un arrendamiento de un vehículo.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+
+        descripcion = data.get('descripcion')
+        vehiculo_id = data.get('vehiculoId')
+        periodicidad_id = data.get('periodicidadId')
+        metodo_pago_id = data.get('metodoPagoId')
+        tarifa_id = data.get('tarifaId')
+
+        entidad = Arrendamiento(
+            descripcion=descripcion,
+            vehiculo_id=vehiculo_id,
+            periodicidad_id=periodicidad_id,
+            metodo_pago_id=metodo_pago_id,
+            tarifa_id=tarifa_id
+        )
+
+        db.session.add(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Arrendamiento creado', 'data': {
+            'id': entidad.id,
+            'vehiculo_id': entidad.vehiculo_id,
+            'periodicidad_id': entidad.periodicidad_id,
+            'metodo_pago_id': entidad.metodo_pago_id,
+            'tarifa_id': entidad.tarifa_id
+        }}), 201
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
