@@ -723,6 +723,8 @@
             }
 
             $('#mdlArrendamientosLabel').text(`Vehículo ${placa}: Arrrendamientos`);
+            
+            $('#mdlArrendamientos').attr('data-vehiculo-id', vehiculoId);
 
             $('#mdlArrendamientos').modal('show');
 
@@ -799,8 +801,10 @@
                 data[key] = value;
             });
 
-            const vehiculoId = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data().id;
+            const vehiculoId = $('#mdlArrendamientos').attr('data-vehiculo-id');
             data['vehiculoId'] = vehiculoId;
+
+            console.log(data);
 
             $.ajax({
                 url: '/cliente/vehiculo/arrendamiento',
