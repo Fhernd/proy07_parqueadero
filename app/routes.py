@@ -1266,10 +1266,10 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
         'id': arrendamiento.id,
         'vehiculo_id': arrendamiento.vehiculo_id,
         'periodicidad_id': arrendamiento.periodicidad_id,
-        'metodo_pago_id': arrendamiento.metodo_pago_id,
+        'medio_pago_id': arrendamiento.medio_pago_id,
         'created_at': arrendamiento.created_at,
         'periodicidad': arrendamiento.periodicidad.nombre,
-        'metodo_pago': arrendamiento.metodo_pago.nombre,
+        'medio_pago': arrendamiento.medio_pago.nombre,
         'tarifa': arrendamiento.tarifa.nombre
     } for arrendamiento in arrendamientos]}), 200
 
@@ -1293,7 +1293,7 @@ def periodicidades():
     } for entidad in periodicidades]}), 200
 
 
-@app.route('//cliente/vehiculo/arrendamiento', methods=['POST'])
+@app.route('/cliente/vehiculo/arrendamiento', methods=['POST'])
 @login_required
 def cliente_vehiculo_arrendamiento():
     """
@@ -1325,7 +1325,7 @@ def cliente_vehiculo_arrendamiento():
             'id': entidad.id,
             'vehiculo_id': entidad.vehiculo_id,
             'periodicidad_id': entidad.periodicidad_id,
-            'metodo_pago_id': entidad.metodo_pago_id,
+            'medio_pago_id': entidad.medio_pago_id,
             'tarifa_id': entidad.tarifa_id
         }}), 201
 

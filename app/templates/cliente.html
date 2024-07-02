@@ -808,8 +808,6 @@
             const vehiculoId = $('#mdlArrendamientos').attr('data-vehiculo-id');
             data['vehiculoId'] = vehiculoId;
 
-            console.log(data);
-
             $.ajax({
                 url: '/cliente/vehiculo/arrendamiento',
                 type: 'POST',
@@ -870,8 +868,6 @@
             success: function (response) {
                 if (response.status === 'success') {
                     const tarifas = response.data;
-
-                    console.log('tarifas', tarifas);
 
                     const cbxTarifas = $('#tarifaId');
                     cbxTarifas.empty();
