@@ -1307,14 +1307,14 @@ def cliente_vehiculo_arrendamiento():
         descripcion = data.get('descripcion')
         vehiculo_id = data.get('vehiculoId')
         periodicidad_id = data.get('periodicidadId')
-        metodo_pago_id = data.get('metodoPagoId')
+        medio_pago_id = data.get('medioPagoId')
         tarifa_id = data.get('tarifaId')
 
         entidad = Arrendamiento(
             descripcion=descripcion,
             vehiculo_id=vehiculo_id,
             periodicidad_id=periodicidad_id,
-            metodo_pago_id=metodo_pago_id,
+            medio_pago_id=medio_pago_id,
             tarifa_id=tarifa_id
         )
 
