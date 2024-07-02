@@ -689,6 +689,19 @@ def insert_initial_values():
         db.session.add_all(vehiculos)
         db.session.commit()
 
+    if not Periodicidad.query.first():
+        periodicidades = [
+            Periodicidad(id=1, nombre='Diario', dias=1, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Periodicidad(id=2, nombre='Semanal', dias=7, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Periodicidad(id=3, nombre='Mensual', dias=30, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Periodicidad(id=4, nombre='Trimestral', dias=365, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Periodicidad(id=5, nombre='Semestral', dias=365, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15)),
+            Periodicidad(id=6, nombre='Anual', dias=365, parqueadero_id=1, created_at=datetime(2024, 4, 15), updated_at=datetime(2024, 4, 15))
+        ]
+
+        db.session.add_all(periodicidades)
+        db.session.commit()
+
 with app.app_context():
     db.create_all()
 
