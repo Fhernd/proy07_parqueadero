@@ -222,7 +222,7 @@
 <div class="modal fade" id="mdlArrendamientosCrearEditar" tabindex="-1" role="dialog"
     aria-labelledby="mdlArrendamientosCrearEditaroLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form id="frmmdlArrendamientosCrearEditar">
+        <form id="frmMmdlArrendamientosCrearEditar">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="mdlArrendamientosCrearEditarLabel">Crear arrendamiento</h5>
@@ -786,6 +786,71 @@
             $('#mdlArrendamientosCrearEditarLabel').text('Crear nuevo arrendamiento');
             $('#mdlArrendamientosCrearEditar button[type="submit"]').text('Guardar');
             $('#mdlArrendamientosCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
+        });
+    
+        $('#frmMmdlArrendamientosCrearEditar').submit(function (e) {
+            e.preventDefault();
+
+            $.LoadingOverlay('show');
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            const vehiculoId = $('#tblDatosVehiculos').DataTable().row($(this).parents('tr')).data().id;
+            data['vehiculoId'] = vehiculoId;
+
+            $.ajax({
+                url: '/cliente/vehiculo/arrendamiento',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'success') {
+                        const operacion = 'guardado';
+
+                        Swal.fire({
+                            title: "Registro guardado",
+                            text: `El registro fue ${operacion} de forma satisfactoria.`,
+                            icon: "success"
+                        }).then((result) => {
+                            $('#mdlArrendamientosCrearEditar').modal('hide');
+                            $('#periodicidad').val('');
+                            $('#tarifas').val('');
+                            $('#medioPago').val('');
+
+                            $('#tblDatosArrendamientos').DataTable().row.add({
+                                id: response.data.id,
+                                periodicidad: response.data.periodicidad,
+                                tarifa: response.data.tarifa,
+                                medio_pago: response.data.medio_pago
+                            }).draw();
+
+                            $('#frmMmdlArrendamientosCrearEditar').trigger('reset');
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar guardar el registro.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar guardar el registro.",
+                        icon: "error"
+                    });
+                }
+            });
         });
     });
 
