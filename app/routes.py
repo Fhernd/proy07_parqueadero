@@ -1323,10 +1323,10 @@ def cliente_vehiculo_arrendamiento():
 
         return jsonify({'status': 'success', 'message': 'Arrendamiento creado', 'data': {
             'id': entidad.id,
-            'vehiculo_id': entidad.vehiculo_id,
-            'periodicidad_id': entidad.periodicidad_id,
-            'medio_pago_id': entidad.medio_pago_id,
-            'tarifa_id': entidad.tarifa_id
+            'periodicidad': entidad.periodicidad.nombre,
+            'medio_pago': entidad.medio_pago.nombre,
+            'descripcion': entidad.descripcion,
+            'tarifa': entidad.tarifa.nombre
         }}), 201
 
     except Exception as e:
