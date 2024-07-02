@@ -219,8 +219,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlArrendamientosCrearEditar" tabindex="-1" role="dialog" aria-labelledby="mdlArrendamientosCrearEditaroLabel"
-    aria-hidden="true">
+<div class="modal fade" id="mdlArrendamientosCrearEditar" tabindex="-1" role="dialog"
+    aria-labelledby="mdlArrendamientosCrearEditaroLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="frmmdlArrendamientosCrearEditar">
             <div class="modal-content">
@@ -252,7 +252,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
             </div>
         </form>
@@ -736,7 +736,7 @@
                     $.LoadingOverlay('hide');
                     if (response.status == 'success') {
                         $('#placaVehiculo').text(data.placa);
-                        
+
                         if ($.fn.DataTable.isDataTable('#tblDatosArrendamientos')) {
                             $('#tblDatosArrendamientos').DataTable().destroy();
                         }
@@ -778,6 +778,14 @@
                     });
                 }
             });
+        });
+
+        $('#mdlArrendamientosCrearEditar').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            $('#mdlArrendamientosCrearEditarLabel').text('Crear nuevo arrendamiento');
+            $('#mdlArrendamientosCrearEditar button[type="submit"]').text('Guardar');
+            $('#mdlArrendamientosCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
     });
 
