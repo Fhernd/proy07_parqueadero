@@ -232,20 +232,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="periodicidad">Periodicidad</label>
-                        <select class="form-control" id="periodicidad" name="periodicidad" required>
+                        <label for="periodicidadId">Periodicidad</label>
+                        <select class="form-control" id="periodicidadId" name="periodicidadId" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tarifas">Tipo de tarifa</label>
-                        <select class="form-control" id="tarifas" name="tarifas" required>
+                        <label for="tarifaId">Tipo de tarifa</label>
+                        <select class="form-control" id="tarifaId" name="tarifaId" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="medioPago">Medio de pago</label>
-                        <select class="form-control" id="medioPago" name="medioPago" required>
+                        <label for="medioPagoId">Medio de pago</label>
+                        <select class="form-control" id="medioPagoId" name="medioPagoId" required>
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
@@ -867,7 +867,9 @@
                 if (response.status === 'success') {
                     const tarifas = response.data;
 
-                    const cbxTarifas = $('#tarifas');
+                    console.log('tarifas', tarifas);
+
+                    const cbxTarifas = $('#tarifaId');
                     cbxTarifas.empty();
 
                     tarifas.forEach(e => {
@@ -905,7 +907,7 @@
                 if (response.status === 'success') {
                     var periodicidades = response.data;
 
-                    var cbxPeriodicidades = $('#periodicidad');
+                    var cbxPeriodicidades = $('#periodicidadId');
                     cbxPeriodicidades.empty();
 
                     periodicidades.forEach(e => {
@@ -947,7 +949,7 @@
                 if (response.status === 'success') {
                     const mediosPago = response.data;
 
-                    const cbxMediosPago = $('#medioPago');
+                    const cbxMediosPago = $('#medioPagoId');
                     cbxMediosPago.empty();
 
                     mediosPago.forEach(e => {
