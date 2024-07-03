@@ -1334,3 +1334,41 @@ def cliente_vehiculo_arrendamiento():
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+    
+
+@app.route('/cliente/vehiculo/arrendamiento/<int:id>', methods=['PUT'])
+@login_required
+def cliente_vehiculo_arrendamiento_actualizar(id):
+    """
+    Actualiza un arrendamiento de un vehículo.
+
+    :param id: Identificador del arrendamiento.
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        entidad = Arrendamiento.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Arrendamiento no encontrado'}), 404
+
+        entidad.descripcion = data.get('descripcion')
+        entidad.periodicidad_id = data.get('periodicidadId')
+        entidad.medio_pago_id = data.get('medioPagoId')
+        entidad.tarifa_id = data.get('tarifaId')
+        entidad.updated_at = db.func.current_timestamp()
+
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Arrendamiento actualizado', 'data': {
+            'id': entidad.id,
+            'periodicidad': entidad.periodicidad.nombre,
+            'medio_pago': entidad.medio_pago.nombre,
+            'descripcion': entidad.descripcion,
+            'tarifa': entidad.tarifa.nombre
+        }}), 200
+
+    except Exception as e:
+        print('error', e)
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
