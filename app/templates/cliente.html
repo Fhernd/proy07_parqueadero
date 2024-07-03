@@ -794,6 +794,39 @@
             $('#mdlArrendamientosCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
     
+        $('#tblDatosArrendamientos').on('click', '.edit', function () {
+            const data = $('#tblDatosArrendamientos').DataTable().row($(this).parents('tr')).data();
+            $('#mdlArrendamientosCrearEditarLabel').text('Editar arrendamiento');
+
+            $('#id').val(data.id);
+
+            const periodicidad = data.periodicidad;
+            $('#periodicidadId option').each(function () {
+                if ($(this).text() == periodicidad) {
+                    $(this).prop('selected', true);
+                }
+            });
+            
+            const tarifa = data.tarifa;
+            $('#tarifaId option').each(function () {
+                if ($(this).text() == tarifa) {
+                    $(this).prop('selected', true);
+                }
+            });
+            
+            const medioPago = data.medio_pago;
+            $('#medioPagoId option').each(function () {
+                if ($(this).text() == medioPago) {
+                    $(this).prop('selected', true);
+                }
+            });
+            
+            $('#mdlArrendamientosCrearEditar button[type="submit"]').text('Editar');
+            $('#mdlArrendamientosCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
+            
+            $('#mdlArrendamientosCrearEditar').modal('show');
+        });
+
         $('#frmMmdlArrendamientosCrearEditar').submit(function (e) {
             e.preventDefault();
 
