@@ -1266,10 +1266,12 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
         'id': arrendamiento.id,
         'vehiculoId': arrendamiento.vehiculo_id,
         'periodicidadId': arrendamiento.periodicidad_id,
+        'tarifaId': arrendamiento.tarifa_id,
         'medioPagoId': arrendamiento.medio_pago_id,
         'periodicidad': arrendamiento.periodicidad.nombre,
         'medioPago': arrendamiento.medio_pago.nombre,
-        'tarifa': arrendamiento.tarifa.nombre
+        'tarifa': arrendamiento.tarifa.nombre,
+        'descripcion': arrendamiento.descripcion
     } for arrendamiento in arrendamientos]}), 200
 
 
