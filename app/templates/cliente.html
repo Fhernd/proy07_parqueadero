@@ -839,7 +839,7 @@
             let url = '/cliente/vehiculo/arrendamiento';
             let method = 'POST';
             if ($('#mdlArrendamientosCrearEditarLabel').text().includes('Editar')) {
-                url = `'/cliente/vehiculo/arrendamiento'/${$('#arrendamientoId').val()}`;
+                url = `/cliente/vehiculo/arrendamiento/${$('#arrendamientoId').val()}`;
                 method = 'PUT';
             }
 
@@ -877,9 +877,9 @@
                                 periodicidad: response.data.periodicidad,
                                 tarifa: response.data.tarifa,
                                 medioPago: response.data.medioPago,
-                                periodicidadId: response.data.periodicidad_id,
-                                tarifaId: response.data.tarifa_id,
-                                medioPagoId: response.data.medio_pago_id,
+                                periodicidadId: response.data.periodicidadId,
+                                tarifaId: response.data.tarifaId,
+                                medioPagoId: response.data.medioPagoId,
                                 descripcion: response.data.descripcion
                             }).draw();
 
