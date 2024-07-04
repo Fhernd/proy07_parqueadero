@@ -907,6 +907,46 @@
                 }
             });
         });
+
+        $('#tblDatos tbody').on('click', 'button.puntos', function () {
+            $.LoadingOverlay('show');
+
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            const documento = data[0];
+            const nombreCompleto = data[1];
+
+            // Mostramos el modal:
+            $('#mdlPuntos').modal('show');
+
+            $.ajax({
+                url: `/cliente/${documento}/puntos`,
+                type: 'GET',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'success') {
+
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar obtener los puntos del cliente.",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar obtener los puntos del cliente.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     });
 
     function cargarDatosModalArrendamientos() {
