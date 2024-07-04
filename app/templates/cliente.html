@@ -861,15 +861,26 @@
                             icon: "success"
                         }).then((result) => {
                             $('#mdlArrendamientosCrearEditar').modal('hide');
-                            $('#periodicidad').val('');
-                            $('#tarifas').val('');
-                            $('#medioPago').val('');
+
+                            if (method == 'PUT') {
+                                const arrendamientoId = $('#arrendamientoId').val();
+                                $('#tblDatosArrendamientos').DataTable().rows().every(function () {
+                                    const data = this.data();
+                                    if (data['id'] == arrendamientoId) {
+                                        this.remove().draw();
+                                    }
+                                });
+                            }
 
                             $('#tblDatosArrendamientos').DataTable().row.add({
                                 id: response.data.id,
                                 periodicidad: response.data.periodicidad,
                                 tarifa: response.data.tarifa,
-                                medio_pago: response.data.medio_pago
+                                medioPago: response.data.medioPago,
+                                periodicidadId: response.data.periodicidad_id,
+                                tarifaId: response.data.tarifa_id,
+                                medioPagoId: response.data.medio_pago_id,
+                                descripcion: response.data.descripcion
                             }).draw();
 
                             $('#frmMmdlArrendamientosCrearEditar').trigger('reset');
