@@ -1380,3 +1380,21 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
         print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
+@app.route('/cliente/<str:documento>/puntos', methods=['GET'])
+def get_cliente_puntos(documento):
+    """
+    Obtiene los puntos de un cliente.
+
+    :param documento: Documento del cliente.
+
+    :return: Respuesta JSON.
+    """
+    puntos = {
+        'documento': documento,
+        'puntos': 100
+    }
+
+    return jsonify(puntos)

@@ -916,9 +916,6 @@
             const documento = data[0];
             const nombreCompleto = data[1];
 
-            // Mostramos el modal:
-            $('#mdlPuntos').modal('show');
-
             $.ajax({
                 url: `/cliente/${documento}/puntos`,
                 type: 'GET',
