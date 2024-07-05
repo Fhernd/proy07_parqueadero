@@ -1383,7 +1383,8 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
 
 
 
-@app.route('/cliente/<str:documento>/puntos', methods=['GET'])
+@app.route('/cliente/<string:documento>/puntos', methods=['GET'])
+@login_required
 def get_cliente_puntos(documento):
     """
     Obtiene los puntos de un cliente.
