@@ -927,23 +927,18 @@
 
                     if (response.status == 'success') {
                         Swal.fire({
-                            title: "<strong>HTML <u>example</u></strong>",
+                            title: "<strong>PUNTOS</strong>",
                             icon: "info",
                             html: `
-                                You can use <b>bold text</b>,
-                                <a href="#">links</a>,
-                                and other HTML tags
+                                Usted tiene <b>${response.data.puntos}</b> puntos.
                             `,
                             showCloseButton: true,
-                            showCancelButton: true,
-                            focusConfirm: false,
+                            showCancelButton: false,
+                            focusConfirm: true,
                             confirmButtonText: `
-                                <i class="fa fa-thumbs-up"></i> Great!
+                               OK
                             `,
-                            confirmButtonAriaLabel: "Thumbs up, great!",
-                            cancelButtonText: `
-                                <i class="fa fa-thumbs-down"></i>
-                            `,
+                            confirmButtonAriaLabel: "OK",
                             cancelButtonAriaLabel: "Thumbs down"
                         });
                     } else {
