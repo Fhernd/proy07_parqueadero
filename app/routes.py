@@ -1394,8 +1394,11 @@ def get_cliente_puntos(documento):
     :return: Respuesta JSON.
     """
     puntos = {
-        'documento': documento,
-        'puntos': 100
+        'data': {
+            'documento': documento,
+            'puntos': 100,
+        },
+        'status': 'success',
     }
 
     return jsonify(puntos)
