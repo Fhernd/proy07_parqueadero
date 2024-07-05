@@ -1393,10 +1393,15 @@ def get_cliente_puntos(documento):
 
     :return: Respuesta JSON.
     """
+    cliente = Cliente.query.filter_by(documento=documento).first()
+    puntos = cliente.puntos
+
+    total_puntos = sum([punto.cantidad for punto in puntos])
+    
     puntos = {
         'data': {
             'documento': documento,
-            'puntos': 100,
+            'puntos': total_puntos,
         },
         'status': 'success',
     }
