@@ -1,6 +1,6 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_principal import Principal, Permission, RoleNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
+from flask_principal import Principal, Permission, RoleNeed, UserNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -16,6 +16,17 @@ operario_role = RoleNeed('operario')
 admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    identity.user = current_user
+
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.nombre))
 
 
 @identity_loaded.connect_via(app)
@@ -34,6 +45,7 @@ def index():
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
+@operario_permission.require(http_exception=403)
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
@@ -45,6 +57,7 @@ def dashboard():
 
 @app.route("/vehiculo-tipo", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def vehiculo_tipo():
     tipos_vehiculo = VehiculoTipo.query.all()
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
@@ -52,6 +65,7 @@ def vehiculo_tipo():
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def vehiculo_tipo_delete(id):
     try:
         vehiculo_tipo = VehiculoTipo.query.get(id)
@@ -71,6 +85,7 @@ def vehiculo_tipo_delete(id):
 
 @app.route('/vehiculo-tipo', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def vehiculo_tipo_crear():
     try:
         data = request.get_json()
@@ -91,6 +106,7 @@ def vehiculo_tipo_crear():
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def vehiculo_tipo_update(id):
     """
     Actualiza un tipo de vehículo.
@@ -122,6 +138,7 @@ def vehiculo_tipo_update(id):
 
 @app.route("/tarifa-tipo", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
@@ -132,6 +149,7 @@ def tarifa_tipo():
 
 @app.route("/tarifas", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def get_tarifa_tipos():
     """
     Recupera los tipos de tarifa.
@@ -149,6 +167,7 @@ def get_tarifa_tipos():
 
 @app.route('/tarifa-tipo', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def tarifa_tipo_create():
     """
     Crea un nuevo tipo de tarifa.
@@ -175,6 +194,7 @@ def tarifa_tipo_create():
 
 @app.route('/tarifa-tipo/<int:id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def tarifa_tipo_update(id):
     """
     Actualiza un tipo de tarifa.
@@ -208,6 +228,7 @@ def tarifa_tipo_update(id):
 
 @app.route('/tarifa-tipo/<int:id>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def tarifa_tipo_delete(id):
     """
     Elimina un tipo de tarifa.
