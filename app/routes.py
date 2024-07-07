@@ -9,7 +9,7 @@ from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
-admin_role = RoleNeed('admin')
+admin_role = RoleNeed('administrador')
 propietario_role = RoleNeed('propietario')
 operario_role = RoleNeed('operario')
 
@@ -264,6 +264,7 @@ def medio_pago():
 
 @app.route("/medios-pago", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def get_medios_pago():
     """
     Recupera los medios de pago.
@@ -280,6 +281,7 @@ def get_medios_pago():
 
 @app.route('/medio-pago', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def medio_pago_create():
     """
     Crea un nuevo medio de pago.
@@ -305,6 +307,7 @@ def medio_pago_create():
 
 @app.route('/medio-pago/<int:id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def medio_pago_update(id):
     """
     Actualiza un medio de pago.
@@ -336,6 +339,7 @@ def medio_pago_update(id):
 
 @app.route('/medio-pago/<int:id>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def medio_pago_delete(id):
     """
     Elimina un medio de pago.
@@ -361,6 +365,7 @@ def medio_pago_delete(id):
 
 @app.route("/cliente", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente():
     """
     Muestra la lista de tipos de tarifa.
@@ -373,6 +378,7 @@ def cliente():
 
 @app.route('/cliente', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_crear():
     """
     Crea un nuevo cliente.
@@ -404,6 +410,7 @@ def cliente_crear():
 
 @app.route('/cliente/<string:documento>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_actualizar(documento):
     """
     Actualiza un cliente.
@@ -447,6 +454,7 @@ def cliente_actualizar(documento):
 
 @app.route('/cliente/<string:documento>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_eliminar(documento):
     """
     Elimina un cliente.
@@ -472,6 +480,7 @@ def cliente_eliminar(documento):
 
 @app.route("/rol", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def rol():
     """
     Muestra la lista de roles.
@@ -482,6 +491,7 @@ def rol():
 
 @app.route("/usuario", methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario():
     """
     Muestra la lista de usuarios.
@@ -500,6 +510,7 @@ def usuario():
 
 @app.route('/usuario', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario_crear():
     """
     Crea un nuevo usuario.
@@ -546,6 +557,7 @@ def usuario_crear():
 
 @app.route('/usuario/<string:documento>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario_actualizar(documento):
     """
     Actualiza un usuario.
@@ -587,6 +599,7 @@ def usuario_actualizar(documento):
 
 @app.route('/usuario/<string:documento>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario_eliminar(documento):
     """
     Elimina un usuario.
@@ -620,6 +633,7 @@ def usuario_eliminar(documento):
 
 @app.route('/usuario/cambiar-password', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario_cambiar_password():
     """
     Cambia la contraseña de un usuario.
@@ -649,6 +663,7 @@ def usuario_cambiar_password():
 
 @app.route('/usuario/<string:documento>', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def usuario_obtener(documento):
     """
     Obtiene un usuario.
@@ -665,6 +680,7 @@ def usuario_obtener(documento):
 
 
 @app.route("/registro", methods=['GET'])
+@admin_permission.require(http_exception=403)
 def registro():
     """
     Muestra la ruta para el registro de un administrador para el parqueadero.
@@ -716,6 +732,7 @@ def registro_crear():
 
 @app.route("/parqueadero", methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def parqueadero():
     """
     Crea un nuevo parqueadero.
@@ -761,6 +778,7 @@ def login():
 
 
 @app.route("/login", methods=['POST'])
+@admin_permission.require(http_exception=403)
 def login_post():
     """
     Inicia sesión en la aplicación.
@@ -802,6 +820,7 @@ def logout():
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def perfil():
     """
     Muestra el perfil del usuario.
@@ -837,6 +856,7 @@ def perfil():
 
 @app.route('/parqueadero-informacion', methods=['GET', 'POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def parqueadero_informacion():
     """
     Muestra la información del parqueadero.
@@ -858,6 +878,7 @@ def parqueadero_informacion():
 
 @app.route('/sedes', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sedes():
     """
     Función de vista para mostrar la página de sedes.
@@ -870,6 +891,7 @@ def sedes():
 
 @app.route('/sede', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_crear():
     """
     Crea una nueva sede.
@@ -906,6 +928,7 @@ def sede_crear():
 
 @app.route('/sede/<int:id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_actualizar(id):
     """
     Actualiza una sede.
@@ -944,6 +967,7 @@ def sede_actualizar(id):
 
 @app.route('/sede/<int:id>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_eliminar(id):
     """
     Elimina una sede.
@@ -969,6 +993,7 @@ def sede_eliminar(id):
 
 @app.route('/sede/<int:id>/modulos', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_modulos(id):
     """
     Muestra los módulos de una sede.
@@ -989,6 +1014,7 @@ def sede_modulos(id):
 
 @app.route('/sede/<int:id>/modulo', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_modulo_crear(id):
     """
     Crea un nuevo módulo en una sede.
@@ -1024,6 +1050,7 @@ def sede_modulo_crear(id):
 
 @app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_modulo_actualizar(id, modulo_id):
     """
     Actualiza un módulo en una sede.
@@ -1062,6 +1089,7 @@ def sede_modulo_actualizar(id, modulo_id):
 
 @app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_modulo_eliminar(id, modulo_id):
     """
     Elimina un módulo en una sede.
@@ -1089,6 +1117,7 @@ def sede_modulo_eliminar(id, modulo_id):
 
 @app.route('/sede/asignar-usuario', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_asignar_usuario():
     """
     Asigna un usuario a una sede.
@@ -1123,6 +1152,7 @@ def sede_asignar_usuario():
 
 @app.route('/sede/sede-asignada/<int:documento>', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def sede_asignada(documento):
     """
     Muestra los usuarios asignados a una sede.
@@ -1142,6 +1172,7 @@ def sede_asignada(documento):
 
 @app.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_vehiculos(documento):
     """
     Muestra los vehículos de un cliente.
@@ -1164,6 +1195,7 @@ def cliente_vehiculos(documento):
 
 @app.route('/cliente/crear-vehiculo', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_crear_vehiculo():
     """
     Crea un nuevo vehículo para un cliente.
@@ -1206,6 +1238,7 @@ def cliente_crear_vehiculo():
 
 @app.route('/cliente/editar-vehiculo/<int:vehiculo_id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_editar_vehiculo(vehiculo_id):
     """
     Edita un vehículo de un cliente.
@@ -1247,6 +1280,7 @@ def cliente_editar_vehiculo(vehiculo_id):
 
 @app.route('/cliente/vehiculo/<int:vehiculo_id>/cambiar-disponibilidad', methods=['DELETE'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_eliminar_vehiculo(vehiculo_id):
     """
     Elimina un vehículo de un cliente.
@@ -1273,6 +1307,7 @@ def cliente_eliminar_vehiculo(vehiculo_id):
 
 @app.route('/cliente/vehiculo/<int:vehiculo_id>/arrendamientos', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_vehiculo_arrendamientos(vehiculo_id):
     """
     Muestra los arrendamientos de un vehículo.
@@ -1298,6 +1333,8 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
 
 @app.route('/periodicidades', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
+@admin_permission.require(http_exception=403)
 def periodicidades():
     """
     Muestra las periodicidades.
@@ -1317,6 +1354,7 @@ def periodicidades():
 
 @app.route('/cliente/vehiculo/arrendamiento', methods=['POST'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_vehiculo_arrendamiento():
     """
     Crea un arrendamiento de un vehículo.
@@ -1363,6 +1401,7 @@ def cliente_vehiculo_arrendamiento():
 
 @app.route('/cliente/vehiculo/arrendamiento/<int:id>', methods=['PUT'])
 @login_required
+@admin_permission.require(http_exception=403)
 def cliente_vehiculo_arrendamiento_actualizar(id):
     """
     Actualiza un arrendamiento de un vehículo.
@@ -1406,6 +1445,7 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
 
 @app.route('/cliente/<string:documento>/puntos', methods=['GET'])
 @login_required
+@admin_permission.require(http_exception=403)
 def get_cliente_puntos(documento):
     """
     Obtiene los puntos de un cliente.
