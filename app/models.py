@@ -3,10 +3,14 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_principal import Principal, Permission, RoleNeed, UserNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
 
 from app import login
 
 from app import app, db
+
+from flask_login import current_user
+
 
 
 class SedeUsuario(db.Model):
@@ -161,6 +165,19 @@ def load_user(id):
     :return: Usuario con el ID especificado.
     """
     return Usuario.query.get(int(id))
+
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    print('punto de entrada fn on_identity_loaded')
+    identity.user = current_user
+
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.nombre))
 
 
 class Cliente(db.Model):

@@ -9,24 +9,13 @@ from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 
 
-admin_role = RoleNeed('administrador')
-propietario_role = RoleNeed('propietario')
-operario_role = RoleNeed('operario')
+propietario_role = RoleNeed('Propietario')
+admin_role = RoleNeed('Administrador')
+operario_role = RoleNeed('Operario')
 
 admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
-
-@identity_loaded.connect_via(app)
-def on_identity_loaded(sender, identity):
-    identity.user = current_user
-
-    if hasattr(current_user, 'id'):
-        identity.provides.add(UserNeed(current_user.id))
-
-    if hasattr(current_user, 'roles'):
-        for role in current_user.roles:
-            identity.provides.add(RoleNeed(role.nombre))
 
 
 @identity_loaded.connect_via(app)
@@ -45,7 +34,7 @@ def index():
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
-@operario_permission.require(http_exception=403)
+# @operario_permission.require(http_exception=403)
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
@@ -365,7 +354,7 @@ def medio_pago_delete(id):
 
 @app.route("/cliente", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+# @admin_permission.require(http_exception=403)
 def cliente():
     """
     Muestra la lista de tipos de tarifa.
@@ -820,7 +809,7 @@ def logout():
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@admin_permission.require(http_exception=403)|
 def perfil():
     """
     Muestra el perfil del usuario.

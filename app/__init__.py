@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_principal import Principal
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,6 +14,7 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 principal = Principal(app)
+
 
 from app import models
 
