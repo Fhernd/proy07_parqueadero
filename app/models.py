@@ -500,7 +500,7 @@ def insert_initial_values():
             Usuario(
                 id=1,
                 documento='2001',
-                password='pbkdf2:sha256:600000$G6h5feHBUNL3C2s0$68fbe625bf5b2f8c924d1da94d93c4005c7c7c0642e5268421678f836ce40322', # john123
+                password='scrypt:32768:8:1$tokZ3wGBv3RBPtZm$4c1794f554745d39c482c0299cba11429cd1b2456ae3170980c3133416f686e61133de12d00e55dd90592c154f853828a3a3f7978c586bc72932d9cff0132912', # usuario123
                 nombres='Pepé',
                 apellidos='Pérez',
                 telefono='3011001101',
@@ -512,7 +512,7 @@ def insert_initial_values():
             Usuario(
                 id=2,
                 documento='2002',
-                password='pbkdf2:sha256:600000$G6h5feHBUNL3C2s0$68fbe625bf5b2f8c924d1da94d93c4005c7c7c0642e5268421678f836ce40322', # john123
+                password='scrypt:32768:8:1$tokZ3wGBv3RBPtZm$4c1794f554745d39c482c0299cba11429cd1b2456ae3170980c3133416f686e61133de12d00e55dd90592c154f853828a3a3f7978c586bc72932d9cff0132912', # usuario123
                 nombres='Laura',
                 apellidos='Gómez',
                 telefono='3202020100',
@@ -524,7 +524,7 @@ def insert_initial_values():
             Usuario(
                 id=3,
                 documento='2003',
-                password='scrypt:32768:8:1$0Nnqo4ZsXiKdleDS$31ee5a713d06202c8164b3346e7289b9602fd18859b79b96335969be735fb28c25f8b7ff4e39e9f4dd8a21ee5233545ec3ca776d7f405615536358b0173e81c4', # john456
+                password='scrypt:32768:8:1$tokZ3wGBv3RBPtZm$4c1794f554745d39c482c0299cba11429cd1b2456ae3170980c3133416f686e61133de12d00e55dd90592c154f853828a3a3f7978c586bc72932d9cff0132912', # usuario123
                 nombres='Bolívar',
                 apellidos='Rosero',
                 telefono='3011001102',
@@ -536,7 +536,7 @@ def insert_initial_values():
             Usuario(
                 id=4,
                 documento='2004',
-                password='scrypt:32768:8:1$0Nnqo4ZsXiKdleDS$31ee5a713d06202c8164b3346e7289b9602fd18859b79b96335969be735fb28c25f8b7ff4e39e9f4dd8a21ee5233545ec3ca776d7f405615536358b0173e81c4', # john456
+                password='scrypt:32768:8:1$tokZ3wGBv3RBPtZm$4c1794f554745d39c482c0299cba11429cd1b2456ae3170980c3133416f686e61133de12d00e55dd90592c154f853828a3a3f7978c586bc72932d9cff0132912', # usuario123
                 nombres='Patricia',
                 apellidos='García',
                 telefono='3202020111',

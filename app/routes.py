@@ -34,7 +34,7 @@ def index():
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
-# @operario_permission.require(http_exception=403)
+@propietario_permission.require(http_exception=403)
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
@@ -354,7 +354,7 @@ def medio_pago_delete(id):
 
 @app.route("/cliente", methods=['GET'])
 @login_required
-# @admin_permission.require(http_exception=403)
+@propietario_permission.require(http_exception=403)
 def cliente():
     """
     Muestra la lista de tipos de tarifa.
@@ -809,7 +809,7 @@ def logout():
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require(http_exception=403)|
+@admin_permission.require(http_exception=403)
 def perfil():
     """
     Muestra el perfil del usuario.
