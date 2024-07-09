@@ -164,20 +164,12 @@ def load_user(id):
     :param id: ID del usuario.
     :return: Usuario con el ID especificado.
     """
+    usuario = Usuario.query.get(int(id))
+    print(usuario.roles)
+
+    for r in usuario.roles:
+        print(r.nombre)
     return Usuario.query.get(int(id))
-
-
-@identity_loaded.connect_via(app)
-def on_identity_loaded(sender, identity):
-    print('punto de entrada fn on_identity_loaded')
-    identity.user = current_user
-
-    if hasattr(current_user, 'id'):
-        identity.provides.add(UserNeed(current_user.id))
-
-    if hasattr(current_user, 'roles'):
-        for role in current_user.roles:
-            identity.provides.add(RoleNeed(role.nombre))
 
 
 class Cliente(db.Model):

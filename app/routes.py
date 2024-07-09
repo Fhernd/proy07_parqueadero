@@ -20,6 +20,19 @@ operario_permission = Permission(operario_role)
 
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
+    print('punto de entrada fn on_identity_loaded')
+    identity.user = current_user
+
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.nombre))
+
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
     identity.user = current_user
 
     if not isinstance(current_user, AnonymousIdentity):
@@ -767,7 +780,6 @@ def login():
 
 
 @app.route("/login", methods=['POST'])
-@admin_permission.require(http_exception=403)
 def login_post():
     """
     Inicia sesión en la aplicación.
@@ -787,8 +799,9 @@ def login_post():
 
     login_user(usuario)
 
+    identity_changed.send(app._get_current_object(), identity=Identity(usuario.id))
+
     next = request.args.get('next')
-    print('next', next)
 
     if not next:
         return jsonify({"success": True, "redirect_url": url_for('dashboard')})
