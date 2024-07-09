@@ -787,6 +787,9 @@ def login_post():
     :return: Redirección a la página de inicio.
     """
     if current_user.is_authenticated:
+        print('current_user.is_authenticated')
+        identity_changed.send(None, identity=Identity(usuario.id))
+        print('Después de identity_changed')
         return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     
     data = request.get_json()
@@ -799,7 +802,9 @@ def login_post():
 
     login_user(usuario)
 
-    identity_changed.send(app._get_current_object(), identity=Identity(usuario.id))
+    print('ANTES DE IDENTITY_CHANGED')
+    identity_changed.send(None, identity=Identity(usuario.id))
+    print('DESPUES DE IDENTITY_CHANGED')
 
     next = request.args.get('next')
 
@@ -817,6 +822,8 @@ def logout():
     :return: Redirección a la página de inicio.
     """
     logout_user()
+    identity_changed.send(app._get_current_object(), identity=AnonymousIdentity())
+
     return redirect(url_for('login'))
 
 
