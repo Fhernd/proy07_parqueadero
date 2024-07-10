@@ -25,15 +25,10 @@ class User(UserMixin, db.Model):
 
     def __init__(self, email, password, role):
         self.email = email
-        self.password = generate_password_hash(password, method='sha256')
+        self.password = generate_password_hash(password)
         self.role = role
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-@app.before_first_request
-def create_all():
+with app.app_context():
     db.create_all()
     if not User.query.filter_by(email='admin@example.com').first():
         admin = User(email='admin@example.com', password='adminpass', role='admin')
@@ -42,15 +37,25 @@ def create_all():
         db.session.add(operator)
         db.session.commit()
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
 # Identity loaded listener
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
+    print('Identity loaded')
     identity.user = current_user
     if hasattr(current_user, 'id'):
         identity.provides.add(UserNeed(current_user.id))
         if current_user.role == 'admin':
+            print('Admin role added')
             identity.provides.add(RoleNeed('admin'))
         if current_user.role == 'operator':
+            print('Operator role added')
             identity.provides.add(RoleNeed('operator'))
 
 # Routes
@@ -63,7 +68,11 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
-            return redirect(url_for('dashboard'))
+
+            if user.role == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            if user.role == 'operator':
+                return redirect(url_for('operator_dashboard'))
         else:
             flash('Invalid credentials')
     return render_template('login.html')
