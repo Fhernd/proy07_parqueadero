@@ -788,7 +788,7 @@ def login_post():
     """
     if current_user.is_authenticated:
         print('current_user.is_authenticated')
-        identity_changed.send(None, identity=Identity(usuario.id))
+        identity_changed.send(None, identity=Identity(current_user.id))
         print('Después de identity_changed')
         return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     
