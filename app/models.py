@@ -164,11 +164,6 @@ def load_user(id):
     :param id: ID del usuario.
     :return: Usuario con el ID especificado.
     """
-    usuario = Usuario.query.get(int(id))
-    print(usuario.roles)
-
-    for r in usuario.roles:
-        print(r.nombre)
     return Usuario.query.get(int(id))
 
 

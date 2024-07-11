@@ -1,4 +1,4 @@
-from flask import flash, jsonify, redirect, render_template, request, url_for
+from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_principal import Principal, Permission, RoleNeed, UserNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
 from werkzeug.security import generate_password_hash
@@ -31,15 +31,6 @@ def on_identity_loaded(sender, identity):
             identity.provides.add(RoleNeed(role.nombre))
 
 
-@identity_loaded.connect_via(app)
-def on_identity_loaded(sender, identity):
-    identity.user = current_user
-
-    if not isinstance(current_user, AnonymousIdentity):
-        for role in current_user.roles:
-            identity.provides.add(RoleNeed(role.nombre))
-
-
 @app.route("/")
 def index():
     return render_template("login.html", titulo='Inicio', nombre='Alex')
@@ -48,6 +39,7 @@ def index():
 @app.route('/dashboard', methods=['GET'])
 @login_required
 @propietario_permission.require(http_exception=403)
+@admin_permission.require(http_exception=403)
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
@@ -788,7 +780,7 @@ def login_post():
     """
     if current_user.is_authenticated:
         print('current_user.is_authenticated')
-        identity_changed.send(None, identity=Identity(current_user.id))
+        identity_changed.send(current_app._get_current_object(), identity=Identity(current_user.id))
         print('Después de identity_changed')
         return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     
