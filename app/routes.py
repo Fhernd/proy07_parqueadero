@@ -17,10 +17,11 @@ admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
 
+propietario_admin_permission = propietario_permission.union(admin_permission)
+
 
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
-    print('punto de entrada fn on_identity_loaded')
     identity.user = current_user
 
     if hasattr(current_user, 'id'):
@@ -38,8 +39,7 @@ def index():
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
-@propietario_permission.require(http_exception=403)
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def dashboard():
     """
     Muestra el dashboard de la aplicación.
