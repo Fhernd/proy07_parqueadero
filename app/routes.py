@@ -806,7 +806,7 @@ def login_post():
     next = request.args.get('next')
 
     if not next:
-        if tiene_rol(current_user.roles, 'operario'):
+        if tiene_rol(current_user.roles, ['operario']):
             return jsonify({"success": True, "redirect_url": url_for('parqueos')})
         else:
             return jsonify({"success": True, "redirect_url": url_for('dashboard')})
