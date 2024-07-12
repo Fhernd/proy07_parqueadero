@@ -1,6 +1,6 @@
 from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_principal import Principal, Permission, RoleNeed, UserNeed, Identity, AnonymousIdentity, identity_loaded, identity_changed
+from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -16,7 +16,6 @@ operario_role = RoleNeed('Operario')
 admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
-
 propietario_admin_permission = propietario_permission.union(admin_permission)
 
 
@@ -34,6 +33,11 @@ def on_identity_loaded(sender, identity):
 
 @app.route("/")
 def index():
+    """
+    Muestra la página de inicio de la aplicación.
+
+    :return: Plantilla HTML.
+    """
     return render_template("login.html", titulo='Inicio', nombre='Alex')
 
 
@@ -544,7 +548,6 @@ def usuario_crear():
         }}), 201
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -620,7 +623,6 @@ def usuario_eliminar(documento):
         return jsonify({'status': 'success', 'message': 'Usuario eliminado'}), 200
 
     except Exception as e:
-        print(e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -746,8 +748,6 @@ def parqueadero():
             pais_id=data.get('paisId')
         )
 
-        print('entidad', entidad)
-
         db.session.add(entidad)
         db.session.commit()
 
@@ -779,9 +779,7 @@ def login_post():
     :return: Redirección a la página de inicio.
     """
     if current_user.is_authenticated:
-        print('current_user.is_authenticated')
         identity_changed.send(current_app._get_current_object(), identity=Identity(current_user.id))
-        print('Después de identity_changed')
         return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     
     data = request.get_json()
@@ -792,11 +790,7 @@ def login_post():
     if usuario is None or not usuario.check_password(data.get('password')):
         return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
 
-    login_user(usuario)
-
-    print('ANTES DE IDENTITY_CHANGED')
-    identity_changed.send(None, identity=Identity(usuario.id))
-    print('DESPUES DE IDENTITY_CHANGED')
+    identity_changed.send(current_app._get_current_object(), identity=Identity(usuario.id))
 
     next = request.args.get('next')
 
@@ -1044,7 +1038,6 @@ def sede_modulo_crear(id):
         }}), 201
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1083,7 +1076,6 @@ def sede_modulo_actualizar(id, modulo_id):
         }}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1111,7 +1103,6 @@ def sede_modulo_eliminar(id, modulo_id):
         return jsonify({'status': 'success', 'message': 'Módulo eliminado'}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1146,7 +1137,6 @@ def sede_asignar_usuario():
         return jsonify({'status': 'success', 'message': 'Usuario asignado a la sede'}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1232,7 +1222,6 @@ def cliente_crear_vehiculo():
         }}), 201
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1274,7 +1263,6 @@ def cliente_editar_vehiculo(vehiculo_id):
         }}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1301,7 +1289,6 @@ def cliente_eliminar_vehiculo(vehiculo_id):
         return jsonify({'status': 'success', 'message': 'Vehículo eliminado'}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
@@ -1395,7 +1382,6 @@ def cliente_vehiculo_arrendamiento():
         }}), 201
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
     
@@ -1438,7 +1424,6 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
         }}), 200
 
     except Exception as e:
-        print('error', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
