@@ -19,18 +19,15 @@ operario_permission = Permission(operario_role)
 propietario_admin_permission = propietario_permission.union(admin_permission)
 
 
-def tiene_rol(roles, rol):
+def tiene_rol(roles_disponibles, roles_asignados):
     """
     Verifica si un usuario tiene un rol específico.
 
-    :param roles: Lista de roles.
-    :param rol: Nombre del rol.
-    :return: True si el usuario tiene el rol, False de lo contrario.
+    :param roles_disponibles: Roles disponibles.
+    :param roles_asignados: Roles asignados.
+    :return: Booleano.
     """
-    for r in roles:
-        if r.nombre == rol:
-            return True
-    return False
+    return any(rol in roles_disponibles for rol in roles_asignados)
 
 
 @identity_loaded.connect_via(app)
