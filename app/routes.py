@@ -1,6 +1,6 @@
 from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed
+from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -17,6 +17,20 @@ admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
 propietario_admin_permission = propietario_permission.union(admin_permission)
+
+
+def tiene_rol(roles, rol):
+    """
+    Verifica si un usuario tiene un rol específico.
+
+    :param roles: Lista de roles.
+    :param rol: Nombre del rol.
+    :return: True si el usuario tiene el rol, False de lo contrario.
+    """
+    for r in roles:
+        if r.nombre == rol:
+            return True
+    return False
 
 
 @identity_loaded.connect_via(app)
@@ -795,7 +809,10 @@ def login_post():
     next = request.args.get('next')
 
     if not next:
-        return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+        if tiene_rol(current_user.roles, 'operario'):
+            return jsonify({"success": True, "redirect_url": url_for('parqueos')})
+        else:
+            return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     else:
         return jsonify({"success": True, "redirect_url": next})
 
