@@ -838,7 +838,7 @@ def logout():
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def perfil():
     """
     Muestra el perfil del usuario.
@@ -874,7 +874,7 @@ def perfil():
 
 @app.route('/parqueadero-informacion', methods=['GET', 'POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def parqueadero_informacion():
     """
     Muestra la información del parqueadero.
@@ -896,7 +896,7 @@ def parqueadero_informacion():
 
 @app.route('/sedes', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sedes():
     """
     Función de vista para mostrar la página de sedes.
@@ -909,7 +909,7 @@ def sedes():
 
 @app.route('/sede', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_crear():
     """
     Crea una nueva sede.
@@ -946,7 +946,7 @@ def sede_crear():
 
 @app.route('/sede/<int:id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_actualizar(id):
     """
     Actualiza una sede.
@@ -985,7 +985,7 @@ def sede_actualizar(id):
 
 @app.route('/sede/<int:id>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_eliminar(id):
     """
     Elimina una sede.
@@ -1011,7 +1011,7 @@ def sede_eliminar(id):
 
 @app.route('/sede/<int:id>/modulos', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def sede_modulos(id):
     """
     Muestra los módulos de una sede.
@@ -1032,7 +1032,7 @@ def sede_modulos(id):
 
 @app.route('/sede/<int:id>/modulo', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_modulo_crear(id):
     """
     Crea un nuevo módulo en una sede.
@@ -1067,7 +1067,7 @@ def sede_modulo_crear(id):
 
 @app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_modulo_actualizar(id, modulo_id):
     """
     Actualiza un módulo en una sede.
@@ -1105,7 +1105,7 @@ def sede_modulo_actualizar(id, modulo_id):
 
 @app.route('/sede/<int:id>/modulo/<int:modulo_id>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_modulo_eliminar(id, modulo_id):
     """
     Elimina un módulo en una sede.
@@ -1132,7 +1132,7 @@ def sede_modulo_eliminar(id, modulo_id):
 
 @app.route('/sede/asignar-usuario', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_asignar_usuario():
     """
     Asigna un usuario a una sede.
@@ -1166,7 +1166,7 @@ def sede_asignar_usuario():
 
 @app.route('/sede/sede-asignada/<int:documento>', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def sede_asignada(documento):
     """
     Muestra los usuarios asignados a una sede.
@@ -1186,7 +1186,7 @@ def sede_asignada(documento):
 
 @app.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_vehiculos(documento):
     """
     Muestra los vehículos de un cliente.
