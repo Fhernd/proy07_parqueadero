@@ -1,6 +1,6 @@
 from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity
+from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity, AnonymousIdentity
 from werkzeug.security import generate_password_hash
 
 from app import app, db
@@ -690,7 +690,7 @@ def usuario_obtener(documento):
 
 
 @app.route("/registro", methods=['GET'])
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def registro():
     """
     Muestra la ruta para el registro de un administrador para el parqueadero.
@@ -717,7 +717,7 @@ def registro_crear():
             apellidos=data.get('apellidos'),
             telefono=data.get('telefono'),
             email=data.get('email'),
-            rol_id=1,
+            rol_id=2,
             password=hashed_password,
             es_propietario=True
         )
@@ -742,7 +742,7 @@ def registro_crear():
 
 @app.route("/parqueadero", methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_permission.require(http_exception=403)
 def parqueadero():
     """
     Crea un nuevo parqueadero.
@@ -782,6 +782,11 @@ def parqueadero():
 
 @app.route("/login", methods=['GET'])
 def login():
+    """
+    Muestra la página de inicio de sesión.
+
+    :return: Plantilla HTML.
+    """
     return render_template('login.html', titulo='Iniciar Sesión')
 
 
@@ -818,6 +823,7 @@ def login_post():
 
 
 @app.route("/logout", methods=['GET'])
+@login_required
 def logout():
     """
     Cierra sesión en la aplicación.
