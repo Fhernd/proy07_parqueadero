@@ -7,11 +7,12 @@ from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
+from util.roles_enum import Roles
 
 
-propietario_role = RoleNeed('Propietario')
-admin_role = RoleNeed('Administrador')
-operario_role = RoleNeed('Operario')
+propietario_role = RoleNeed(Roles.PROPIETARIO.value)
+admin_role = RoleNeed(Roles.ADMINISTRADOR.value)
+operario_role = RoleNeed(Roles.OPERARIO.value)
 
 admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
@@ -806,7 +807,7 @@ def login_post():
     next = request.args.get('next')
 
     if not next:
-        if tiene_rol(current_user.roles, ['operario']):
+        if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
             return jsonify({"success": True, "redirect_url": url_for('parqueos')})
         else:
             return jsonify({"success": True, "redirect_url": url_for('dashboard')})
