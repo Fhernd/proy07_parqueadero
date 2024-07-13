@@ -18,6 +18,7 @@ admin_permission = Permission(admin_role)
 propietario_permission = Permission(propietario_role)
 operario_permission = Permission(operario_role)
 propietario_admin_permission = propietario_permission.union(admin_permission)
+todos_permiso = propietario_permission.union(admin_permission).union(operario_permission)
 
 
 def tiene_rol(roles_disponibles, roles_asignados):
@@ -67,7 +68,7 @@ def dashboard():
 
 @app.route("/vehiculo-tipo", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def vehiculo_tipo():
     tipos_vehiculo = VehiculoTipo.query.all()
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
@@ -75,7 +76,7 @@ def vehiculo_tipo():
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def vehiculo_tipo_delete(id):
     try:
         vehiculo_tipo = VehiculoTipo.query.get(id)
@@ -95,7 +96,7 @@ def vehiculo_tipo_delete(id):
 
 @app.route('/vehiculo-tipo', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def vehiculo_tipo_crear():
     try:
         data = request.get_json()
@@ -116,7 +117,7 @@ def vehiculo_tipo_crear():
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def vehiculo_tipo_update(id):
     """
     Actualiza un tipo de vehículo.
@@ -148,7 +149,7 @@ def vehiculo_tipo_update(id):
 
 @app.route("/tarifa-tipo", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
