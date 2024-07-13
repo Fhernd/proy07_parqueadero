@@ -149,7 +149,7 @@ def vehiculo_tipo_update(id):
 
 @app.route("/tarifa-tipo", methods=['GET'])
 @login_required
-@propietario_admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
@@ -160,7 +160,7 @@ def tarifa_tipo():
 
 @app.route("/tarifas", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def get_tarifa_tipos():
     """
     Recupera los tipos de tarifa.
@@ -178,7 +178,7 @@ def get_tarifa_tipos():
 
 @app.route('/tarifa-tipo', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def tarifa_tipo_create():
     """
     Crea un nuevo tipo de tarifa.
@@ -205,7 +205,7 @@ def tarifa_tipo_create():
 
 @app.route('/tarifa-tipo/<int:id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def tarifa_tipo_update(id):
     """
     Actualiza un tipo de tarifa.
@@ -239,7 +239,7 @@ def tarifa_tipo_update(id):
 
 @app.route('/tarifa-tipo/<int:id>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def tarifa_tipo_delete(id):
     """
     Elimina un tipo de tarifa.
@@ -265,6 +265,7 @@ def tarifa_tipo_delete(id):
 
 @app.route("/medio-pago", methods=['GET'])
 @login_required
+@propietario_admin_permission.require(http_exception=403)
 def medio_pago():
     """
     Muestra la lista de tipos de tarifa.
@@ -275,7 +276,7 @@ def medio_pago():
 
 @app.route("/medios-pago", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def get_medios_pago():
     """
     Recupera los medios de pago.
