@@ -293,7 +293,7 @@ def get_medios_pago():
 
 @app.route('/medio-pago', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def medio_pago_create():
     """
     Crea un nuevo medio de pago.
@@ -319,7 +319,7 @@ def medio_pago_create():
 
 @app.route('/medio-pago/<int:id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def medio_pago_update(id):
     """
     Actualiza un medio de pago.
@@ -351,7 +351,7 @@ def medio_pago_update(id):
 
 @app.route('/medio-pago/<int:id>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def medio_pago_delete(id):
     """
     Elimina un medio de pago.
@@ -377,7 +377,7 @@ def medio_pago_delete(id):
 
 @app.route("/cliente", methods=['GET'])
 @login_required
-@propietario_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def cliente():
     """
     Muestra la lista de tipos de tarifa.
@@ -390,7 +390,7 @@ def cliente():
 
 @app.route('/cliente', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_crear():
     """
     Crea un nuevo cliente.
@@ -422,7 +422,7 @@ def cliente_crear():
 
 @app.route('/cliente/<string:documento>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_actualizar(documento):
     """
     Actualiza un cliente.
@@ -466,7 +466,7 @@ def cliente_actualizar(documento):
 
 @app.route('/cliente/<string:documento>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def cliente_eliminar(documento):
     """
     Elimina un cliente.
@@ -492,7 +492,7 @@ def cliente_eliminar(documento):
 
 @app.route("/rol", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_permission.require(http_exception=403)
 def rol():
     """
     Muestra la lista de roles.
@@ -503,7 +503,7 @@ def rol():
 
 @app.route("/usuario", methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def usuario():
     """
     Muestra la lista de usuarios.
@@ -522,7 +522,7 @@ def usuario():
 
 @app.route('/usuario', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def usuario_crear():
     """
     Crea un nuevo usuario.
@@ -568,7 +568,7 @@ def usuario_crear():
 
 @app.route('/usuario/<string:documento>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def usuario_actualizar(documento):
     """
     Actualiza un usuario.
@@ -610,7 +610,7 @@ def usuario_actualizar(documento):
 
 @app.route('/usuario/<string:documento>', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def usuario_eliminar(documento):
     """
     Elimina un usuario.
@@ -643,7 +643,7 @@ def usuario_eliminar(documento):
 
 @app.route('/usuario/cambiar-password', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@propietario_admin_permission.require(http_exception=403)
 def usuario_cambiar_password():
     """
     Cambia la contraseña de un usuario.
@@ -673,7 +673,7 @@ def usuario_cambiar_password():
 
 @app.route('/usuario/<string:documento>', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def usuario_obtener(documento):
     """
     Obtiene un usuario.
