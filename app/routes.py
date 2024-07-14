@@ -7,7 +7,7 @@ from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
-from util.roles_enum import Roles
+from app.util.roles_enum import Roles
 
 
 propietario_role = RoleNeed(Roles.PROPIETARIO.value)
@@ -809,6 +809,7 @@ def login_post():
     if usuario is None or not usuario.check_password(data.get('password')):
         return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
 
+    login_user(usuario)
     identity_changed.send(current_app._get_current_object(), identity=Identity(usuario.id))
 
     next = request.args.get('next')
