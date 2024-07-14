@@ -1209,7 +1209,7 @@ def cliente_vehiculos(documento):
 
 @app.route('/cliente/crear-vehiculo', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_crear_vehiculo():
     """
     Crea un nuevo vehículo para un cliente.
@@ -1251,7 +1251,7 @@ def cliente_crear_vehiculo():
 
 @app.route('/cliente/editar-vehiculo/<int:vehiculo_id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_editar_vehiculo(vehiculo_id):
     """
     Edita un vehículo de un cliente.
@@ -1292,7 +1292,7 @@ def cliente_editar_vehiculo(vehiculo_id):
 
 @app.route('/cliente/vehiculo/<int:vehiculo_id>/cambiar-disponibilidad', methods=['DELETE'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_eliminar_vehiculo(vehiculo_id):
     """
     Elimina un vehículo de un cliente.
@@ -1318,7 +1318,7 @@ def cliente_eliminar_vehiculo(vehiculo_id):
 
 @app.route('/cliente/vehiculo/<int:vehiculo_id>/arrendamientos', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_vehiculo_arrendamientos(vehiculo_id):
     """
     Muestra los arrendamientos de un vehículo.
@@ -1344,8 +1344,7 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
 
 @app.route('/periodicidades', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def periodicidades():
     """
     Muestra las periodicidades.
@@ -1365,7 +1364,7 @@ def periodicidades():
 
 @app.route('/cliente/vehiculo/arrendamiento', methods=['POST'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_vehiculo_arrendamiento():
     """
     Crea un arrendamiento de un vehículo.
@@ -1411,7 +1410,7 @@ def cliente_vehiculo_arrendamiento():
 
 @app.route('/cliente/vehiculo/arrendamiento/<int:id>', methods=['PUT'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def cliente_vehiculo_arrendamiento_actualizar(id):
     """
     Actualiza un arrendamiento de un vehículo.
@@ -1454,7 +1453,7 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
 
 @app.route('/cliente/<string:documento>/puntos', methods=['GET'])
 @login_required
-@admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def get_cliente_puntos(documento):
     """
     Obtiene los puntos de un cliente.
