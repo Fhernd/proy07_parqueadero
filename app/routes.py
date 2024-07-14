@@ -839,7 +839,7 @@ def logout():
 
 @app.route('/perfil', methods=['GET', 'POST'])
 @login_required
-@propietario_admin_permission.require(http_exception=403)
+@todos_permiso.require(http_exception=403)
 def perfil():
     """
     Muestra el perfil del usuario.
