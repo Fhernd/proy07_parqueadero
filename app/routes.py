@@ -817,9 +817,6 @@ def login_post():
 
     if not next:
         roles = [rol.nombre for rol in usuario.roles]
-        print('Cantidad de roles: ', len(roles))
-        for rol in roles:
-            print(rol)
         if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
             return jsonify({"success": True, "redirect_url": url_for('parqueos')})
         else:
@@ -1491,7 +1488,8 @@ def parqueos():
     """
     Muestra la lista de parqueos.
     """
-    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
-    parqueos = Parqueo.query.filter_by(parqueadero_id=parqueadero.id).all()
+    sedes = current_user.sedes
 
-    return render_template('parqueos.html', titulo='Parqueos', entidades=parqueos)
+    print(sedes)
+
+    return render_template('parqueos.html', titulo='Parqueos')
