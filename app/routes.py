@@ -29,7 +29,8 @@ def tiene_rol(roles_disponibles, roles_asignados):
     :param roles_asignados: Roles asignados.
     :return: Booleano.
     """
-    return any(rol in roles_disponibles for rol in roles_asignados)
+    roles_disponibles = [rol.nombre for rol in roles_disponibles]
+    return set(roles_asignados).intersection(roles_disponibles)
 
 
 @identity_loaded.connect_via(app)
@@ -822,7 +823,7 @@ def login_post():
         if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
             return jsonify({"success": True, "redirect_url": url_for('parqueos')})
         else:
-            return jsonify({"success": True, "redirect_url": url_for('  ')})
+            return jsonify({"success": True, "redirect_url": url_for('dashboard')})
     else:
         return jsonify({"success": True, "redirect_url": next})
 
