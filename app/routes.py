@@ -1488,8 +1488,6 @@ def parqueos():
     """
     Muestra la lista de parqueos.
     """
-    sedes = current_user.sedes
+    sedes = [sede.sede for sede in current_user.sedes]
 
-    print(sedes)
-
-    return render_template('parqueos.html', titulo='Parqueos')
+    return render_template('parqueos.html', titulo='Parqueos', sedes=SedeUsuario)
