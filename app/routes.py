@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
-from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
+from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Parqueo, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 from app.util.roles_enum import Roles
 
 
@@ -815,10 +815,14 @@ def login_post():
     next = request.args.get('next')
 
     if not next:
+        roles = [rol.nombre for rol in usuario.roles]
+        print('Cantidad de roles: ', len(roles))
+        for rol in roles:
+            print(rol)
         if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
             return jsonify({"success": True, "redirect_url": url_for('parqueos')})
         else:
-            return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+            return jsonify({"success": True, "redirect_url": url_for('  ')})
     else:
         return jsonify({"success": True, "redirect_url": next})
 
@@ -1477,3 +1481,16 @@ def get_cliente_puntos(documento):
     }
 
     return jsonify(puntos)
+
+
+@app.route('/parqueos', methods=['GET'])
+@login_required
+@operario_permission.require(http_exception=403)
+def parqueos():
+    """
+    Muestra la lista de parqueos.
+    """
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+    parqueos = Parqueo.query.filter_by(parqueadero_id=parqueadero.id).all()
+
+    return render_template('parqueos.html', titulo='Parqueos', entidades=parqueos)
