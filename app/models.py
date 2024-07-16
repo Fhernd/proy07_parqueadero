@@ -511,7 +511,7 @@ def insert_initial_values():
             Usuario(
                 id=3,
                 documento='2003',
-                password='scrypt:32768:8:1$tokZ3wGBv3RBPtZm$4c1794f554745d39c482c0299cba11429cd1b2456ae3170980c3133416f686e61133de12d00e55dd90592c154f853828a3a3f7978c586bc72932d9cff0132912', # usuario123
+                password='scrypt:32768:8:1$wTvjmRz8VydEhUJP$079bf4fe8c6afb358c7b0a3497edc9db52c361ff4fe561a6be41a50b7d37f1d2f1689692e8fd343bae2cea0a0df4d50fb2881463f264aa0995a45e8162180e2d', # usuario123
                 nombres='Bolívar',
                 apellidos='Rosero',
                 telefono='3011001102',

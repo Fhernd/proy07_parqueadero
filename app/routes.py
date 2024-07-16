@@ -832,7 +832,7 @@ def logout():
     :return: Redirección a la página de inicio.
     """
     logout_user()
-    identity_changed.send(app._get_current_object(), identity=AnonymousIdentity())
+    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
 
     return redirect(url_for('login'))
 
