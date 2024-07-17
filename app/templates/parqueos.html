@@ -36,10 +36,19 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success">Seleccionar</button>
+                <button type="button" class="btn btn-success" id="btnSeleccionarSede">Seleccionar</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#btnSeleccionarSede').click(function() {
+            var sedeId = $('#sedeId').val();
+            alert('Sede seleccionada: ' + sedeId);
+        });
+    });
+</script>
 
 {% endblock %}
