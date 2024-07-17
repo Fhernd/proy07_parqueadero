@@ -36,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" id="btnSeleccionarSede">Seleccionar</button>
+                <button type="button" class="btn btn-success" id="btnSeleccionarSede" {{ 'disabled' if not sedes else '' }}>Seleccionar</button>
             </div>
         </div>
     </div>
