@@ -1490,4 +1490,4 @@ def parqueos():
     """
     sedes = [sede.sede for sede in current_user.sedes]
 
-    return render_template('parqueos.html', titulo='Parqueos', sedes=SedeUsuario)
+    return render_template('parqueos.html', titulo='Parqueos', sedes=sedes)
