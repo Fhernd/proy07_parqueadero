@@ -11,7 +11,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar sede</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar sede</button>
     </div>
 </div>
 
@@ -26,15 +26,17 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="sedeSelect">Sede</label>
-                    <select class="form-control" id="sedeSelect">
-                        <!-- Aquí puedes agregar las opciones para las sedes -->
+                    <label for="sedeId">Sede</label>
+                    <select class="form-control" id="sedeId">
+                        {% for e in sedes %}
+                            <option value="{{ e.id }}">{{ e.nombre }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Seleccionar</button>
+                <button type="button" class="btn btn-success">Seleccionar</button>
             </div>
         </div>
     </div>
