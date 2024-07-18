@@ -95,7 +95,17 @@
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
             var placa = $('#placa').val();
-            alert('Placa: ' + placa);
+
+            $.ajax({
+                url: '/vehiculo/buscar/' + placa,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
     });
 </script>

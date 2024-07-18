@@ -1504,4 +1504,14 @@ def buscar_vehiculo(placa):
     :return: Respuesta JSON.
     """
     vehiculo = Vehiculo.query.filter_by(placa=placa).first()
-    return jsonify(vehiculo)
+    return jsonify({
+        'status': 'success',
+        'data': {
+            'id': vehiculo.id,
+            'placa': vehiculo.placa,
+            'marca': vehiculo.marca,
+            'modelo': vehiculo.modelo,
+            'tipo': vehiculo.vehiculo_tipo.nombre,
+            'disponible': vehiculo.disponible
+        }
+    })
