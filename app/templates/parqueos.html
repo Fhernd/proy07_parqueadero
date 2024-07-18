@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa">
                 </div>
-                <button type="button" class="btn btn-primary" id="buscarVehiculo">Buscar</button>
+                <button type="button" class="btn btn-primary" id="btnBuscarVehiculoPorPlaca">Buscar</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -91,6 +91,11 @@
         $('#btnSeleccionarSede').click(function () {
             var sedeId = $('#sedeId').val();
             alert('Sede seleccionada: ' + sedeId);
+        });
+
+        $('#btnBuscarVehiculoPorPlaca').click(function () {
+            var placa = $('#placa').val();
+            alert('Placa: ' + placa);
         });
     });
 </script>

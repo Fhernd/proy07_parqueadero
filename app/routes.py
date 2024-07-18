@@ -1491,3 +1491,17 @@ def parqueos():
     sedes = [sede.sede for sede in current_user.sedes]
 
     return render_template('parqueos.html', titulo='Parqueos', sedes=sedes)
+
+
+@app.route('/vehiculo/buscar/<placa>', methods=['GET'])
+@login_required
+def buscar_vehiculo(placa):
+    """
+    Busca un vehículo por placa.
+
+    :param placa: Placa del vehículo.
+
+    :return: Respuesta JSON.
+    """
+    vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+    return jsonify(vehiculo)
