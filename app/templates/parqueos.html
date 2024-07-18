@@ -26,12 +26,15 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar sede</button><br><br>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo">Ingresar vehículo</button><br>
+        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar
+            sede</button><br><br>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo">Ingresar
+            vehículo</button><br>
     </div>
 </div>
 
-<div class="modal fade" id="mdlSelecionarSede" tabindex="-1" role="dialog" aria-labelledby="mdlSelecionarSedeLabel" aria-hidden="true">
+<div class="modal fade" id="mdlSelecionarSede" tabindex="-1" role="dialog" aria-labelledby="mdlSelecionarSedeLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -45,20 +48,22 @@
                     <label for="sedeId">Sede</label>
                     <select class="form-control" id="sedeId">
                         {% for e in sedes %}
-                            <option value="{{ e.id }}">{{ e.nombre }}</option>
+                        <option value="{{ e.id }}">{{ e.nombre }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" id="btnSeleccionarSede" {{ 'disabled' if not sedes else '' }}>Seleccionar</button>
+                <button type="button" class="btn btn-success" id="btnSeleccionarSede" {{ 'disabled' if not sedes else ''
+                    }}>Seleccionar</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="mdlIngresoVehiculo" tabindex="-1" role="dialog" aria-labelledby="mdlIngresoVehiculoLabel" aria-hidden="true">
+<div class="modal fade" id="mdlIngresoVehiculo" tabindex="-1" role="dialog" aria-labelledby="mdlIngresoVehiculoLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-fullscreen" role="document">
         <div class="modal-content modal-content-fullscreen">
             <div class="modal-header">
@@ -68,19 +73,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                
+                <div class="form-group">
+                    <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa">
+                </div>
+                <button type="button" class="btn btn-primary" id="buscarVehiculo">Buscar</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Ingresar</button>
+                <button type="button" class="btn btn-success">Ingresar</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#btnSeleccionarSede').click(function() {
+    $(document).ready(function () {
+        $('#btnSeleccionarSede').click(function () {
             var sedeId = $('#sedeId').val();
             alert('Sede seleccionada: ' + sedeId);
         });
