@@ -1515,3 +1515,25 @@ def buscar_vehiculo(placa):
             'disponible': vehiculo.disponible
         }
     })
+
+
+# Operación de ruta para obtener todos los módulos de una sede en específico:
+@app.route('/sede/<int:id>/modulos', methods=['GET'])
+@login_required
+@todos_permiso.require(http_exception=403)
+def sede_modulos(id):
+    """
+    Muestra los módulos de una sede.
+
+    :param id: Identificador de la sede.
+    :return: Respuesta JSON.
+    """
+    sede = Sede.query.get(id)
+    modulos = sede.modulos
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+        'id': modulo.id,
+        'nombre': modulo.nombre,
+        'habilitado': modulo.habilitado,
+        'descripcion': modulo.descripcion,
+    } for modulo in modulos]}), 200
