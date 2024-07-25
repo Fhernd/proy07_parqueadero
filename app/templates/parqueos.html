@@ -28,7 +28,7 @@
     <div class="card-body">
         <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar
             sede</button><br><br>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo">Ingresar
+        <button id="btnIngresarVehiculo" class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo" disabled>Ingresar
             vehículo</button><br>
     </div>
 </div>
@@ -90,19 +90,28 @@
     $(document).ready(function () {
         $('#btnSeleccionarSede').click(function () {
             var sedeId = $('#sedeId').val();
-            alert('Sede seleccionada: ' + sedeId);
+            
+            localStorage.setItem('sedeId', sedeId);
+            
+            $('#btnIngresarVehiculo').removeAttr('disabled');
+
+            $('#mdlSelecionarSede').modal('hide');
         });
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
+            $.LoadingOverlay('show');
+            
             var placa = $('#placa').val();
 
             $.ajax({
-                url: '/vehiculo/buscar/' + placa,
+                url: `/vehiculo/buscar/${placa}`,
                 type: 'GET',
                 success: function (response) {
+                    $.LoadingOverlay('hide');
                     console.log(response);
                 },
                 error: function (error) {
+                    $.LoadingOverlay('hide');
                     console.log(error);
                 }
             });
