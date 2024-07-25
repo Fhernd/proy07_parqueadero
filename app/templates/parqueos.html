@@ -115,6 +115,17 @@
                     console.log(error);
                 }
             });
+
+            $.ajax({
+                url: `/modulo/sede/${localStorage.getItem('sedeId')}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
     });
 </script>
