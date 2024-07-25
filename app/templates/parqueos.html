@@ -115,9 +115,11 @@
                     console.log(error);
                 }
             });
+        });
 
+        $('#mdlIngresoVehiculo').on('show.bs.modal', function () {
             $.ajax({
-                url: `/modulo/sede/${localStorage.getItem('sedeId')}`,
+                url: `/sede/${localStorage.getItem('sedeId')}/modulos`,
                 type: 'GET',
                 success: function (response) {
                     console.log(response);
