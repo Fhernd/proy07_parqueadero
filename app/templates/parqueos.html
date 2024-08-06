@@ -104,8 +104,17 @@
                 </div>
                 <button type="button" class="btn btn-primary" id="btnBuscarVehiculoPorPlaca">Buscar</button>
                 <br>
-                <div id="modulos">
-
+                <div id="modulos" class="row">
+                    <div class="col-md-12 d-flex flex-wrap justify-content-center">
+                        <!-- Example parking spots -->
+                        <div class="parking-spot" onclick="toggleSelect(this)">1</div>
+                        <div class="parking-spot occupied" onclick="toggleSelect(this)">2</div>
+                        <div class="parking-spot" onclick="toggleSelect(this)">3</div>
+                        <div class="parking-spot occupied" onclick="toggleSelect(this)">4</div>
+                        <div class="parking-spot" onclick="toggleSelect(this)">5</div>
+                        <div class="parking-spot" onclick="toggleSelect(this)">6</div>
+                        <!-- Add more parking spots as needed -->
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
