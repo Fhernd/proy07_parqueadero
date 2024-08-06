@@ -172,9 +172,20 @@
         });
     });
 
+    /**
+     * Selecciona un módulo de parqueo.
+     * 
+     * @param {HTMLElement} event Evento de click sobre un módulo en la vista.
+     * 
+    */
     function seleccionarModulo(event) {
+        const selected = document.querySelector('.parking-spot.selected');
+        if (selected) {
+            selected.classList.remove('selected');
+        }
+
         if (!event.classList.contains('occupied')) {
-            event.classList.toggle('selected');
+            event.classList.add('selected');
         }
     }
 </script>
