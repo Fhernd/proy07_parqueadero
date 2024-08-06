@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parqueadero</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .parking-spot {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #28a745; /* Available spots are green */
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .parking-spot.occupied {
+            background-color: #dc3545; /* Occupied spots are red */
+        }
+        .parking-spot.selected {
+            background-color: #ffc107; /* Selected spots are yellow */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Parqueadero</h1>
+        <div class="row">
+            <div class="col-md-12 d-flex flex-wrap justify-content-center">
+                <!-- Example parking spots -->
+                <div class="parking-spot" onclick="toggleSelect(this)">1</div>
+                <div class="parking-spot occupied" onclick="toggleSelect(this)">2</div>
+                <div class="parking-spot" onclick="toggleSelect(this)">3</div>
+                <div class="parking-spot occupied" onclick="toggleSelect(this)">4</div>
+                <div class="parking-spot" onclick="toggleSelect(this)">5</div>
+                <div class="parking-spot" onclick="toggleSelect(this)">6</div>
+                <!-- Add more parking spots as needed -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSelect(element) {
+            if (!element.classList.contains('occupied')) {
+                element.classList.toggle('selected');
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

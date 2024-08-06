@@ -17,6 +17,31 @@
         border: 0;
         border-radius: 0;
     }
+
+    .parking-spot {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #28a745;
+        /* Available spots are green */
+        color: white;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .parking-spot.occupied {
+        background-color: #dc3545;
+        /* Occupied spots are red */
+    }
+
+    .parking-spot.selected {
+        background-color: #ffc107;
+        /* Selected spots are yellow */
+    }
 </style>
 
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
@@ -28,7 +53,8 @@
     <div class="card-body">
         <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar
             sede</button><br><br>
-        <button id="btnIngresarVehiculo" class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo" disabled>Ingresar
+        <button id="btnIngresarVehiculo" class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo"
+            disabled>Ingresar
             vehículo</button><br>
     </div>
 </div>
@@ -77,6 +103,10 @@
                     <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa">
                 </div>
                 <button type="button" class="btn btn-primary" id="btnBuscarVehiculoPorPlaca">Buscar</button>
+                <br>
+                <div id="modulos">
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -90,9 +120,9 @@
     $(document).ready(function () {
         $('#btnSeleccionarSede').click(function () {
             var sedeId = $('#sedeId').val();
-            
+
             localStorage.setItem('sedeId', sedeId);
-            
+
             $('#btnIngresarVehiculo').removeAttr('disabled');
 
             $('#mdlSelecionarSede').modal('hide');
@@ -100,7 +130,7 @@
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
             $.LoadingOverlay('show');
-            
+
             var placa = $('#placa').val();
 
             $.ajax({
