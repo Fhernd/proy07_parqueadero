@@ -129,11 +129,16 @@
         });
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
-            $('#btnIngresar').removeAttr('disabled');
-            
             $.LoadingOverlay('show');
 
-            var placa = $('#placa').val();
+            var placa = $('#placa').val().trim();
+
+            if (!placa) {
+                $.LoadingOverlay('hide');
+                return;
+            }
+
+            $('#btnIngresar').removeAttr('disabled');
 
             $.ajax({
                 url: `/vehiculo/buscar/${placa}`,
