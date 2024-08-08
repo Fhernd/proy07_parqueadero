@@ -177,6 +177,41 @@
                 }
             });
         });
+
+        $('#btnIngresar').click(function () {
+            $.LoadingOverlay('show');
+
+            // Verifica si hay al menos un elemento con la clase 'parking-spot.selected' activa:
+            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+
+            if (!moduloSeleccionado) {
+                $.LoadingOverlay('hide');
+
+                Swal.fire({
+                    title: "Advertencia",
+                    text: "Debe seleccionar un módulo de parqueo",
+                    icon: "warning"
+                });
+
+                return;
+            }
+
+            // $.ajax({
+            //     url: `/vehiculo/ingresar/${localStorage.getItem('sedeId')}`,
+            //     type: 'POST',
+            //     data: {
+            //         placa: $('#placa').val().trim()
+            //     },
+            //     success: function (response) {
+            //         $.LoadingOverlay('hide');
+            //         $('#mdlIngresoVehiculo').modal('hide');
+            //     },
+            //     error: function (error) {
+            //         $.LoadingOverlay('hide');
+            //         console.log(error);
+            //     }
+            // });
+        });
     });
 
     /**
