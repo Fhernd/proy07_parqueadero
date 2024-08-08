@@ -154,7 +154,8 @@
                 success: function (response) {
                     const modulos = response.data;
 
-                    const $container = $('#modulos');
+                    const container = $('#modulos');
+                    container.empty();
 
                     modulos.forEach((modulo, index) => {
                         const $div = $('<div></div>', {
@@ -162,7 +163,7 @@
                             onclick: 'seleccionarModulo(this)',
                             text: index + 1
                         });
-                        $container.append($div);
+                        container.append($div);
                     });
                 },
                 error: function (error) {
