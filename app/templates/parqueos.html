@@ -110,7 +110,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success">Ingresar</button>
+                <button type="button" class="btn btn-success" disabled id="btnIngresar">Ingresar</button>
             </div>
         </div>
     </div>
@@ -129,6 +129,8 @@
         });
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
+            $('#btnIngresar').removeAttr('disabled');
+            
             $.LoadingOverlay('show');
 
             var placa = $('#placa').val();
@@ -138,7 +140,6 @@
                 type: 'GET',
                 success: function (response) {
                     $.LoadingOverlay('hide');
-                    console.log(response);
                 },
                 error: function (error) {
                     $.LoadingOverlay('hide');
