@@ -706,6 +706,13 @@ def insert_initial_values():
         db.session.add_all(periodicidades)
         db.session.commit()
 
+    if not SedeUsuario.query.first():
+        sede_usuario = SedeUsuario(sede_id=1, usuario_id=3, created_at=datetime.now(), updated_at=datetime.now())
+        db.session.add(sede_usuario)
+        sede_usuario = SedeUsuario(sede_id=2, usuario_id=3, created_at=datetime.now(), updated_at=datetime.now())
+        db.session.add(sede_usuario)
+        db.session.commit()
+
 with app.app_context():
     db.create_all()
 
