@@ -201,7 +201,7 @@
             const moduloId = moduloSeleccionado.getAttribute('data-id');
 
             $.ajax({
-                url: `/vehiculo/ingresar`,
+                url: `/parqueo/ingresar`,
                 type: 'POST',
                 data: JSON.stringify({
                     placa,
@@ -210,6 +210,8 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (response) {
+                    console.log('response', response);
+                    
                     $.LoadingOverlay('hide');
 
                     Swal.fire({

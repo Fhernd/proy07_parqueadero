@@ -1548,6 +1548,8 @@ def ingresar_parqueo():
 
         db.session.add(parqueo)
 
+        db.session.commit()
+
         return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero'}), 200
     except Exception as e:
         db.session.rollback()
