@@ -1535,7 +1535,11 @@ def ingresar_parqueo():
         modulo = Modulo.query.get(modulo_id)
 
         if vehiculo is None:
-            return
+            vehiculo = Vehiculo(
+                placa=placa
+            )
+
+            db.session.add(vehiculo)
         
         parqueo = Parqueo(
             vehiculo_id=vehiculo.id,
