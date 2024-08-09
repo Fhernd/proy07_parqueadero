@@ -197,19 +197,38 @@
                 return;
             }
 
+            const placa = $('#placa').val().trim();
+            const moduloId = moduloSeleccionado.getAttribute('data-id');
+
             $.ajax({
-                url: `/vehiculo/ingresar/${localStorage.getItem('sedeId')}`,
+                url: `/vehiculo/ingresar`,
                 type: 'POST',
-                data: {
-                    placa: $('#placa').val().trim()
-                },
+                data: JSON.stringify({
+                    placa,
+                    moduloId
+                }),
+                contentType: 'application/json',
+                dataType: 'json',
                 success: function (response) {
                     $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Éxito",
+                        text: "El vehículo fue ingresado de forma satisfactoria",
+                        icon: "success"
+                    });
+
                     $('#mdlIngresoVehiculo').modal('hide');
                 },
                 error: function (error) {
                     $.LoadingOverlay('hide');
                     console.log(error);
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar ingresar el vehículo",
+                        icon: "warning"
+                    });
                 }
             });
         });
