@@ -1515,3 +1515,37 @@ def buscar_vehiculo(placa):
             'disponible': vehiculo.disponible
         }
     })
+
+
+@app.route('/parqueo/ingresar', methods=['POST'])
+@login_required
+@operario_permission.require(http_exception=403)
+def ingresar_parqueo():
+    """
+    Ingresa un vehículo al parqueadero.
+
+    :return: Respuesta JSON.
+    """
+    try:
+        data = request.get_json()
+        placa = data.get('placa')
+        modulo_id = data.get('moduloId')
+
+        vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+        modulo = Modulo.query.get(modulo_id)
+
+        if vehiculo is None:
+            return
+        
+        parqueo = Parqueo(
+            vehiculo_id=vehiculo.id,
+            modulo_id=modulo.id,
+        )
+
+        db.session.add(parqueo)
+
+        return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+    
