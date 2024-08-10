@@ -1534,6 +1534,12 @@ def ingresar_parqueo():
         vehiculo = Vehiculo.query.filter_by(placa=placa).first()
         modulo = Modulo.query.get(modulo_id)
 
+        if vehiculo is not None:
+            parqueo = Parqueo.query.filter_by(vehiculo_id=vehiculo.id, fecha_hora_salida=None).first()
+
+            if parqueo is not None:
+                return jsonify({'status': 'warning', 'message': 'El vehículo ya se encuentra en el parqueadero'}), 200
+
         if vehiculo is None:
             vehiculo = Vehiculo(
                 placa=placa
