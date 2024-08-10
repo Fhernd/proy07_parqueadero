@@ -211,8 +211,18 @@
                 dataType: 'json',
                 success: function (response) {
                     console.log('response', response);
-                    
+
                     $.LoadingOverlay('hide');
+
+                    if (response.status == 'warning') {
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: response.message,
+                            icon: "warning"
+                        });
+
+                        return;
+                    }
 
                     Swal.fire({
                         title: "Éxito",
