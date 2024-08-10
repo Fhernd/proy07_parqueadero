@@ -1573,24 +1573,35 @@ def parqueos_activos(sede_id):
 
     :return: Respuesta JSON.
     """
-    sede = Sede.query.get(sede_id)
-    parqueos = Parqueo.query.filter_by(sede_id=sede.id, fecha_hora_salida=None).all()
+    parqueos = (
+        Parqueo.query
+        .join(Modulo, Parqueo.modulo_id == Modulo.id)
+        .filter(Modulo.sede_id == sede_id, Parqueo.fecha_hora_salida == None)
+        .all()
+    )
 
-    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{'id': parqueo.id,
-        'vehiculoId': parqueo.vehiculo_id,
-        'vehiculo': {
-            'placa': parqueo.vehiculo.placa,
-            'marca': parqueo.vehiculo.marca,
-            'modelo': parqueo.vehiculo.modelo,
-            'tipo': parqueo.vehiculo.vehiculo_tipo.nombre
-        },
-        'moduloId': parqueo.modulo_id,
-        'modulo': {
-            'nombre': parqueo.modulo.nombre,
-            'habilitado': parqueo.modulo.habilitado,
-            'descripcion': parqueo.modulo.descripcion
-        },
-        'fechaHoraIngreso': parqueo.fecha_hora_ingreso,
-        'fechaHoraSalida': parqueo.fecha_hora_salida
-    } for parqueo in parqueos
-    ]}), 200
+    return jsonify({
+        'status': 'success',
+        'message': 'Consulta realizada de forma satisfactoria',
+        'data': [
+            {
+                'id': parqueo.id,
+                'vehiculoId': parqueo.vehiculo_id,
+                'vehiculo': {
+                    'placa': parqueo.vehiculo.placa,
+                    'marca': parqueo.vehiculo.marca,
+                    'modelo': parqueo.vehiculo.modelo,
+                    'tipo': parqueo.vehiculo.vehiculo_tipo.nombre
+                },
+                'moduloId': parqueo.modulo_id,
+                'modulo': {
+                    'nombre': parqueo.modulo.nombre,
+                    'habilitado': parqueo.modulo.habilitado,
+                    'descripcion': parqueo.modulo.descripcion
+                },
+                'fechaHoraIngreso': parqueo.fecha_hora_ingreso,
+                'fechaHoraSalida': parqueo.fecha_hora_salida
+            }
+            for parqueo in parqueos
+        ]
+    }), 200
