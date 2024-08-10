@@ -1560,4 +1560,37 @@ def ingresar_parqueo():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
-    
+
+
+@app.route('/sede/<int:sede_id>/parqueos-activos', methods=['GET'])
+@login_required
+@operario_permission.require(http_exception=403)
+def parqueos_activos(sede_id):
+    """
+    Obtiene los parqueos activos de una sede.
+
+    :param sede_id: Identificador de la sede.
+
+    :return: Respuesta JSON.
+    """
+    sede = Sede.query.get(sede_id)
+    parqueos = Parqueo.query.filter_by(sede_id=sede.id, fecha_hora_salida=None).all()
+
+    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{'id': parqueo.id,
+        'vehiculoId': parqueo.vehiculo_id,
+        'vehiculo': {
+            'placa': parqueo.vehiculo.placa,
+            'marca': parqueo.vehiculo.marca,
+            'modelo': parqueo.vehiculo.modelo,
+            'tipo': parqueo.vehiculo.vehiculo_tipo.nombre
+        },
+        'moduloId': parqueo.modulo_id,
+        'modulo': {
+            'nombre': parqueo.modulo.nombre,
+            'habilitado': parqueo.modulo.habilitado,
+            'descripcion': parqueo.modulo.descripcion
+        },
+        'fechaHoraIngreso': parqueo.fecha_hora_ingreso,
+        'fechaHoraSalida': parqueo.fecha_hora_salida
+    } for parqueo in parqueos
+    ]}), 200
