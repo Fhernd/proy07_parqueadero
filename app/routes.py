@@ -1586,20 +1586,20 @@ def parqueos_activos(sede_id):
         'data': [
             {
                 'id': parqueo.id,
-                'vehiculoId': parqueo.vehiculo_id,
                 'vehiculo': {
+                    'id': parqueo.vehiculo_id,
                     'placa': parqueo.vehiculo.placa,
                     'marca': parqueo.vehiculo.marca,
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre
                 },
-                'moduloId': parqueo.modulo_id,
                 'modulo': {
+                    'id': parqueo.modulo_id,
                     'nombre': parqueo.modulo.nombre,
                     'habilitado': parqueo.modulo.habilitado,
                     'descripcion': parqueo.modulo.descripcion
                 },
-                'fechaHoraIngreso': parqueo.fecha_hora_ingreso,
+                'fechaHoraEntrada': parqueo.fecha_hora_entrada,
                 'fechaHoraSalida': parqueo.fecha_hora_salida
             }
             for parqueo in parqueos
