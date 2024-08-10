@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4" id="parqueosActivos">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Parqueos activos</h6>
     </div>
@@ -135,6 +135,19 @@
             $('#btnIngresarVehiculo').removeAttr('disabled');
 
             $('#mdlSelecionarSede').modal('hide');
+
+            $.ajax({
+                url: `/sede/${sedeId}/parqueos-activos`,
+                type: 'GET',
+                success: function (response) {
+                    const parqueos = response.data;
+
+                    console.log('parqueos', parqueos);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
 
         $('#btnBuscarVehiculoPorPlaca').click(function () {
