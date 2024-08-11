@@ -72,10 +72,11 @@
                     <th>Fecha de entrada</th>
                     <th>Nombre del módulo</th>
                     <th>Tiempo parqueado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="parqueos-table">
-                
+
             </tbody>
         </table>
     </div>
@@ -296,6 +297,48 @@
         if (!event.classList.contains('occupied')) {
             event.classList.add('selected');
         }
+    }
+
+    function renderTable() {
+        const tableBody = document.getElementById('parqueos-table');
+        tableBody.innerHTML = '';
+
+        parqueos.forEach((parqueo, index) => {
+            const fechaEntrada = moment(parqueo.fechaHoraEntrada);
+            const row = `
+                    <tr>
+                        <td>${parqueo.vehiculo.placa}</td>
+                        <td>${fechaEntrada.format('YYYY-MM-DD HH:mm:ss')}</td>
+                        <td>${parqueo.modulo.nombre}</td>
+                        <td class="timer" id="timer-${index}"></td>
+                    </tr>
+                `;
+            tableBody.insertAdjacentHTML('beforeend', row);
+            updateTimer(index, fechaEntrada);
+        });
+    }
+
+    function updateTimer(index, fechaEntrada) {
+        const now = moment();
+        const duration = moment.duration(now.diff(fechaEntrada));
+
+        const days = Math.floor(duration.asDays());
+        const hours = duration.hours();
+        const minutes = duration.minutes();
+        const seconds = duration.seconds();
+
+        const timeParked = `${days}D ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        document.getElementById(`timer-${index}`).textContent = timeParked;
+    }
+
+    function startTimers() {
+        parqueos.forEach((parqueo, index) => {
+            const fechaEntrada = moment(parqueo.fechaHoraEntrada);
+            setInterval(() => {
+                updateTimer(index, fechaEntrada);
+            }, 1000);
+        });
     }
 </script>
 
