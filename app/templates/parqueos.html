@@ -156,7 +156,8 @@
                 success: function (response) {
                     const parqueos = response.data;
 
-                    console.log('parqueos', parqueos);
+                    mostrarTablaParqueos(parqueos);
+                    startTimers();
                 },
                 error: function (error) {
                     console.log(error);
@@ -299,7 +300,7 @@
         }
     }
 
-    function renderTable() {
+    function mostrarTablaParqueos(parqueos) {
         const tableBody = document.getElementById('parqueos-table');
         tableBody.innerHTML = '';
 
@@ -311,6 +312,9 @@
                         <td>${fechaEntrada.format('YYYY-MM-DD HH:mm:ss')}</td>
                         <td>${parqueo.modulo.nombre}</td>
                         <td class="timer" id="timer-${index}"></td>
+                        <td>
+                            <button class="btn btn-warning">Retirar</button>
+                        </td>
                     </tr>
                 `;
             tableBody.insertAdjacentHTML('beforeend', row);
