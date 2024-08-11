@@ -157,7 +157,7 @@
                     const parqueos = response.data;
 
                     mostrarTablaParqueos(parqueos);
-                    startTimers();
+                    inicializarTemporizadores(parqueos);
                 },
                 error: function (error) {
                     console.log(error);
@@ -336,7 +336,7 @@
         document.getElementById(`timer-${index}`).textContent = timeParked;
     }
 
-    function startTimers() {
+    function inicializarTemporizadores(parqueos) {
         parqueos.forEach((parqueo, index) => {
             const fechaEntrada = moment(parqueo.fechaHoraEntrada);
             setInterval(() => {
