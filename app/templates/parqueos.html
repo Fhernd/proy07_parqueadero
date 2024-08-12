@@ -139,8 +139,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdlSeleccionTipoVehiculo" tabindex="-1" role="dialog" aria-labelledby="mdlSeleccionTipoVehiculoLabel"
-    aria-hidden="true">
+<div class="modal fade" id="mdlSeleccionTipoVehiculo" tabindex="-1" role="dialog"
+    aria-labelledby="mdlSeleccionTipoVehiculoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-fullscreen" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -253,69 +253,89 @@
         });
 
         $('#btnIngresar').click(function () {
-            $.LoadingOverlay('show');
 
-            // Verifica si hay al menos un elemento con la clase 'parking-spot.selected' activa:
-            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
-
-            if (!moduloSeleccionado) {
-                $.LoadingOverlay('hide');
-
-                Swal.fire({
-                    title: "Advertencia",
-                    text: "Debe seleccionar un módulo de parqueo",
-                    icon: "warning"
-                });
-
-                return;
-            }
-
-            const placa = $('#placa').val().trim();
-            const moduloId = moduloSeleccionado.getAttribute('data-id');
-
-            $.ajax({
-                url: `/parqueo/ingresar`,
-                type: 'POST',
-                data: JSON.stringify({
-                    placa,
-                    moduloId
-                }),
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function (response) {
-                    console.log('response', response);
-
-                    $.LoadingOverlay('hide');
-
-                    if (response.status == 'warning') {
-                        Swal.fire({
-                            title: "Advertencia",
-                            text: response.message,
-                            icon: "warning"
-                        });
-
-                        return;
-                    }
-
-                    Swal.fire({
-                        title: "Éxito",
-                        text: "El vehículo fue ingresado de forma satisfactoria",
-                        icon: "success"
-                    });
-
-                    $('#mdlIngresoVehiculo').modal('hide');
+            Swal.fire({
+                title: 'Selecciona una opción',
+                input: 'select',
+                inputOptions: {
+                    'opcion1': 'Opción 1',
+                    'opcion2': 'Opción 2',
+                    'opcion3': 'Opción 3'
                 },
-                error: function (error) {
-                    $.LoadingOverlay('hide');
-                    console.log(error);
-
-                    Swal.fire({
-                        title: "Error",
-                        text: "Ocurrió un error al intentar ingresar el vehículo",
-                        icon: "warning"
-                    });
+                inputPlaceholder: 'Selecciona una opción',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Debes seleccionar una opción'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('Opción seleccionada:', result.value);
                 }
             });
+
+            // $.LoadingOverlay('show');
+            // const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+
+            // if (!moduloSeleccionado) {
+            //     $.LoadingOverlay('hide');
+
+            //     Swal.fire({
+            //         title: "Advertencia",
+            //         text: "Debe seleccionar un módulo de parqueo",
+            //         icon: "warning"
+            //     });
+
+            //     return;
+            // }
+
+            // const placa = $('#placa').val().trim();
+            // const moduloId = moduloSeleccionado.getAttribute('data-id');
+
+            // $.ajax({
+            //     url: `/parqueo/ingresar`,
+            //     type: 'POST',
+            //     data: JSON.stringify({
+            //         placa,
+            //         moduloId
+            //     }),
+            //     contentType: 'application/json',
+            //     dataType: 'json',
+            //     success: function (response) {
+            //         console.log('response', response);
+
+            //         $.LoadingOverlay('hide');
+
+            //         if (response.status == 'warning') {
+            //             Swal.fire({
+            //                 title: "Advertencia",
+            //                 text: response.message,
+            //                 icon: "warning"
+            //             });
+
+            //             return;
+            //         }
+
+            //         Swal.fire({
+            //             title: "Éxito",
+            //             text: "El vehículo fue ingresado de forma satisfactoria",
+            //             icon: "success"
+            //         });
+
+            //         $('#mdlIngresoVehiculo').modal('hide');
+            //     },
+            //     error: function (error) {
+            //         $.LoadingOverlay('hide');
+            //         console.log(error);
+
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Ocurrió un error al intentar ingresar el vehículo",
+            //             icon: "warning"
+            //         });
+            //     }
+            // });
         });
     });
 
