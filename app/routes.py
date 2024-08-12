@@ -1489,8 +1489,9 @@ def parqueos():
     Muestra la lista de parqueos.
     """
     sedes = [sede.sede for sede in current_user.sedes]
+    tipos_vehiculos = VehiculoTipo.query.all()
 
-    return render_template('parqueos.html', titulo='Parqueos', sedes=sedes)
+    return render_template('parqueos.html', titulo='Parqueos', sedes=sedes, tipos_vehiculos=tipos_vehiculos)
 
 
 @app.route('/vehiculo/buscar/<placa>', methods=['GET'])
