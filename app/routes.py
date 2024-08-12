@@ -1506,7 +1506,7 @@ def buscar_vehiculo(placa):
     vehiculo = Vehiculo.query.filter_by(placa=placa).first()
 
     if vehiculo is None:
-        return jsonify({'status': 'failure', 'message': 'Vehículo no encontrado'}), 200
+        return jsonify({'status': 'failure', 'message': 'No existe un vehículo con la placa indicada.'}), 200
 
     return jsonify({
         'status': 'success',

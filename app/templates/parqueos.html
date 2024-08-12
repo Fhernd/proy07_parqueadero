@@ -208,6 +208,16 @@
                 type: 'GET',
                 success: function (response) {
                     $.LoadingOverlay('hide');
+
+                    if (response.status == 'failure') {
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: response.message,
+                            icon: "warning"
+                        });
+
+                        return;
+                    }
                 },
                 error: function (error) {
                     $.LoadingOverlay('hide');
