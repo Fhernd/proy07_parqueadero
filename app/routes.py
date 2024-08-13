@@ -1555,6 +1555,10 @@ def ingresar_parqueo():
             )
 
             db.session.add(vehiculo)
+
+            print('vehiculo:', vehiculo)
+        
+        print('vehiculo222:', vehiculo)
         
         parqueo = Parqueo(
             vehiculo_id=vehiculo.id,
@@ -1567,6 +1571,7 @@ def ingresar_parqueo():
 
         return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero'}), 200
     except Exception as e:
+        print('Error:', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
