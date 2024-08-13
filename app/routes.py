@@ -8,6 +8,7 @@ from app import app, db
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Parqueo, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 from app.util.roles_enum import Roles
+from app.util.utilitarios import to_json
 
 
 propietario_role = RoleNeed(Roles.PROPIETARIO.value)
@@ -1490,7 +1491,7 @@ def parqueos():
     """
     sedes = [sede.sede for sede in current_user.sedes]
     tipos_vehiculos = VehiculoTipo.query.all()
-    tipos_vehiculos_json = [tipo_vehiculo.to_json() for tipo_vehiculo in tipos_vehiculos]
+    tipos_vehiculos_json = [to_json(tipo_vehiculo) for tipo_vehiculo in tipos_vehiculos]
 
     return render_template('parqueos.html', titulo='Parqueos', sedes=sedes, tipos_vehiculos=tipos_vehiculos_json)
 
