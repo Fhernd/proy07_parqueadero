@@ -274,70 +274,72 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     console.log('Opción seleccionada:', result.value);
-                }
-            });
 
-            // $.LoadingOverlay('show');
-            // const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+                    $.LoadingOverlay('show');
 
-            // if (!moduloSeleccionado) {
-            //     $.LoadingOverlay('hide');
+                    const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+                    if (!moduloSeleccionado) {
+                        $.LoadingOverlay('hide');
 
-            //     Swal.fire({
-            //         title: "Advertencia",
-            //         text: "Debe seleccionar un módulo de parqueo",
-            //         icon: "warning"
-            //     });
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: "Debe seleccionar un módulo de parqueo",
+                            icon: "warning"
+                        });
 
-            //     return;
-            // }
+                        return;
+                    }
 
-            // const placa = $('#placa').val().trim();
-            // const moduloId = moduloSeleccionado.getAttribute('data-id');
+                const vehiculoTipoId = result.value;
+                const placa = $('#placa').val().trim();
+                const moduloId = moduloSeleccionado.getAttribute('data-id');
 
-            // $.ajax({
-            //     url: `/parqueo/ingresar`,
-            //     type: 'POST',
-            //     data: JSON.stringify({
-            //         placa,
-            //         moduloId
-            //     }),
-            //     contentType: 'application/json',
-            //     dataType: 'json',
-            //     success: function (response) {
-            //         console.log('response', response);
+                $.ajax({
+                    url: `/parqueo/ingresar`,
+                    type: 'POST',
+                    data: JSON.stringify({
+                        vehiculoTipoId,
+                        placa,
+                        moduloId
+                    }),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log('response', response);
 
-            //         $.LoadingOverlay('hide');
+                        $.LoadingOverlay('hide');
 
-            //         if (response.status == 'warning') {
-            //             Swal.fire({
-            //                 title: "Advertencia",
-            //                 text: response.message,
-            //                 icon: "warning"
-            //             });
+                        if (response.status == 'warning') {
+                            Swal.fire({
+                                title: "Advertencia",
+                                text: response.message,
+                                icon: "warning"
+                            });
 
-            //             return;
-            //         }
+                            return;
+                        }
 
-            //         Swal.fire({
-            //             title: "Éxito",
-            //             text: "El vehículo fue ingresado de forma satisfactoria",
-            //             icon: "success"
-            //         });
+                        Swal.fire({
+                            title: "Éxito",
+                            text: "El vehículo fue ingresado de forma satisfactoria",
+                            icon: "success"
+                        });
 
-            //         $('#mdlIngresoVehiculo').modal('hide');
-            //     },
-            //     error: function (error) {
-            //         $.LoadingOverlay('hide');
-            //         console.log(error);
+                        $('#mdlIngresoVehiculo').modal('hide');
+                    },
+                    error: function (error) {
+                        $.LoadingOverlay('hide');
+                        console.log(error);
 
-            //         Swal.fire({
-            //             title: "Error",
-            //             text: "Ocurrió un error al intentar ingresar el vehículo",
-            //             icon: "warning"
-            //         });
-            //     }
-            // });
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar ingresar el vehículo",
+                            icon: "warning"
+                        });
+                    }
+                });
+                    }
+                });
         });
     });
 
