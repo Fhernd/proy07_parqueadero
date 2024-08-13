@@ -38,4 +38,4 @@ def to_json(instance):
         instance_dict[column_name] = value
     
     # Convert the dictionary to a JSON string
-    return json.dumps(instance_dict, ensure_ascii=False)
+    return instance_dict

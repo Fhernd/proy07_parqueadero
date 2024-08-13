@@ -255,12 +255,15 @@
         $('#btnIngresar').click(function () {
 
             const tiposVehiculosOptions = {{ tipos_vehiculos | tojson }};
-
+            const options = {};
+            tiposVehiculosOptions.forEach((tipoVehiculo) => {
+                options[tipoVehiculo.id] = tipoVehiculo.nombre;
+            });
 
             Swal.fire({
                 title: 'Selecciona una opción',
                 input: 'select',
-                inputOptions: tiposVehiculosOptions,
+                inputOptions: options,
                 inputPlaceholder: 'Selecciona un tipo de vehículo',
                 showCancelButton: true,
                 inputValidator: (value) => {
