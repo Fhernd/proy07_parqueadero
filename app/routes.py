@@ -1548,8 +1548,10 @@ def ingresar_parqueo():
                 return jsonify({'status': 'warning', 'message': 'El vehículo ya se encuentra en el parqueadero'}), 200
 
         if vehiculo is None:
+            vehiculo_tipo_id = data.get('vehiculoTipoId')
             vehiculo = Vehiculo(
-                placa=placa
+                placa=placa,
+                vehiculo_tipo_id=vehiculo_tipo_id
             )
 
             db.session.add(vehiculo)
