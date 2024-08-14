@@ -1555,10 +1555,7 @@ def ingresar_parqueo():
             )
 
             db.session.add(vehiculo)
-
-            print('vehiculo:', vehiculo)
-        
-        print('vehiculo222:', vehiculo)
+            db.session.flush()
         
         parqueo = Parqueo(
             vehiculo_id=vehiculo.id,
