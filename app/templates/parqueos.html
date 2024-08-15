@@ -59,9 +59,9 @@
     </div>
 </div>
 
-<div class="card shadow mb-4" id="parqueosActivos">
+<div class="card shadow mb-4" id="parqueosActivos" style="display: none;">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Parqueos activos</h6>
+        <h6 class="m-0 font-weight-bold text-primary" id="sedeNombre"></h6>
     </div>
     <div class="card-body">
         <h2>Parqueos Activos</h2>
@@ -168,7 +168,8 @@
 <script>
     $(document).ready(function () {
         $('#btnSeleccionarSede').click(function () {
-            var sedeId = $('#sedeId').val();
+            const sedeNombre = $('#sedeId option:selected').text();
+            const sedeId = $('#sedeId').val();
 
             localStorage.setItem('sedeId', sedeId);
 
@@ -182,7 +183,7 @@
                 success: function (response) {
                     const parqueos = response.data;
 
-                    mostrarTablaParqueos(parqueos);
+                    mostrarTablaParqueos(parqueos, sedeNombre);
                     inicializarTemporizadores(parqueos);
                 },
                 error: function (error) {
@@ -360,7 +361,10 @@
         }
     }
 
-    function mostrarTablaParqueos(parqueos) {
+    function mostrarTablaParqueos(parqueos, sedeNombre) {
+        $('#parqueosActivos').show();
+        
+        $('#sedeNombre').text(`Parqueos activos sede: ${sedeNombre}`);
         const tableBody = document.getElementById('parqueos-table');
         tableBody.innerHTML = '';
 
