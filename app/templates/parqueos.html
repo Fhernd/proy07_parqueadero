@@ -152,8 +152,6 @@
             <div class="modal-body">
                 <div class="form-group">
                     <select class="form-control" id="tipoVehiculo">
-                        <option value="1">Automóvil</option>
-                        <option value="2">Motocicleta</option>
                     </select>
                 </div>
             </div>
@@ -240,7 +238,7 @@
                     modulos.forEach((modulo, index) => {
                         const $div = $('<div></div>', {
                             'data-id': modulo.id,
-                            class: 'parking-spot',
+                            class: !modulo.disponible ? 'parking-spot' : 'parking-spot occupied',
                             onclick: 'seleccionarModulo(this)',
                             text: index + 1
                         });

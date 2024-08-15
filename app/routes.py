@@ -1031,6 +1031,7 @@ def sede_modulos(id):
         'nombre': modulo.nombre,
         'habilitado': modulo.habilitado,
         'descripcion': modulo.descripcion,
+        'disponible': bool(Parqueo.query.filter_by(modulo_id=modulo.id, fecha_hora_salida=None).count())
     } for modulo in modulos]}), 200
 
 
