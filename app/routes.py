@@ -1536,11 +1536,13 @@ def ingresar_parqueo():
     try:
         data = request.get_json()
         modulo_id = data.get('moduloId')
+
+        modulo_ocupado = Parqueo.query.filter_by(modulo_id=modulo_id, fecha_hora_salida=None).first()
+
+        if modulo_ocupado is not None:
+            return jsonify({'status': 'warning', 'message': 'El módulo seleccionado se encuentra ocupado'}), 200
+
         modulo = Modulo.query.get(modulo_id)
-
-        if modulo is not None and not modulo.habilitado:
-            return jsonify({'status': 'warning', 'message': 'El módulo no está disponible.'}), 200
-
         placa = data.get('placa')
         vehiculo = Vehiculo.query.filter_by(placa=placa).first()
 
