@@ -238,7 +238,7 @@
                     modulos.forEach((modulo, index) => {
                         const $div = $('<div></div>', {
                             'data-id': modulo.id,
-                            class: !modulo.disponible ? 'parking-spot' : 'parking-spot occupied',
+                            class: modulo.disponible ? 'parking-spot' : 'parking-spot occupied',
                             onclick: 'seleccionarModulo(this)',
                             text: index + 1
                         });
