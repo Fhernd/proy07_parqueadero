@@ -246,6 +246,8 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
+                    console.log('Opción seleccionada:', result);
+                    
                     console.log('Opción seleccionada:', result.value);
 
                     $.LoadingOverlay('show');
@@ -263,6 +265,7 @@
                         return;
                     }
 
+                const tipo = 'abc';
                 const vehiculoTipoId = result.value;
                 const placa = $('#placa').val().trim();
                 const moduloId = moduloSeleccionado.getAttribute('data-id');
@@ -297,6 +300,8 @@
                             text: "El vehículo fue ingresado de forma satisfactoria",
                             icon: "success"
                         });
+
+                        agregarVehiculoTabla({placa, tipo, fechaHoraEntrada: new Date().toISOString(), modulo: 'M1'});
 
                         $('#mdlIngresoVehiculo').modal('hide');
                     },
@@ -419,6 +424,25 @@
                 }
             });
         }
+
+    function agregarVehiculoTabla(parqueo) {
+        const fechaEntrada = moment(parqueo.fechaHoraEntrada);
+        const row = `
+            <tr>
+                <td>${parqueo.placa}</td>
+                <td>${parqueo.tipo}</td>
+                <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
+                <td>${parqueo.modulo}</td>
+                <td class="timer"></td>
+                <td>
+                    <button class="btn btn-warning">Retirar</button>
+                </td>
+            </tr>
+        `;
+
+        const tableBody = document.getElementById('parqueos-table');
+        tableBody.insertAdjacentHTML('beforeend', row);
+    }
 </script>
 
 {% endblock %}
