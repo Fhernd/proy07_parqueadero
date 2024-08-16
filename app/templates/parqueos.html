@@ -68,7 +68,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Placa del vehículo</th>
+                    <th>Placa vehículo</th>
+                    <th>Tipo vehículo</th>
                     <th>Fecha de entrada</th>
                     <th>Nombre del módulo</th>
                     <th>Tiempo parqueado</th>
@@ -371,6 +372,7 @@
             const row = `
                     <tr>
                         <td>${parqueo.vehiculo.placa}</td>
+                        <td>${parqueo.vehiculo.tipo}</td>
                         <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
                         <td>${parqueo.modulo.nombre}</td>
                         <td class="timer" id="timer-${index}"></td>
