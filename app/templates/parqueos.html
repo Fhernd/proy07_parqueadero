@@ -253,7 +253,9 @@
                     console.log('Opción seleccionada:', result);
                     
                     console.log('Opción seleccionada:', result.value);
-                    const tipoVehiculo = Swal.getInput().querySelector('option:checked').text
+                    const selectElement = Swal.getInput(); // Esto obtiene el elemento select
+                    console.log("🚀 ~ selectElement:", selectElement)
+                    const tipoVehiculo = selectElement.options[selectElement.selectedIndex].text;
 
                     $.LoadingOverlay('show');
 
@@ -273,6 +275,7 @@
                 const vehiculoTipoId = result.value;
                 const placa = $('#placa').val().trim();
                 const moduloId = moduloSeleccionado.getAttribute('data-id');
+                const moduloNombre = moduloSeleccionado.textContent;
 
                 $.ajax({
                     url: `/parqueo/ingresar`,
@@ -304,7 +307,7 @@
                             icon: "success"
                         });
 
-                        agregarVehiculoTabla({placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: 'M1'});
+                        agregarVehiculoTabla({placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre});
 
                         $('#mdlIngresoVehiculo').modal('hide');
                     },
