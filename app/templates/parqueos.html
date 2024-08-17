@@ -446,9 +446,9 @@
             </tr>
         `;
         tableBody.insertAdjacentHTML('beforeend', row);
-        updateTimer(index, fechaEntrada);
-
-        console.log($(`#timer-${index}`));
+        setTimeout(() => {
+            updateTimer(index, fechaEntrada);
+        }, 1000);
     }
 </script>
 
