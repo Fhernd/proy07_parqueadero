@@ -446,6 +446,9 @@
 
         const tableBody = document.getElementById('parqueos-table');
         tableBody.insertAdjacentHTML('beforeend', row);
+
+        const index = tableBody.children.length - 1;
+        updateTimer(index, fechaEntrada);
     }
 </script>
 
