@@ -225,6 +225,10 @@
             });
         });
 
+        $('#mdlIngresoVehiculo').on('shown.bs.modal', function () {
+            $('#placa').focus();
+        });
+
         $('#btnIngresar').click(function () {
 
             const tiposVehiculosOptions = {{ tipos_vehiculos | tojson }};
