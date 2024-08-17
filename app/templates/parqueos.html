@@ -253,6 +253,7 @@
                     console.log('Opción seleccionada:', result);
                     
                     console.log('Opción seleccionada:', result.value);
+                    const tipoVehiculo = Swal.getInput().querySelector('option:checked').text
 
                     $.LoadingOverlay('show');
 
@@ -269,7 +270,6 @@
                         return;
                     }
 
-                const tipo = 'abc';
                 const vehiculoTipoId = result.value;
                 const placa = $('#placa').val().trim();
                 const moduloId = moduloSeleccionado.getAttribute('data-id');
@@ -285,7 +285,6 @@
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (response) {
-                        console.log('response', response);
 
                         $.LoadingOverlay('hide');
 
@@ -305,7 +304,7 @@
                             icon: "success"
                         });
 
-                        agregarVehiculoTabla({placa, tipo, fechaHoraEntrada: new Date().toISOString(), modulo: 'M1'});
+                        agregarVehiculoTabla({placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: 'M1'});
 
                         $('#mdlIngresoVehiculo').modal('hide');
                     },
