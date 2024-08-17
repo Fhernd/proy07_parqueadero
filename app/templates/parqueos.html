@@ -432,7 +432,7 @@
     function agregarVehiculoTabla(parqueo) {
         const fechaEntrada = moment(parqueo.fechaHoraEntrada);
         const tableBody = document.getElementById('parqueos-table');
-        const index = tableBody.children.length - 1;
+        const index = tableBody.children.length;
         const row = `
             <tr>
                 <td>${parqueo.placa}</td>
@@ -447,6 +447,8 @@
         `;
         tableBody.insertAdjacentHTML('beforeend', row);
         updateTimer(index, fechaEntrada);
+
+        console.log($(`#timer-${index}`));
     }
 </script>
 
