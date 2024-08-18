@@ -305,7 +305,7 @@ class Tarifa(db.Model):
     tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
     
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
-    parqueos = db.relationship("Parqueo", back_populates="tarifa")
+    vehiculo_tipos = db.relationship("VehiculoTipo", back_populates="tarifa")
     arrendamientos = db.relationship("Arrendamiento", back_populates="tarifa")
 
     def __repr__(self):
@@ -320,14 +320,12 @@ class Parqueo(db.Model):
     modulo_id = db.Column(db.Integer, db.ForeignKey('modulo.id'), nullable=False)
     vehiculo_id = db.Column(db.String(12), db.ForeignKey('vehiculo.id'), nullable=False)
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=True)
-    tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     
     modulo = db.relationship("Modulo", back_populates="parqueos")
     vehiculo = db.relationship("Vehiculo", back_populates="parqueos")
     medio_pago = db.relationship("MedioPago", back_populates="parqueos")
-    tarifa = db.relationship("Tarifa", back_populates="parqueos")
 
     def __repr__(self):
         return f"<Parqueo(id={self.id}, fecha_hora_entrada='{self.fecha_hora_entrada}', fecha_hora_salida='{self.fecha_hora_salida}')>"
@@ -337,10 +335,12 @@ class VehiculoTipo(db.Model):
     __tablename__ = 'vehiculo_tipo'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(32), nullable=False)
+    tarifa_id = db.Column(db.String(12), db.ForeignKey('vehiculo.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     vehiculos = db.relationship("Vehiculo", back_populates="vehiculo_tipo")
+    tarifas = db.relationship("Tarifa", back_populates="vehiculo_tipos")
 
     def __repr__(self):
         return f"<VehiculoTipo(id={self.id}, nombre='{self.nombre}')>"
