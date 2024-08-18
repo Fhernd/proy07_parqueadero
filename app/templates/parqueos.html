@@ -214,7 +214,7 @@
                             'data-id': modulo.id,
                             class: modulo.disponible ? 'parking-spot' : 'parking-spot occupied',
                             onclick: 'seleccionarModulo(this)',
-                            text: index + 1
+                            text: modulo.nombre
                         });
                         container.append($div);
                     });
