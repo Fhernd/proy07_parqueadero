@@ -250,13 +250,6 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log('Opción seleccionada:', result);
-                    
-                    console.log('Opción seleccionada:', result.value);
-                    const selectElement = Swal.getInput(); // Esto obtiene el elemento select
-                    console.log("🚀 ~ selectElement:", selectElement)
-                    const tipoVehiculo = selectElement.options[selectElement.selectedIndex].text;
-
                     $.LoadingOverlay('show');
 
                     const moduloSeleccionado = document.querySelector('.parking-spot.selected');
@@ -276,6 +269,7 @@
                 const placa = $('#placa').val().trim();
                 const moduloId = moduloSeleccionado.getAttribute('data-id');
                 const moduloNombre = moduloSeleccionado.textContent;
+                const tipoVehiculo = options[vehiculoTipoId];
 
                 $.ajax({
                     url: `/parqueo/ingresar`,
