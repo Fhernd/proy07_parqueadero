@@ -667,7 +667,7 @@ def insert_initial_values():
             VehiculoTipo(id=2, nombre='Automóvil', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
             VehiculoTipo(id=3, nombre='Camioneta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
             VehiculoTipo(id=4, nombre='Camión', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=5, nombre='Bus', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=5, nombre='Bus', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
             VehiculoTipo(id=6, nombre='Bicicleta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
             VehiculoTipo(id=7, nombre='Motocicleta Deportiva', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
             VehiculoTipo(id=8, nombre='Automóvil Familiar', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
