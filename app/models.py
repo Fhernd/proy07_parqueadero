@@ -305,7 +305,7 @@ class Tarifa(db.Model):
     tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
     
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
-    vehiculo_tipos = db.relationship("VehiculoTipo", back_populates="tarifa")
+    vehiculo_tipos = db.relationship("VehiculoTipo", back_populates="tarifas")
     arrendamientos = db.relationship("Arrendamiento", back_populates="tarifa")
 
     def __repr__(self):
@@ -335,7 +335,7 @@ class VehiculoTipo(db.Model):
     __tablename__ = 'vehiculo_tipo'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(32), nullable=False)
-    tarifa_id = db.Column(db.String(12), db.ForeignKey('vehiculo.id'), nullable=False)
+    tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
@@ -404,23 +404,6 @@ class Arrendamiento(db.Model):
 
 
 def insert_initial_values():
-    if not VehiculoTipo.query.first():
-        data = [
-            VehiculoTipo(id=1, nombre='Motocicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=2, nombre='Automóvil', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=3, nombre='Camioneta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=4, nombre='Camión', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=5, nombre='Bus', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=6, nombre='Bicicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=7, nombre='Motocicleta Deportiva', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=8, nombre='Automóvil Familiar', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=9, nombre='Camioneta SUV', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=10, nombre='Camión Articulado', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
-        ]
-        
-        db.session.bulk_save_objects(data)
-        db.session.commit()
-    
     if not MedioPago.query.first():
         medios_pago = [
             {'id': 1, 'nombre': 'Efectivo', 'created_at': datetime(2024, 4, 15), 'updated_at': datetime(2024, 4, 15)},
@@ -676,7 +659,24 @@ def insert_initial_values():
 
         db.session.add_all(tarifas)
 
-        db.session
+        db.session.commit()
+
+    if not VehiculoTipo.query.first():
+        data = [
+            VehiculoTipo(id=1, nombre='Motocicleta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=2, nombre='Automóvil', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=3, nombre='Camioneta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=4, nombre='Camión', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=5, nombre='Bus', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=6, nombre='Bicicleta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=7, nombre='Motocicleta Deportiva', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=8, nombre='Automóvil Familiar', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=9, nombre='Camioneta SUV', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=10, nombre='Camión Articulado', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
+        ]
+        
+        db.session.bulk_save_objects(data)
+        db.session.commit()
 
     if not Vehiculo.query.first():
         vehiculos = [
