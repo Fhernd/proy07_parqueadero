@@ -73,6 +73,8 @@
                     <th>Fecha de entrada</th>
                     <th>Nombre del módulo</th>
                     <th>Tiempo parqueado</th>
+                    <th>Tarifa</th>
+                    <th>Total</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -181,6 +183,9 @@
                 type: 'GET',
                 success: function (response) {
                     const parqueos = response.data;
+
+                    console.log(parqueos);
+                    
 
                     mostrarTablaParqueos(parqueos, sedeNombre);
                     inicializarTemporizadores(parqueos);
@@ -354,6 +359,8 @@
                         <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
                         <td>${parqueo.modulo.nombre}</td>
                         <td class="timer" id="timer-${index}"></td>
+                        <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo}</td>
+                        <td>1.000</td>
                         <td>
                             <button class="btn btn-warning">Retirar</button>
                         </td>

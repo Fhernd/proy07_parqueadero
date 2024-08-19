@@ -1608,7 +1608,12 @@ def parqueos_activos(sede_id):
                     'placa': parqueo.vehiculo.placa,
                     'marca': parqueo.vehiculo.marca,
                     'modelo': parqueo.vehiculo.modelo,
-                    'tipo': parqueo.vehiculo.vehiculo_tipo.nombre
+                    'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
+                    'tarifa': {
+                        'id': parqueo.vehiculo.vehiculo_tipo.tarifas.id,
+                        'nombre': parqueo.vehiculo.vehiculo_tipo.tarifas.nombre,
+                        'costo': parqueo.vehiculo.vehiculo_tipo.tarifas.costo
+                    }
                 },
                 'modulo': {
                     'id': parqueo.modulo_id,
