@@ -359,8 +359,8 @@
                         <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
                         <td>${parqueo.modulo.nombre}</td>
                         <td class="timer" id="timer-${index}"></td>
-                        <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo}</td>
-                        <td>1.000</td>
+                        <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo})</td>
+                        <td id="total-${index}">1.000</td>
                         <td>
                             <button class="btn btn-warning">Retirar</button>
                         </td>
@@ -368,6 +368,7 @@
                 `;
             tableBody.insertAdjacentHTML('beforeend', row);
             updateTimer(index, fechaEntrada);
+            actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
         });
     }
 
@@ -451,6 +452,37 @@
         tableBody.insertAdjacentHTML('beforeend', row);
         setInterval(() => {
             updateTimer(index, fechaEntrada);
+        }, 1000);
+    }
+
+    /**
+     * Actualiza el total de un parqueo.
+     * 
+     * @param {number} index Índice del parqueo en la tabla.
+     * @param {Object} tarifa Tarifa del vehículo.
+     */
+     function calcularTotal(index, tarifa, fechaEntrada) {
+        const nombreTarifa = tarifa.nombre;
+        const costoTarifa = tarifa.costo;
+        const totalTd = document.getElementById(`total-${index}`);
+
+        setInterval(() => {
+            const ahora = moment();
+            const duracion = moment.duration(ahora.diff(fechaEntrada));
+            let total = 0;
+
+            if (nombreTarifa.includes('minuto')) {
+                const minutosTranscurridos = duracion.asMinutes();
+                total = minutosTranscurridos * costoTarifa;
+            } else if (nombreTarifa.includes('hora')) {
+                const horasTranscurridas = duracion.asHours();
+                total = horasTranscurridas * costoTarifa;
+            } else if (nombreTarifa.includes('día')) {
+                const diasTranscurridos = duracion.asDays();
+                total = diasTranscurridos * costoTarifa;
+            }
+
+            totalTd.textContent = total.toFixed(2); // Mostrar el total con dos decimales
         }, 1000);
     }
 </script>
