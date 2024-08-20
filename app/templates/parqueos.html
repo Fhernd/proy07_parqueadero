@@ -391,6 +391,7 @@
             const fechaEntrada = moment(parqueo.fechaHoraEntrada);
             setInterval(() => {
                 updateTimer(index, fechaEntrada);
+                actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
             }, 1000);
         });
     }
@@ -461,29 +462,27 @@
      * @param {number} index Índice del parqueo en la tabla.
      * @param {Object} tarifa Tarifa del vehículo.
      */
-     function calcularTotal(index, tarifa, fechaEntrada) {
+     function actualizarTotal(index, tarifa, fechaEntrada) {
         const nombreTarifa = tarifa.nombre;
         const costoTarifa = tarifa.costo;
         const totalTd = document.getElementById(`total-${index}`);
+        
+        const ahora = moment();
+        const duracion = moment.duration(ahora.diff(fechaEntrada));
+        let total = 0;
 
-        setInterval(() => {
-            const ahora = moment();
-            const duracion = moment.duration(ahora.diff(fechaEntrada));
-            let total = 0;
+        if (nombreTarifa.includes('minuto')) {
+            const minutosTranscurridos = duracion.asMinutes();
+            total = minutosTranscurridos * costoTarifa;
+        } else if (nombreTarifa.includes('hora')) {
+            const horasTranscurridas = duracion.asHours();
+            total = horasTranscurridas * costoTarifa;
+        } else if (nombreTarifa.includes('día')) {
+            const diasTranscurridos = duracion.asDays();
+            total = diasTranscurridos * costoTarifa;
+        }
 
-            if (nombreTarifa.includes('minuto')) {
-                const minutosTranscurridos = duracion.asMinutes();
-                total = minutosTranscurridos * costoTarifa;
-            } else if (nombreTarifa.includes('hora')) {
-                const horasTranscurridas = duracion.asHours();
-                total = horasTranscurridas * costoTarifa;
-            } else if (nombreTarifa.includes('día')) {
-                const diasTranscurridos = duracion.asDays();
-                total = diasTranscurridos * costoTarifa;
-            }
-
-            totalTd.textContent = total.toFixed(2); // Mostrar el total con dos decimales
-        }, 1000);
+        totalTd.textContent = total.toFixed(2);
     }
 </script>
 
