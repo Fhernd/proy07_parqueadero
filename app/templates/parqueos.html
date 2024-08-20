@@ -126,7 +126,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa" style="height: 200px; font-size: 120px;">
+                    <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa"
+                        style="height: 200px; font-size: 120px;">
                 </div>
                 <button type="button" class="btn btn-primary btn-lg" id="btnBuscarVehiculoPorPlaca">Buscar</button>
                 <br>
@@ -185,7 +186,7 @@
                     const parqueos = response.data;
 
                     console.log(parqueos);
-                    
+
 
                     mostrarTablaParqueos(parqueos, sedeNombre);
                     inicializarTemporizadores(parqueos);
@@ -236,93 +237,94 @@
 
         $('#btnIngresar').click(function () {
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson }};
-            const options = {};
-            tiposVehiculosOptions.forEach((tipoVehiculo) => {
-                options[tipoVehiculo.id] = tipoVehiculo.nombre;
-            });
+            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
+        }};
+    const options = {};
+    tiposVehiculosOptions.forEach((tipoVehiculo) => {
+        options[tipoVehiculo.id] = tipoVehiculo.nombre;
+    });
 
-            Swal.fire({
-                title: 'Selecciona una opción',
-                input: 'select',
-                inputOptions: options,
-                inputPlaceholder: 'Selecciona un tipo de vehículo',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Debes seleccionar una opción'
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.LoadingOverlay('show');
+    Swal.fire({
+        title: 'Selecciona una opción',
+        input: 'select',
+        inputOptions: options,
+        inputPlaceholder: 'Selecciona un tipo de vehículo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debes seleccionar una opción'
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.LoadingOverlay('show');
 
-                    const moduloSeleccionado = document.querySelector('.parking-spot.selected');
-                    if (!moduloSeleccionado) {
-                        $.LoadingOverlay('hide');
+            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+            if (!moduloSeleccionado) {
+                $.LoadingOverlay('hide');
 
+                Swal.fire({
+                    title: "Advertencia",
+                    text: "Debe seleccionar un módulo de parqueo",
+                    icon: "warning"
+                });
+
+                return;
+            }
+
+            const vehiculoTipoId = result.value;
+            const placa = $('#placa').val().trim();
+            const moduloId = moduloSeleccionado.getAttribute('data-id');
+            const moduloNombre = moduloSeleccionado.textContent;
+            const tipoVehiculo = options[vehiculoTipoId];
+
+            $.ajax({
+                url: `/parqueo/ingresar`,
+                type: 'POST',
+                data: JSON.stringify({
+                    vehiculoTipoId,
+                    placa,
+                    moduloId
+                }),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'warning') {
                         Swal.fire({
                             title: "Advertencia",
-                            text: "Debe seleccionar un módulo de parqueo",
+                            text: response.message,
                             icon: "warning"
                         });
 
                         return;
                     }
 
-                const vehiculoTipoId = result.value;
-                const placa = $('#placa').val().trim();
-                const moduloId = moduloSeleccionado.getAttribute('data-id');
-                const moduloNombre = moduloSeleccionado.textContent;
-                const tipoVehiculo = options[vehiculoTipoId];
+                    Swal.fire({
+                        title: "Éxito",
+                        text: "El vehículo fue ingresado de forma satisfactoria",
+                        icon: "success"
+                    });
 
-                $.ajax({
-                    url: `/parqueo/ingresar`,
-                    type: 'POST',
-                    data: JSON.stringify({
-                        vehiculoTipoId,
-                        placa,
-                        moduloId
-                    }),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function (response) {
+                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre });
 
-                        $.LoadingOverlay('hide');
+                    $('#mdlIngresoVehiculo').modal('hide');
+                },
+                error: function (error) {
+                    $.LoadingOverlay('hide');
+                    console.log(error);
 
-                        if (response.status == 'warning') {
-                            Swal.fire({
-                                title: "Advertencia",
-                                text: response.message,
-                                icon: "warning"
-                            });
-
-                            return;
-                        }
-
-                        Swal.fire({
-                            title: "Éxito",
-                            text: "El vehículo fue ingresado de forma satisfactoria",
-                            icon: "success"
-                        });
-
-                        agregarVehiculoTabla({placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre});
-
-                        $('#mdlIngresoVehiculo').modal('hide');
-                    },
-                    error: function (error) {
-                        $.LoadingOverlay('hide');
-                        console.log(error);
-
-                        Swal.fire({
-                            title: "Error",
-                            text: "Ocurrió un error al intentar ingresar el vehículo",
-                            icon: "warning"
-                        });
-                    }
-                });
-                    }
-                });
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar ingresar el vehículo",
+                        icon: "warning"
+                    });
+                }
+            });
+        }
+    });
         });
     });
 
@@ -345,7 +347,7 @@
 
     function mostrarTablaParqueos(parqueos, sedeNombre) {
         $('#parqueosActivos').show();
-        
+
         $('#sedeNombre').text(`Parqueos activos sede: ${sedeNombre}`);
         const tableBody = document.getElementById('parqueos-table');
         tableBody.innerHTML = '';
@@ -400,39 +402,39 @@
      * Realiza una petición al servidor para buscar un vehículo por placa.
      */
     function buscarVehiculoPorPlaca() {
-            $.LoadingOverlay('show');
+        $.LoadingOverlay('show');
 
-            var placa = $('#placa').val().trim();
+        var placa = $('#placa').val().trim();
 
-            if (!placa) {
-                $.LoadingOverlay('hide');
-                return;
-            }
-
-            $('#btnIngresar').removeAttr('disabled');
-
-            $.ajax({
-                url: `/vehiculo/buscar/${placa}`,
-                type: 'GET',
-                success: function (response) {
-                    $.LoadingOverlay('hide');
-
-                    if (response.status == 'failure') {
-                        Swal.fire({
-                            title: "Advertencia",
-                            text: response.message,
-                            icon: "warning"
-                        });
-
-                        return;
-                    }
-                },
-                error: function (error) {
-                    $.LoadingOverlay('hide');
-                    console.log(error);
-                }
-            });
+        if (!placa) {
+            $.LoadingOverlay('hide');
+            return;
         }
+
+        $('#btnIngresar').removeAttr('disabled');
+
+        $.ajax({
+            url: `/vehiculo/buscar/${placa}`,
+            type: 'GET',
+            success: function (response) {
+                $.LoadingOverlay('hide');
+
+                if (response.status == 'failure') {
+                    Swal.fire({
+                        title: "Advertencia",
+                        text: response.message,
+                        icon: "warning"
+                    });
+
+                    return;
+                }
+            },
+            error: function (error) {
+                $.LoadingOverlay('hide');
+                console.log(error);
+            }
+        });
+    }
 
     function agregarVehiculoTabla(parqueo) {
         const fechaEntrada = moment(parqueo.fechaHoraEntrada);
@@ -462,11 +464,11 @@
      * @param {number} index Índice del parqueo en la tabla.
      * @param {Object} tarifa Tarifa del vehículo.
      */
-     function actualizarTotal(index, tarifa, fechaEntrada) {
+    function actualizarTotal(index, tarifa, fechaEntrada) {
         const nombreTarifa = tarifa.nombre;
         const costoTarifa = tarifa.costo;
         const totalTd = document.getElementById(`total-${index}`);
-        
+
         const ahora = moment();
         const duracion = moment.duration(ahora.diff(fechaEntrada));
         let total = 0;
@@ -482,7 +484,17 @@
             total = diasTranscurridos * costoTarifa;
         }
 
-        totalTd.textContent = total.toFixed(2);
+        totalTd.textContent = `$${formatearDinero(total)}`;
+    }
+    
+
+    function formatearDinero(valor) {
+        const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
+
+        const { amount } = dineroObjeto.toJSON();
+
+        
+        return (amount / 100).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 </script>
 
