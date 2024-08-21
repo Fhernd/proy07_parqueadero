@@ -378,6 +378,13 @@
         const row = document.getElementById('parqueos-table').children[index];
         console.log(row);
         
+        const placa = row.children[0].textContent;
+        const total = row.children[6].textContent;
+
+        console.log(placa, total);
+        
+        const totalEntero = numeral(total).value();
+        console.log(totalEntero);
 
         // Swal.fire({
         //     title: '¿Estás seguro?',
