@@ -184,10 +184,7 @@
                 type: 'GET',
                 success: function (response) {
                     const parqueos = response.data;
-
-                    console.log(parqueos);
-
-
+                    
                     mostrarTablaParqueos(parqueos, sedeNombre);
                     inicializarTemporizadores(parqueos);
                 },
@@ -472,6 +469,8 @@
         const ahora = moment();
         const duracion = moment.duration(ahora.diff(fechaEntrada));
         let total = 0;
+        
+        const cantidadDigitos = tarifa.costo.toString().length - 1;
 
         if (nombreTarifa.includes('minuto')) {
             const minutosTranscurridos = duracion.asMinutes();
@@ -484,12 +483,12 @@
             total = diasTranscurridos * costoTarifa;
         }
 
-        totalTd.textContent = `$${formatearDinero(total)}`;
+        totalTd.textContent = `$${formatearDinero(total, cantidadDigitos)}`;
     }
     
 
-    function formatearDinero(valor) {
-        valor = _.ceil(valor, -2)
+    function formatearDinero(valor, cantidadDigitos) {
+        valor = _.ceil(valor, -cantidadDigitos)
         const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
 
         const { amount } = dineroObjeto.toJSON();
