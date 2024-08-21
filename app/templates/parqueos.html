@@ -184,7 +184,7 @@
                 type: 'GET',
                 success: function (response) {
                     const parqueos = response.data;
-                    
+
                     mostrarTablaParqueos(parqueos, sedeNombre);
                     inicializarTemporizadores(parqueos);
                 },
@@ -361,14 +361,74 @@
                         <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo})</td>
                         <td id="total-${index}">1.000</td>
                         <td>
-                            <button class="btn btn-warning">Retirar</button>
+                            <button class="btn btn-warning" id="btnRetirar-${index}">Retirar</button>
                         </td>
                     </tr>
                 `;
             tableBody.insertAdjacentHTML('beforeend', row);
             updateTimer(index, fechaEntrada);
             actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
+
+            $(`#btnRetirar-${index}`).click(retirarVehiculo);
         });
+    }
+
+    function retirarVehiculo(event) {
+        const index = event.target.parentElement.parentElement.rowIndex - 1;
+        const row = document.getElementById('parqueos-table').children[index];
+        console.log(row);
+        
+
+        // Swal.fire({
+        //     title: '¿Estás seguro?',
+        //     text: 'El vehículo será retirado del parqueadero',
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Sí, retirar',
+        //     cancelButtonText: 'Cancelar'
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         $.LoadingOverlay('show');
+
+        //         $.ajax({
+        //             url: `/parqueo/${parqueo.id}/retirar`,
+        //             type: 'POST',
+        //             success: function (response) {
+        //                 $.LoadingOverlay('hide');
+
+        //                 if (response.status == 'warning') {
+        //                     Swal.fire({
+        //                         title: "Advertencia",
+        //                         text: response.message,
+        //                         icon: "warning"
+        //                     });
+
+        //                     return;
+        //                 }
+
+        //                 Swal.fire({
+        //                     title: "Éxito",
+        //                     text: "El vehículo fue retirado de forma satisfactoria",
+        //                     icon: "success"
+        //                 });
+
+        //                 $(`#btnRetirar-${index}`).parent().parent().remove();
+        //             },
+        //             error: function (error) {
+        //                 $.LoadingOverlay('hide');
+        //                 console.log(error);
+
+        //                 Swal.fire({
+        //                     title: "Error",
+        //                     text: "Ocurrió un error al intentar retirar el vehículo",
+        //                     icon: "warning"
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
     }
 
     function updateTimer(index, fechaEntrada) {
@@ -469,7 +529,7 @@
         const ahora = moment();
         const duracion = moment.duration(ahora.diff(fechaEntrada));
         let total = 0;
-        
+
         const cantidadDigitos = tarifa.costo.toString().length - 1;
 
         if (nombreTarifa.includes('minuto')) {
@@ -485,7 +545,7 @@
 
         totalTd.textContent = `$${formatearDinero(total, cantidadDigitos)}`;
     }
-    
+
 
     function formatearDinero(valor, cantidadDigitos) {
         valor = _.ceil(valor, -cantidadDigitos)
@@ -493,7 +553,7 @@
 
         const { amount } = dineroObjeto.toJSON();
 
-        
+
         return (amount / 100).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 </script>
