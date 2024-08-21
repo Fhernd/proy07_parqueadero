@@ -489,6 +489,7 @@
     
 
     function formatearDinero(valor) {
+        valor = _.ceil(valor, -2)
         const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
 
         const { amount } = dineroObjeto.toJSON();
