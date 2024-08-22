@@ -317,6 +317,7 @@ class Parqueo(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fecha_hora_entrada = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     fecha_hora_salida = db.Column(db.DateTime)
+    total_pagado = db.Column(db.Integer, default=0, nullable=False)
     modulo_id = db.Column(db.Integer, db.ForeignKey('modulo.id'), nullable=False)
     vehiculo_id = db.Column(db.String(12), db.ForeignKey('vehiculo.id'), nullable=False)
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=True)
