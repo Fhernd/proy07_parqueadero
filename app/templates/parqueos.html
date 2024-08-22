@@ -378,9 +378,9 @@
         const row = document.getElementById('parqueos-table').children[index];
 
         const placa = row.children[0].textContent;
-        const total = row.children[6].textContent.replaceAll('.', ',');
+        const total = row.children[6].textContent;
 
-        const totalEntero = numeral(total).value();
+        const totalEntero = numeral(total.replaceAll('.', ',')).value();
 
         Swal.fire({
             title: "<strong>Retiro de Vehículo</strong>",
@@ -390,11 +390,11 @@
                     <div class="row">
                         <div class="col-md-12 text-center mb-3">
                         <h5 class="text-info">Total a Pagar:</h5>
-                        <h3 class="text-success"><strong>$25.00</strong></h3>
+                        <h3 class="text-success"><strong>${total}</strong></h3>
                         </div>
                         <div class="col-md-12 text-center mb-3">
                         <h5 class="text-info">Placa del Vehículo:</h5>
-                        <h3 class="text-primary"><strong>ABC-1234</strong></h3>
+                        <h3 class="text-primary"><strong>${placa}</strong></h3>
                         </div>
                     </div>
                 </div>
