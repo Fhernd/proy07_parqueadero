@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity, AnonymousIdentity
@@ -1629,3 +1631,27 @@ def parqueos_activos(sede_id):
             for parqueo in parqueos
         ]
     }), 200
+
+
+@app.route('/parqueo/vehiculo/retirar', methods=['POST'])
+def retirar_vehiculo():
+    data = request.get_json()
+    placa = data.get('placa')
+    total = data.get('total')
+    medio_pago_id = data.get('metodoPagoId')
+
+    vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+    if not vehiculo:
+        return jsonify({'status': 'error', 'message': 'Vehículo no encontrado'}), 404
+
+    parqueo = Parqueo.query.filter_by(vehiculo_id=vehiculo.id, fecha_hora_salida=None).first()
+    if not parqueo:
+        return jsonify({'status': 'error', 'message': 'Parqueo no encontrado o ya retirado'}), 404
+
+    parqueo.fecha_hora_salida = datetime.now()
+    parqueo.total = total
+    parqueo.metodo_pago_id = medio_pago_id
+
+    db.session.commit()
+
+    return jsonify({'status': 'success', 'message': 'Vehículo retirado exitosamente'}), 200
