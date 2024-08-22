@@ -376,62 +376,66 @@
     function retirarVehiculo(event) {
         const index = event.target.parentElement.parentElement.rowIndex - 1;
         const row = document.getElementById('parqueos-table').children[index];
-        
+
         const placa = row.children[0].textContent;
         const total = row.children[6].textContent.replaceAll('.', ',');
-        
+
         const totalEntero = numeral(total).value();
 
-        // Swal.fire({
-        //     title: '¿Estás seguro?',
-        //     text: 'El vehículo será retirado del parqueadero',
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Sí, retirar',
-        //     cancelButtonText: 'Cancelar'
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         $.LoadingOverlay('show');
+        Swal.fire({
+            title: "<strong>Retiro de Vehículo</strong>",
+            icon: "info",
+            html: `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center mb-3">
+                        <h5 class="text-info">Total a Pagar:</h5>
+                        <h3 class="text-success"><strong>$25.00</strong></h3>
+                        </div>
+                        <div class="col-md-12 text-center mb-3">
+                        <h5 class="text-info">Placa del Vehículo:</h5>
+                        <h3 class="text-primary"><strong>ABC-1234</strong></h3>
+                        </div>
+                    </div>
+                </div>
+            `,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: `
+    <i class="fa fa-check"></i> Aceptar
+  `,
+            confirmButtonAriaLabel: "Aceptar y retirar vehículo",
+            cancelButtonText: `
+    <i class="fa fa-times"></i> Cancelar
+  `,
+            cancelButtonAriaLabel: "Cancelar",
+            preConfirm: () => {
+                // Lógica para comunicarte con la API y retirar el vehículo
+                return fetch('/api/retirar-vehiculo', { // Cambia esta URL por la de tu API
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        placa: 'ABC-1234', // Cambia por la placa dinámica
+                        total: 25.00 // Cambia por el total dinámico
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        );
+                    });
+            }
+        });
 
-        //         $.ajax({
-        //             url: `/parqueo/${parqueo.id}/retirar`,
-        //             type: 'POST',
-        //             success: function (response) {
-        //                 $.LoadingOverlay('hide');
-
-        //                 if (response.status == 'warning') {
-        //                     Swal.fire({
-        //                         title: "Advertencia",
-        //                         text: response.message,
-        //                         icon: "warning"
-        //                     });
-
-        //                     return;
-        //                 }
-
-        //                 Swal.fire({
-        //                     title: "Éxito",
-        //                     text: "El vehículo fue retirado de forma satisfactoria",
-        //                     icon: "success"
-        //                 });
-
-        //                 $(`#btnRetirar-${index}`).parent().parent().remove();
-        //             },
-        //             error: function (error) {
-        //                 $.LoadingOverlay('hide');
-        //                 console.log(error);
-
-        //                 Swal.fire({
-        //                     title: "Error",
-        //                     text: "Ocurrió un error al intentar retirar el vehículo",
-        //                     icon: "warning"
-        //                 });
-        //             }
-        //         });
-        //     }
-        // });
     }
 
     function updateTimer(index, fechaEntrada) {
