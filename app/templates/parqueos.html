@@ -419,15 +419,16 @@
   `,
             cancelButtonAriaLabel: "Cancelar",
             preConfirm: () => {
-                // Lógica para comunicarte con la API y retirar el vehículo
-                return fetch('/api/retirar-vehiculo', { // Cambia esta URL por la de tu API
+                const metodoPagoId = document.getElementById('metodoPago').value;
+                return fetch('/parqueo/vehiculo/retirar', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        placa: 'ABC-1234', // Cambia por la placa dinámica
-                        total: 25.00 // Cambia por el total dinámico
+                        placa: placa,
+                        total: totalEntero,
+                        metodoPagoId: metodoPagoId
                     })
                 })
                     .then(response => {
