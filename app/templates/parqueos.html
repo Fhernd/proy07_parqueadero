@@ -376,15 +376,11 @@
     function retirarVehiculo(event) {
         const index = event.target.parentElement.parentElement.rowIndex - 1;
         const row = document.getElementById('parqueos-table').children[index];
-        console.log(row);
         
         const placa = row.children[0].textContent;
-        const total = row.children[6].textContent;
-
-        console.log(placa, total);
+        const total = row.children[6].textContent.replaceAll('.', ',');
         
         const totalEntero = numeral(total).value();
-        console.log(totalEntero);
 
         // Swal.fire({
         //     title: '¿Estás seguro?',
