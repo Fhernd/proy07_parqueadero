@@ -1493,8 +1493,10 @@ def parqueos():
     sedes = [sede.sede for sede in current_user.sedes]
     tipos_vehiculos = VehiculoTipo.query.all()
     tipos_vehiculos_json = [to_json(tipo_vehiculo) for tipo_vehiculo in tipos_vehiculos]
+    medios_pago = MedioPago.query.all()
+    medios_pago = [to_json(medio_pago) for medio_pago in medios_pago]
 
-    return render_template('parqueos.html', titulo='Parqueos', sedes=sedes, tipos_vehiculos=tipos_vehiculos_json)
+    return render_template('parqueos.html', titulo='Parqueos', sedes=sedes, tipos_vehiculos=tipos_vehiculos_json, medios_pago=medios_pago)
 
 
 @app.route('/vehiculo/buscar/<placa>', methods=['GET'])
