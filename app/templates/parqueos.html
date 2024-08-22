@@ -234,8 +234,7 @@
 
         $('#btnIngresar').click(function () {
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
-        }};
+            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson }};
     const options = {};
     tiposVehiculosOptions.forEach((tipoVehiculo) => {
         options[tipoVehiculo.id] = tipoVehiculo.nombre;
@@ -382,6 +381,9 @@
 
         const totalEntero = numeral(total.replaceAll('.', ',')).value();
 
+        const mediosPago = {{ medios_pago | tojson
+        }};
+
         Swal.fire({
             title: "<strong>Retiro de Vehículo</strong>",
             icon: "info",
@@ -399,8 +401,7 @@
                         <div class="col-md-12 text-center mb-3">
                             <h5 class="text-info">Método de Pago:</h5>
                             <select class="form-control" id="metodoPago">
-                                <option value="efectivo">Efectivo</option>
-                                <option value="tarjeta">Tarjeta</option>
+                                ${mediosPago.map(medioPago => `<option value="${medioPago.id}">${medioPago.nombre}</option>`)}
                             </select>
                         </div>
                     </div>
