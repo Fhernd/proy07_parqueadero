@@ -432,10 +432,21 @@
                     })
                 })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
+                        if (response.status == 'error') {
+                            Swal.fire({
+                                title: "Error",
+                                text: response.message,
+                                icon: "warning"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Éxito",
+                                text: "El vehículo fue retirado de forma satisfactoria",
+                                icon: "success"
+                            });
+
+                            // document.getElementById('parqueos-table').deleteRow(index);
                         }
-                        return response.json();
                     })
                     .catch(error => {
                         Swal.showValidationMessage(
