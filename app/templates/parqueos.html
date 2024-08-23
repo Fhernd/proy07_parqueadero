@@ -427,7 +427,7 @@
                     },
                     body: JSON.stringify({
                         placa: placa,
-                        total: totalEntero,
+                        totalPagado: totalEntero,
                         metodoPagoId: metodoPagoId
                     })
                 })
@@ -445,7 +445,7 @@
                                 icon: "success"
                             });
 
-                            // document.getElementById('parqueos-table').deleteRow(index);
+                            document.getElementById('parqueos-table').deleteRow(index);
                         }
                     })
                     .catch(error => {
@@ -459,6 +459,11 @@
     }
 
     function updateTimer(index, fechaEntrada) {
+        const temporizador = document.getElementById(`timer-${index}`);
+
+        if (temporizador == null) {
+            return;
+        }
         const now = moment();
         const duration = moment.duration(now.diff(fechaEntrada));
 
@@ -469,7 +474,7 @@
 
         const timeParked = `${days}D ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-        document.getElementById(`timer-${index}`).textContent = timeParked;
+        temporizador.textContent = timeParked;
     }
 
     function inicializarTemporizadores(parqueos) {
