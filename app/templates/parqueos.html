@@ -554,9 +554,14 @@
      * @param {Object} tarifa Tarifa del vehículo.
      */
     function actualizarTotal(index, tarifa, fechaEntrada) {
+        const totalTd = document.getElementById(`total-${index}`);
+
+        if (totalTd == null) {
+            return;
+        }
+
         const nombreTarifa = tarifa.nombre;
         const costoTarifa = tarifa.costo;
-        const totalTd = document.getElementById(`total-${index}`);
 
         const ahora = moment();
         const duracion = moment.duration(ahora.diff(fechaEntrada));
