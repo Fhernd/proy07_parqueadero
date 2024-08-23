@@ -1637,7 +1637,7 @@ def parqueos_activos(sede_id):
 def retirar_vehiculo():
     data = request.get_json()
     placa = data.get('placa')
-    total = data.get('total')
+    total_pagado = data.get('totalPagado')
     medio_pago_id = data.get('metodoPagoId')
 
     vehiculo = Vehiculo.query.filter_by(placa=placa).first()
@@ -1649,7 +1649,7 @@ def retirar_vehiculo():
         return jsonify({'status': 'error', 'message': 'Parqueo no encontrado o ya retirado'}), 404
 
     parqueo.fecha_hora_salida = datetime.now()
-    parqueo.total = total
+    parqueo.total_pagado = total_pagado
     parqueo.metodo_pago_id = medio_pago_id
 
     db.session.commit()
