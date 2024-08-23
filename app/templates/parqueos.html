@@ -304,7 +304,9 @@
                         icon: "success"
                     });
 
-                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre });
+                    const tipoVehiculoAsignado = response.data;
+
+                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
 
                     $('#mdlIngresoVehiculo').modal('hide');
                 },
@@ -536,7 +538,7 @@
                 <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
                 <td>${parqueo.modulo}</td>
                 <td class="timer" id="timer-${index}"></td>
-                <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo})</td>
+                <td>${parqueo.tipoVehiculoAsignado.tarifa.nombre} ($${parqueo.tipoVehiculoAsignado.tarifa.costo})</td>
                 <td id="total-${index}">1.000</td>
                 <td>
                     <button class="btn btn-warning">Retirar</button>
