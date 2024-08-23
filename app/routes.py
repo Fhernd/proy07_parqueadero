@@ -1577,9 +1577,8 @@ def ingresar_parqueo():
         db.session.commit()
 
         tipo_vehiculo = VehiculoTipo.query.get(data.get('vehiculoTipoId'))
-        tipo_vehiculo = to_json(tipo_vehiculo)
 
-        return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero'}, data: tipo_vehiculo), 200
+        return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero', data: tipo_vehiculo}), 200
     except Exception as e:
         print('Error:', e)
         db.session.rollback()
