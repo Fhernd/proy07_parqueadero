@@ -536,6 +536,8 @@
                 <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
                 <td>${parqueo.modulo}</td>
                 <td class="timer" id="timer-${index}"></td>
+                <td>${parqueo.vehiculo.tarifa.nombre} ($${parqueo.vehiculo.tarifa.costo})</td>
+                <td id="total-${index}">1.000</td>
                 <td>
                     <button class="btn btn-warning">Retirar</button>
                 </td>
