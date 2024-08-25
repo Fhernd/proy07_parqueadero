@@ -304,7 +304,7 @@
                         icon: "success"
                     });
 
-                    const tipoVehiculoAsignado = response.data;
+                    const tipoVehiculoAsignado = response.data.tipoVehiculo;
 
                     agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
 
