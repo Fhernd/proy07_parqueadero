@@ -398,6 +398,7 @@ def cliente():
     """
     Muestra la lista de tipos de tarifa.
     """
+    g.template_name = 'base.html'
     entidades = Cliente.query.all()
     vehiculos_tipos = VehiculoTipo.query.all()
 
