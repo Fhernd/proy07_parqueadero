@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
+from flask import current_app, flash, g, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity, AnonymousIdentity
 from werkzeug.security import generate_password_hash
@@ -46,6 +46,18 @@ def on_identity_loaded(sender, identity):
     if hasattr(current_user, 'roles'):
         for role in current_user.roles:
             identity.provides.add(RoleNeed(role.nombre))
+
+
+@app.context_processor
+def inject_permissions():
+    # Inyecta los permisos solo si base.html es la plantilla base
+    if 'base.html' in g.get('template_name', ''):
+        return dict(
+            admin_permission=admin_permission,
+            propietario_admin_permission=propietario_admin_permission,
+            operario_permission=operario_permission
+        )
+    return {}
 
 
 @app.route("/")
@@ -1492,6 +1504,7 @@ def parqueos():
     """
     Muestra la lista de parqueos.
     """
+    g.template_name = 'base.html'
     sedes = [sede.sede for sede in current_user.sedes]
     tipos_vehiculos = VehiculoTipo.query.all()
     tipos_vehiculos_json = [to_json(tipo_vehiculo) for tipo_vehiculo in tipos_vehiculos]
