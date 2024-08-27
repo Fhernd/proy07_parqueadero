@@ -18,6 +18,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    {% if propietario_admin_permission.can() %}
     <!-- Heading -->
     <div class="sidebar-heading">
         Interface
@@ -32,15 +33,21 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Vehículos:</h6>
-                <a class="collapse-item" href="{{ url_for('vehiculo_tipo') }}">Tipos de vehículo</a>
-                <a class="collapse-item" href="{{ url_for('tarifa_tipo') }}">Tipos de tarifa</a>
-                <a class="collapse-item" href="{{ url_for('medio_pago') }}">Medios de pago</a>
+                {% if admin_permission.can() or propietario_admin_permission.can() %}
+                    <h6 class="collapse-header">Vehículos:</h6>
+                    <a class="collapse-item" href="{{ url_for('vehiculo_tipo') }}">Tipos de vehículo</a>
+                    <a class="collapse-item" href="{{ url_for('tarifa_tipo') }}">Tipos de tarifa</a>
+                    <a class="collapse-item" href="{{ url_for('medio_pago') }}">Medios de pago</a>
+                {% endif %}
+                {% if propietario_admin_permission.can() %}
                 <h6 class="collapse-header">Clientes:</h6>
                 <a class="collapse-item" href="{{ url_for('cliente') }}">Clientes</a>
+                {% endif %}
+                {% if propietario_admin_permission.can() %}
                 <h6 class="collapse-header">Administración:</h6>
                 <a class="collapse-item" href="{{ url_for('rol') }}">Roles</a>
                 <a class="collapse-item" href="{{ url_for('usuario') }}">Usuarios</a>
+                {% endif %}
             </div>
         </div>
     </li>
@@ -60,9 +67,10 @@
             </div>
         </div>
     </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
+    {% endif %}
+
 
     <!-- Heading -->
     <div class="sidebar-heading">
