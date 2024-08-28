@@ -541,7 +541,7 @@ def usuario():
     
     entidades = Usuario.query.all()
 
-    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
 
     if parqueadero is not None:
         entidades = Usuario.query.filter_by(parqueadero_id=parqueadero.id).all()
@@ -920,7 +920,7 @@ def parqueadero_informacion():
     """
     g.template_name = 'base.html'
     
-    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
 
     form = ParqueaderoInformacionForm(obj=parqueadero)
 
@@ -959,7 +959,7 @@ def sede_crear():
     """
     try:
         data = request.get_json()
-        parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
+        parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
         entidad = Sede(
             nombre=data.get('nombre'),
             direccion=data.get('direccion'),
