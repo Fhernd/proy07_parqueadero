@@ -79,6 +79,7 @@ def dashboard():
 
     :return: Plantilla HTML.
     """
+    g.template_name = 'base.html'
     return render_template('dashboard.html', titulo='Dashboard')
 
 
@@ -86,6 +87,11 @@ def dashboard():
 @login_required
 @propietario_admin_permission.require(http_exception=403)
 def vehiculo_tipo():
+    """
+    Muestra la lista de tipos de vehículo.
+    """
+    g.template_name = 'base.html'
+    
     tipos_vehiculo = VehiculoTipo.query.all()
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
 
@@ -170,6 +176,8 @@ def tarifa_tipo():
     """
     Muestra la lista de tipos de tarifa.
     """
+    g.template_name = 'base.html'
+    
     entidades = TarifaTipo.query.all()
     return render_template("tarifa-tipo.html", titulo='Tipo de Tarifa', entidades=entidades)
 
@@ -286,6 +294,8 @@ def medio_pago():
     """
     Muestra la lista de tipos de tarifa.
     """
+    g.template_name = 'base.html'
+    
     entidades = MedioPago.query.all()
     return render_template('medio-pago.html', titulo='Medios de Pago', entidades=entidades)
 
@@ -514,6 +524,8 @@ def rol():
     """
     Muestra la lista de roles.
     """
+    g.template_name = 'base.html'
+    
     entidades = Rol.query.all()
     return render_template('rol.html', titulo='Roles', entidades=entidades)
 
@@ -525,6 +537,8 @@ def usuario():
     """
     Muestra la lista de usuarios.
     """
+    g.template_name = 'base.html'
+    
     entidades = Usuario.query.all()
 
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
@@ -712,6 +726,8 @@ def registro():
     """
     Muestra la ruta para el registro de un administrador para el parqueadero.
     """
+    g.template_name = 'base.html'
+    
     paises = Pais.query.all()
     return render_template('registro.html', titulo='Registro', paises=paises)
 
@@ -864,6 +880,8 @@ def perfil():
 
     :return: Plantilla HTML.
     """
+    g.template_name = 'base.html'
+    
     form = UsuarioForm()
     cambiar_clave_form = CambiarClaveForm()
 
@@ -900,6 +918,8 @@ def parqueadero_informacion():
 
     :return: Plantilla HTML.
     """
+    g.template_name = 'base.html'
+    
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
 
     form = ParqueaderoInformacionForm(obj=parqueadero)
@@ -920,6 +940,8 @@ def sedes():
     """
     Función de vista para mostrar la página de sedes.
     """
+    g.template_name = 'base.html'
+    
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.id).first()
     sedes = Sede.query.filter_by(parqueadero_id=parqueadero.id).all()
 
