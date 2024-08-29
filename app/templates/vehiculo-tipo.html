@@ -29,7 +29,7 @@
                         <td>{{ tipo.id }}</td>
                         <td>{{ tipo.nombre }}</td>
                         <td>{{ tipo.tarifa.nombre }}</td>
-                        <td>{{ tipo.tarifa.costo }}</td>
+                        <td class="costo-tarifa">{{ tipo.tarifa.costo }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -40,35 +40,36 @@
 
 <div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="mdlCrearEditarLabel">Tipo de Vehículo - Crear</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCrearEditarLabel">Tipo de Vehículo - Crear</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="frmCrearEditar">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                            placeholder="Ingresa el nombre del tipo de vehículo">
+                    </div>
+                    <div class="form-group">
+                        <label for="tarifaId">Tarifa</label>
+                        <select class="form-control" id="tarifaId" name="tarifaId">
+                            {% for e in tarifas %}
+                            <option value="{{ e.id }}">{{ e.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Crear</button>
+                </div>
+            </form>
         </div>
-        <form id="frmCrearEditar">
-            <div class="modal-body">
-                <input type="hidden" id="id" name="id">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del tipo de vehículo">
-                </div>
-                <div class="form-group">
-                    <label for="tarifaId">Tarifa</label>
-                    <select class="form-control" id="tarifaId" name="tarifaId">
-                        {% for e in tarifas %}
-                        <option value="{{ e.id }}">{{ e.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Crear</button>
-            </div>
-        </form>
-      </div>
     </div>
 </div>
 
@@ -156,7 +157,7 @@
                 }
             });
         });
-        
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
@@ -206,7 +207,7 @@
                 }
             });
         });
-    
+
         $('#mdlCrearEditar').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
 
@@ -214,7 +215,25 @@
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
+
+        $('.costo-tarifa').each(function () {
+            $(this).text(formatearDinero($(this).text()));
+        });
     });
 
+    function formatearDinero(valor) {
+        const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
+
+        const { amount } = dineroObjeto.toJSON();
+
+        // Formatear como moneda con solo el símbolo $
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'narrowSymbol',  // Usa solo el símbolo $ sin letras adicionales
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(amount / 100);
+    }
 </script>
 {% endblock %}
