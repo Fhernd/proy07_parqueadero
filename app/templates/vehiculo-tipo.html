@@ -18,6 +18,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Tarifa nombre</th>
+                        <th>Tarifa costo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -26,6 +28,8 @@
                     <tr>
                         <td>{{ tipo.id }}</td>
                         <td>{{ tipo.nombre }}</td>
+                        <td>{{ tipo.tarifa.nombre }}</td>
+                        <td>{{ tipo.tarifa.costo }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -75,7 +79,7 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 2,
+                    "targets": 4,
                     "data": null,
                     "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>"
                 }
@@ -104,6 +108,7 @@
             $('#mdlCrearEditarLabel').text('Tipo de Vehículo - Editar');
             $('#id').val(data[0]);
             $('#nombre').val(data[1]);
+            $('#tarifaId').val(data[2]);
 
             $('#mdlCrearEditar button[type="submit"]').text('Editar');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');

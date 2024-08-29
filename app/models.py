@@ -305,7 +305,7 @@ class Tarifa(db.Model):
     tarifa_tipo_id = db.Column(db.Integer, db.ForeignKey('tarifa_tipo.id'), nullable=False)
     
     tarifa_tipo = db.relationship("TarifaTipo", back_populates="tarifas")
-    vehiculo_tipos = db.relationship("VehiculoTipo", back_populates="tarifas")
+    vehiculo_tipos = db.relationship("VehiculoTipo", back_populates="tarifa")
     arrendamientos = db.relationship("Arrendamiento", back_populates="tarifa")
 
     def __repr__(self):
@@ -341,7 +341,7 @@ class VehiculoTipo(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
     vehiculos = db.relationship("Vehiculo", back_populates="vehiculo_tipo")
-    tarifas = db.relationship("Tarifa", back_populates="vehiculo_tipos")
+    tarifa = db.relationship("Tarifa", back_populates="vehiculo_tipos")
 
     def __repr__(self):
         return f"<VehiculoTipo(id={self.id}, nombre='{self.nombre}')>"
