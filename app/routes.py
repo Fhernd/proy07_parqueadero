@@ -93,7 +93,8 @@ def vehiculo_tipo():
     g.template_name = 'base.html'
     
     tipos_vehiculo = VehiculoTipo.query.all()
-    return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo)
+    tarifas = Tarifa.query.all()
+    return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo, tarifas=tarifas)
 
 
 @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
