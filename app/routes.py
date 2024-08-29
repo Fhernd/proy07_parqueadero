@@ -123,7 +123,7 @@ def vehiculo_tipo_delete(id):
 def vehiculo_tipo_crear():
     try:
         data = request.get_json()
-        vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'))
+        vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'), tarifa_id=data.get('tarifaId'))
 
         db.session.add(vehiculo_tipo)
         db.session.commit()
