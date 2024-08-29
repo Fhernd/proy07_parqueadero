@@ -216,17 +216,24 @@
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
 
+        dataTable.on('draw', function () {
+            aplicarFormatoMoneda();
+        });
+        
+        aplicarFormatoMoneda();
+    });
+
+    function aplicarFormatoMoneda() {
         $('.costo-tarifa').each(function () {
             $(this).text(formatearDinero($(this).text()));
         });
-    });
+    }
 
     function formatearDinero(valor) {
         const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
 
         const { amount } = dineroObjeto.toJSON();
 
-        // Formatear como moneda con solo el símbolo $
         return new Intl.NumberFormat('es-CO', {
             style: 'currency',
             currency: 'USD',
