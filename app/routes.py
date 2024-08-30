@@ -128,9 +128,16 @@ def vehiculo_tipo_crear():
         db.session.add(vehiculo_tipo)
         db.session.commit()
 
+        tarifa = Tarifa.query.get(data.get('tarifaId'))
+
         return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado', 'data': {
             'id': vehiculo_tipo.id,
-            'nombre': vehiculo_tipo.nombre
+            'nombre': vehiculo_tipo.nombre,
+            'tarifa': {
+                'id': tarifa.id,
+                'nombre': tarifa.nombre,
+                'costo': tarifa.costo
+            }
         }}), 201
 
     except Exception as e:

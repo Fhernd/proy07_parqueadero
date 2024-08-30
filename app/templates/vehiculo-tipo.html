@@ -202,7 +202,7 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            dataTable.row.add([response.data.id, response.data.nombre]).draw();
+                            dataTable.row.add([response.data.id, response.data.nombre, response.data.tarifa.id, response.data.tarifa.nombre, response.data.tarifa.costo]).draw();
                         });
                     } else {
                         Swal.fire({
