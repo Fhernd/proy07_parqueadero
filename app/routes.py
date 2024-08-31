@@ -1402,8 +1402,8 @@ def periodicidades():
 
     :return: Respuesta JSON.
     """
-    usuario_id = current_user.id
-    parqueadero = Parqueadero.query.filter_by(usuario_id=usuario_id).first()
+    parqueadero_id = current_user.parqueadero_id
+    parqueadero = Parqueadero.query.filter_by(id=parqueadero_id).first()
     periodicidades = Periodicidad.query.filter_by(parqueadero_id=parqueadero.id).all()
 
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
