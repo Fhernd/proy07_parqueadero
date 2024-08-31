@@ -20,7 +20,6 @@
                         <th>Nombre</th>
                         <th>Tarifa ID</th>
                         <th>Tarifa nombre</th>
-                        <th>Tarifa costo crudo</th>
                         <th>Tarifa costo</th>
                         <th>Acciones</th>
                     </tr>
@@ -32,7 +31,6 @@
                         <td>{{ tipo.nombre }}</td>
                         <td>{{ tipo.tarifa.id }}</td>
                         <td>{{ tipo.tarifa.nombre }}</td>
-                        <td class="costo-tarifa-crudo">{{ tipo.tarifa.costo }}</td>
                         <td class="costo-tarifa">{{ tipo.tarifa.costo }}</td>
                     </tr>
                     {% endfor %}
@@ -84,12 +82,12 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 6,
+                    "targets": 5,
                     "data": null,
                     "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>"
                 },
                 {
-                    "targets": [2, 4],
+                    "targets": [2],
                     "visible": false,
                     "searchable": false
                 }
@@ -204,7 +202,7 @@
                                 }).closest('tr')).remove().draw();
                             }
 
-                            dataTable.row.add([response.data.id, response.data.nombre, response.data.tarifa.id, response.data.tarifa.nombre, response.data.tarifa.costo]).draw();
+                            dataTable.row.add([response.data.id, response.data.nombre, response.data.tarifa.id, response.data.tarifa.nombre, formatearDinero(response.data.tarifa.costo)]).draw(true);
                         });
                     } else {
                         Swal.fire({
