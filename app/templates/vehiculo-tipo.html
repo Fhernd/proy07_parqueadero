@@ -234,7 +234,7 @@
 
     function aplicarFormatoMoneda() {
         $('.costo-tarifa').each(function () {
-            const valor = $(this).text().replace('$', '').replace(',', '');
+            const valor = $(this).text().replace('$', '').replaceAll(',', '').replaceAll('.', '');
 
             $(this).text(formatearDinero(valor));
         });
