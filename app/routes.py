@@ -54,6 +54,7 @@ def inject_permissions():
     if 'base.html' in g.get('template_name', ''):
         return dict(
             admin_permission=admin_permission,
+            propietario_permission=propietario_permission,
             propietario_admin_permission=propietario_admin_permission,
             operario_permission=operario_permission
         )
