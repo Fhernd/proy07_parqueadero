@@ -770,8 +770,18 @@
                                 { data: 'tarifaId' },
                                 { data: 'medioPagoId' },
                                 { data: 'descripcion' },
-                                { data: 'fecha_inicio' },
-                                { data: 'fecha_fin' },
+                                {
+                                    data: 'fecha_inicio',
+                                    render: function (data) {
+                                        return moment(data).format('YYYY/MM/DD, hh:mm A');
+                                    }
+                                },
+                                {
+                                    data: 'fecha_fin',
+                                    render: function (data) {
+                                        return moment(data).format('YYYY/MM/DD, hh:mm A');
+                                    }
+                                },
                                 { data: 'ha_sido_pausado' },
                                 { data: 'tiempo_pausa' },
                                 {
@@ -789,6 +799,7 @@
                                 }
                             ],
                         });
+
 
                         $.LoadingOverlay('hide');
                     } else {
