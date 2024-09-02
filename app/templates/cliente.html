@@ -782,7 +782,16 @@
                                         return moment(data).format('YYYY/MM/DD, hh:mm A');
                                     }
                                 },
-                                { data: 'ha_sido_pausado' },
+                                {
+                                    data: 'ha_sido_pausado',
+                                    render: function (data) {
+                                        if (data) {
+                                            return '<span class="badge badge-warning">Sí</span>';
+                                        } else {
+                                            return '<span class="badge badge-secondary">No</span>';
+                                        }
+                                    }
+                                },
                                 { data: 'tiempo_pausa' },
                                 {
                                     data: null,
