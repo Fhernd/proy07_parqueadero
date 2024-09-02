@@ -1389,7 +1389,11 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
         'periodicidad': arrendamiento.periodicidad.nombre,
         'medioPago': arrendamiento.medio_pago.nombre,
         'tarifa': arrendamiento.tarifa.nombre,
-        'descripcion': arrendamiento.descripcion
+        'descripcion': arrendamiento.descripcion,
+        'fecha_inicio': arrendamiento.fecha_inicio,
+        'fecha_fin': arrendamiento.fecha_fin,
+        'ha_sido_pausado': arrendamiento.ha_sido_pausado,
+        'tiempo_pausa': arrendamiento.tiempo_pausa,
     } for arrendamiento in arrendamientos]}), 200
 
 

@@ -204,7 +204,15 @@
                             <th>ID</th>
                             <th>Periodicidad</th>
                             <th>Tarifa</th>
-                            <th>Medio pago</th>
+                            <th>Medio de pago</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Fecha inicio</th>
+                            <th>Fecha fin</th>
+                            <th>¿Ha sido pausado?</th>
+                            <th>Tiempo de pausa</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -762,6 +770,10 @@
                                 { data: 'tarifaId' },
                                 { data: 'medioPagoId' },
                                 { data: 'descripcion' },
+                                { data: 'fecha_inicio' },
+                                { data: 'fecha_fin' },
+                                { data: 'ha_sido_pausado' },
+                                { data: 'tiempo_pausa' },
                                 {
                                     data: null,
                                     render: function (data, type, row) {
