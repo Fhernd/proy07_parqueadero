@@ -760,10 +760,24 @@
 
             $('#mdlArrendamientos').modal('show');
 
-            $('#fechaInicio').datetimepicker();
-            $('#horaInicio').datetimepicker();
-            $('#fechaFin').datetimepicker();
-            $('#horaFin').datetimepicker();
+            $('#fechaInicio').datetimepicker({
+                startDate: '+1971/05/01', //or 1986/12/08
+                timepicker: false,
+                format: 'd.m.Y'
+            });
+            $('#horaInicio').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
+            $('#fechaFin').datetimepicker({
+                startDate: '+1971/05/01', //or 1986/12/08
+                timepicker: false,
+                format: 'd.m.Y'
+            });
+            $('#horaFin').datetimepicker({
+                datepicker: false,
+                format: 'H:i'
+            });
 
             $.LoadingOverlay('show');
 
@@ -813,7 +827,7 @@
                                         }
                                     }
                                 },
-                                { 
+                                {
                                     data: 'tiempo_pausa',
                                     render: function (data) {
                                         return `${data} días`;
