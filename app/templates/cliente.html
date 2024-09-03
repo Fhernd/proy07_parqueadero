@@ -262,6 +262,22 @@
                             <option value="">Seleccione...</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="fechaInicio">Fecha inicio</label>
+                        <input type="text" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horaInicio">Hora inicio</label>
+                        <input type="text" class="form-control" id="horaInicio" name="horaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaFin">Fecha fin</label>
+                        <input type="text" class="form-control" id="fechaFin" name="fechaFin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horaFin">Hora fin</label>
+                        <input type="text" class="form-control" id="horaFin" name="horaFin" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -792,7 +808,12 @@
                                         }
                                     }
                                 },
-                                { data: 'tiempo_pausa' },
+                                { 
+                                    data: 'tiempo_pausa',
+                                    render: function (data) {
+                                        return `${data} días`;
+                                    }
+                                },
                                 {
                                     data: null,
                                     render: function (data, type, row) {
