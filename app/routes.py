@@ -1461,7 +1461,9 @@ def cliente_vehiculo_arrendamiento():
             'periodicidad': entidad.periodicidad.nombre,
             'medioPago': entidad.medio_pago.nombre,
             'tarifa': entidad.tarifa.nombre,
-            'descripcion': entidad.descripcion
+            'descripcion': entidad.descripcion,
+            'fecha_inicio': entidad.fecha_inicio,
+            'fecha_fin': entidad.fecha_fin,
         }}), 201
 
     except Exception as e:
