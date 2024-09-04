@@ -1434,13 +1434,19 @@ def cliente_vehiculo_arrendamiento():
         periodicidad_id = data.get('periodicidadId')
         medio_pago_id = data.get('medioPagoId')
         tarifa_id = data.get('tarifaId')
+        fecha_inicio = data.get('fechaInicio')
+        fecha_inicio += ' ' + data.get('horaInicio')
+        fecha_fin = data.get('fechaFin')
+        fecha_fin += ' ' + data.get('horaFin')
 
         entidad = Arrendamiento(
             descripcion=descripcion,
             vehiculo_id=vehiculo_id,
             periodicidad_id=periodicidad_id,
             medio_pago_id=medio_pago_id,
-            tarifa_id=tarifa_id
+            tarifa_id=tarifa_id,
+            fecha_inicio=fecha_inicio,
+            fecha_fin=fecha_fin
         )
 
         db.session.add(entidad)
