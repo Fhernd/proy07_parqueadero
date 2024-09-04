@@ -1439,6 +1439,9 @@ def cliente_vehiculo_arrendamiento():
         fecha_fin = data.get('fechaFin')
         fecha_fin += ' ' + data.get('horaFin')
 
+        fecha_inicio = datetime.strptime(fecha_inicio, '%Y/%m/%d %H:%M')
+        fecha_fin = datetime.strptime(fecha_fin, '%Y/%m/%d %H:%M')
+
         entidad = Arrendamiento(
             descripcion=descripcion,
             vehiculo_id=vehiculo_id,
@@ -1464,9 +1467,12 @@ def cliente_vehiculo_arrendamiento():
             'descripcion': entidad.descripcion,
             'fecha_inicio': entidad.fecha_inicio,
             'fecha_fin': entidad.fecha_fin,
+            'ha_sido_pausado': entidad.ha_sido_pausado,
+            'tiempo_pausa': entidad.tiempo_pausa
         }}), 201
 
     except Exception as e:
+        print('e', e)
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
     
