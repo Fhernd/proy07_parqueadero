@@ -760,33 +760,6 @@
 
             $('#mdlArrendamientos').modal('show');
 
-            const ahora = moment();
-            const fechaActual = ahora.format('DD.MM.YYYY');
-            const horaActual = ahora.format('HH:mm');
-
-            $('#fechaInicio').datetimepicker({
-                startDate: '+1971/05/01', //or 1986/12/08
-                timepicker: false,
-                format: 'Y/m/d',
-                value: fechaActual
-            });
-            $('#horaInicio').datetimepicker({
-                datepicker: false,
-                format: 'H:i',
-                value: horaActual
-            });
-            $('#fechaFin').datetimepicker({
-                startDate: '+1971/05/01', //or 1986/12/08
-                timepicker: false,
-                format: 'Y/m/d',
-                value: fechaActual
-            });
-            $('#horaFin').datetimepicker({
-                datepicker: false,
-                format: 'H:i',
-                value: horaActual
-            });
-
             $.LoadingOverlay('show');
 
             $.ajax({
@@ -878,6 +851,35 @@
                         icon: "error"
                     });
                 }
+            });
+        });
+
+        $('#mdlArrendamientosCrearEditar').on('show.bs.modal', () => {
+            const ahora = moment();
+            const fechaActual = ahora.format('DD.MM.YYYY');
+            const horaActual = ahora.format('HH:mm');
+
+            $('#fechaInicio').datetimepicker({
+                startDate: '+1971/05/01', //or 1986/12/08
+                timepicker: false,
+                format: 'Y/m/d',
+                value: fechaActual
+            });
+            $('#horaInicio').datetimepicker({
+                datepicker: false,
+                format: 'H:i',
+                value: horaActual
+            });
+            $('#fechaFin').datetimepicker({
+                startDate: '+1971/05/01', //or 1986/12/08
+                timepicker: false,
+                format: 'Y/m/d',
+                value: fechaActual
+            });
+            $('#horaFin').datetimepicker({
+                datepicker: false,
+                format: 'H:i',
+                value: horaActual
             });
         });
 
