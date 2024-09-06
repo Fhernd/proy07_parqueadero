@@ -1174,5 +1174,39 @@
         });
     }
 
+    function calcularValorPagar(tarifa, unidad, fechaInicio, fechaFin) {
+        const fechaInicioObj = new Date(fechaInicio);
+        const fechaFinObj = new Date(fechaFin);
+        const diferenciaTiempo = fechaFinObj - fechaInicioObj;
+
+        let totalTiempo;
+        switch (unidad.toLowerCase()) {
+            case 'minuto':
+                totalTiempo = Math.ceil(diferenciaTiempo / (1000 * 60));
+                break;
+            case 'hora':
+                totalTiempo = Math.ceil(diferenciaTiempo / (1000 * 60 * 60));
+                break;
+            case 'día':
+            case 'dia':
+                totalTiempo = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
+                break;
+            case 'mes':
+                const aniosDiferencia = fechaFinObj.getFullYear() - fechaInicioObj.getFullYear();
+                const mesesDiferencia = fechaFinObj.getMonth() - fechaInicioObj.getMonth();
+                totalTiempo = (aniosDiferencia * 12) + mesesDiferencia;
+                break;
+            case 'año':
+            case 'ano':
+                totalTiempo = fechaFinObj.getFullYear() - fechaInicioObj.getFullYear();
+                break;
+            default:
+                throw new Error("Unidad de tiempo no válida. Usa 'minuto', 'hora', 'día', 'mes' o 'año'.");
+        }
+
+        const costoTotal = tarifa * totalTiempo;
+        return costoTotal;
+    }
+
 </script>
 {% endblock %}
