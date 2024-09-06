@@ -963,6 +963,7 @@
                                 id: response.data.id,
                                 periodicidad: response.data.periodicidad,
                                 tarifa: response.data.tarifa,
+                                tarifa_costo: response.data.tarifa_costo,
                                 medioPago: response.data.medioPago,
                                 periodicidadId: response.data.periodicidadId,
                                 tarifaId: response.data.tarifaId,
@@ -975,6 +976,11 @@
                             }).draw();
 
                             $('#frmMmdlArrendamientosCrearEditar').trigger('reset');
+
+                            const fechaInicio = moment(response.data.fecha_inicio);
+                            const fechaFin = moment(response.data.fecha_fin);
+                            const tarifaCosto = response.data.tarifa_costo;
+                            const periodicidad = response.data.periodicidad;
 
                             const total = calcularValorPagar(response.data.fecha_inicio, response.data.fecha_fin, response.data.tarifa, response.data.periodicidad);
                         });
