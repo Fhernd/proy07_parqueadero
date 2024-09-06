@@ -1198,16 +1198,16 @@
                 totalTiempo = Math.ceil(diferenciaTiempo / (1000 * 60 * 60));
                 break;
             case 'día':
-            case 'dia':
+            case 'diario':
                 totalTiempo = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
                 break;
-            case 'mes':
+            case 'mensual':
                 const aniosDiferencia = fechaFinObj.getFullYear() - fechaInicioObj.getFullYear();
                 const mesesDiferencia = fechaFinObj.getMonth() - fechaInicioObj.getMonth();
                 totalTiempo = (aniosDiferencia * 12) + mesesDiferencia;
                 break;
-            case 'año':
-            case 'ano':
+            case 'anual':
+            case 'anual':
                 totalTiempo = fechaFinObj.getFullYear() - fechaInicioObj.getFullYear();
                 break;
             default:
