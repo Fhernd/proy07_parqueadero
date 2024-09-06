@@ -982,7 +982,16 @@
                             const tarifaCosto = response.data.tarifa_costo;
                             const periodicidad = response.data.periodicidad;
 
-                            const total = calcularValorPagar(response.data.fecha_inicio, response.data.fecha_fin, response.data.tarifa, response.data.periodicidad);
+                            console.log(fechaInicio, fechaFin, tarifaCosto, periodicidad);
+                            
+
+                            const total = calcularValorPagar(tarifaCosto, periodicidad, fechaInicio, fechaFin);
+
+                            Swal.fire({
+                                title: "Valor a pagar",
+                                text: `El valor a pagar por el arrendamiento es de $${total}`,
+                                icon: "info"
+                            });
                         });
                     } else {
                         Swal.fire({
@@ -1185,6 +1194,8 @@
     }
 
     function calcularValorPagar(tarifa, unidad, fechaInicio, fechaFin) {
+        fechaInicio = fechaInicio.format('YYYY/MM/DD');
+        fechaFin = fechaFin.format('YYYY/MM/DD');
         const fechaInicioObj = new Date(fechaInicio);
         const fechaFinObj = new Date(fechaFin);
         const diferenciaTiempo = fechaFinObj - fechaInicioObj;
