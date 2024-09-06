@@ -1389,6 +1389,7 @@ def cliente_vehiculo_arrendamientos(vehiculo_id):
         'periodicidad': arrendamiento.periodicidad.nombre,
         'medioPago': arrendamiento.medio_pago.nombre,
         'tarifa': arrendamiento.tarifa.nombre,
+        'tarifa_costo': arrendamiento.tarifa.costo,
         'descripcion': arrendamiento.descripcion,
         'fecha_inicio': arrendamiento.fecha_inicio,
         'fecha_fin': arrendamiento.fecha_fin,

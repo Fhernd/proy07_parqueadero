@@ -204,6 +204,7 @@
                             <th>ID</th>
                             <th>Periodicidad</th>
                             <th>Tarifa</th>
+                            <th>Tarifa costo</th>
                             <th>Medio de pago</th>
                             <th></th>
                             <th></th>
@@ -781,6 +782,7 @@
                                 { data: 'id' },
                                 { data: 'periodicidad' },
                                 { data: 'tarifa' },
+                                { data: 'tarifa_costo' },
                                 { data: 'medioPago' },
                                 { data: 'periodicidadId' },
                                 { data: 'tarifaId' },
@@ -973,6 +975,8 @@
                             }).draw();
 
                             $('#frmMmdlArrendamientosCrearEditar').trigger('reset');
+
+                            const total = calcularValorPagar(response.data.fecha_inicio, response.data.fecha_fin, response.data.tarifa, response.data.periodicidad);
                         });
                     } else {
                         Swal.fire({
