@@ -1465,6 +1465,7 @@ def cliente_vehiculo_arrendamiento():
             'periodicidad': entidad.periodicidad.nombre,
             'medioPago': entidad.medio_pago.nombre,
             'tarifa': entidad.tarifa.nombre,
+            'tarifa_costo': entidad.tarifa.costo,
             'descripcion': entidad.descripcion,
             'fecha_inicio': entidad.fecha_inicio,
             'fecha_fin': entidad.fecha_fin,
