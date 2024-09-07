@@ -1521,6 +1521,31 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
+@app.route('/cliente/vehiculo/arrendamiento/<int:id>', methods=['DELETE'])
+@login_required
+@todos_permiso.require(http_exception=403)
+def cliente_vehiculo_arrendamiento_eliminar(id):
+    """
+    Elimina un arrendamiento de un vehículo.
+
+    :param id: Identificador del arrendamiento.
+    :return: Respuesta JSON.
+    """
+    try:
+        entidad = Arrendamiento.query.get(id)
+
+        if entidad is None:
+            return jsonify({'status': 'failure', 'message': 'Arrendamiento no encontrado'}), 404
+
+        db.session.delete(entidad)
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Arrendamiento eliminado'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 
 @app.route('/cliente/<string:documento>/puntos', methods=['GET'])
 @login_required
