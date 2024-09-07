@@ -1073,46 +1073,46 @@
                 confirmButtonText: "Sí",
                 cancelButtonText: "No"
             }).then((result) => {
-                // if (result.isConfirmed) {
-                //     $.LoadingOverlay('show');
+                if (result.isConfirmed) {
+                    $.LoadingOverlay('show');
 
-                //     var data = $('#tblDatosArrendamientos').DataTable().row($(this).parents('tr')).data();
+                    var data = $('#tblDatosArrendamientos').DataTable().row($(this).parents('tr')).data();
 
-                //     $.ajax({
-                //         url: `/cliente/vehiculo/arrendamiento/${data.id}`,
-                //         type: 'DELETE',
-                //         dataType: 'json',
-                //         success: (response) => {
-                //             $.LoadingOverlay('hide');
+                    $.ajax({
+                        url: `/cliente/vehiculo/arrendamiento/${data.id}`,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: (response) => {
+                            $.LoadingOverlay('hide');
 
-                //             if (response.status == 'success') {
-                //                 Swal.fire({
-                //                     title: "Registro eliminado",
-                //                     text: "El registro fue eliminado de forma satisfactoria",
-                //                     icon: "success"
-                //                 }).then((result) => {
-                //                     var row = $(this).closest('tr');
-                //                     dataTable.row(row).remove().draw();
-                //                 });
-                //             } else {
-                //                 Swal.fire({
-                //                     title: "Error",
-                //                     text: "Ocurrió un error al intentar eliminar el registro",
-                //                     icon: "error"
-                //                 });
-                //             }
-                //         },
-                //         error: (error) => {
-                //             $.LoadingOverlay('hide');
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    title: "Registro eliminado",
+                                    text: "El registro fue eliminado de forma satisfactoria",
+                                    icon: "success"
+                                }).then((result) => {
+                                    var row = $(this).closest('tr');
+                                    dataTable.row(row).remove().draw();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar eliminar el registro",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: (error) => {
+                            $.LoadingOverlay('hide');
 
-                //             Swal.fire({
-                //                 title: "Error",
-                //                 text: "Ocurrió un error al intentar eliminar el registro",
-                //                 icon: "error"
-                //             });
-                //         }
-                //     });
-                // }
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar eliminar el registro",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
             });
         });
     });
