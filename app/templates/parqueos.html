@@ -587,17 +587,6 @@
 
         totalTd.textContent = `$${formatearDinero(total, cantidadDigitos)}`;
     }
-
-
-    function formatearDinero(valor, cantidadDigitos) {
-        valor = _.ceil(valor, -cantidadDigitos)
-        const dineroObjeto = Dinero({ amount: Math.trunc(valor * 100), currency: Dinero.USD });
-
-        const { amount } = dineroObjeto.toJSON();
-
-
-        return (amount / 100).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    }
 </script>
 
 {% endblock %}
