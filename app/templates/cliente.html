@@ -1091,8 +1091,8 @@
                                     text: "El registro fue eliminado de forma satisfactoria",
                                     icon: "success"
                                 }).then((result) => {
-                                    var row = $(this).closest('tr');
-                                    dataTable.row(row).remove().draw();
+                                    const row = $(this).closest('tr');
+                                    $('#tblDatosArrendamientos').DataTable().row(row).remove().draw();
                                 });
                             } else {
                                 Swal.fire({
