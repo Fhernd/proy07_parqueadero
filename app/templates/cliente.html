@@ -768,8 +768,6 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
-                    console.log('response', response);
-
                     $.LoadingOverlay('hide');
                     if (response.status == 'success') {
                         $('#placaVehiculo').text(data.placa);
@@ -784,7 +782,12 @@
                                 { data: 'id' },
                                 { data: 'periodicidad' },
                                 { data: 'tarifa' },
-                                { data: 'tarifa_costo' },
+                                {
+                                    data: 'tarifa_costo',
+                                    render: function (data) {
+                                        return formatearDinero(parseInt(data));
+                                    }
+                                },
                                 { data: 'medioPago' },
                                 { data: 'periodicidadId' },
                                 { data: 'tarifaId' },
