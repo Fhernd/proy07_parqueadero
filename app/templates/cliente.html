@@ -862,32 +862,29 @@
         });
 
         $('#mdlArrendamientosCrearEditar').on('show.bs.modal', () => {
+            const formatoFechaInicio = {
+                startDate: '+1971/05/01',
+                timepicker: false,
+                format: 'Y/m/d',
+            };
+            const formatoHoraInicio = {
+                datepicker: false,
+                format: 'H:i',
+            };
+
+            if (!$('#mdlArrendamientosCrearEditarLabel').text().includes('Editar')) {
+                formatoFechaInicio.value = moment().format('YYYY/MM/DD');
+                formatoHoraInicio.value = moment().format('HH:mm');
+            }
+
             const ahora = moment();
             const fechaActual = ahora.format('DD.MM.YYYY');
             const horaActual = ahora.format('HH:mm');
 
-            $('#fechaInicio').datetimepicker({
-                startDate: '+1971/05/01', //or 1986/12/08
-                timepicker: false,
-                format: 'Y/m/d',
-                value: fechaActual
-            });
-            $('#horaInicio').datetimepicker({
-                datepicker: false,
-                format: 'H:i',
-                value: horaActual
-            });
-            $('#fechaFin').datetimepicker({
-                startDate: '+1971/05/01', //or 1986/12/08
-                timepicker: false,
-                format: 'Y/m/d',
-                value: fechaActual
-            });
-            $('#horaFin').datetimepicker({
-                datepicker: false,
-                format: 'H:i',
-                value: horaActual
-            });
+            $('#fechaInicio').datetimepicker(formatoFechaInicio);
+            $('#horaInicio').datetimepicker(formatoHoraInicio);
+            $('#fechaFin').datetimepicker(formatoFechaInicio);
+            $('#horaFin').datetimepicker(formatoHoraInicio);
         });
 
         $('#mdlArrendamientosCrearEditar').on('hidden.bs.modal', function () {
@@ -907,6 +904,17 @@
             $('#tarifaId').val(data.tarifaId);
             $('#medioPagoId').val(data.medioPagoId);
             $('#descripcion').val(data.descripcion);
+
+            const fechaInicio = moment.utc(data.fecha_inicio);
+            const fechaFin = moment.utc(data.fecha_fin);
+
+            console.log('fechaInicio', fechaInicio);
+            console.log('fechaFin', fechaFin);
+
+            $('#fechaInicio').val(fechaInicio.format('YYYY/MM/DD'));
+            $('#horaInicio').val(fechaInicio.format('HH:mm'));
+            $('#fechaFin').val(fechaFin.format('YYYY/MM/DD'));
+            $('#horaFin').val(fechaFin.format('HH:mm'));
 
             $('#mdlArrendamientosCrearEditar button[type="submit"]').text('Editar');
             $('#mdlArrendamientosCrearEditar button[type="submit"]').removeClass('btn-success').addClass('btn-warning');
