@@ -768,6 +768,8 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (response) => {
+                    console.log('response', response);
+
                     $.LoadingOverlay('hide');
                     if (response.status == 'success') {
                         $('#placaVehiculo').text(data.placa);
@@ -791,13 +793,13 @@
                                 {
                                     data: 'fecha_inicio',
                                     render: function (data) {
-                                        return moment(data).format('YYYY/MM/DD, hh:mm A');
+                                        return moment.utc(data).format('YYYY/MM/DD, HH:mm A');
                                     }
                                 },
                                 {
                                     data: 'fecha_fin',
                                     render: function (data) {
-                                        return moment(data).format('YYYY/MM/DD, hh:mm A');
+                                        return moment.utc(data).format('YYYY/MM/DD, HH:mm A');
                                     }
                                 },
                                 {
@@ -1061,7 +1063,7 @@
                 }
             });
         });
-    
+
         $('#tblDatosArrendamientos').on('click', '.delete', function () {
             Swal.fire({
                 title: "¿Está seguro de querer eliminar este registro?",
