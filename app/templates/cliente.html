@@ -785,7 +785,7 @@
                                 {
                                     data: 'tarifa_costo',
                                     render: function (data) {
-                                        return formatearDinero(parseInt(data));
+                                        return `$${formatearDinero(parseInt(data))}`;
                                     }
                                 },
                                 { data: 'medioPago' },
