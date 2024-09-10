@@ -1140,7 +1140,7 @@
                     cbxTarifas.empty();
 
                     tarifas.forEach(e => {
-                        cbxTarifas.append(`<option value="${e.id}">${e.nombre} - $${e.costo}</option>`);
+                        cbxTarifas.append(`<option value="${e.id}">${e.nombre} - $${formatearDinero(e.costo, 0)}</option>`);
                     });
                 } else {
                     $('#tarifas').prop('disabled', true);
