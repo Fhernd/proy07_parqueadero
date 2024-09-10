@@ -1527,7 +1527,12 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
             'periodicidad': entidad.periodicidad.nombre,
             'medioPago': entidad.medio_pago.nombre,
             'tarifa': entidad.tarifa.nombre,
-            'descripcion': entidad.descripcion
+            'tarifa_costo': entidad.tarifa.costo,
+            'descripcion': entidad.descripcion,
+            'fecha_inicio': entidad.fecha_inicio,
+            'fecha_fin': entidad.fecha_fin,
+            'ha_sido_pausado': entidad.ha_sido_pausado,
+            'tiempo_pausa': entidad.tiempo_pausa
         }}), 200
 
     except Exception as e:
