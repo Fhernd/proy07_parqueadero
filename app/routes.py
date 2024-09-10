@@ -1500,6 +1500,20 @@ def cliente_vehiculo_arrendamiento_actualizar(id):
         entidad.periodicidad_id = data.get('periodicidadId')
         entidad.medio_pago_id = data.get('medioPagoId')
         entidad.tarifa_id = data.get('tarifaId')
+
+        fecha_inicio = data.get('fechaInicio')
+        fecha_inicio += ' ' + data.get('horaInicio')
+        fecha_fin = data.get('fechaFin')
+        fecha_fin += ' ' + data.get('horaFin')
+
+        fecha_inicio = datetime.strptime(fecha_inicio, '%Y/%m/%d %H:%M')
+        fecha_fin = datetime.strptime(fecha_fin, '%Y/%m/%d %H:%M')
+
+        entidad.fecha_inicio = fecha_inicio
+        entidad.fecha_fin = fecha_fin
+        entidad.hora_inicio = data.get('horaInicio')
+        entidad.hora_fin = data.get('horaFin')
+
         entidad.updated_at = db.func.current_timestamp()
 
         db.session.commit()
