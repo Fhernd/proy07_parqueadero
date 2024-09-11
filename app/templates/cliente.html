@@ -18,6 +18,11 @@
         border: 0;
         border-radius: 0;
     }
+
+    .swal2-modal-custom-zindex {
+        z-index: 1060 !important;
+        /* Un valor mayor que el del modal de Bootstrap */
+    }
 </style>
 
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
@@ -28,6 +33,8 @@
     </div>
     <div class="card-body">
         <button class="btn btn-primary" data-toggle="modal" data-target="#mdlCrearEditar">Crear</button>
+        <button class="btn btn-success" id="btnDemo">Demo</button>
+
         <div class="table-responsive">
             <table id="tblDatos" class="table table-bordered" style="width:100%">
                 <thead>
@@ -1129,10 +1136,47 @@
         $('#tblDatosArrendamientos').on('click', '.cambiar-estado-pausa', async function () {
             const { value: tiempoPausa } = await Swal.fire({
                 title: "Especifique el tiempo de pausa",
-                input: "text",
+                input: "number",
                 inputLabel: "Tiempo de pausa (días)",
                 inputValue: 1,
                 showCancelButton: true,
+                didOpen: () => {
+                    Swal.getInput().focus();
+                },
+                allowEnterKey: true,
+                customClass: {
+                    popup: 'swal2-modal-custom-zindex'
+                },
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "Debe especificar el tiempo de pausa.";
+                    }
+
+                    if (isNaN(value)) {
+                        return "El tiempo de pausa debe ser un número.";
+                    }
+
+                    if (parseInt(value) <= 0) {
+                        return "El tiempo de pausa debe ser mayor a 0.";
+                    }
+                }
+            });
+            if (tiempoPausa) {
+                Swal.fire(`Cantidad de días de pausa: ${tiempoPausa}`);
+            }
+        });
+
+        $('#btnDemo').click(async () => {
+            const { value: tiempoPausa } = await Swal.fire({
+                title: "Especifique el tiempo de pausa",
+                input: "number",
+                inputLabel: "Tiempo de pausa (días)",
+                inputValue: 1,
+                showCancelButton: true,
+                didOpen: () => {
+                    Swal.getInput().focus();
+                },
+                allowEnterKey: true,
                 inputValidator: (value) => {
                     if (!value) {
                         return "Debe especificar el tiempo de pausa.";
