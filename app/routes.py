@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import current_app, flash, g, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
@@ -1776,3 +1776,24 @@ def retirar_vehiculo():
     db.session.commit()
 
     return jsonify({'status': 'success', 'message': 'Vehículo retirado exitosamente'}), 200
+
+
+@app.route('/cliente/vehiculo/arrendamiento/<int:arrendamiento_id>/cambiar-estado-pausa', methods=['POST'])
+@login_required
+@todos_permiso.require(http_exception=403)
+def cambiar_estado_pausa(arrendamiento_id):
+    data = request.get_json()
+    tiempo_pausa = data.get('tiempoPausa')
+
+    arrendamiento = Arrendamiento.query.get(arrendamiento_id)
+    if not arrendamiento:
+        return jsonify({'status': 'error', 'message': 'Arrendamiento no encontrado'}), 404
+
+    arrendamiento.estado_pausa = tiempo_pausa
+    arrendamiento.ha_sido_pausado = True
+
+    arrendamiento.fecha_fin += timedelta(minutes=tiempo_pausa)
+
+    db.session.commit()
+
+    return jsonify({'status': 'success', 'message': 'Estado de pausa cambiado exitosamente'}), 200
