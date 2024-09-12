@@ -1134,6 +1134,9 @@
         });
 
         $('#tblDatosArrendamientos').on('click', '.cambiar-estado-pausa', async function () {
+            $('#mdlArrendamientos').modal('hide');
+            $('#mdlVehiculos').modal('hide');
+            
             const { value: tiempoPausa } = await Swal.fire({
                 title: "Especifique el tiempo de pausa",
                 input: "number",
@@ -1167,6 +1170,9 @@
         });
 
         $('#btnDemo').click(async () => {
+            $('#mdlArrendamientos').modal('hide');
+            $('#mdlVehiculos').modal('hide');
+
             const { value: tiempoPausa } = await Swal.fire({
                 title: "Especifique el tiempo de pausa",
                 input: "number",
