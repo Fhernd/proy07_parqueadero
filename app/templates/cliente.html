@@ -21,7 +21,6 @@
 
     .swal2-modal-custom-zindex {
         z-index: 1060 !important;
-        /* Un valor mayor que el del modal de Bootstrap */
     }
 
     .custom-swal-overlay {
@@ -1171,6 +1170,59 @@
             });
             if (tiempoPausa) {
                 Swal.fire(`Cantidad de días de pausa: ${tiempoPausa}`);
+
+                $.LoadingOverlay('show');
+
+                const data = $('#tblDatosArrendamientos').DataTable().row($(this).parents('tr')).data();
+
+                $.ajax({
+                    url: `/cliente/vehiculo/arrendamiento/${data.id}/cambiar-estado-pausa`,
+                    type: 'PUT',
+                    data: JSON.stringify({ tiempoPausa }),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: (response) => {
+                        $('#mdlArrendamientos').modal('show');
+                        $.LoadingOverlay('hide');
+
+                        if (response.status == 'success') {
+                            data.ha_sido_pausado = !data.ha_sido_pausado;
+                            data.tiempo_pausa = tiempoPausa;
+
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: `Se ha ${data.ha_sido_pausado ? 'pausado' : 'reanudado'} el arrendamiento.`
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar cambiar el estado de pausa del arrendamiento.",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: (error) => {
+                        $('#mdlArrendamientos').modal('show');
+                        $.LoadingOverlay('hide');
+
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar cambiar el estado de pausa del arrendamiento.",
+                            icon: "warning"
+                        });
+                    }
+                });
             }
         });
     });
