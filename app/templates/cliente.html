@@ -23,6 +23,10 @@
         z-index: 1060 !important;
         /* Un valor mayor que el del modal de Bootstrap */
     }
+
+    .custom-swal-overlay {
+        background-color: rgba(0, 0, 0, 0.9999999999) !important;
+    }
 </style>
 
 <h1 class="h3 mb-2 text-gray-800">{{ titulo }}</h1>
@@ -1149,7 +1153,7 @@
                 },
                 allowEnterKey: true,
                 customClass: {
-                    popup: 'swal2-modal-custom-zindex'
+                    container: 'custom-swal-overlay'
                 },
                 inputValidator: (value) => {
                     if (!value) {
