@@ -1788,11 +1788,19 @@ def cambiar_estado_pausa(arrendamiento_id):
     arrendamiento = Arrendamiento.query.get(arrendamiento_id)
     if not arrendamiento:
         return jsonify({'status': 'error', 'message': 'Arrendamiento no encontrado'}), 404
+    
+    fecha_actual = datetime.now()
+    fecha_actual += timedelta(days=tiempo_pausa)
+    fecha_fin = arrendamiento.fecha_fin
+    diferencia = (fecha_fin - fecha_actual).days
+
+    if diferencia < tiempo_pausa:
+        return jsonify({'status': 'error', 'message': 'El tiempo de pausa no puede ser mayor al tiempo restante del arrendamiento'}), 400
 
     arrendamiento.tiempo_pausa = tiempo_pausa
     arrendamiento.ha_sido_pausado = True
     arrendamiento.fecha_fin += timedelta(days=tiempo_pausa)
-    arrendamiento.fecha_pausa = datetime.now()
+    arrendamiento.fecha_pausa = fecha_actual
 
     db.session.commit()
 
