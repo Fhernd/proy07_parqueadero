@@ -1789,10 +1789,9 @@ def cambiar_estado_pausa(arrendamiento_id):
     if not arrendamiento:
         return jsonify({'status': 'error', 'message': 'Arrendamiento no encontrado'}), 404
 
-    arrendamiento.estado_pausa = tiempo_pausa
+    arrendamiento.tiempo_pausa = tiempo_pausa
     arrendamiento.ha_sido_pausado = True
-
-    arrendamiento.fecha_fin += timedelta(minutes=tiempo_pausa)
+    arrendamiento.fecha_fin += timedelta(days=tiempo_pausa)
 
     db.session.commit()
 
