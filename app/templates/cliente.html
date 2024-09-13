@@ -1217,14 +1217,7 @@
                                 icon: "warning"
                             });
                         }
-                        else {
-                        Swal.fire({
-                            title: "Advertencia",
-                            text: "No se pudo actualizar el estado de pausa del arrendamiento.",
-                            icon: "warning"
-                        });
-                    }
-                },
+                    },
                     error: (error) => {
                         $('#mdlArrendamientos').modal('show');
                         $.LoadingOverlay('hide');
@@ -1236,7 +1229,7 @@
                         });
                     }
                 });
-    }
+            }
         });
     });
 
