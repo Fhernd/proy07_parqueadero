@@ -1795,7 +1795,7 @@ def cambiar_estado_pausa(arrendamiento_id):
     diferencia = (fecha_fin - fecha_actual).days
 
     if diferencia < tiempo_pausa:
-        return jsonify({'status': 'error', 'message': 'El tiempo de pausa no puede ser mayor al tiempo restante del arrendamiento'}), 400
+        return jsonify({'status': 'tiempoMenor', 'message': 'El tiempo de pausa no puede ser mayor al tiempo restante del arrendamiento.'}), 400
 
     arrendamiento.tiempo_pausa = tiempo_pausa
     arrendamiento.ha_sido_pausado = True
