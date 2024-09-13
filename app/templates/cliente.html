@@ -1186,14 +1186,14 @@
                         $.LoadingOverlay('hide');
 
                         if (response.status == 'success') {
-                            data.ha_sido_pausado = !data.ha_sido_pausado;
+                            data.ha_sido_pausado = true;
                             data.tiempo_pausa = tiempoPausa;
 
                             const Toast = Swal.mixin({
                                 toast: true,
                                 position: "top-end",
                                 showConfirmButton: false,
-                                timer: 2000,
+                                timer: 5000,
                                 timerProgressBar: true,
                                 didOpen: (toast) => {
                                     toast.onmouseenter = Swal.stopTimer;
@@ -1202,13 +1202,13 @@
                             });
                             Toast.fire({
                                 icon: "success",
-                                title: `Se ha ${data.ha_sido_pausado ? 'pausado' : 'reanudado'} el arrendamiento.`
+                                title: `Se ha pausado el arrendamiento.`
                             });
                         } else {
                             Swal.fire({
-                                title: "Error",
-                                text: "Ocurrió un error al intentar cambiar el estado de pausa del arrendamiento.",
-                                icon: "error"
+                                title: "Advertencia",
+                                text: "No se pudo actualizar el estado de pausa del arrendamiento.",
+                                icon: "warning"
                             });
                         }
                     },
@@ -1217,7 +1217,7 @@
                         $.LoadingOverlay('hide');
 
                         Swal.fire({
-                            title: "Error",
+                            title: "Advertencia",
                             text: "Ocurrió un error al intentar cambiar el estado de pausa del arrendamiento.",
                             icon: "warning"
                         });
