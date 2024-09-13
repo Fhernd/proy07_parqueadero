@@ -1178,7 +1178,7 @@
                 $.ajax({
                     url: `/cliente/vehiculo/arrendamiento/${data.id}/cambiar-estado-pausa`,
                     type: 'PUT',
-                    data: JSON.stringify({ tiempoPausa }),
+                    data: JSON.stringify({ tiempoPausa: parseInt(tiempoPausa) }),
                     contentType: 'application/json',
                     dataType: 'json',
                     success: (response) => {

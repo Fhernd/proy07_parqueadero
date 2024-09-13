@@ -392,6 +392,7 @@ class Arrendamiento(db.Model):
     fecha_fin = db.Column(db.DateTime, nullable=False)
     ha_sido_pausado = db.Column(db.Boolean, nullable=False, default=False)
     tiempo_pausa = db.Column(db.Integer, nullable=False, default=0)
+    fecha_pausa = db.Column(db.DateTime)
     vehiculo_id = db.Column(db.Integer, db.ForeignKey('vehiculo.id'), nullable=False)
     periodicidad_id = db.Column(db.Integer, db.ForeignKey('periodicidad.id'), nullable=False)
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medio_pago.id'), nullable=False)

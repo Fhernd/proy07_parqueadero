@@ -1778,7 +1778,7 @@ def retirar_vehiculo():
     return jsonify({'status': 'success', 'message': 'Vehículo retirado exitosamente'}), 200
 
 
-@app.route('/cliente/vehiculo/arrendamiento/<int:arrendamiento_id>/cambiar-estado-pausa', methods=['POST'])
+@app.route('/cliente/vehiculo/arrendamiento/<int:arrendamiento_id>/cambiar-estado-pausa', methods=['PUT'])
 @login_required
 @todos_permiso.require(http_exception=403)
 def cambiar_estado_pausa(arrendamiento_id):
@@ -1792,6 +1792,7 @@ def cambiar_estado_pausa(arrendamiento_id):
     arrendamiento.tiempo_pausa = tiempo_pausa
     arrendamiento.ha_sido_pausado = True
     arrendamiento.fecha_fin += timedelta(days=tiempo_pausa)
+    arrendamiento.fecha_pausa = datetime.now()
 
     db.session.commit()
 
