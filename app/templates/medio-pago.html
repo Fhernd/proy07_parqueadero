@@ -18,6 +18,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>¿Activo?</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                     <tr>
                         <td>{{ e.id }}</td>
                         <td>{{ e.nombre }}</td>
+                        <td>{{ '<span class="badge badge-pill badge-success">Sí</span>' if e.activo else '<span class="badge badge-pill badge-warning">Sí</span>' }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
