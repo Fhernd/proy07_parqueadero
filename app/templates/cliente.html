@@ -834,7 +834,17 @@
                                 {
                                     data: null,
                                     render: function (data, type, row) {
-                                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary cambiar-estado-pausa' title='Cambiar estado pausa'><i class="fas fa-hourglass"></i></button>`;
+                                        const isPaused = data.ha_sido_pausado; // Asumiendo que 'ha_sido_pausado' es el campo que indica si el arrendamiento está pausado
+                                        const pauseButtonClass = isPaused ? 'btn-secondary' : 'btn-primary';
+                                        const pauseButtonDisabled = isPaused ? 'disabled' : '';
+
+                                        return `
+                                            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
+                                            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
+                                            <button class='btn ${pauseButtonClass} cambiar-estado-pausa' title='Cambiar estado pausa' ${pauseButtonDisabled}>
+                                                <i class="fas fa-hourglass"></i>
+                                            </button>
+                                        `;
                                     }
                                 },
                             ],
