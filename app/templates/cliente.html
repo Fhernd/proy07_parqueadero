@@ -834,10 +834,10 @@
                                 {
                                     data: null,
                                     render: function (data, type, row) {
-                                        const isPaused = data.ha_sido_pausado; // Asumiendo que 'ha_sido_pausado' es el campo que indica si el arrendamiento está pausado
-                                        const tarifa = data.tarifaId; // Asumiendo que 'tarifa' es el campo que indica la tarifa del arrendamiento
-                                        const tarifasPermitidas = [4, 5, 6]; // Valores numéricos para tarifas permitidas: 3 (Mensual), 4 (Trimestral), 5 (Semestral), 6 (Anual)
-                                        const isTarifaPermitida = tarifasPermitidas.includes(tarifa);
+                                        const isPaused = data.ha_sido_pausado;
+                                        const tarifaId = data.tarifaId;
+                                        const tarifasPermitidas = [4, 5, 6];
+                                        const isTarifaPermitida = tarifasPermitidas.includes(tarifaId);
 
                                         const pauseButtonClass = (isPaused || !isTarifaPermitida) ? 'btn-secondary' : 'btn-primary';
                                         const pauseButtonDisabled = (isPaused || !isTarifaPermitida) ? 'disabled' : '';
