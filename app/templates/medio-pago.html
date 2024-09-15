@@ -239,6 +239,51 @@
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
+    
+        $('#tblDatos tbody').on('click', 'button.activar-desactivar-medio-pago', function () {
+            var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+            const medioPagoId = data[0];
+
+            console.log(medioPagoId);
+            
+
+            $.LoadingOverlay('show');
+
+            $.ajax({
+                url: `/medio-pago/${medioPagoId}/activar-desactivar`,
+                type: 'PUT',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'success') {
+                        Swal.fire({
+                            title: "Registro actualizado",
+                            text: "El registro fue actualizado de forma satisfactoria",
+                            icon: "success"
+                        }).then((result) => {
+                            dataTable.row($(this).parents('tr')).remove().draw();
+                            dataTable.row.add([data[1], !data[2]]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar actualizar el registro",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar actualizar el registro",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     });
 
 </script>
