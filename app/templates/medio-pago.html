@@ -27,7 +27,7 @@
                     <tr>
                         <td>{{ e.id }}</td>
                         <td>{{ e.nombre }}</td>
-                        <td>{{ '<span class="badge badge-pill badge-success">Sí</span>' if e.activo else '<span class="badge badge-pill badge-warning">Sí</span>' }}</td>
+                        <td>{{ e.activo }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -38,27 +38,28 @@
 
 <div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form id="frmCrearEditar">
-            <div class="modal-body">
-                <input type="hidden" id="id" name="id">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre del medio de pago">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="frmCrearEditar">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                            placeholder="Ingresa el nombre del medio de pago">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Crear</button>
-            </div>
-        </form>
-      </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Crear</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -69,7 +70,13 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 2,
+                    targets: 2,
+                    render: function (data) {
+                        return data ? '<span class="badge badge-pill badge-success">Sí</span>' : '<span class="badge badge-pill badge-warning">No</span>';
+                    }
+                },
+                {
+                    "targets": 3,
                     "data": null,
                     "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>"
                 }
@@ -119,7 +126,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.LoadingOverlay('show');
-                    
+
                     var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
                     $.ajax({
@@ -159,7 +166,7 @@
                 }
             });
         });
-        
+
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
@@ -186,7 +193,7 @@
                 dataType: 'json',
                 success: (response) => {
                     $.LoadingOverlay('hide');
-                    
+
                     if (response.status == 'success') {
                         const operacion = method == 'POST' ? 'guardado' : 'editado';
 
@@ -224,7 +231,7 @@
                 }
             });
         });
-    
+
         $('#mdlCrearEditar').on('hidden.bs.modal', function () {
             $(this).find('form')[0].reset();
 
