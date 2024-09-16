@@ -78,7 +78,19 @@
                 {
                     "targets": 3,
                     "data": null,
-                    "defaultContent": `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-success activar-desactivar-medio-pago' title='Activar/Desactivar'><i class='fas fa-toggle-on'></i></button>`
+                    "render": function (data, type, row) {
+                        const isActive = data.activo;
+                        const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
+                        const buttonText = isActive ? 'Desactivar' : 'Activar';
+
+                        return `
+                            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
+                            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
+                            <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
+                                <i class='fas fa-toggle-on'></i> ${buttonText}
+                            </button>
+                        `;
+                    }
                 }
             ],
             language: {
@@ -239,7 +251,7 @@
             $('#mdlCrearEditar button[type="submit"]').text('Crear');
             $('#mdlCrearEditar button[type="submit"]').removeClass('btn-warning').addClass('btn-success');
         });
-    
+
         $('#tblDatos tbody').on('click', 'button.activar-desactivar-medio-pago', function () {
             var data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
             const medioPagoId = data[0];
