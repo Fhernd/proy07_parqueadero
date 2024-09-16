@@ -79,19 +79,34 @@
                     "targets": 3,
                     "data": null,
                     "render": function (data, type, row) {
-                        const isActive = data.activo;
+                        console.log('data', data);
+
+                        // Verificar si data es un objeto o un arreglo
+                        let isActive = false;
+
+                        if (Array.isArray(data)) {
+                            // Si es un arreglo, accedemos por índice
+                            isActive = data[2] == 'True';
+                        } else if (typeof data === 'object') {
+                            // Si es un objeto, accedemos por la clave
+                            isActive = data['2'] == 'True';
+                        }
+
+                        console.log('isActive', isActive);
+
                         const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
 
                         return `
-                            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
-                            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
-                            <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
-                                <i class='fas fa-toggle-on'></i> ${buttonText}
-                            </button>
-                        `;
+            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
+            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
+            <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
+                <i class='fas fa-toggle-on'></i>
+            </button>
+        `;
                     }
                 }
+
             ],
             language: {
                 "decimal": "",
