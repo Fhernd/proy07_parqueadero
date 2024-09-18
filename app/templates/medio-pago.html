@@ -72,6 +72,9 @@
                 {
                     targets: 2,
                     render: function (data) {
+                        if (typeof data === 'string') {
+                            data = data.toLowerCase() === 'true';
+                        }
                         return data ? '<span class="badge badge-pill badge-success">Sí</span>' : '<span class="badge badge-pill badge-warning">No</span>';
                     }
                 },
@@ -79,31 +82,28 @@
                     "targets": 3,
                     "data": null,
                     "render": function (data, type, row) {
-                        console.log('data', data);
-
-                        // Verificar si data es un objeto o un arreglo
                         let isActive = false;
 
                         if (Array.isArray(data)) {
-                            // Si es un arreglo, accedemos por índice
-                            isActive = data[2] == 'True';
+                            if (typeof data[2] === 'string') {
+                                isActive = data[2].toLowerCase() === 'true';
+                            } else {
+                                isActive = data[2];
+                            }
                         } else if (typeof data === 'object') {
-                            // Si es un objeto, accedemos por la clave
                             isActive = data['2'] == 'True';
                         }
-
-                        console.log('isActive', isActive);
 
                         const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
 
                         return `
-            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
-            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
-            <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
-                <i class='fas fa-toggle-on'></i>
-            </button>
-        `;
+                            <button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button>
+                            <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>
+                            <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
+                                <i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i>
+                            </button>
+                        `;
                     }
                 }
 
@@ -287,7 +287,11 @@
                             icon: "success"
                         }).then((result) => {
                             dataTable.row($(this).parents('tr')).remove().draw();
-                            dataTable.row.add([medioPagoId, data[1], !data[2]]).draw();
+                            let estado = data[2];
+                            if (typeof estado === 'string') {
+                                estado = estado.toLowerCase() === 'true';
+                            }
+                            dataTable.row.add([medioPagoId, data[1], !estado]).draw();
                         });
                     } else {
                         Swal.fire({
