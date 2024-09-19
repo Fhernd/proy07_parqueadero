@@ -23,6 +23,7 @@
                         <th>Teléfono</th>
                         <th>Email</th>
                         <th>Roles</th>
+                        <th>¿Activo?</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -37,6 +38,13 @@
                             {% for rol in e.roles %}
                             {{ rol.nombre }}{% if not loop.last %}, {% endif %}
                             {% endfor %}
+                        </td>
+                        <td>
+                            {% if e.activo %}
+                            <span class="badge badge-success">Sí</span>
+                            {% else %}
+                            <span class="badge badge-warning">No</span>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
