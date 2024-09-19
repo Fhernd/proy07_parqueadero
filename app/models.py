@@ -114,6 +114,7 @@ class Usuario(UserMixin, db.Model):
     apellidos = db.Column(db.String(32), nullable=False)
     telefono = db.Column(db.String(16), nullable=False)
     email = db.Column(db.String(64), nullable=False)
+    activo = db.Column(db.Boolean, nullable=False, default=True)
 
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=True)
     
