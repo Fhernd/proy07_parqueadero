@@ -1344,7 +1344,9 @@
                     cbxMediosPago.empty();
 
                     mediosPago.forEach(e => {
-                        cbxMediosPago.append(`<option value="${e.id}">${e.nombre}</option>`);
+                        if (e.activo) {
+                            cbxMediosPago.append(`<option value="${e.id}">${e.nombre}</option>`);
+                        }
                     });
                 } else {
                     $('#tarifas').prop('disabled', true);

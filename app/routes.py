@@ -323,6 +323,7 @@ def get_medios_pago():
     return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
         'id': entidad.id,
         'nombre': entidad.nombre,
+        'activo': entidad.activo
     } for entidad in entidades]}), 200
 
 
