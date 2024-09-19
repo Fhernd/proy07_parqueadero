@@ -163,9 +163,31 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 5,
+                    "targets": 6,
                     "data": null,
-                    "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password' title='Cambiar contraseña'><i class='fas fa-lock'></i></button> <button class='btn btn-primary asignar-sede' title='Asignar sede'><i class='fas fa-store-alt'></i></button>"
+                    render: function (data, type, row) {
+
+                        let isActive = false;
+
+                        if (Array.isArray(data)) {
+                            if (typeof data[2] === 'string') {
+                                isActive = data[5].toLowerCase() === 'true';
+                            } else {
+                                isActive = data[5];
+                            }
+                        } else if (typeof data === 'object') {
+                            isActive = data['5'] == 'True';
+                        }
+
+                        const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
+                        const buttonText = isActive ? 'Desactivar' : 'Activar';
+
+                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password' title='Cambiar contraseña'><i class='fas fa-lock'></i></button> <button class='btn btn-primary asignar-sede' title='Asignar sede'><i class='fas fa-store-alt'></i></button>
+                        <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
+                                <i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i>
+                            </button>                        
+                        `;
+                    }
                 }
             ],
             language: {
@@ -497,7 +519,7 @@
             type: 'GET',
             dataType: 'json',
             success: (response) => {
-                
+
                 if (response.status == 'success') {
 
                     const sedesAsociadas = response.data;
