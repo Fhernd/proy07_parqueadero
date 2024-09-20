@@ -190,7 +190,7 @@
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
 
                         return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password' title='Cambiar contraseña'><i class='fas fa-lock'></i></button> <button class='btn btn-primary asignar-sede' title='Asignar sede'><i class='fas fa-store-alt'></i></button>
-                        <button class='btn ${buttonClass} activar-desactivar-medio-pago' title='${buttonText}'>
+                        <button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}'>
                                 <i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i>
                             </button>                        
                         `;
@@ -516,6 +516,56 @@
         });
 
         $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
+
+        $('#tblDatos tbody').on('click', 'button.activar-desactivar-usuario', function () {
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            const documento = data[0];
+            const isActive = data[5].toLowerCase() === 'true';
+
+            // $.LoadingOverlay('show');
+
+            // $.ajax({
+            //     url: '/usuario/activar-desactivar/' + documento,
+            //     type: 'PUT',
+            //     dataType: 'json',
+            //     success: (response) => {
+            //         $.LoadingOverlay('hide');
+
+            //         if (response.status == 'success') {
+            //             Swal.fire({
+            //                 title: "Usuario actualizado",
+            //                 text: "El usuario fue actualizado de forma satisfactoria",
+            //                 icon: "success"
+            //             }).then((result) => {
+            //                 dataTable.row($(this).parents('tr')).data([
+            //                     data[0],
+            //                     data[1],
+            //                     data[2],
+            //                     data[3],
+            //                     data[4],
+            //                     !isActive
+            //                 ]).draw();
+            //             });
+            //         } else {
+            //             Swal.fire({
+            //                 title: "Error",
+            //                 text: "Ocurrió un error al intentar actualizar el usuario",
+            //                 icon: "error"
+            //             });
+            //         }
+            //     },
+            //     error: (error) => {
+            //         $.LoadingOverlay('hide');
+
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Ocurrió un error al intentar actualizar el usuario",
+            //             icon: "error"
+            //         });
+            //     }
+            // });
+        });
     });
 
     function asignarSede() {
