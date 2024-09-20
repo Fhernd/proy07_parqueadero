@@ -39,6 +39,7 @@
                             {{ rol.nombre }}{% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </td>
+                        <td>{{ e.activo }}</td>
                         <td>
                             {% if e.activo %}
                             <span class="badge badge-success">Sí</span>
@@ -163,7 +164,12 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 6,
+                    "targets": 5,
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": 7,
                     "data": null,
                     render: function (data, type, row) {
 
