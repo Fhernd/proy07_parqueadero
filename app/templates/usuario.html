@@ -523,48 +523,48 @@
             const documento = data[0];
             const isActive = data[5].toLowerCase() === 'true';
 
-            // $.LoadingOverlay('show');
+            $.LoadingOverlay('show');
 
-            // $.ajax({
-            //     url: '/usuario/activar-desactivar/' + documento,
-            //     type: 'PUT',
-            //     dataType: 'json',
-            //     success: (response) => {
-            //         $.LoadingOverlay('hide');
+            $.ajax({
+                url: `/usuario/activar-desactivar/${documento}`,
+                type: 'PUT',
+                dataType: 'json',
+                success: (response) => {
+                    $.LoadingOverlay('hide');
 
-            //         if (response.status == 'success') {
-            //             Swal.fire({
-            //                 title: "Usuario actualizado",
-            //                 text: "El usuario fue actualizado de forma satisfactoria",
-            //                 icon: "success"
-            //             }).then((result) => {
-            //                 dataTable.row($(this).parents('tr')).data([
-            //                     data[0],
-            //                     data[1],
-            //                     data[2],
-            //                     data[3],
-            //                     data[4],
-            //                     !isActive
-            //                 ]).draw();
-            //             });
-            //         } else {
-            //             Swal.fire({
-            //                 title: "Error",
-            //                 text: "Ocurrió un error al intentar actualizar el usuario",
-            //                 icon: "error"
-            //             });
-            //         }
-            //     },
-            //     error: (error) => {
-            //         $.LoadingOverlay('hide');
+                    if (response.status == 'success') {
+                        Swal.fire({
+                            title: "Usuario actualizado",
+                            text: "El usuario fue actualizado de forma satisfactoria",
+                            icon: "success"
+                        }).then((result) => {
+                            dataTable.row($(this).parents('tr')).data([
+                                data[0],
+                                data[1],
+                                data[2],
+                                data[3],
+                                data[4],
+                                !isActive
+                            ]).draw();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un error al intentar actualizar el usuario",
+                            icon: "error"
+                        });
+                    }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
 
-            //         Swal.fire({
-            //             title: "Error",
-            //             text: "Ocurrió un error al intentar actualizar el usuario",
-            //             icon: "error"
-            //         });
-            //     }
-            // });
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar actualizar el usuario",
+                        icon: "error"
+                    });
+                }
+            });
         });
     });
 
