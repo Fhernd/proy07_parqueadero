@@ -1822,3 +1822,25 @@ def activar_desactivar_medio_pago(medioPagoId):
 
     estado = 'activado' if medio_pago.activo else 'desactivado'
     return jsonify({'status': 'success', 'message': f'Medio de pago {estado} exitosamente'}), 200
+
+
+@app.route('/usuario/activar-desactivar/<documento>', methods=['PUT'])
+@login_required
+@propietario_admin_permission.require(http_exception=403)
+def activar_desactivar_usuario(documento):
+    """
+    Activa o desactiva un usuario.
+
+    :param documento: Documento del usuario.
+    :return: Respuesta JSON.
+    """
+    usuario = Usuario.query.filter_by(documento=documento).first()
+    if not usuario:
+        return jsonify({'status': 'error', 'message': 'Usuario no encontrado'}), 404
+
+    usuario.activo = not usuario.activo
+
+    db.session.commit()
+
+    estado = 'activado' if usuario.activo else 'desactivado'
+    return jsonify({'status': 'success', 'message': f'Usuario {estado} exitosamente'}), 200
