@@ -521,7 +521,10 @@
             const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
 
             const documento = data[0];
-            const isActive = data[5].toLowerCase() === 'true';
+            let isActive = data[5];
+            if (typeof data[5] == 'string') {
+                isActive = data[5].toLowerCase() === 'true';
+            }
 
             $.LoadingOverlay('show');
 
@@ -545,7 +548,7 @@
                                 data[3],
                                 data[4],
                                 !isActive,
-                                'ABC'
+                                !isActive ? '<span class="badge badge-success">Sí</span>' : '<span class="badge badge-warning">No</span>'
                             ]).draw();
                         });
                     } else {
