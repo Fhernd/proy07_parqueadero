@@ -549,9 +549,9 @@
                         });
                     } else {
                         Swal.fire({
-                            title: "Error",
-                            text: "Ocurrió un error al intentar actualizar el usuario",
-                            icon: "error"
+                            title: "Advertencia",
+                            text: "No pudo actualizar el usuario. Intente de nuevo.",
+                            icon: "warning"
                         });
                     }
                 },
@@ -559,9 +559,9 @@
                     $.LoadingOverlay('hide');
 
                     Swal.fire({
-                        title: "Error",
-                        text: "Ocurrió un error al intentar actualizar el usuario",
-                        icon: "error"
+                        title: "Advertencia",
+                        text: "No se pudo actualiar el usuario. Hay una falla en el servidor.",
+                        icon: "warning"
                     });
                 }
             });
