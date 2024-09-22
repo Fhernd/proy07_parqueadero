@@ -558,7 +558,12 @@ def usuario():
 
     roles = Rol.query.all()
     sedes = Sede.query.all()
-    return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles, sedes=sedes)
+
+    roles_nombres = [r.nombre for r in current_user.roles]
+
+    es_propietario = 'Propietario' in roles_nombres
+    
+    return render_template('usuario.html', titulo='Usuarios', entidades=entidades, roles=roles, sedes=sedes, es_propietario=es_propietario)
 
 
 @app.route('/usuario', methods=['POST'])
