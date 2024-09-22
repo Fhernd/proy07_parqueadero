@@ -188,10 +188,12 @@
 
                         const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
+                        const currentUserDocumento = "{{ current_user.documento }}"; 
+                        const mismoUsuario = currentUserDocumento == data['0'];
 
                         return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password' title='Cambiar contraseña'><i class='fas fa-lock'></i></button> <button class='btn btn-primary asignar-sede' title='Asignar sede'><i class='fas fa-store-alt'></i></button>
-                        <button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}'>
-                                <i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i>
+                        <button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}' ${mismoUsuario ? 'disabled' : ''}>
+                                <i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></si>
                             </button>                        
                         `;
                     }
