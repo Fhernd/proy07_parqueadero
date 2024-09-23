@@ -550,6 +550,8 @@ def usuario():
     g.template_name = 'base.html'
     
     entidades = Usuario.query.all()
+    for e in entidades:
+        print(e)
 
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
 

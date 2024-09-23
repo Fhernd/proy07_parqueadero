@@ -126,7 +126,8 @@ class Usuario(UserMixin, db.Model):
     sedes = db.relationship('SedeUsuario', back_populates='usuario')
 
     def __repr__(self):
-        return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}')>"
+        roles = [r.nombre for r in self.roles]
+        return f"<Usuario(documento='{self.documento}', nombres='{self.nombres}', apellidos='{self.apellidos}', roles={roles})>"
     
     def set_password(self, password):
         """
