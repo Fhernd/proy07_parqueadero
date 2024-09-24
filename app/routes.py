@@ -856,7 +856,7 @@ def login_post():
 
     usuario = Usuario.query.filter_by(email=email).first()
 
-    if usuario is None or not usuario.check_password(data.get('password')):
+    if usuario is None or not usuario.check_password(data.get('password')) or not usuario.activo:
         return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
 
     login_user(usuario)
