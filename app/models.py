@@ -182,6 +182,7 @@ class Cliente(db.Model):
     telefono = db.Column(db.String(16), nullable=False)
     email = db.Column(db.String(64), nullable=False)
     direccion = db.Column(db.String(255), nullable=False)
+    activo = db.Column(db.Boolean, nullable=False, default=True)
     parqueadero_id = db.Column(db.Integer, db.ForeignKey('parqueadero.id'), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
