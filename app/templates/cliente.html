@@ -46,7 +46,9 @@
                         <th>Nombre completo</th>
                         <th>Teléfono</th>
                         <th>Email</th>
-                        <th>Direccion</th>
+                        <th>Dirección</th>
+                        <th>¿Activo?</th>
+                        <th>¿Activo?</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -58,6 +60,14 @@
                         <td>{{ e.telefono }}</td>
                         <td>{{ e.email }}</td>
                         <td>{{ e.direccion }}</td>
+                        <td>{{ e.activo }}</td>
+                        <td>
+                            {% if e.activo %}
+                            <span class="badge badge-success">Sí</span>
+                            {% else %}
+                            <span class="badge badge-warning">No</span>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -306,7 +316,7 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 5,
+                    "targets": 7,
                     "data": null,
                     "defaultContent": `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button> <button class='btn btn-dark puntos' title='Puntos'><i class='fas fa-coins'></i></button>`
                 }
