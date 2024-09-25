@@ -41,7 +41,6 @@
                             {% endfor %}
                         </td>
                         <td>{{ e.activo }}</td>
-                        
                         <td>
                             {% if e.activo %}
                             <span class="badge badge-success">Sí</span>
@@ -191,7 +190,7 @@
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
                         const currentUserDocumento = "{{ current_user.documento }}";
                         const mismoUsuario = currentUserDocumento == data['0'];
-                        const esPropietario = data['6'] == 'Sí';
+                        const esPropietario = data['4'] == 'Propietario';
                         const botonActivacionUsuario = mismoUsuario || esPropietario ? '' : `<button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}'><i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i></button>`
 
                         return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-secondary cambiar-password' title='Cambiar contraseña'><i class='fas fa-lock'></i></button> <button class='btn btn-primary asignar-sede' title='Asignar sede'><i class='fas fa-store-alt'></i></button> ${botonActivacionUsuario}                        
