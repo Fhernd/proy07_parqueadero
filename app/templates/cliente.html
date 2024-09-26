@@ -339,9 +339,9 @@
 
                         const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
                         const buttonText = isActive ? 'Desactivar' : 'Activar';
-                        const botonActivacionUsuario = `<button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}'><i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i></button>`;
+                        const botonActivacionCliente = `<button class='btn ${buttonClass} activar-desactivar-cliente' title='${buttonText}'><i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i></button>`;
 
-                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button> <button class='btn btn-dark puntos' title='Puntos'><i class='fas fa-coins'></i></button> ${botonActivacionUsuario}                        
+                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button> <button class='btn btn-dark puntos' title='Puntos'><i class='fas fa-coins'></i></button> ${botonActivacionCliente}                        
 `;
                     }
                 }
@@ -1279,6 +1279,64 @@
                     }
                 });
             }
+        });
+
+        $('#tblDatos tbody').on('click', 'button.activar-desactivar-cliente', function () {
+            const data = $('#tblDatos').DataTable().row($(this).parents('tr')).data();
+
+            const documento = data[0];
+            let isActive = data[5];
+            if (typeof data[5] == 'string') {
+                isActive = data[5].toLowerCase() === 'true';
+            }
+
+            alert('documento: ' + documento);
+            
+
+            // $.LoadingOverlay('show');
+
+            // $.ajax({
+            //     url: `/usuario/activar-desactivar/${documento}`,
+            //     type: 'PUT',
+            //     dataType: 'json',
+            //     success: (response) => {
+            //         $.LoadingOverlay('hide');
+
+            //         if (response.status == 'success') {
+            //             Swal.fire({
+            //                 title: "Usuario actualizado",
+            //                 text: "El usuario fue actualizado de forma satisfactoria",
+            //                 icon: "success"
+            //             }).then((result) => {
+            //                 dataTable.row($(this).parents('tr')).data([
+            //                     data[0],
+            //                     data[1],
+            //                     data[2],
+            //                     data[3],
+            //                     data[4],
+            //                     !isActive,
+            //                     !isActive ? '<span class="badge badge-success">Sí</span>' : '<span class="badge badge-warning">No</span>',
+            //                     data[6]
+            //                 ]).draw();
+            //             });
+            //         } else {
+            //             Swal.fire({
+            //                 title: "Advertencia",
+            //                 text: "No pudo actualizar el usuario. Intente de nuevo.",
+            //                 icon: "warning"
+            //             });
+            //         }
+            //     },
+            //     error: (error) => {
+            //         $.LoadingOverlay('hide');
+
+            //         Swal.fire({
+            //             title: "Advertencia",
+            //             text: "No se pudo actualiar el usuario. Hay una falla en el servidor.",
+            //             icon: "warning"
+            //         });
+            //     }
+            // });
         });
     });
 
