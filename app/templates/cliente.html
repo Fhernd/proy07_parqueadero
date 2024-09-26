@@ -321,9 +321,29 @@
                     searchable: false
                 },
                 {
-                    "targets": 7,
-                    "data": null,
-                    "defaultContent": `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button> <button class='btn btn-dark puntos' title='Puntos'><i class='fas fa-coins'></i></button>`
+                    targets: 7,
+                    data: null,
+                    render: function (data, type, row) {
+
+                        let isActive = false;
+
+                        if (Array.isArray(data)) {
+                            if (typeof data[5] === 'string') {
+                                isActive = data[5].toLowerCase() === 'true';
+                            } else {
+                                isActive = data[5];
+                            }
+                        } else if (typeof data === 'object') {
+                            isActive = data['5'] == 'True';
+                        }
+
+                        const buttonClass = isActive ? 'btn-success' : 'btn-secondary';
+                        const buttonText = isActive ? 'Desactivar' : 'Activar';
+                        const botonActivacionUsuario = `<button class='btn ${buttonClass} activar-desactivar-usuario' title='${buttonText}'><i class='fas fa-toggle-${isActive ? 'on' : 'off'}'></i></button>`;
+
+                        return `<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button> <button class='btn btn-primary vehiculos' title='Vehículos'><i class='fas fa-car'></i></button> <button class='btn btn-dark puntos' title='Puntos'><i class='fas fa-coins'></i></button> ${botonActivacionUsuario}                        
+`;
+                    }
                 }
             ],
             language: {
