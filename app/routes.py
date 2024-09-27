@@ -1851,3 +1851,25 @@ def activar_desactivar_usuario(documento):
 
     estado = 'activado' if usuario.activo else 'desactivado'
     return jsonify({'status': 'success', 'message': f'Usuario {estado} exitosamente'}), 200
+
+
+@app.route('/cliente/activar-desactivar/<documento>', methods=['PUT'])
+@login_required
+@propietario_admin_permission.require(http_exception=403)
+def activar_desactivar_cliente(documento):
+    """
+    Activa o desactiva un cliente.
+
+    :param documento: Documento del cliente.
+    :return: Respuesta JSON.
+    """
+    cliente = Cliente.query.filter_by(documento=documento).first()
+    if not cliente:
+        return jsonify({'status': 'error', 'message': 'Cliente no encontrado'}), 404
+
+    cliente.activo = not cliente.activo
+
+    db.session.commit()
+
+    estado = 'activado' if cliente.activo else 'desactivado'
+    return jsonify({'status': 'success', 'message': f'Cliente {estado} exitosamente'}), 200
