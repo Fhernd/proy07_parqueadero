@@ -1729,7 +1729,7 @@ def parqueos_activos(sede_id):
         .filter(Modulo.sede_id == sede_id, Parqueo.fecha_hora_salida == None)
         .all()
     )
-
+    
     return jsonify({
         'status': 'success',
         'message': 'Consulta realizada de forma satisfactoria',
@@ -1743,9 +1743,9 @@ def parqueos_activos(sede_id):
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
                     'tarifa': {
-                        'id': parqueo.vehiculo.vehiculo_tipo.tarifas.id,
-                        'nombre': parqueo.vehiculo.vehiculo_tipo.tarifas.nombre,
-                        'costo': parqueo.vehiculo.vehiculo_tipo.tarifas.costo
+                        'id': parqueo.vehiculo.vehiculo_tipo.tarifa.id,
+                        'nombre': parqueo.vehiculo.vehiculo_tipo.tarifa.nombre,
+                        'costo': parqueo.vehiculo.vehiculo_tipo.tarifa.costo
                     }
                 },
                 'modulo': {
