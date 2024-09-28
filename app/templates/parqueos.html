@@ -167,6 +167,59 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="mdlCrearEditar" tabindex="-1" aria-labelledby="mdlCrearEditarLabel" aria-hidden="true">
+</div>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="mdlCrearEditarLabel">{{ titulo }} - Crear</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="frmCrearEditar">
+            <div class="modal-body">
+                <input type="hidden" id="id" name="id">
+                <div class="form-group">
+                    <label for="documento">Documento</label>
+                    <input type="text" class="form-control" id="documento" name="documento"
+                        placeholder="Ingresa el número de documento">
+                </div>
+                <div class="form-group">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" class="form-control" id="nombres" name="nombres"
+                        placeholder="Ingresa los nombres">
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos"
+                        placeholder="Ingresa los apellidos">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono"
+                        placeholder="Ingresa el teléfono">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa el email">
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion"
+                        placeholder="Ingresa la dirección">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-success">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
 <script>
     $(document).ready(function () {
         $('#btnSeleccionarSede').click(function () {
@@ -234,7 +287,8 @@
 
         $('#btnIngresar').click(function () {
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson }};
+            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
+        }};
     const options = {};
     tiposVehiculosOptions.forEach((tipoVehiculo) => {
         options[tipoVehiculo.id] = tipoVehiculo.nombre;
@@ -386,12 +440,12 @@
         const totalEntero = numeral(total.replaceAll('.', ',')).value();
 
         const mediosPago = {{ medios_pago | tojson
-        }};
+    }};
 
-        Swal.fire({
-            title: "<strong>Retiro de Vehículo</strong>",
-            icon: "info",
-            html: `
+    Swal.fire({
+        title: "<strong>Retiro de Vehículo</strong>",
+        icon: "info",
+        html: `
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 text-center mb-3">
@@ -411,54 +465,54 @@
                     </div>
                 </div>
             `,
-            showCloseButton: true,
-            showCancelButton: true,
-            focusConfirm: false,
-            confirmButtonText: `
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: `
     <i class="fa fa-check"></i> Aceptar
   `,
-            confirmButtonAriaLabel: "Aceptar y retirar vehículo",
-            cancelButtonText: `
+        confirmButtonAriaLabel: "Aceptar y retirar vehículo",
+        cancelButtonText: `
     <i class="fa fa-times"></i> Cancelar
   `,
-            cancelButtonAriaLabel: "Cancelar",
-            preConfirm: () => {
-                const metodoPagoId = document.getElementById('metodoPago').value;
-                return fetch('/parqueo/vehiculo/retirar', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        placa: placa,
-                        totalPagado: totalEntero,
-                        metodoPagoId: metodoPagoId
-                    })
+        cancelButtonAriaLabel: "Cancelar",
+        preConfirm: () => {
+            const metodoPagoId = document.getElementById('metodoPago').value;
+            return fetch('/parqueo/vehiculo/retirar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    placa: placa,
+                    totalPagado: totalEntero,
+                    metodoPagoId: metodoPagoId
                 })
-                    .then(response => {
-                        if (response.status == 'error') {
-                            Swal.fire({
-                                title: "Error",
-                                text: response.message,
-                                icon: "warning"
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "Éxito",
-                                text: "El vehículo fue retirado de forma satisfactoria",
-                                icon: "success"
-                            });
+            })
+                .then(response => {
+                    if (response.status == 'error') {
+                        Swal.fire({
+                            title: "Error",
+                            text: response.message,
+                            icon: "warning"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Éxito",
+                            text: "El vehículo fue retirado de forma satisfactoria",
+                            icon: "success"
+                        });
 
-                            document.getElementById('parqueos-table').deleteRow(index);
-                        }
-                    })
-                    .catch(error => {
-                        Swal.showValidationMessage(
-                            `Request failed: ${error}`
-                        );
-                    });
-            }
-        });
+                        document.getElementById('parqueos-table').deleteRow(index);
+                    }
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                    );
+                });
+        }
+    });
 
     }
 
