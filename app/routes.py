@@ -1873,3 +1873,33 @@ def activar_desactivar_cliente(documento):
 
     estado = 'activado' if cliente.activo else 'desactivado'
     return jsonify({'status': 'success', 'message': f'Cliente {estado} exitosamente'}), 200
+
+
+@app.route('/cliente/<string:documento>', methods=['GET'])
+@login_required
+@todos_permiso.require(http_exception=403)
+def buscar_cliente(documento):
+    """
+    Busca un cliente por su documento.
+
+    :param documento: Documento del cliente.
+    :return: Respuesta JSON.
+    """
+    cliente = Cliente.query.filter_by(documento=documento).first()
+
+    if cliente is None:
+        return jsonify({'status': 'failure', 'message': 'Cliente no encontrado'}), 404
+
+    return jsonify({
+        'status': 'success',
+        'data': {
+            'id': cliente.id,
+            'nombre': cliente.nombres,
+            'apellido': cliente.apellidos,
+            'documento': cliente.documento,
+            'email': cliente.email,
+            'telefono': cliente.telefono,
+            'direccion': cliente.direccion,
+            'activo': cliente.activo
+        }
+    }), 200
