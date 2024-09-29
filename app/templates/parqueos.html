@@ -447,34 +447,37 @@
                 Swal.fire({
                     title: "Cliente",
                     html: `
-                        <div class="container">
+                        <form class="container">
                             <div class="row">
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Documento:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.documento}</strong></h3>
+                                    <input type="text" class="form-control text-primary" name="documento" value="${cliente.documento}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Nombres:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.nombres}</strong></h3>
+                                    <input type="text" class="form-control text-primary" name="nombres" value="${cliente.nombres}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Apellidos:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.apellidos}</strong></h3>
+                                    <input type="text" class="form-control text-primary" name="apellidos" value="${cliente.apellidos}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Teléfono:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.telefono}</strong></h3>
+                                    <input type="text" class="form-control text-primary" name="telefono" value="${cliente.telefono}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Email:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.email}</strong></h3>
+                                    <input type="email" class="form-control text-primary" name="email" value="${cliente.email}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Dirección:</h5>
-                                    <h3 class="text-primary"><strong>${cliente.direccion}</strong></h3>
+                                    <input type="text" class="form-control text-primary" name="direccion" value="${cliente.direccion}">
+                                </div>
+                                <div class="col-md-12 text-center mb-3">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     `
                 });
             },
