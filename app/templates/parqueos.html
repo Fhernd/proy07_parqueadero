@@ -433,7 +433,7 @@
     }
 
     function verCliente(event) {
-        const index = event.target.parentElement.parentElement.rowIndex - 1;
+        const index = $(event)[0].target.parentElement.parentElement.rowIndex - 1;
         const row = document.getElementById('parqueos-table').children[index];
 
         const placa = row.children[0].textContent;
