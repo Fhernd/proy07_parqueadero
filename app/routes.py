@@ -1875,31 +1875,33 @@ def activar_desactivar_cliente(documento):
     return jsonify({'status': 'success', 'message': f'Cliente {estado} exitosamente'}), 200
 
 
-@app.route('/cliente/<string:documento>', methods=['GET'])
+@app.route('//vehiculo/<string:placa>/cliente', methods=['GET'])
 @login_required
 @todos_permiso.require(http_exception=403)
-def buscar_cliente(documento):
+def buscar_cliente_por_placa(placa):
     """
-    Busca un cliente por su documento.
+    Busca un cliente por placa de vehículo.
 
-    :param documento: Documento del cliente.
+    :param placa: Placa del vehículo.
     :return: Respuesta JSON.
     """
-    cliente = Cliente.query.filter_by(documento=documento).first()
+    vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+    if not vehiculo:
+        return jsonify({'status': 'error', 'message': 'Vehículo no encontrado'}), 404
 
-    if cliente is None:
-        return jsonify({'status': 'failure', 'message': 'Cliente no encontrado'}), 404
+    cliente = vehiculo.cliente
+    if not cliente:
+        return jsonify({'status': 'error', 'message': 'Cliente no encontrado'}), 404
 
     return jsonify({
         'status': 'success',
         'data': {
-            'id': cliente.id,
-            'nombre': cliente.nombres,
-            'apellido': cliente.apellidos,
             'documento': cliente.documento,
+            'nombres': cliente.nombres,
+            'apellidos': cliente.apellidos,
             'email': cliente.email,
             'telefono': cliente.telefono,
             'direccion': cliente.direccion,
             'activo': cliente.activo
         }
-    }), 200
+    })
