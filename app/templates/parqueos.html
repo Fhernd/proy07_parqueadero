@@ -378,6 +378,53 @@
         }
     });
         });
+
+        $('#frmActualizarCrearCliente').submit(function (event) {
+            event.preventDefault();
+
+            alert('hola');
+
+            // const id = $('#id').val();
+            // const documento = $('#documento').val();
+            // const nombres = $('#nombres').val();
+            // const apellidos = $('#apellidos').val();
+            // const telefono = $('#telefono').val();
+            // const email = $('#email').val();
+            // const direccion = $('#direccion').val();
+
+            // $.ajax({
+            //     url: `/cliente/${id}`,
+            //     type: 'PUT',
+            //     data: JSON.stringify({
+            //         documento,
+            //         nombres,
+            //         apellidos,
+            //         telefono,
+            //         email,
+            //         direccion
+            //     }),
+            //     contentType: 'application/json',
+            //     dataType: 'json',
+            //     success: function (response) {
+            //         $('#mdlCrearEditarCliente').modal('hide');
+
+            //         Swal.fire({
+            //             title: "Éxito",
+            //             text: "El cliente fue actualizado de forma satisfactoria",
+            //             icon: "success"
+            //         });
+            //     },
+            //     error: function (error) {
+            //         console.log(error);
+
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Ocurrió un error al intentar actualizar el cliente",
+            //             icon: "warning"
+            //         });
+            //     }
+            // });
+        });
     });
 
     /**
@@ -447,7 +494,7 @@
                 Swal.fire({
                     title: "Cliente",
                     html: `
-                        <form class="container">
+                        <form class="container" id="frmActualizarCrearCliente">
                             <div class="row">
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Documento:</h5>
