@@ -480,7 +480,9 @@ def cliente_actualizar(documento):
         entidad.telefono = data.get('telefono')
         entidad.email = data.get('email')
         entidad.direccion = data.get('direccion')
-        entidad.parqueadero_id = data.get('parqueadero_id')
+        if data.get('parqueadero_id') is not None:
+            entidad.parqueadero_id = data.get('parqueadero_id')
+        
         entidad.updated_at = db.func.current_timestamp()
 
         db.session.commit()
