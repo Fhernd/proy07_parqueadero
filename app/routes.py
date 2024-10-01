@@ -436,6 +436,10 @@ def cliente_crear():
     """
     try:
         data = request.get_json()
+
+        if data.get('parqueadero_id') is None:
+            data['parqueadero_id'] = current_user.parqueadero_id
+
         entidad = Cliente(documento=data.get('documento'), nombres=data.get('nombres'), apellidos=data.get('apellidos'), telefono=data.get('telefono'), email=data.get('email'), direccion=data.get('direccion'), parqueadero_id=data.get('parqueadero_id'))
 
         db.session.add(entidad)
