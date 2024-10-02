@@ -445,6 +445,11 @@ def cliente_crear():
         db.session.add(entidad)
         db.session.commit()
 
+        if data.get('placa') is not None:
+            vehiculo = Vehiculo.query.filter_by(placa=data.get('placa')).first()
+            vehiculo.cliente_id = entidad.id
+            db.session.commit()
+
         return jsonify({'status': 'success', 'message': 'Cliente creado', 'data': {
             'id': entidad.id,
             'documento': entidad.documento,
