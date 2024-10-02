@@ -436,6 +436,7 @@ def cliente_crear():
     """
     try:
         data = request.get_json()
+        print('data', data)
 
         if data.get('parqueadero_id') is None:
             data['parqueadero_id'] = current_user.parqueadero_id
@@ -447,6 +448,7 @@ def cliente_crear():
 
         if data.get('placa') is not None:
             vehiculo = Vehiculo.query.filter_by(placa=data.get('placa')).first()
+            print('id cliente', entidad.id)
             vehiculo.cliente_id = entidad.id
             db.session.commit()
 
