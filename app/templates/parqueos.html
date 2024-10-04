@@ -434,7 +434,7 @@
 
     function verCliente(event) {
         let index = $(event)[0].target.parentElement.parentElement.rowIndex - 1;
-        if (!index) {
+        if (isNaN(index)) {
             index = $(event)[0].target.parentElement.parentElement.parentElement.rowIndex - 1;
         }
         const row = document.getElementById('parqueos-table').children[index];
