@@ -287,96 +287,95 @@
 
         $('#btnIngresar').click(function () {
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
-        }};
-    const options = {};
-    tiposVehiculosOptions.forEach((tipoVehiculo) => {
-        options[tipoVehiculo.id] = tipoVehiculo.nombre;
-    });
+            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson}};
+            const options = {};
+            tiposVehiculosOptions.forEach((tipoVehiculo) => {
+                options[tipoVehiculo.id] = tipoVehiculo.nombre;
+            });
 
-    Swal.fire({
-        title: 'Selecciona una opción',
-        input: 'select',
-        inputOptions: options,
-        inputPlaceholder: 'Selecciona un tipo de vehículo',
-        showCancelButton: true,
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Debes seleccionar una opción'
-            }
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.LoadingOverlay('show');
+            Swal.fire({
+                title: 'Selecciona una opción',
+                input: 'select',
+                inputOptions: options,
+                inputPlaceholder: 'Selecciona un tipo de vehículo',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Debes seleccionar una opción'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.LoadingOverlay('show');
 
-            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
-            if (!moduloSeleccionado) {
-                $.LoadingOverlay('hide');
+                    const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+                    if (!moduloSeleccionado) {
+                        $.LoadingOverlay('hide');
 
-                Swal.fire({
-                    title: "Advertencia",
-                    text: "Debe seleccionar un módulo de parqueo",
-                    icon: "warning"
-                });
-
-                return;
-            }
-
-            const vehiculoTipoId = result.value;
-            const placa = $('#placa').val().trim();
-            const moduloId = moduloSeleccionado.getAttribute('data-id');
-            const moduloNombre = moduloSeleccionado.textContent;
-            const tipoVehiculo = options[vehiculoTipoId];
-
-            $.ajax({
-                url: `/parqueo/ingresar`,
-                type: 'POST',
-                data: JSON.stringify({
-                    vehiculoTipoId,
-                    placa,
-                    moduloId
-                }),
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function (response) {
-
-                    $.LoadingOverlay('hide');
-
-                    if (response.status == 'warning') {
                         Swal.fire({
                             title: "Advertencia",
-                            text: response.message,
+                            text: "Debe seleccionar un módulo de parqueo",
                             icon: "warning"
                         });
 
                         return;
                     }
 
-                    Swal.fire({
-                        title: "Éxito",
-                        text: "El vehículo fue ingresado de forma satisfactoria",
-                        icon: "success"
-                    });
+                    const vehiculoTipoId = result.value;
+                    const placa = $('#placa').val().trim();
+                    const moduloId = moduloSeleccionado.getAttribute('data-id');
+                    const moduloNombre = moduloSeleccionado.textContent;
+                    const tipoVehiculo = options[vehiculoTipoId];
 
-                    const tipoVehiculoAsignado = response.data.tipoVehiculo;
+                    $.ajax({
+                        url: `/parqueo/ingresar`,
+                        type: 'POST',
+                        data: JSON.stringify({
+                            vehiculoTipoId,
+                            placa,
+                            moduloId
+                        }),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (response) {
 
-                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
+                            $.LoadingOverlay('hide');
 
-                    $('#mdlIngresoVehiculo').modal('hide');
-                },
-                error: function (error) {
-                    $.LoadingOverlay('hide');
-                    console.log(error);
+                            if (response.status == 'warning') {
+                                Swal.fire({
+                                    title: "Advertencia",
+                                    text: response.message,
+                                    icon: "warning"
+                                });
 
-                    Swal.fire({
-                        title: "Error",
-                        text: "Ocurrió un error al intentar ingresar el vehículo",
-                        icon: "warning"
+                                return;
+                            }
+
+                            Swal.fire({
+                                title: "Éxito",
+                                text: "El vehículo fue ingresado de forma satisfactoria",
+                                icon: "success"
+                            });
+
+                            const tipoVehiculoAsignado = response.data.tipoVehiculo;
+
+                            agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
+
+                            $('#mdlIngresoVehiculo').modal('hide');
+                        },
+                        error: function (error) {
+                            $.LoadingOverlay('hide');
+                            console.log(error);
+
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar ingresar el vehículo",
+                                icon: "warning"
+                            });
+                        }
                     });
                 }
             });
-        }
-    });
         });
     });
 
@@ -441,6 +440,8 @@
 
         const placa = row.children[0].textContent;
 
+        const tiposVehiculos = {{ tipos_vehiculos | tojson}};
+
         $.ajax({
             url: `/vehiculo/buscar/${placa}`,
             type: 'GET',
@@ -458,15 +459,17 @@
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Tipo:</h5>
-                                    <input type="text" class="form-control text-primary" name="tipo" value="${vehiculo.tipo}">
+                                    <select class="form-control" id="tipoVehiculo">
+                                        ${tiposVehiculos.map(tipoVehiculo => `<option value="${tipoVehiculo.id}">${tipoVehiculo.nombre}</option>`)}
+                                    </select>
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Marca:</h5>
-                                    <input type="text" class="form-control text-primary" name="marca" value="${vehiculo.marca ? vehiculo.marca : '' }">
+                                    <input type="text" class="form-control text-primary" name="marca" value="${vehiculo.marca ? vehiculo.marca : ''}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Modelo:</h5>
-                                    <input type="text" class="form-control text-primary" name="modelo" value="${vehiculo.modelo ? vehiculo.modelo : '' }">
+                                    <input type="text" class="form-control text-primary" name="modelo" value="${vehiculo.modelo ? vehiculo.modelo : ''}">
                                 </div>
                             </div>
                         </form>
