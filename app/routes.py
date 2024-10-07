@@ -1888,7 +1888,7 @@ def activar_desactivar_cliente(documento):
     return jsonify({'status': 'success', 'message': f'Cliente {estado} exitosamente'}), 200
 
 
-@app.route('//vehiculo/<string:placa>/cliente', methods=['GET'])
+@app.route('/vehiculo/<string:placa>/cliente', methods=['GET'])
 @login_required
 @todos_permiso.require(http_exception=403)
 def buscar_cliente_por_placa(placa):

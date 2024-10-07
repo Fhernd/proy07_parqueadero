@@ -442,7 +442,7 @@
         const placa = row.children[0].textContent;
 
         $.ajax({
-            url: `/vehiculo/${placa}`,
+            url: `/vehiculo/buscar/${placa}`,
             type: 'GET',
             success: function (response) {
                 const vehiculo = response.data;
@@ -462,15 +462,11 @@
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Marca:</h5>
-                                    <input type="text" class="form-control text-primary" name="marca" value="${vehiculo.marca}">
+                                    <input type="text" class="form-control text-primary" name="marca" value="${vehiculo.marca ? vehiculo.marca : '' }">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Modelo:</h5>
-                                    <input type="text" class="form-control text-primary" name="modelo" value="${vehiculo.modelo}">
-                                </div>
-                                <div class="col-md-12 text-center mb-3">
-                                    <h5 class="text-info">Cliente:</h5>
-                                    <input type="text" class="form-control text-primary" name="cliente" value="${vehiculo.cliente.nombres} ${vehiculo.cliente.apellidos}">
+                                    <input type="text" class="form-control text-primary" name="modelo" value="${vehiculo.modelo ? vehiculo.modelo : '' }">
                                 </div>
                             </div>
                         </form>
