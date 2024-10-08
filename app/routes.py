@@ -1918,3 +1918,27 @@ def buscar_cliente_por_placa(placa):
             'activo': cliente.activo
         }
     })
+
+
+@app.route('/vehiculo/<string:placa>', methods=['PUT'])
+@login_required
+@todos_permiso.require(http_exception=403)
+def editar_vehiculo(placa):
+    """
+    Edita un vehículo.
+
+    :param placa: Placa del vehículo.
+    :return: Respuesta JSON.
+    """
+    data = request.get_json()
+    vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+    if not vehiculo:
+        return jsonify({'status': 'error', 'message': 'Vehículo no encontrado'}), 404
+
+    vehiculo.marca = data.get('marca')
+    vehiculo.modelo = data.get('modelo')
+    vehiculo.vehiculo_tipo_id = data.get('vehiculoTipoId')
+
+    db.session.commit()
+
+    return jsonify({'status': 'success', 'message': 'Vehículo editado exitosamente'}), 200
