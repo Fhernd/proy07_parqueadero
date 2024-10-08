@@ -478,7 +478,39 @@
                             </div>
                         </form>
                         `
-                });
+                },
+                didOpen: () => {
+                    const form = document.getElementById('frmActualizarVehiculo');
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        const formData = new FormData(form);
+                        const data = Object.fromEntries(formData.entries());
+
+                        $.ajax({
+                            url: `/vehiculo/${placa}`,
+                            type: 'PUT',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                Swal.fire({
+                                    title: "Éxito",
+                                    text: "El vehículo fue actualizado de forma satisfactoria",
+                                    icon: "success"
+                                });
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Ocurrió un error al intentar actualizar el vehículo.",
+                                    icon: "warning"
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+            );
             },
             error: function (error) {
                 console.log(error);
