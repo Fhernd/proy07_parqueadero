@@ -441,7 +441,7 @@
         const placa = row.children[0].textContent;
         const tipoVehiculoNombre = row.children[1].textContent;
 
-        const tiposVehiculos = {{ tipos_vehiculos | tojson}};
+        const tiposVehiculos =  {{ tipos_vehiculos | tojson}};
 
         $.ajax({
             url: `/vehiculo/buscar/${placa}`,
@@ -475,10 +475,13 @@
                                     <h5 class="text-info">Modelo:</h5>
                                     <input type="text" class="form-control text-primary" name="modelo" value="${vehiculo.modelo ? vehiculo.modelo : ''}">
                                 </div>
+                                <div class="col-md-12 text-center mb-3">
+                                    <button type="submit" class="btn btn-primary">Actualizar Vehículo</button>
+                                </div>
                             </div>
                         </form>
                         `
-                },
+                ,
                 didOpen: () => {
                     const form = document.getElementById('frmActualizarVehiculo');
                     form.addEventListener('submit', function (event) {
@@ -510,7 +513,6 @@
                     });
                 }
             });
-            );
             },
             error: function (error) {
                 console.log(error);
