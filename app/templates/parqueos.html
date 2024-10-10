@@ -460,7 +460,7 @@
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <h5 class="text-info">Tipo:</h5>
-                                    <select class="form-control" id="vehiculoTipoId" name="id="vehiculoTipoId"">
+                                    <select class="form-control" id="vehiculoTipoId" name="vehiculoTipoId"">
                                         ${tiposVehiculos.map(tipoVehiculo => `
                                             <option value="${tipoVehiculo.id}" ${tipoVehiculo.nombre === tipoVehiculoNombre ? 'selected' : ''}>
                                                 ${tipoVehiculo.nombre}
@@ -495,6 +495,7 @@
                             data: JSON.stringify(data),
                             contentType: 'application/json',
                             success: function (response) {
+                                row.children[1].textContent = tiposVehiculos.find(tipoVehiculo => tipoVehiculo.id == data.vehiculoTipoId).nombre;
                                 Swal.fire({
                                     title: "Éxito",
                                     text: "El vehículo fue actualizado de forma satisfactoria",
