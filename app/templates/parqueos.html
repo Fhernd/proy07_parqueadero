@@ -667,6 +667,17 @@
                                         data: JSON.stringify(data),
                                         contentType: 'application/json',
                                         success: function (response) {
+
+                                            if (response.status == 'existente') {
+                                                Swal.fire({
+                                                    title: "Advertencia",
+                                                    text: response.message,
+                                                    icon: "warning"
+                                                });
+
+                                                return;
+                                            }
+
                                             Swal.fire({
                                                 title: "Éxito",
                                                 text: "El cliente fue creado de forma satisfactoria",
