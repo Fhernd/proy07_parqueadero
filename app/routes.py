@@ -441,6 +441,11 @@ def cliente_crear():
         if data.get('parqueadero_id') is None:
             data['parqueadero_id'] = current_user.parqueadero_id
 
+        cliente = Cliente.query.filter_by(documento=data.get('documento')).first()
+
+        if cliente is not None:
+            return jsonify({'status': 'existente', 'message': 'Ya existe un cliente con el documento dado.'}), 200
+
         entidad = Cliente(documento=data.get('documento'), nombres=data.get('nombres'), apellidos=data.get('apellidos'), telefono=data.get('telefono'), email=data.get('email'), direccion=data.get('direccion'), parqueadero_id=data.get('parqueadero_id'))
 
         db.session.add(entidad)
