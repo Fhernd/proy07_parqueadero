@@ -655,36 +655,34 @@
                             showCancelButton: true,
                             confirmButtonText: 'Guardar',
                             preConfirm: () => {
-                                // Obtener los datos del formulario
                                 const form = document.getElementById('frmCrearCliente');
                                 const formData = new FormData(form);
                                 const data = Object.fromEntries(formData.entries());
+                                data.placa = placa;
 
-                                // Realizar la operación AJAX para crear el cliente
                                 return $.ajax({
-                                    url: `/cliente`,
-                                    type: 'POST',
-                                    data: JSON.stringify(data),
-                                    contentType: 'application/json'
-                                }).then(response => {
-                                    // Validar la respuesta y mostrar mensajes de éxito o advertencia
-                                    if (response.status === 'existente') {
-                                        Swal.showValidationMessage(response.message);
-                                        return false; // Para mantener el modal abierto
-                                    }
+                                        url: `/cliente`,
+                                        type: 'POST',
+                                        data: JSON.stringify(data),
+                                        contentType: 'application/json'
+                                    }).then(response => {
+                                        if (response.status === 'existente') {
+                                            Swal.showValidationMessage(response.message);
+                                            return false;
+                                        }
 
-                                    Swal.fire({
-                                        title: "Éxito",
-                                        text: "El cliente fue creado de forma satisfactoria",
-                                        icon: "success"
+                                        Swal.fire({
+                                            title: "Éxito",
+                                            text: "El cliente fue creado de forma satisfactoria",
+                                            icon: "success"
+                                        });
+
+                                        return true;
+                                    }).catch(error => {
+                                        Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
+                                        console.error(error);
+                                        return false;
                                     });
-
-                                    return true;
-                                }).catch(error => {
-                                    Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
-                                    console.error(error);
-                                    return false; // Para mantener el modal abierto
-                                });
                             }
                         });
 
