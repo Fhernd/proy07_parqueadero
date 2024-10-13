@@ -287,95 +287,96 @@
 
         $('#btnIngresar').click(function () {
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson}};
-            const options = {};
-            tiposVehiculosOptions.forEach((tipoVehiculo) => {
-                options[tipoVehiculo.id] = tipoVehiculo.nombre;
-            });
+            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
+        }};
+    const options = {};
+    tiposVehiculosOptions.forEach((tipoVehiculo) => {
+        options[tipoVehiculo.id] = tipoVehiculo.nombre;
+    });
 
-            Swal.fire({
-                title: 'Selecciona una opción',
-                input: 'select',
-                inputOptions: options,
-                inputPlaceholder: 'Selecciona un tipo de vehículo',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Debes seleccionar una opción'
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.LoadingOverlay('show');
+    Swal.fire({
+        title: 'Selecciona una opción',
+        input: 'select',
+        inputOptions: options,
+        inputPlaceholder: 'Selecciona un tipo de vehículo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debes seleccionar una opción'
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.LoadingOverlay('show');
 
-                    const moduloSeleccionado = document.querySelector('.parking-spot.selected');
-                    if (!moduloSeleccionado) {
-                        $.LoadingOverlay('hide');
+            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+            if (!moduloSeleccionado) {
+                $.LoadingOverlay('hide');
 
+                Swal.fire({
+                    title: "Advertencia",
+                    text: "Debe seleccionar un módulo de parqueo",
+                    icon: "warning"
+                });
+
+                return;
+            }
+
+            const vehiculoTipoId = result.value;
+            const placa = $('#placa').val().trim();
+            const moduloId = moduloSeleccionado.getAttribute('data-id');
+            const moduloNombre = moduloSeleccionado.textContent;
+            const tipoVehiculo = options[vehiculoTipoId];
+
+            $.ajax({
+                url: `/parqueo/ingresar`,
+                type: 'POST',
+                data: JSON.stringify({
+                    vehiculoTipoId,
+                    placa,
+                    moduloId
+                }),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+
+                    $.LoadingOverlay('hide');
+
+                    if (response.status == 'warning') {
                         Swal.fire({
                             title: "Advertencia",
-                            text: "Debe seleccionar un módulo de parqueo",
+                            text: response.message,
                             icon: "warning"
                         });
 
                         return;
                     }
 
-                    const vehiculoTipoId = result.value;
-                    const placa = $('#placa').val().trim();
-                    const moduloId = moduloSeleccionado.getAttribute('data-id');
-                    const moduloNombre = moduloSeleccionado.textContent;
-                    const tipoVehiculo = options[vehiculoTipoId];
+                    Swal.fire({
+                        title: "Éxito",
+                        text: "El vehículo fue ingresado de forma satisfactoria",
+                        icon: "success"
+                    });
 
-                    $.ajax({
-                        url: `/parqueo/ingresar`,
-                        type: 'POST',
-                        data: JSON.stringify({
-                            vehiculoTipoId,
-                            placa,
-                            moduloId
-                        }),
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        success: function (response) {
+                    const tipoVehiculoAsignado = response.data.tipoVehiculo;
 
-                            $.LoadingOverlay('hide');
+                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
 
-                            if (response.status == 'warning') {
-                                Swal.fire({
-                                    title: "Advertencia",
-                                    text: response.message,
-                                    icon: "warning"
-                                });
+                    $('#mdlIngresoVehiculo').modal('hide');
+                },
+                error: function (error) {
+                    $.LoadingOverlay('hide');
+                    console.log(error);
 
-                                return;
-                            }
-
-                            Swal.fire({
-                                title: "Éxito",
-                                text: "El vehículo fue ingresado de forma satisfactoria",
-                                icon: "success"
-                            });
-
-                            const tipoVehiculoAsignado = response.data.tipoVehiculo;
-
-                            agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
-
-                            $('#mdlIngresoVehiculo').modal('hide');
-                        },
-                        error: function (error) {
-                            $.LoadingOverlay('hide');
-                            console.log(error);
-
-                            Swal.fire({
-                                title: "Error",
-                                text: "Ocurrió un error al intentar ingresar el vehículo",
-                                icon: "warning"
-                            });
-                        }
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al intentar ingresar el vehículo",
+                        icon: "warning"
                     });
                 }
             });
+        }
+    });
         });
     });
 
@@ -441,17 +442,18 @@
         const placa = row.children[0].textContent;
         const tipoVehiculoNombre = row.children[1].textContent;
 
-        const tiposVehiculos =  {{ tipos_vehiculos | tojson}};
+        const tiposVehiculos = {{ tipos_vehiculos | tojson
+    }};
 
-        $.ajax({
-            url: `/vehiculo/buscar/${placa}`,
-            type: 'GET',
-            success: function (response) {
-                const vehiculo = response.data;
+    $.ajax({
+        url: `/vehiculo/buscar/${placa}`,
+        type: 'GET',
+        success: function (response) {
+            const vehiculo = response.data;
 
-                Swal.fire({
-                    title: "Vehículo",
-                    html: `
+            Swal.fire({
+                title: "Vehículo",
+                html: `
                         <form class="container" id="frmActualizarVehiculo">
                             <div class="row">
                                 <div class="col-md-12 text-center mb-3">
@@ -514,16 +516,16 @@
                     });
                 }
             });
-            },
-            error: function (error) {
-                console.log(error);
-                Swal.fire({
-                    title: "Error",
-                    text: "Ocurrió un error al intentar obtener la información del vehículo.",
-                    icon: "warning"
-                });
-            }
-        });
+        },
+        error: function (error) {
+            console.log(error);
+            Swal.fire({
+                title: "Error",
+                text: "Ocurrió un error al intentar obtener la información del vehículo.",
+                icon: "warning"
+            });
+        }
+    });
     }
 
     function verCliente(event) {
@@ -621,81 +623,71 @@
                         Swal.fire({
                             title: "Crear Cliente",
                             html: `
-                                <form class="container" id="frmCrearCliente">
-                                    <div class="row">
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Documento:</h5>
-                                            <input type="text" class="form-control text-primary" name="documento">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Nombres:</h5>
-                                            <input type="text" class="form-control text-primary" name="nombres">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Apellidos:</h5>
-                                            <input type="text" class="form-control text-primary" name="apellidos">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Teléfono:</h5>
-                                            <input type="text" class="form-control text-primary" name="telefono">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Email:</h5>
-                                            <input type="email" class="form-control text-primary" name="email">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <h5 class="text-info">Dirección:</h5>
-                                            <input type="text" class="form-control text-primary" name="direccion">
-                                        </div>
-                                        <div class="col-md-12 text-center mb-3">
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                        </div>
+                            <form class="container" id="frmCrearCliente">
+                                <div class="row">
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Documento:</h5>
+                                    <input type="text" class="form-control text-primary" name="documento">
                                     </div>
-                                </form>
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Nombres:</h5>
+                                    <input type="text" class="form-control text-primary" name="nombres">
+                                    </div>
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Apellidos:</h5>
+                                    <input type="text" class="form-control text-primary" name="apellidos">
+                                    </div>
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Teléfono:</h5>
+                                    <input type="text" class="form-control text-primary" name="telefono">
+                                    </div>
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Email:</h5>
+                                    <input type="email" class="form-control text-primary" name="email">
+                                    </div>
+                                    <div class="col-md-12 text-center mb-3">
+                                    <h5 class="text-info">Dirección:</h5>
+                                    <input type="text" class="form-control text-primary" name="direccion">
+                                    </div>
+                                </div>
+                            </form>
                             `,
-                            didOpen: () => {
+                            showCancelButton: true,
+                            confirmButtonText: 'Guardar',
+                            preConfirm: () => {
+                                // Obtener los datos del formulario
                                 const form = document.getElementById('frmCrearCliente');
-                                form.addEventListener('submit', function (event) {
-                                    event.preventDefault();
-                                    const formData = new FormData(form);
-                                    const data = Object.fromEntries(formData.entries());
-                                    data['placa'] = placa;
+                                const formData = new FormData(form);
+                                const data = Object.fromEntries(formData.entries());
 
-                                    $.ajax({
-                                        url: `/cliente`,
-                                        type: 'POST',
-                                        data: JSON.stringify(data),
-                                        contentType: 'application/json',
-                                        success: function (response) {
+                                // Realizar la operación AJAX para crear el cliente
+                                return $.ajax({
+                                    url: `/cliente`,
+                                    type: 'POST',
+                                    data: JSON.stringify(data),
+                                    contentType: 'application/json'
+                                }).then(response => {
+                                    // Validar la respuesta y mostrar mensajes de éxito o advertencia
+                                    if (response.status === 'existente') {
+                                        Swal.showValidationMessage(response.message);
+                                        return false; // Para mantener el modal abierto
+                                    }
 
-                                            if (response.status == 'existente') {
-                                                Swal.fire({
-                                                    title: "Advertencia",
-                                                    text: response.message,
-                                                    icon: "warning"
-                                                });
-
-                                                return;
-                                            }
-
-                                            Swal.fire({
-                                                title: "Éxito",
-                                                text: "El cliente fue creado de forma satisfactoria",
-                                                icon: "success"
-                                            });
-                                        },
-                                        error: function (error) {
-                                            console.log(error);
-                                            Swal.fire({
-                                                title: "Error",
-                                                text: "Ocurrió un error al intentar crear el cliente.",
-                                                icon: "warning"
-                                            });
-                                        }
+                                    Swal.fire({
+                                        title: "Éxito",
+                                        text: "El cliente fue creado de forma satisfactoria",
+                                        icon: "success"
                                     });
+
+                                    return true;
+                                }).catch(error => {
+                                    Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
+                                    console.error(error);
+                                    return false; // Para mantener el modal abierto
                                 });
                             }
                         });
+
                     }
                 });
             }
