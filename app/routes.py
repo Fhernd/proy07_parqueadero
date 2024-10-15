@@ -1691,6 +1691,21 @@ def ingresar_parqueo():
 
             if parqueo is not None:
                 return jsonify({'status': 'warning', 'message': 'El vehículo ya se encuentra en el parqueadero'}), 200
+            
+        if vehiculo is not None:
+            fecha_actual = datetime.now()
+            
+            arrendamiento = Arrendamiento.query.filter_by(vehiculo_id=vehiculo.id).order_by(Arrendamiento.fecha_fin.desc()).first()
+
+            if arrendamiento is not None:
+                if fecha_actual > arrendamiento.fecha_fin:
+                    return jsonify({'status': 'warning', 'message': 'El arrendamiento del vehículo ha finalizado'}), 200
+                
+                if arrendamiento.ha_sido_pausado:
+                    return jsonify({'status': 'warning', 'message': 'El arrendamiento del vehículo se encuentra en pausa'}), 200
+                
+                return jsonify({'status': 'success', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.'}), 200
+
 
         if vehiculo is None:
             vehiculo_tipo_id = data.get('vehiculoTipoId')
