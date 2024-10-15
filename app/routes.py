@@ -1704,7 +1704,7 @@ def ingresar_parqueo():
                 if arrendamiento.ha_sido_pausado:
                     return jsonify({'status': 'warning', 'message': 'El arrendamiento del vehículo se encuentra en pausa'}), 200
                 
-                return jsonify({'status': 'success', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.'}), 200
+                return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.'}), 200
 
 
         if vehiculo is None:

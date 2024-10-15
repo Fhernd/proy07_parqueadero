@@ -350,6 +350,14 @@
                         });
 
                         return;
+                    } else if (response.status == 'arrendamiento') {
+                        Swal.fire({
+                            title: "Mensae",
+                            text: response.message,
+                            icon: "success"
+                        });
+
+                        return;
                     }
 
                     Swal.fire({
