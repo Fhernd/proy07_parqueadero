@@ -1686,6 +1686,17 @@ def ingresar_parqueo():
         placa = data.get('placa')
         vehiculo = Vehiculo.query.filter_by(placa=placa).first()
 
+        tipo_vehiculo = VehiculoTipo.query.get(data.get('vehiculoTipoId'))
+        tipo_vehiculo = {
+            'id': tipo_vehiculo.id,
+            'nombre': tipo_vehiculo.nombre,
+            'tarifa': {
+                'id': tipo_vehiculo.tarifa.id,
+                'nombre': tipo_vehiculo.tarifa.nombre,
+                'costo': tipo_vehiculo.tarifa.costo
+            }
+        }
+
         if vehiculo is not None:
             parqueo = Parqueo.query.filter_by(vehiculo_id=vehiculo.id, fecha_hora_salida=None).first()
 
@@ -1704,7 +1715,7 @@ def ingresar_parqueo():
                 if arrendamiento.ha_sido_pausado:
                     return jsonify({'status': 'warning', 'message': 'El arrendamiento del vehículo se encuentra en pausa'}), 200
                 
-                return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.'}), 200
+                return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.', 'tipoVehiculo': tipo_vehiculo}), 200
 
 
         if vehiculo is None:
@@ -1726,18 +1737,8 @@ def ingresar_parqueo():
 
         db.session.commit()
 
-        tipo_vehiculo = VehiculoTipo.query.get(data.get('vehiculoTipoId'))
-
         return jsonify({'status': 'success', 'message': 'Vehículo ingresado al parqueadero', 'data': {
-            'tipoVehiculo': {
-                'id': tipo_vehiculo.id,
-                'nombre': tipo_vehiculo.nombre,
-                'tarifa': {
-                    'id': tipo_vehiculo.tarifa.id,
-                    'nombre': tipo_vehiculo.tarifa.nombre,
-                    'costo': tipo_vehiculo.tarifa.costo
-                }
-            }
+            'tipoVehiculo': tipo_vehiculo
         }}), 200
     except Exception as e:
         print('Error:', e)
