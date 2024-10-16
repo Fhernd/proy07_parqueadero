@@ -352,22 +352,21 @@
                         return;
                     } else if (response.status == 'arrendamiento') {
                         Swal.fire({
-                            title: "Mensae",
+                            title: "Mensaje",
                             text: response.message,
                             icon: "success"
                         });
 
                         return;
+                    } else {
+                        Swal.fire({
+                            title: "Éxito",
+                            text: "El vehículo fue ingresado de forma satisfactoria",
+                            icon: "success"
+                        });
                     }
 
-                    Swal.fire({
-                        title: "Éxito",
-                        text: "El vehículo fue ingresado de forma satisfactoria",
-                        icon: "success"
-                    });
-
                     const tipoVehiculoAsignado = response.data.tipoVehiculo;
-
                     agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado });
 
                     $('#mdlIngresoVehiculo').modal('hide');
