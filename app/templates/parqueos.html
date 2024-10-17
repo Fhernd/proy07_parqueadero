@@ -838,14 +838,18 @@
             success: function (response) {
                 $.LoadingOverlay('hide');
 
-                if (response.status == 'failure') {
+                if (response.status == 'success') {
+                    Swal.fire({
+                        title: "Mensaje",
+                        text: `El vehículo con placa ${placa} ya se encuentra registrado`,
+                        icon: "success"
+                    });
+                } else {
                     Swal.fire({
                         title: "Advertencia",
                         text: response.message,
                         icon: "warning"
                     });
-
-                    return;
                 }
             },
             error: function (error) {
