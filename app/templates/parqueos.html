@@ -286,6 +286,7 @@
         });
 
         $('#btnIngresar').click(function () {
+            const yaExisteVehiculo = Boolean(localStorage.getItem('placa'));
 
             const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
         }};
@@ -844,12 +845,16 @@
                         text: `El vehículo con placa ${placa} ya se encuentra registrado`,
                         icon: "success"
                     });
+
+                    localStorage.setItem('placa', placa);
                 } else {
                     Swal.fire({
                         title: "Advertencia",
                         text: response.message,
                         icon: "warning"
                     });
+
+                    localStorage.removeItem('placa');
                 }
             },
             error: function (error) {
