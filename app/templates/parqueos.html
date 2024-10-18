@@ -295,101 +295,110 @@
         options[tipoVehiculo.id] = tipoVehiculo.nombre;
     });
 
-    Swal.fire({
-        title: 'Selecciona una opción',
-        input: 'select',
-        inputOptions: options,
-        inputPlaceholder: 'Selecciona un tipo de vehículo',
-        showCancelButton: true,
-        inputValidator: (value) => {
-            if (!value) {
-                return 'Debes seleccionar una opción'
-            }
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.LoadingOverlay('show');
 
-            const moduloSeleccionado = document.querySelector('.parking-spot.selected');
-            if (!moduloSeleccionado) {
-                $.LoadingOverlay('hide');
-
-                Swal.fire({
-                    title: "Advertencia",
-                    text: "Debe seleccionar un módulo de parqueo",
-                    icon: "warning"
-                });
-
-                return;
-            }
-
-            const vehiculoTipoId = result.value;
-            const placa = $('#placa').val().trim();
-            const moduloId = moduloSeleccionado.getAttribute('data-id');
-            const moduloNombre = moduloSeleccionado.textContent;
-            const tipoVehiculo = options[vehiculoTipoId];
-
-            $.ajax({
-                url: `/parqueo/ingresar`,
-                type: 'POST',
-                data: JSON.stringify({
-                    vehiculoTipoId,
-                    placa,
-                    moduloId
-                }),
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function (response) {
-
-                    $.LoadingOverlay('hide');
-                    let esArrendamiento = false;
-
-                    if (response.status == 'warning') {
-                        Swal.fire({
-                            title: "Advertencia",
-                            text: response.message,
-                            icon: "warning"
-                        });
-
-                        return;
-                    } else if (response.status == 'arrendamiento') {
-                        Swal.fire({
-                            title: "Mensaje",
-                            text: response.message,
-                            icon: "success"
-                        });
-
-                        esArrendamiento = true;
-
-                        return;
-                    } else {
-                        Swal.fire({
-                            title: "Éxito",
-                            text: "El vehículo fue ingresado de forma satisfactoria",
-                            icon: "success"
-                        });
-                    }
-
-                    const tipoVehiculoAsignado = response.data.tipoVehiculo;
-                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado, esArrendamiento: esArrendamiento});
-
-                    $('#mdlIngresoVehiculo').modal('hide');
-                },
-                error: function (error) {
-                    $.LoadingOverlay('hide');
-                    console.log(error);
-
-                    Swal.fire({
-                        title: "Error",
-                        text: "Ocurrió un error al intentar ingresar el vehículo",
-                        icon: "warning"
-                    });
+    if (!yaExisteVehiculo) {
+        Swal.fire({
+            title: 'Selecciona una opción',
+            input: 'select',
+            inputOptions: options,
+            inputPlaceholder: 'Selecciona un tipo de vehículo',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Debes seleccionar una opción'
                 }
-            });
-        }
-    });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                finalizarIngresoVehiculo(result.value, options);
+            }
+        });
+    } else {
+        
+        finalizarIngresoVehiculo(null, options);
+    }
         });
     });
+
+    function finalizarIngresoVehiculo(vehiculoTipoId, options) {
+        $.LoadingOverlay('show');
+
+        const moduloSeleccionado = document.querySelector('.parking-spot.selected');
+        if (!moduloSeleccionado) {
+            $.LoadingOverlay('hide');
+
+            Swal.fire({
+                title: "Advertencia",
+                text: "Debe seleccionar un módulo de parqueo",
+                icon: "warning"
+            });
+
+            return;
+        }
+
+        const placa = $('#placa').val().trim();
+        const moduloId = moduloSeleccionado.getAttribute('data-id');
+        const moduloNombre = moduloSeleccionado.textContent;
+        const tipoVehiculo = options[vehiculoTipoId];
+
+        $.ajax({
+            url: `/parqueo/ingresar`,
+            type: 'POST',
+            data: JSON.stringify({
+                vehiculoTipoId,
+                placa,
+                moduloId
+            }),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+
+                $.LoadingOverlay('hide');
+                let esArrendamiento = false;
+
+                if (response.status == 'warning') {
+                    Swal.fire({
+                        title: "Advertencia",
+                        text: response.message,
+                        icon: "warning"
+                    });
+
+                    return;
+                } else if (response.status == 'arrendamiento') {
+                    Swal.fire({
+                        title: "Mensaje",
+                        text: response.message,
+                        icon: "success"
+                    });
+
+                    esArrendamiento = true;
+
+                    return;
+                } else {
+                    Swal.fire({
+                        title: "Éxito",
+                        text: "El vehículo fue ingresado de forma satisfactoria",
+                        icon: "success"
+                    });
+                }
+
+                const tipoVehiculoAsignado = response.data.tipoVehiculo;
+                agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado, esArrendamiento: esArrendamiento });
+
+                $('#mdlIngresoVehiculo').modal('hide');
+            },
+            error: function (error) {
+                $.LoadingOverlay('hide');
+                console.log(error);
+
+                Swal.fire({
+                    title: "Error",
+                    text: "Ocurrió un error al intentar ingresar el vehículo",
+                    icon: "warning"
+                });
+            }
+        });
+    }
 
     /**
      * Selecciona un módulo de parqueo.
@@ -672,28 +681,28 @@
                                 data.placa = placa;
 
                                 return $.ajax({
-                                        url: `/cliente`,
-                                        type: 'POST',
-                                        data: JSON.stringify(data),
-                                        contentType: 'application/json'
-                                    }).then(response => {
-                                        if (response.status === 'existente') {
-                                            Swal.showValidationMessage(response.message);
-                                            return false;
-                                        }
-
-                                        Swal.fire({
-                                            title: "Éxito",
-                                            text: "El cliente fue creado de forma satisfactoria",
-                                            icon: "success"
-                                        });
-
-                                        return true;
-                                    }).catch(error => {
-                                        Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
-                                        console.error(error);
+                                    url: `/cliente`,
+                                    type: 'POST',
+                                    data: JSON.stringify(data),
+                                    contentType: 'application/json'
+                                }).then(response => {
+                                    if (response.status === 'existente') {
+                                        Swal.showValidationMessage(response.message);
                                         return false;
+                                    }
+
+                                    Swal.fire({
+                                        title: "Éxito",
+                                        text: "El cliente fue creado de forma satisfactoria",
+                                        icon: "success"
                                     });
+
+                                    return true;
+                                }).catch(error => {
+                                    Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
+                                    console.error(error);
+                                    return false;
+                                });
                             }
                         });
 
@@ -891,7 +900,7 @@
                 updateTimer(index, fechaEntrada);
                 actualizarTotal(index, parqueo.tipoVehiculoAsignado.tarifa, fechaEntrada);
             }, 1000);
-        }   
+        }
     }
 
     /**
