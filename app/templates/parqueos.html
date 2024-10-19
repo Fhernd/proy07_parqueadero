@@ -314,8 +314,8 @@
             }
         });
     } else {
-
-        finalizarIngresoVehiculo(null, options);
+        const vehiculo = JSON.parse(localStorage.getItem('vehiculo'));
+        finalizarIngresoVehiculo(vehiculo.vehiculoTipoId, options);
     }
         });
     });
