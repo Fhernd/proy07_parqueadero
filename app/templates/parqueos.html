@@ -314,7 +314,7 @@
             }
         });
     } else {
-        
+
         finalizarIngresoVehiculo(null, options);
     }
         });
@@ -855,7 +855,7 @@
                         icon: "success"
                     });
 
-                    localStorage.setItem('placa', placa);
+                    localStorage.setItem('vehiculo', JSON.stringify(response.data));
                 } else {
                     Swal.fire({
                         title: "Advertencia",
@@ -863,7 +863,7 @@
                         icon: "warning"
                     });
 
-                    localStorage.removeItem('placa');
+                    localStorage.removeItem('vehiculo');
                 }
             },
             error: function (error) {

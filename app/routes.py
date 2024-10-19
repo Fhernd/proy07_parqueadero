@@ -1659,6 +1659,7 @@ def buscar_vehiculo(placa):
             'marca': vehiculo.marca,
             'modelo': vehiculo.modelo,
             'tipo': vehiculo.vehiculo_tipo.nombre,
+            'vehiculoTipoId': vehiculo.vehiculo_tipo.id,
             'disponible': vehiculo.disponible
         }
     })
