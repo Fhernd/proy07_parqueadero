@@ -220,6 +220,10 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    window.tiposVehiculos = {{ tipos_vehiculos | tojson | safe }};
+</script>
+
 <script>
     $(document).ready(function () {
         $('#btnSeleccionarSede').click(function () {
@@ -288,35 +292,34 @@
         $('#btnIngresar').click(function () {
             const yaExisteVehiculo = Boolean(localStorage.getItem('placa'));
 
-            const tiposVehiculosOptions = {{ tipos_vehiculos | tojson
-        }};
-    const options = {};
-    tiposVehiculosOptions.forEach((tipoVehiculo) => {
-        options[tipoVehiculo.id] = tipoVehiculo.nombre;
-    });
+            const tiposVehiculosOptions = window.tiposVehiculos;
+            const options = {};
+            tiposVehiculosOptions.forEach((tipoVehiculo) => {
+                options[tipoVehiculo.id] = tipoVehiculo.nombre;
+            });
 
 
-    if (!yaExisteVehiculo) {
-        Swal.fire({
-            title: 'Selecciona una opción',
-            input: 'select',
-            inputOptions: options,
-            inputPlaceholder: 'Selecciona un tipo de vehículo',
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Debes seleccionar una opción'
-                }
+            if (!yaExisteVehiculo) {
+                Swal.fire({
+                    title: 'Selecciona una opción',
+                    input: 'select',
+                    inputOptions: options,
+                    inputPlaceholder: 'Selecciona un tipo de vehículo',
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Debes seleccionar una opción'
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        finalizarIngresoVehiculo(result.value, options);
+                    }
+                });
+            } else {
+                const vehiculo = JSON.parse(localStorage.getItem('vehiculo'));
+                finalizarIngresoVehiculo(vehiculo.vehiculoTipoId, options);
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                finalizarIngresoVehiculo(result.value, options);
-            }
-        });
-    } else {
-        const vehiculo = JSON.parse(localStorage.getItem('vehiculo'));
-        finalizarIngresoVehiculo(vehiculo.vehiculoTipoId, options);
-    }
         });
     });
 
