@@ -221,10 +221,13 @@
 </div>
 
 <div id="data-tipos-vehiculos" data-tipos-vehiculos='{{ tipos_vehiculos|tojson|safe }}'></div>
-
+<div id="data-medios-pago" data-medios-pago='{{ medios_pago |tojson|safe }}'></div>
 <script type="text/javascript">
-    const dataContainer = document.getElementById('data-tipos-vehiculos');
+    let dataContainer = document.getElementById('data-tipos-vehiculos');
     window.tiposVehiculos = JSON.parse(dataContainer.dataset.tiposVehiculos);
+
+    dataContainer = document.getElementById('data-medios-pago');
+    window.mediosPago = JSON.parse(dataContainer.dataset.mediosPago);
 </script>
 
 <script>
@@ -726,13 +729,12 @@
 
         const totalEntero = numeral(total.replaceAll('.', ',')).value();
 
-        const mediosPago = {{ medios_pago | tojson
-    }};
+        const mediosPago = window.mediosPago;
 
-    Swal.fire({
-        title: "<strong>Retiro de Vehículo</strong>",
-        icon: "info",
-        html: `
+        Swal.fire({
+            title: "<strong>Retiro de Vehículo</strong>",
+            icon: "info",
+            html: `
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 text-center mb-3">
@@ -752,54 +754,54 @@
                     </div>
                 </div>
             `,
-        showCloseButton: true,
-        showCancelButton: true,
-        focusConfirm: false,
-        confirmButtonText: `
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: `
     <i class="fa fa-check"></i> Aceptar
   `,
-        confirmButtonAriaLabel: "Aceptar y retirar vehículo",
-        cancelButtonText: `
+            confirmButtonAriaLabel: "Aceptar y retirar vehículo",
+            cancelButtonText: `
     <i class="fa fa-times"></i> Cancelar
   `,
-        cancelButtonAriaLabel: "Cancelar",
-        preConfirm: () => {
-            const metodoPagoId = document.getElementById('metodoPago').value;
-            return fetch('/parqueo/vehiculo/retirar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    placa: placa,
-                    totalPagado: totalEntero,
-                    metodoPagoId: metodoPagoId
+            cancelButtonAriaLabel: "Cancelar",
+            preConfirm: () => {
+                const metodoPagoId = document.getElementById('metodoPago').value;
+                return fetch('/parqueo/vehiculo/retirar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        placa: placa,
+                        totalPagado: totalEntero,
+                        metodoPagoId: metodoPagoId
+                    })
                 })
-            })
-                .then(response => {
-                    if (response.status == 'error') {
-                        Swal.fire({
-                            title: "Error",
-                            text: response.message,
-                            icon: "warning"
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Éxito",
-                            text: "El vehículo fue retirado de forma satisfactoria",
-                            icon: "success"
-                        });
+                    .then(response => {
+                        if (response.status == 'error') {
+                            Swal.fire({
+                                title: "Error",
+                                text: response.message,
+                                icon: "warning"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Éxito",
+                                text: "El vehículo fue retirado de forma satisfactoria",
+                                icon: "success"
+                            });
 
-                        document.getElementById('parqueos-table').deleteRow(index);
-                    }
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(
-                        `Request failed: ${error}`
-                    );
-                });
-        }
-    });
+                            document.getElementById('parqueos-table').deleteRow(index);
+                        }
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        );
+                    });
+            }
+        });
 
     }
 
