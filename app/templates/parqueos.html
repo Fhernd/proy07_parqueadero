@@ -220,8 +220,11 @@
     </div>
 </div>
 
+<div id="data-tipos-vehiculos" data-tipos-vehiculos='{{ tipos_vehiculos|tojson|safe }}'></div>
+
 <script type="text/javascript">
-    window.tiposVehiculos = {{ tipos_vehiculos | tojson | safe }};
+    const dataContainer = document.getElementById('data-tipos-vehiculos');
+    window.tiposVehiculos = JSON.parse(dataContainer.dataset.tiposVehiculos);
 </script>
 
 <script>
@@ -465,18 +468,17 @@
         const placa = row.children[0].textContent;
         const tipoVehiculoNombre = row.children[1].textContent;
 
-        const tiposVehiculos = {{ tipos_vehiculos | tojson
-    }};
+        const tiposVehiculos = window.tiposVehiculos;
 
-    $.ajax({
-        url: `/vehiculo/buscar/${placa}`,
-        type: 'GET',
-        success: function (response) {
-            const vehiculo = response.data;
+        $.ajax({
+            url: `/vehiculo/buscar/${placa}`,
+            type: 'GET',
+            success: function (response) {
+                const vehiculo = response.data;
 
-            Swal.fire({
-                title: "Vehículo",
-                html: `
+                Swal.fire({
+                    title: "Vehículo",
+                    html: `
                         <form class="container" id="frmActualizarVehiculo">
                             <div class="row">
                                 <div class="col-md-12 text-center mb-3">
@@ -506,49 +508,49 @@
                             </div>
                         </form>
                         `
-                ,
-                didOpen: () => {
-                    const form = document.getElementById('frmActualizarVehiculo');
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();
-                        const formData = new FormData(form);
-                        const data = Object.fromEntries(formData.entries());
+                    ,
+                    didOpen: () => {
+                        const form = document.getElementById('frmActualizarVehiculo');
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const formData = new FormData(form);
+                            const data = Object.fromEntries(formData.entries());
 
-                        $.ajax({
-                            url: `/vehiculo/${placa}`,
-                            type: 'PUT',
-                            data: JSON.stringify(data),
-                            contentType: 'application/json',
-                            success: function (response) {
-                                row.children[1].textContent = tiposVehiculos.find(tipoVehiculo => tipoVehiculo.id == data.vehiculoTipoId).nombre;
-                                Swal.fire({
-                                    title: "Éxito",
-                                    text: "El vehículo fue actualizado de forma satisfactoria",
-                                    icon: "success"
-                                });
-                            },
-                            error: function (error) {
-                                console.log(error);
-                                Swal.fire({
-                                    title: "Error",
-                                    text: "Ocurrió un error al intentar actualizar el vehículo.",
-                                    icon: "warning"
-                                });
-                            }
+                            $.ajax({
+                                url: `/vehiculo/${placa}`,
+                                type: 'PUT',
+                                data: JSON.stringify(data),
+                                contentType: 'application/json',
+                                success: function (response) {
+                                    row.children[1].textContent = tiposVehiculos.find(tipoVehiculo => tipoVehiculo.id == data.vehiculoTipoId).nombre;
+                                    Swal.fire({
+                                        title: "Éxito",
+                                        text: "El vehículo fue actualizado de forma satisfactoria",
+                                        icon: "success"
+                                    });
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "Ocurrió un error al intentar actualizar el vehículo.",
+                                        icon: "warning"
+                                    });
+                                }
+                            });
                         });
-                    });
-                }
-            });
-        },
-        error: function (error) {
-            console.log(error);
-            Swal.fire({
-                title: "Error",
-                text: "Ocurrió un error al intentar obtener la información del vehículo.",
-                icon: "warning"
-            });
-        }
-    });
+                    }
+                });
+            },
+            error: function (error) {
+                console.log(error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Ocurrió un error al intentar obtener la información del vehículo.",
+                    icon: "warning"
+                });
+            }
+        });
     }
 
     function verCliente(event) {
