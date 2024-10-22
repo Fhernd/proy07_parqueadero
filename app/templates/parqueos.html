@@ -904,6 +904,10 @@
             </tr>
         `;
         tableBody.insertAdjacentHTML('beforeend', row);
+
+        $(`#btnVerVehiculo-${index}`).click(verVehiculo);
+        $(`#btnVerCliente-${index}`).click(verCliente);
+
         if (!esArrendamiento) {
             setInterval(() => {
                 updateTimer(index, fechaEntrada);
