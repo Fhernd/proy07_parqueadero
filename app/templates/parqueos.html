@@ -473,10 +473,13 @@
 
         const tiposVehiculos = window.tiposVehiculos;
 
+        $.LoadingOverlay('show');
+
         $.ajax({
             url: `/vehiculo/buscar/${placa}`,
             type: 'GET',
             success: function (response) {
+                $.LoadingOverlay('show');
                 const vehiculo = response.data;
 
                 Swal.fire({
@@ -519,12 +522,15 @@
                             const formData = new FormData(form);
                             const data = Object.fromEntries(formData.entries());
 
+                            $.LoadingOverlay('show');
+
                             $.ajax({
                                 url: `/vehiculo/${placa}`,
                                 type: 'PUT',
                                 data: JSON.stringify(data),
                                 contentType: 'application/json',
                                 success: function (response) {
+                                    $.LoadingOverlay('hide');
                                     row.children[1].textContent = tiposVehiculos.find(tipoVehiculo => tipoVehiculo.id == data.vehiculoTipoId).nombre;
                                     Swal.fire({
                                         title: "Éxito",
@@ -533,6 +539,7 @@
                                     });
                                 },
                                 error: function (error) {
+                                    $.LoadingOverlay('hide');
                                     console.log(error);
                                     Swal.fire({
                                         title: "Error",
@@ -546,6 +553,7 @@
                 });
             },
             error: function (error) {
+                $.LoadingOverlay('hide');
                 console.log(error);
                 Swal.fire({
                     title: "Error",
@@ -565,10 +573,13 @@
 
         const placa = row.children[0].textContent;
 
+        $.LoadingOverlay('show');
+
         $.ajax({
             url: `/vehiculo/${placa}/cliente`,
             type: 'GET',
             success: function (response) {
+                $.LoadingOverlay('hide');
                 const cliente = response.data;
 
                 Swal.fire({
@@ -639,6 +650,7 @@
                 });
             },
             error: function (error) {
+                $.LoadingOverlay('hide');
                 Swal.fire({
                     title: "Cliente no encontrado",
                     text: "¿Desea crear un nuevo cliente para este vehículo?",
@@ -683,6 +695,7 @@
                             showCancelButton: true,
                             confirmButtonText: 'Guardar',
                             preConfirm: () => {
+                                $.LoadingOverlay('show');
                                 const form = document.getElementById('frmCrearCliente');
                                 const formData = new FormData(form);
                                 const data = Object.fromEntries(formData.entries());
@@ -694,6 +707,7 @@
                                     data: JSON.stringify(data),
                                     contentType: 'application/json'
                                 }).then(response => {
+                                    $.LoadingOverlay('hide');
                                     if (response.status === 'existente') {
                                         Swal.showValidationMessage(response.message);
                                         return false;
@@ -707,6 +721,7 @@
 
                                     return true;
                                 }).catch(error => {
+                                    $.LoadingOverlay('hide');
                                     Swal.showValidationMessage("Ocurrió un error al intentar crear el cliente.");
                                     console.error(error);
                                     return false;
