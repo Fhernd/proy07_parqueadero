@@ -51,11 +51,9 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar
-            sede</button><br><br>
+        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar sede</button><br><br>
         <button id="btnIngresarVehiculo" class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo"
-            disabled>Ingresar
-            vehículo</button><br>
+            disabled>Ingresar vehículo</button><br>
     </div>
 </div>
 
@@ -266,6 +264,7 @@
         });
 
         $('#mdlIngresoVehiculo').on('show.bs.modal', function () {
+            $('#modulos').css('pointer-events', 'none');
             $.ajax({
                 url: `/sede/${localStorage.getItem('sedeId')}/modulos`,
                 type: 'GET',
@@ -853,6 +852,7 @@
      * Realiza una petición al servidor para buscar un vehículo por placa.
      */
     function buscarVehiculoPorPlaca() {
+        $('#modulos').css('pointer-events', 'auto');
         $.LoadingOverlay('show');
 
         var placa = $('#placa').val().trim();
