@@ -294,6 +294,12 @@
             $('#placa').focus();
         });
 
+        $('#mdlIngresoVehiculo').on('hidden.bs.modal', function () {
+            $('#placa').val('');
+            $('#btnIngresar').attr('disabled', 'disabled');
+            localStorage.removeItem('vehiculo');
+        });
+
         $('#btnIngresar').click(function () {
             const yaExisteVehiculo = Boolean(localStorage.getItem('placa'));
 
