@@ -51,7 +51,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Datos</h6>
     </div>
     <div class="card-body">
-        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar sede</button><br><br>
+        <button class="btn btn-success" data-toggle="modal" data-target="#mdlSelecionarSede">Seleccionar
+            sede</button><br><br>
         <button id="btnIngresarVehiculo" class="btn btn-primary" data-toggle="modal" data-target="#mdlIngresoVehiculo"
             disabled>Ingresar vehículo</button><br>
     </div>
@@ -264,6 +265,7 @@
         });
 
         $('#mdlIngresoVehiculo').on('show.bs.modal', function () {
+            $('#btnIngresar').attr('disabled', 'disabled');
             $('#modulos').css('pointer-events', 'none');
             $.ajax({
                 url: `/sede/${localStorage.getItem('sedeId')}/modulos`,
@@ -310,7 +312,6 @@
             tiposVehiculosOptions.forEach((tipoVehiculo) => {
                 options[tipoVehiculo.id] = tipoVehiculo.nombre;
             });
-
 
             if (!yaExisteVehiculo) {
                 Swal.fire({
@@ -424,6 +425,9 @@
     */
     function seleccionarModulo(event) {
         const selected = document.querySelector('.parking-spot.selected');
+
+        $('#btnIngresar').removeAttr('disabled');
+
         if (selected) {
             selected.classList.remove('selected');
         }
