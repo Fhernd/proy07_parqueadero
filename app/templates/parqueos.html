@@ -490,7 +490,7 @@
             url: `/vehiculo/buscar/${placa}`,
             type: 'GET',
             success: function (response) {
-                $.LoadingOverlay('show');
+                $.LoadingOverlay('hide');
                 const vehiculo = response.data;
 
                 Swal.fire({
@@ -873,8 +873,6 @@
             $.LoadingOverlay('hide');
             return;
         }
-
-        $('#btnIngresar').removeAttr('disabled');
 
         $.ajax({
             url: `/vehiculo/buscar/${placa}`,
