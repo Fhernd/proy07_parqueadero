@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+import io
+import os
+import tempfile
 
 from flask import current_app, flash, g, jsonify, redirect, render_template, request, send_file, url_for
 from flask_login import current_user, login_user, logout_user, login_required
@@ -15,7 +18,6 @@ from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Parqueo, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 from app.util.roles_enum import Roles
 from app.util.utilitarios import to_json
-
 
 propietario_role = RoleNeed(Roles.PROPIETARIO.value)
 admin_role = RoleNeed(Roles.ADMINISTRADOR.value)
@@ -1979,14 +1981,15 @@ def generar_ticket():
     costo_servicio = "5.00"
     nombre_atendedor = "Juan Pérez"
     condiciones_servicio = "Este servicio no se hace responsable por objetos dejados dentro del vehículo."
-    
+
     # Crear un buffer de memoria para el PDF
     pdf_buffer = io.BytesIO()
     c = canvas.Canvas(pdf_buffer, pagesize=A4)
     ancho, alto = A4
 
-    # Logo del parqueadero (asegúrate de tener el logo en la misma carpeta o proporciona una ruta correcta)
-    c.drawImage("logo.png", 2 * cm, alto - 3 * cm, width=4 * cm, height=4 * cm)
+    # Ruta de la imagen del logo
+    logo_path = os.path.join('app', 'static', 'images', 'logo-generico.png')
+    c.drawImage(logo_path, 2 * cm, alto - 3 * cm, width=4 * cm, height=4 * cm)
 
     # Información del parqueadero
     c.setFont("Helvetica-Bold", 12)
@@ -2021,13 +2024,13 @@ def generar_ticket():
     """
     qr = qrcode.make(qr_data)
 
-    # Guardar el código QR en un buffer de memoria
-    qr_buffer = io.BytesIO()
-    qr.save(qr_buffer)
-    qr_buffer.seek(0)
+    # Crear un archivo temporal para guardar el QR
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_qr_file:
+        qr.save(temp_qr_file.name)  # Guardar el QR en el archivo temporal
+        qr_path = temp_qr_file.name
 
-    # Agregar el código QR al PDF
-    c.drawImage(qr_buffer, 14 * cm, alto - 15 * cm, width=5 * cm, height=5 * cm)
+    # Agregar el código QR al PDF usando la ruta del archivo temporal
+    c.drawImage(qr_path, 14 * cm, alto - 15 * cm, width=5 * cm, height=5 * cm)
 
     # Finalizar y guardar el PDF en el buffer de memoria
     c.showPage()
@@ -2035,6 +2038,9 @@ def generar_ticket():
 
     # Mover el puntero del buffer al inicio
     pdf_buffer.seek(0)
+
+    # Eliminar el archivo temporal de QR después de usarlo
+    os.remove(qr_path)
 
     # Retornar el PDF como respuesta
     return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name='ticket_parqueadero.pdf')
