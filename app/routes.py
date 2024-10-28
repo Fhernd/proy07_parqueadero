@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
+from reportlab.lib.pagesizes import cm
 import qrcode
 
 from app import app, db
@@ -1974,7 +1975,6 @@ def editar_vehiculo(placa):
 
 @app.route('/generar_ticket', methods=['GET'])
 def generar_ticket():
-    # Configuración de los datos del ticket
     nombre_parqueadero = "Parqueadero Central"
     registro_comercial = "RUC: 20600431065"
     placa = "ABC-123"
@@ -1982,37 +1982,37 @@ def generar_ticket():
     nombre_atendedor = "Juan Pérez"
     condiciones_servicio = "Este servicio no se hace responsable por objetos dejados dentro del vehículo."
 
-    # Crear un buffer de memoria para el PDF
+    # Definir el tamaño del ticket en centímetros (8 cm x 12 cm)
+    ticket_width = 8 * cm
+    ticket_height = 12 * cm
+
     pdf_buffer = io.BytesIO()
-    c = canvas.Canvas(pdf_buffer, pagesize=A4)
-    ancho, alto = A4
+    c = canvas.Canvas(pdf_buffer, pagesize=(ticket_width, ticket_height))
+    ancho, alto = ticket_width, ticket_height
 
-    # Ruta de la imagen del logo
+    # Ajustar las posiciones de los elementos
     logo_path = os.path.join('app', 'static', 'images', 'logo-generico.png')
-    c.drawImage(logo_path, 2 * cm, alto - 3 * cm, width=4 * cm, height=4 * cm)
+    c.drawImage(logo_path, 0.5 * cm, alto - 2 * cm, width=2 * cm, height=2 * cm)
 
-    # Información del parqueadero
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(2 * cm, alto - 4.5 * cm, nombre_parqueadero)
-    c.setFont("Helvetica", 10)
-    c.drawString(2 * cm, alto - 5.5 * cm, f"Registro Comercial: {registro_comercial}")
-    c.drawString(2 * cm, alto - 6.5 * cm, f"Fecha/Hora de Ingreso: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    c.drawString(2 * cm, alto - 7.5 * cm, f"Placa del Vehículo: {placa}")
-
-    # Detalles del servicio
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(2 * cm, alto - 9 * cm, "Detalles del Servicio")
-    c.setFont("Helvetica", 10)
-    c.drawString(2 * cm, alto - 10 * cm, f"Costo por unidad de tiempo: S/ {costo_servicio}")
-    c.drawString(2 * cm, alto - 11 * cm, f"Atendido por: {nombre_atendedor}")
-
-    # Condiciones del servicio
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(2 * cm, alto - 12.5 * cm, "Condiciones del Servicio:")
+    c.drawString(3 * cm, alto - 1.5 * cm, nombre_parqueadero)
     c.setFont("Helvetica", 8)
-    c.drawString(2 * cm, alto - 13.5 * cm, condiciones_servicio)
+    c.drawString(0.5 * cm, alto - 3 * cm, f"Registro Comercial: {registro_comercial}")
+    c.drawString(0.5 * cm, alto - 4 * cm, f"Fecha/Hora de Ingreso: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    c.drawString(0.5 * cm, alto - 5 * cm, f"Placa del Vehículo: {placa}")
 
-    # Generar el código QR con la información sin el logo
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(0.5 * cm, alto - 6.5 * cm, "Detalles del Servicio")
+    c.setFont("Helvetica", 8)
+    c.drawString(0.5 * cm, alto - 7.5 * cm, f"Costo por unidad de tiempo: S/ {costo_servicio}")
+    c.drawString(0.5 * cm, alto - 8.5 * cm, f"Atendido por: {nombre_atendedor}")
+
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(0.5 * cm, alto - 10 * cm, "Condiciones del Servicio:")
+    c.setFont("Helvetica", 7)
+    c.drawString(0.5 * cm, alto - 11 * cm, condiciones_servicio)
+
+    # Generar y agregar el código QR
     qr_data = f"""
     Nombre del Parqueadero: {nombre_parqueadero}
     Registro Comercial: {registro_comercial}
@@ -2024,25 +2024,20 @@ def generar_ticket():
     """
     qr = qrcode.make(qr_data)
 
-    # Crear un archivo temporal para guardar el QR
     with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_qr_file:
-        qr.save(temp_qr_file.name)  # Guardar el QR en el archivo temporal
+        qr.save(temp_qr_file.name)
         qr_path = temp_qr_file.name
 
-    # Agregar el código QR al PDF usando la ruta del archivo temporal
-    c.drawImage(qr_path, 14 * cm, alto - 15 * cm, width=5 * cm, height=5 * cm)
+    c.drawImage(qr_path, 5 * cm, alto - 8 * cm, width=2 * cm, height=2 * cm)
 
-    # Finalizar y guardar el PDF en el buffer de memoria
     c.showPage()
     c.save()
 
-    # Mover el puntero del buffer al inicio
     pdf_buffer.seek(0)
-
-    # Eliminar el archivo temporal de QR después de usarlo
     os.remove(qr_path)
 
-    fecha_hora = datetime.now().strftime('%Y%m%d%H%M%S')
+    fecha_hora = datetime.now().strftime('%Y%m%d_%H%M%S')
     nombre_archivo = f"ticket_parqueadero_{fecha_hora}.pdf"
 
     return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name=nombre_archivo)
+
