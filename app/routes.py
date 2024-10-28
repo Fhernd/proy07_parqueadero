@@ -2042,5 +2042,7 @@ def generar_ticket():
     # Eliminar el archivo temporal de QR después de usarlo
     os.remove(qr_path)
 
-    # Retornar el PDF como respuesta
-    return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name='ticket_parqueadero.pdf')
+    fecha_hora = datetime.now().strftime('%Y%m%d%H%M%S')
+    nombre_archivo = f"ticket_parqueadero_{fecha_hora}.pdf"
+
+    return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name=nombre_archivo)
