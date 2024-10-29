@@ -1992,15 +1992,15 @@ def generar_ticket():
 
     # Cargar y ajustar el logo
     logo_path = os.path.join('app', 'static', 'images', 'logo-generico.png')
-    c.drawImage(logo_path, (ancho - 128) / 2, alto - 128, width=128, height=128, mask='auto')
+    c.drawImage(logo_path, (ancho - 64) / 2, alto - 64, width=64, height=64, mask='auto')
 
     # Nombre del parqueadero centrado y con espacio de 5 píxeles
     c.setFont("Helvetica-Bold", 12)
-    c.drawCentredString(ancho / 2, alto - 135, nombre_parqueadero)
+    c.drawCentredString(ancho / 2, alto - 85, nombre_parqueadero)
 
     # Información de registro y otros detalles del servicio
     c.setFont("Helvetica", 9)
-    y_position = alto - 155  # Comenzamos debajo del nombre del parqueadero
+    y_position = alto - 100  # Comenzamos debajo del nombre del parqueadero
     line_spacing = 12  # Espaciado más compacto entre líneas
 
     c.drawString(0.5 * cm, y_position, f"Registro Comercial: {registro_comercial}")
@@ -2036,7 +2036,7 @@ def generar_ticket():
         qr_path = temp_qr_file.name
 
     # Posicionar el QR a la derecha
-    c.drawImage(qr_path, ancho - 3 * cm, alto - 8 * cm, width=2 * cm, height=2 * cm)
+    c.drawImage(qr_path, ancho - 2.5 * cm, alto - 11.5 * cm, width=2 * cm, height=2 * cm)
 
     # Condiciones del servicio
     y_position -= line_spacing * 2
