@@ -9,8 +9,8 @@ from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, ide
 from werkzeug.security import generate_password_hash
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
+from reportlab.lib.colors import black, grey
 from reportlab.lib.units import cm
-from reportlab.lib.pagesizes import cm
 import qrcode
 
 from app import app, db
@@ -1990,27 +1990,34 @@ def generar_ticket():
     c = canvas.Canvas(pdf_buffer, pagesize=(ticket_width, ticket_height))
     ancho, alto = ticket_width, ticket_height
 
-    # Ajustar las posiciones de los elementos
+    # Cargar y ajustar el logo
     logo_path = os.path.join('app', 'static', 'images', 'logo-generico.png')
-    c.drawImage(logo_path, 0.5 * cm, alto - 2 * cm, width=2 * cm, height=2 * cm)
+    c.drawImage(logo_path, (ancho - 128) / 2, alto - 128, width=128, height=128, mask='auto')
 
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(3 * cm, alto - 1.5 * cm, nombre_parqueadero)
-    c.setFont("Helvetica", 8)
-    c.drawString(0.5 * cm, alto - 3 * cm, f"Registro Comercial: {registro_comercial}")
-    c.drawString(0.5 * cm, alto - 4 * cm, f"Fecha/Hora de Ingreso: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    c.drawString(0.5 * cm, alto - 5 * cm, f"Placa del Vehículo: {placa}")
+    # Nombre del parqueadero centrado y con espacio de 5 píxeles
+    c.setFont("Helvetica-Bold", 12)
+    c.drawCentredString(ancho / 2, alto - 135, nombre_parqueadero)
 
-    c.setFont("Helvetica-Bold", 8)
-    c.drawString(0.5 * cm, alto - 6.5 * cm, "Detalles del Servicio")
-    c.setFont("Helvetica", 8)
-    c.drawString(0.5 * cm, alto - 7.5 * cm, f"Costo por unidad de tiempo: S/ {costo_servicio}")
-    c.drawString(0.5 * cm, alto - 8.5 * cm, f"Atendido por: {nombre_atendedor}")
+    # Información de registro y otros detalles del servicio
+    c.setFont("Helvetica", 9)
+    y_position = alto - 155  # Comenzamos debajo del nombre del parqueadero
+    line_spacing = 12  # Espaciado más compacto entre líneas
 
-    c.setFont("Helvetica-Bold", 8)
-    c.drawString(0.5 * cm, alto - 10 * cm, "Condiciones del Servicio:")
-    c.setFont("Helvetica", 7)
-    c.drawString(0.5 * cm, alto - 11 * cm, condiciones_servicio)
+    c.drawString(0.5 * cm, y_position, f"Registro Comercial: {registro_comercial}")
+    y_position -= line_spacing
+    c.drawString(0.5 * cm, y_position, f"Fecha/Hora de Ingreso: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    y_position -= line_spacing
+    c.drawString(0.5 * cm, y_position, f"Placa del Vehículo: {placa}")
+
+    # Detalles del Servicio y QR a la derecha
+    y_position -= line_spacing * 1.5
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(0.5 * cm, y_position, "Detalles del Servicio")
+    y_position -= line_spacing
+    c.setFont("Helvetica", 9)
+    c.drawString(0.5 * cm, y_position, f"Costo por unidad de tiempo: S/ {costo_servicio}")
+    y_position -= line_spacing
+    c.drawString(0.5 * cm, y_position, f"Atendido por: {nombre_atendedor}")
 
     # Generar y agregar el código QR
     qr_data = f"""
@@ -2028,8 +2035,24 @@ def generar_ticket():
         qr.save(temp_qr_file.name)
         qr_path = temp_qr_file.name
 
-    c.drawImage(qr_path, 5 * cm, alto - 8 * cm, width=2 * cm, height=2 * cm)
+    # Posicionar el QR a la derecha
+    c.drawImage(qr_path, ancho - 3 * cm, alto - 8 * cm, width=2 * cm, height=2 * cm)
 
+    # Condiciones del servicio
+    y_position -= line_spacing * 2
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(0.5 * cm, y_position, "Condiciones del Servicio:")
+    y_position -= line_spacing
+
+    c.setFont("Helvetica", 7)
+    text = c.beginText(0.5 * cm, y_position)
+    text.setTextOrigin(0.5 * cm, y_position)
+    text.setLeading(10)
+    text.setFont("Helvetica", 7)
+    text.textLines(condiciones_servicio)
+    c.drawText(text)
+
+    # Finalizar y guardar el PDF
     c.showPage()
     c.save()
 
@@ -2040,4 +2063,5 @@ def generar_ticket():
     nombre_archivo = f"ticket_parqueadero_{fecha_hora}.pdf"
 
     return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name=nombre_archivo)
+
 
