@@ -9,7 +9,8 @@ from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, ide
 from werkzeug.security import generate_password_hash
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from reportlab.lib.colors import black, grey
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import cm
 import qrcode
 
@@ -1975,6 +1976,9 @@ def editar_vehiculo(placa):
 
 @app.route('/generar_ticket', methods=['GET'])
 def generar_ticket():
+    """
+    Genera un ticket de parqueadero.
+    """
     nombre_parqueadero = "Parqueadero Central"
     registro_comercial = "RUC: 20600431065"
     placa = "ABC-123"
@@ -1982,7 +1986,6 @@ def generar_ticket():
     nombre_atendedor = "Juan Pérez"
     condiciones_servicio = "Este servicio no se hace responsable por objetos dejados dentro del vehículo."
 
-    # Definir el tamaño del ticket en centímetros (8 cm x 12 cm)
     ticket_width = 8 * cm
     ticket_height = 12 * cm
 
@@ -1990,18 +1993,15 @@ def generar_ticket():
     c = canvas.Canvas(pdf_buffer, pagesize=(ticket_width, ticket_height))
     ancho, alto = ticket_width, ticket_height
 
-    # Cargar y ajustar el logo
     logo_path = os.path.join('app', 'static', 'images', 'logo-generico.png')
     c.drawImage(logo_path, (ancho - 64) / 2, alto - 64, width=64, height=64, mask='auto')
 
-    # Nombre del parqueadero centrado y con espacio de 5 píxeles
     c.setFont("Helvetica-Bold", 12)
     c.drawCentredString(ancho / 2, alto - 85, nombre_parqueadero)
 
-    # Información de registro y otros detalles del servicio
     c.setFont("Helvetica", 9)
-    y_position = alto - 100  # Comenzamos debajo del nombre del parqueadero
-    line_spacing = 12  # Espaciado más compacto entre líneas
+    y_position = alto - 100
+    line_spacing = 12
 
     c.drawString(0.5 * cm, y_position, f"Registro Comercial: {registro_comercial}")
     y_position -= line_spacing
@@ -2009,7 +2009,6 @@ def generar_ticket():
     y_position -= line_spacing
     c.drawString(0.5 * cm, y_position, f"Placa del Vehículo: {placa}")
 
-    # Detalles del Servicio y QR a la derecha
     y_position -= line_spacing * 1.5
     c.setFont("Helvetica-Bold", 9)
     c.drawString(0.5 * cm, y_position, "Detalles del Servicio")
@@ -2019,7 +2018,6 @@ def generar_ticket():
     y_position -= line_spacing
     c.drawString(0.5 * cm, y_position, f"Atendido por: {nombre_atendedor}")
 
-    # Generar y agregar el código QR
     qr_data = f"""
     Nombre del Parqueadero: {nombre_parqueadero}
     Registro Comercial: {registro_comercial}
@@ -2035,7 +2033,6 @@ def generar_ticket():
         qr.save(temp_qr_file.name)
         qr_path = temp_qr_file.name
 
-    # Posicionar el QR a la derecha
     c.drawImage(qr_path, ancho - 2.5 * cm, alto - 11.5 * cm, width=2 * cm, height=2 * cm)
 
     # Condiciones del servicio
@@ -2044,15 +2041,24 @@ def generar_ticket():
     c.drawString(0.5 * cm, y_position, "Condiciones del Servicio:")
     y_position -= line_spacing
 
+    styles = getSampleStyleSheet()
+    style = styles['Normal']
+    style.fontName = 'Helvetica'
+    style.fontSize = 7
+    style.leading = 10
+
+    paragraph = Paragraph(condiciones_servicio, style)
+
+    width, height = paragraph.wrap(ticket_width - 20, 0)
+
     c.setFont("Helvetica", 7)
     text = c.beginText(0.5 * cm, y_position)
     text.setTextOrigin(0.5 * cm, y_position)
     text.setLeading(10)
     text.setFont("Helvetica", 7)
-    text.textLines(condiciones_servicio)
-    c.drawText(text)
 
-    # Finalizar y guardar el PDF
+    paragraph.drawOn(c, 0.5 * cm, y_position - height)
+
     c.showPage()
     c.save()
 
