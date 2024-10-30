@@ -403,6 +403,59 @@
                 agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculoAsignado, esArrendamiento: esArrendamiento });
 
                 $('#mdlIngresoVehiculo').modal('hide');
+
+                // Configuración para la solicitud
+                const requestOptions = {
+                    method: "GET",
+                    redirect: "follow"
+                };
+
+                fetch("/generar_ticket", requestOptions)
+                    .then(response => response.blob()) // Convertir la respuesta en un blob (PDF)
+                    .then(pdfBlob => {
+                        // Crear URL del blob para el PDF
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+                        // Mostrar el PDF en una ventana emergente de SweetAlert2
+                        Swal.fire({
+                            title: 'Ticket PDF',
+                            html: `
+        <iframe src="${pdfUrl}" width="100%" height="400px" style="border:none;"></iframe>
+      `,
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            showCancelButton: false,
+                            footer: `
+        <button id="close-btn" class="swal2-styled">Cerrar</button>
+        <button id="print-btn" class="swal2-styled">Imprimir</button>
+        <button id="save-btn" class="swal2-styled">Guardar</button>
+      `,
+                            didOpen: () => {
+                                // Función para cerrar la ventana
+                                document.getElementById("close-btn").addEventListener("click", () => {
+                                    Swal.close();
+                                });
+
+                                // Función para imprimir el PDF
+                                document.getElementById("print-btn").addEventListener("click", () => {
+                                    const printWindow = window.open(pdfUrl);
+                                    printWindow.print();
+                                });
+
+                                // Función para guardar el PDF
+                                document.getElementById("save-btn").addEventListener("click", () => {
+                                    const a = document.createElement("a");
+                                    a.href = pdfUrl;
+                                    a.download = "ticket.pdf";
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                });
+                            }
+                        });
+                    })
+                    .catch(error => console.error("Error:", error));
+
             },
             error: function (error) {
                 $.LoadingOverlay('hide');

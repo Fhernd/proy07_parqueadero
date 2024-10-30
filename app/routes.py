@@ -2069,5 +2069,3 @@ def generar_ticket():
     nombre_archivo = f"ticket_parqueadero_{fecha_hora}.pdf"
 
     return send_file(pdf_buffer, mimetype='application/pdf', as_attachment=True, download_name=nombre_archivo)
-
-
