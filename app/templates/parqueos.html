@@ -404,7 +404,6 @@
 
                 $('#mdlIngresoVehiculo').modal('hide');
 
-                // Configuración para la solicitud
                 const requestOptions = {
                     method: "GET",
                     redirect: "follow"
@@ -426,21 +425,18 @@
                             footer: `
         <button id="close-btn" class="btn btn-secondary">Cerrar</button>
         <button id="print-btn" class="btn btn-primary">Imprimir</button>
-        <button id="save-btn" class="btn btn/success">Guardar</button>
+        <button id="save-btn" class="btn btn-success">Guardar</button>
       `,
                             didOpen: () => {
-                                // Función para cerrar la ventana
                                 document.getElementById("close-btn").addEventListener("click", () => {
                                     Swal.close();
                                 });
 
-                                // Función para imprimir el PDF
                                 document.getElementById("print-btn").addEventListener("click", () => {
                                     const printWindow = window.open(pdfUrl);
                                     printWindow.print();
                                 });
 
-                                // Función para guardar el PDF
                                 document.getElementById("save-btn").addEventListener("click", () => {
                                     const a = document.createElement("a");
                                     a.href = pdfUrl;
@@ -452,8 +448,13 @@
                             }
                         });
                     })
-                    .catch(error => console.error("Error:", error));
-
+                    .catch(error => {
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: "Ocurrió un error al intentar generar el ticket.",
+                            icon: "warning"
+                        });
+                    });
             },
             error: function (error) {
                 $.LoadingOverlay('hide');
@@ -461,7 +462,7 @@
 
                 Swal.fire({
                     title: "Error",
-                    text: "Ocurrió un error al intentar ingresar el vehículo",
+                    text: "Ocurrió un error al intentar ingresar el vehículo.",
                     icon: "warning"
                 });
             }
