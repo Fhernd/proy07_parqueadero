@@ -411,24 +411,22 @@
                 };
 
                 fetch("/generar_ticket", requestOptions)
-                    .then(response => response.blob()) // Convertir la respuesta en un blob (PDF)
+                    .then(response => response.blob())
                     .then(pdfBlob => {
-                        // Crear URL del blob para el PDF
                         const pdfUrl = URL.createObjectURL(pdfBlob);
 
-                        // Mostrar el PDF en una ventana emergente de SweetAlert2
                         Swal.fire({
                             title: 'Ticket PDF',
                             html: `
-        <iframe src="${pdfUrl}" width="100%" height="400px" style="border:none;"></iframe>
+        <iframe src="${pdfUrl}" width="100%" height="530px" style="border:none;"></iframe>
       `,
                             showCloseButton: true,
                             showConfirmButton: false,
                             showCancelButton: false,
                             footer: `
-        <button id="close-btn" class="swal2-styled">Cerrar</button>
-        <button id="print-btn" class="swal2-styled">Imprimir</button>
-        <button id="save-btn" class="swal2-styled">Guardar</button>
+        <button id="close-btn" class="btn btn-secondary">Cerrar</button>
+        <button id="print-btn" class="btn btn-primary">Imprimir</button>
+        <button id="save-btn" class="btn btn/success">Guardar</button>
       `,
                             didOpen: () => {
                                 // Función para cerrar la ventana
