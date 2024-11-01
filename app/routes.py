@@ -1974,14 +1974,16 @@ def editar_vehiculo(placa):
     return jsonify({'status': 'success', 'message': 'Vehículo editado exitosamente'}), 200
 
 
-@app.route('/generar_ticket', methods=['GET'])
-def generar_ticket():
+@app.route('/generar_ticket/<string:placa>', methods=['GET'])
+def generar_ticket(placa):
     """
     Genera un ticket de parqueadero.
     """
-    nombre_parqueadero = "Parqueadero Central"
-    registro_comercial = "RUC: 20600431065"
-    placa = "ABC-123"
+    
+    parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
+
+    nombre_parqueadero = parqueadero.nombre
+    registro_comercial = f'Registro comercial: {parqueadero.rut}'
     costo_servicio = "5.00"
     nombre_atendedor = "Juan Pérez"
     condiciones_servicio = "Este servicio no se hace responsable por objetos dejados dentro del vehículo."
