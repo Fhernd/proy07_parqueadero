@@ -409,7 +409,7 @@
                     redirect: "follow"
                 };
 
-                fetch("/generar_ticket", requestOptions)
+                fetch(`/generar_ticket/${placa}`, requestOptions)
                     .then(response => response.blob())
                     .then(pdfBlob => {
                         const pdfUrl = URL.createObjectURL(pdfBlob);

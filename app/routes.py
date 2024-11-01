@@ -1981,11 +1981,16 @@ def generar_ticket(placa):
     """
     
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
+    vehiculo = Vehiculo.query.filter_by(placa=placa).first()
+
+    tarifa = vehiculo.vehiculo_tipo.vehiculo_tipo.tarifa
+    tarifa_costo = tarifa.costo
+    tarifa_unidad_tiempo = tarifa.tarifa_tipo.unidad
 
     nombre_parqueadero = parqueadero.nombre
     registro_comercial = f'Registro comercial: {parqueadero.rut}'
-    costo_servicio = "5.00"
-    nombre_atendedor = "Juan Pérez"
+    costo_servicio = f'{tarifa_costo} por {tarifa_unidad_tiempo}'
+    nombre_atendedor = current_user.nombre
     condiciones_servicio = "Este servicio no se hace responsable por objetos dejados dentro del vehículo."
 
     ticket_width = 8 * cm
@@ -2025,7 +2030,7 @@ def generar_ticket(placa):
     Registro Comercial: {registro_comercial}
     Fecha/Hora de Ingreso: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
     Placa del Vehículo: {placa}
-    Costo por unidad de tiempo: S/ {costo_servicio}
+    Costo por unidad de tiempo: $ {costo_servicio}
     Atendido por: {nombre_atendedor}
     Condiciones: {condiciones_servicio}
     """
