@@ -974,7 +974,7 @@
                 <td>${celdaArrendamientoONormal}</td>
                 ${celdaTotal}
                 <td>
-                    <button class="btn btn-warning">Retirar</button>
+                    <button class="btn btn-warning" id="btnRetirar-${index}">Retirar</button>
                     <button class="btn btn-primary" id="btnVerVehiculo-${index}"><i class="fas fa-car"></i></button>
                     <button class="btn btn-info" id="btnVerCliente-${index}"><i class="fas fa-user-alt"></i></button>
                 </td>
@@ -982,6 +982,7 @@
         `;
         tableBody.insertAdjacentHTML('beforeend', row);
 
+        $(`#btnRetirar-${index}`).click(retirarVehiculo);
         $(`#btnVerVehiculo-${index}`).click(verVehiculo);
         $(`#btnVerCliente-${index}`).click(verCliente);
 
