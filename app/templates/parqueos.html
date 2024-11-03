@@ -312,16 +312,16 @@
             const yaExisteVehiculo = Boolean(localStorage.getItem('placa'));
 
             const tiposVehiculosOptions = window.tiposVehiculos;
-            const options = {};
+            const opcionesTipoVehiculo = {};
             tiposVehiculosOptions.forEach((tipoVehiculo) => {
-                options[tipoVehiculo.id] = tipoVehiculo.nombre;
+                opcionesTipoVehiculo[tipoVehiculo.id] = tipoVehiculo.nombre;
             });
 
             if (!yaExisteVehiculo) {
                 Swal.fire({
                     title: 'Selecciona una opción',
                     input: 'select',
-                    inputOptions: options,
+                    inputOptions: opcionesTipoVehiculo,
                     inputPlaceholder: 'Selecciona un tipo de vehículo',
                     showCancelButton: true,
                     inputValidator: (value) => {
@@ -331,12 +331,34 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        finalizarIngresoVehiculo(result.value, options);
+                        const tarifas = window.tarifas;
+
+                        const opcionesTarifas = tarifas.reduce((acc, tarifa) => {
+                            acc[tarifa.id] = tarifa.nombre;
+                            return acc;
+                        }, {});
+
+                        Swal.fire({
+                            title: 'Selecciona una opción',
+                            input: 'select',
+                            inputOptions: opcionesTarifas,
+                            inputPlaceholder: 'Selecciona una tarifa',
+                            showCancelButton: true,
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return 'Debes seleccionar una opción'
+                                }
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                finalizarIngresoVehiculo(result.value, opcionesTipoVehiculo, opcionesTarifas);
+                            }
+                        });
                     }
                 });
             } else {
                 const vehiculo = JSON.parse(localStorage.getItem('vehiculo'));
-                finalizarIngresoVehiculo(vehiculo.vehiculoTipoId, options);
+                finalizarIngresoVehiculo(vehiculo.vehiculoTipoId, opcionesTipoVehiculo);
             }
         });
     });
