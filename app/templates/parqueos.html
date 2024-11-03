@@ -221,12 +221,16 @@
 
 <div id="data-tipos-vehiculos" data-tipos-vehiculos='{{ tipos_vehiculos|tojson|safe }}'></div>
 <div id="data-medios-pago" data-medios-pago='{{ medios_pago |tojson|safe }}'></div>
+<div id="data-tarifas" data-tarifas='{{ tarifas |tojson|safe }}'></div>
 <script type="text/javascript">
     let dataContainer = document.getElementById('data-tipos-vehiculos');
     window.tiposVehiculos = JSON.parse(dataContainer.dataset.tiposVehiculos);
 
     dataContainer = document.getElementById('data-medios-pago');
     window.mediosPago = JSON.parse(dataContainer.dataset.mediosPago);
+
+    dataContainer = document.getElementById('data-tarifas');
+    window.tarifas = JSON.parse(dataContainer.dataset.tarifas);
 </script>
 
 <script>
