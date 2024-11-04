@@ -357,10 +357,11 @@ class Vehiculo(db.Model):
     disponible = db.Column(db.Boolean, nullable=False, default=True)
     marca = db.Column(db.String(32))
     modelo = db.Column(db.String(4))
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    tarifa_id = db.Column(db.Integer, db.ForeignKey('tarifa.id'), nullable=True)
     vehiculo_tipo_id = db.Column(db.Integer, db.ForeignKey('vehiculo_tipo.id'), nullable=True)
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=True)
+    updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.current_timestamp())
 
     parqueos = db.relationship('Parqueo', back_populates='vehiculo')
     cliente = db.relationship("Cliente", back_populates="vehiculos")
