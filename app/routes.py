@@ -1788,9 +1788,9 @@ def parqueos_activos(sede_id):
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
                     'tarifa': {
-                        'id': parqueo.vehiculo.vehiculo_tipo.tarifa.id,
-                        'nombre': parqueo.vehiculo.vehiculo_tipo.tarifa.nombre,
-                        'costo': parqueo.vehiculo.vehiculo_tipo.tarifa.costo
+                        'id': parqueo.vehiculo.tarifa.id,
+                        'nombre': parqueo.vehiculo.tarifa.nombre,
+                        'costo': parqueo.vehiculo.tarifa.costo
                     }
                 },
                 'modulo': {
