@@ -673,16 +673,16 @@ def insert_initial_values():
 
     if not VehiculoTipo.query.first():
         data = [
-            VehiculoTipo(id=1, nombre='Motocicleta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=2, nombre='Automóvil', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=3, nombre='Camioneta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=4, nombre='Camión', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=5, nombre='Bus', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=6, nombre='Bicicleta', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=7, nombre='Motocicleta Deportiva', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=8, nombre='Automóvil Familiar', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=9, nombre='Camioneta SUV', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
-            VehiculoTipo(id=10, nombre='Camión Articulado', tarifa_id=1, created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
+            VehiculoTipo(id=1, nombre='Motocicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=2, nombre='Automóvil', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=3, nombre='Camioneta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=4, nombre='Camión', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=5, nombre='Bus', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=6, nombre='Bicicleta', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=7, nombre='Motocicleta Deportiva', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=8, nombre='Automóvil Familiar', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=9, nombre='Camioneta SUV', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17)),
+            VehiculoTipo(id=10, nombre='Camión Articulado', created_at=datetime(2024, 4, 17), updated_at=datetime(2024, 4, 17))
         ]
         
         db.session.bulk_save_objects(data)
@@ -690,14 +690,14 @@ def insert_initial_values():
 
     if not Vehiculo.query.first():
         vehiculos = [
-            Vehiculo(placa='ABC123', disponible=True, marca='Chevrolet', modelo='2021', vehiculo_tipo_id=2, cliente_id=1, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='DEF456', disponible=True, marca='Renault', modelo='2020', vehiculo_tipo_id=2, cliente_id=2, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='GHI789', disponible=True, marca='Mazda', modelo='2019', vehiculo_tipo_id=2, cliente_id=3, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='JKL012', disponible=True, marca='Toyota', modelo='2018', vehiculo_tipo_id=2, cliente_id=4, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='MNO345', disponible=True, marca='Nissan', modelo='2017', vehiculo_tipo_id=2, cliente_id=5, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='PQR678', disponible=True, marca='Ford', modelo='2016', vehiculo_tipo_id=2, cliente_id=6, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='STU901', disponible=True, marca='Kia', modelo='2015', vehiculo_tipo_id=2, cliente_id=7, created_at=datetime.now(), updated_at=datetime.now()),
-            Vehiculo(placa='VWX234', disponible=True, marca='Hyundai', modelo='2014', vehiculo_tipo_id=2, cliente_id=8, created_at=datetime.now(), updated_at=datetime.now())
+            Vehiculo(placa='ABC123', disponible=True, marca='Chevrolet', modelo='2021', vehiculo_tipo_id=2, cliente_id=1, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='DEF456', disponible=True, marca='Renault', modelo='2020', vehiculo_tipo_id=2, cliente_id=2, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='GHI789', disponible=True, marca='Mazda', modelo='2019', vehiculo_tipo_id=2, cliente_id=3, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='JKL012', disponible=True, marca='Toyota', modelo='2018', vehiculo_tipo_id=2, cliente_id=4, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='MNO345', disponible=True, marca='Nissan', modelo='2017', vehiculo_tipo_id=2, cliente_id=5, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='PQR678', disponible=True, marca='Ford', modelo='2016', vehiculo_tipo_id=2, cliente_id=6, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='STU901', disponible=True, marca='Kia', modelo='2015', vehiculo_tipo_id=2, cliente_id=7, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now()),
+            Vehiculo(placa='VWX234', disponible=True, marca='Hyundai', modelo='2014', vehiculo_tipo_id=2, cliente_id=8, tarifa_id=1, created_at=datetime.now(), updated_at=datetime.now())
         ]
 
         db.session.add_all(vehiculos)
