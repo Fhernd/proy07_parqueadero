@@ -1700,12 +1700,7 @@ def ingresar_parqueo():
         tipo_vehiculo = VehiculoTipo.query.get(data.get('vehiculoTipoId'))
         tipo_vehiculo = {
             'id': tipo_vehiculo.id,
-            'nombre': tipo_vehiculo.nombre,
-            'tarifa': {
-                'id': tipo_vehiculo.tarifa.id,
-                'nombre': tipo_vehiculo.tarifa.nombre,
-                'costo': tipo_vehiculo.tarifa.costo
-            }
+            'nombre': tipo_vehiculo.nombre
         }
 
         if vehiculo is not None:
@@ -1733,7 +1728,8 @@ def ingresar_parqueo():
             vehiculo_tipo_id = data.get('vehiculoTipoId')
             vehiculo = Vehiculo(
                 placa=placa,
-                vehiculo_tipo_id=vehiculo_tipo_id
+                vehiculo_tipo_id=vehiculo_tipo_id,
+                tarifa_id=data.get('tarifaId'),
             )
 
             db.session.add(vehiculo)
