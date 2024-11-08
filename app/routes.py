@@ -1704,6 +1704,14 @@ def ingresar_parqueo():
         }
 
         if vehiculo is not None:
+
+            tarifa = Tarifa.query.get(vehiculo.tarifa_id)
+            tipo_vehiculo['tarifa'] = {
+                'id': tarifa.id,
+                'nombre': tarifa.nombre,
+                'costo': tarifa.costo
+            }
+
             parqueo = Parqueo.query.filter_by(vehiculo_id=vehiculo.id, fecha_hora_salida=None).first()
 
             if parqueo is not None:
@@ -1731,6 +1739,13 @@ def ingresar_parqueo():
                 vehiculo_tipo_id=vehiculo_tipo_id,
                 tarifa_id=data.get('tarifaId'),
             )
+
+            tarifa = Tarifa.query.get(data.get('tarifaId'))
+            tipo_vehiculo['tarifa'] = {
+                'id': tarifa.id,
+                'nombre': tarifa.nombre,
+                'costo': tarifa.costo
+            }
 
             db.session.add(vehiculo)
             db.session.flush()
