@@ -351,7 +351,8 @@
                             }
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                finalizarIngresoVehiculo(result.value, opcionesTipoVehiculo, opcionesTarifas);
+                                const tarifaId = opcionesTarifas[result.value];
+                                finalizarIngresoVehiculo(result.value, opcionesTipoVehiculo, tarifaId);
                             }
                         });
                     }
@@ -363,7 +364,7 @@
         });
     });
 
-    function finalizarIngresoVehiculo(vehiculoTipoId, options) {
+    function finalizarIngresoVehiculo(vehiculoTipoId, opcionesTipoVehiculo, tarifaId=null) {
         $.LoadingOverlay('show');
 
         const moduloSeleccionado = document.querySelector('.parking-spot.selected');
@@ -382,17 +383,22 @@
         const placa = $('#placa').val().trim();
         const moduloId = moduloSeleccionado.getAttribute('data-id');
         const moduloNombre = moduloSeleccionado.textContent;
-        const tipoVehiculo = options[vehiculoTipoId];
-        const tarifaId = 1
+        const tipoVehiculo = opcionesTipoVehiculo[vehiculoTipoId];
+
+        const datosVehiculo = {
+            vehiculoTipoId,
+            placa,
+            moduloId
+        };
+
+        if (tarifaId) {
+            datosVehiculo.tarifaId = tarifaId;
+        }
 
         $.ajax({
             url: `/parqueo/ingresar`,
             type: 'POST',
-            data: JSON.stringify({
-                vehiculoTipoId,
-                placa,
-                moduloId
-            }),
+            data: JSON.stringify(datosVehiculo),
             contentType: 'application/json',
             dataType: 'json',
             success: function (response) {
