@@ -991,6 +991,7 @@
     }
 
     function agregarVehiculoTabla(parqueo) {
+        moment.locale('es');
         const fechaEntrada = moment(parqueo.fechaHoraEntrada);
         const tableBody = document.getElementById('parqueos-table');
         const index = tableBody.children.length;
