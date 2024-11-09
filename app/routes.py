@@ -1996,7 +1996,7 @@ def generar_ticket(placa):
     parqueadero = Parqueadero.query.filter_by(usuario_id=current_user.parqueadero_id).first()
     vehiculo = Vehiculo.query.filter_by(placa=placa).first()
 
-    tarifa = vehiculo.vehiculo_tipo.tarifa
+    tarifa = vehiculo.tarifa
     tarifa_costo = tarifa.costo
     tarifa_unidad_tiempo = tarifa.tarifa_tipo.nombre
 
