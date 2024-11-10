@@ -532,7 +532,7 @@
         parqueos.forEach((parqueo, index) => {
             const fechaEntrada = moment(parqueo.fechaHoraEntrada);
             const esArrendamiento = parqueo.esArrendamiento;
-            const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.tipoVehiculoAsignado.tarifa.nombre} ($${formatearDinero(parqueo.tipoVehiculoAsignado.tarifa.costo)})`;
+            const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.vehiculo.tarifa.nombre} ($${formatearDinero(parqueo.vehiculo.tarifa.costo)})`;
             const row = `
                     <tr>
                         <td>${parqueo.vehiculo.placa}</td>

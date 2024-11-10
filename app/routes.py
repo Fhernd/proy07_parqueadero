@@ -1811,7 +1811,8 @@ def parqueos_activos(sede_id):
                     'descripcion': parqueo.modulo.descripcion
                 },
                 'fechaHoraEntrada': parqueo.fecha_hora_entrada,
-                'fechaHoraSalida': parqueo.fecha_hora_salida
+                'fechaHoraSalida': parqueo.fecha_hora_salida,
+                'esArrendamiento': Arrendamiento.query.filter_by(vehiculo_id=parqueo.vehiculo_id).first() is not None
             }
             for parqueo in parqueos
         ]
