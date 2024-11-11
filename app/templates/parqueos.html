@@ -309,7 +309,7 @@
         });
 
         $('#btnIngresar').click(function () {
-            const yaExisteVehiculo = Boolean(localStorage.getItem('placa'));
+            const yaExisteVehiculo = Boolean(localStorage.getItem('vehiculo'));
 
             const tiposVehiculosOptions = window.tiposVehiculos;
             const opcionesTipoVehiculo = {};
@@ -992,7 +992,7 @@
         });
     }
 
-    function agregarVehiculoTabla(parqueo) {
+    function e(parqueo) {
         moment.locale('es');
         const fechaEntrada = moment(parqueo.fechaHoraEntrada);
         const tableBody = document.getElementById('parqueos-table');
