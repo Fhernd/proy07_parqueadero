@@ -508,6 +508,41 @@
     }
 
     /**
+     * Busca un vehículo por su placa.
+     * 
+     * @param {Event} event Evento de click sobre el botón de buscar vehículo.
+     */
+    function agregarVehiculoTabla(parqueo) {
+        const fechaEntrada = moment(parqueo.fechaHoraEntrada);
+        const tableBody = document.getElementById('parqueos-table');
+        const index = tableBody.children.length;
+        const esArrendamiento = parqueo.esArrendamiento;
+        const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.tipoVehiculoAsignado.tarifa.nombre} ($${parqueo.tipoVehiculoAsignado.tarifa.costo})`;
+        const celdaTotal = esArrendamiento ? '<td>Cobrado</td>' : `<td id="total-${index}">1.000</td>`;
+        const row = `
+            <tr>
+                <td>${parqueo.placa}</td>
+                <td>${parqueo.tipoVehiculo}</td>
+                <td>${fechaEntrada.format('dddd DD MMMM, YYYY HH:mm:ss')}</td>
+                <td>${parqueo.modulo}</td>
+                <td class="timer" id="timer-${index}"></td>
+                <td>${celdaArrendamientoONormal}</td>
+                ${celdaTotal}
+                <td>
+                    <button class="btn btn-warning">Retirar</button>
+                </td>
+            </tr>
+        `;
+        tableBody.insertAdjacentHTML('beforeend', row);
+        if (!esArrendamiento) {
+            setInterval(() => {
+                updateTimer(index, fechaEntrada);
+                actualizarTotal(index, parqueo.tipoVehiculoAsignado.tarifa, fechaEntrada);
+            }, 1000);
+        }   
+    }
+
+    /**
      * Selecciona un módulo de parqueo.
      * 
      * @param {HTMLElement} event Evento de click sobre un módulo en la vista.
