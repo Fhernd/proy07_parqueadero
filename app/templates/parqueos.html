@@ -383,7 +383,7 @@
         const placa = $('#placa').val().trim();
         const moduloId = moduloSeleccionado.getAttribute('data-id');
         const moduloNombre = moduloSeleccionado.textContent;
-        const tipoVehiculo = opcionesTipoVehiculo[vehiculoTipoId];
+        let tipoVehiculo = opcionesTipoVehiculo[vehiculoTipoId];
 
         const datosVehiculo = {
             vehiculoTipoId,
@@ -422,6 +422,11 @@
                     });
 
                     esArrendamiento = true;
+                    tipoVehiculo = response.tipoVehiculo;
+
+                    agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculo, esArrendamiento: esArrendamiento });
+
+                    $('#mdlIngresoVehiculo').modal('hide');
 
                     return;
                 } else {
