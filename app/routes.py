@@ -1729,6 +1729,14 @@ def ingresar_parqueo():
                 if arrendamiento.ha_sido_pausado:
                     return jsonify({'status': 'warning', 'message': 'El arrendamiento del vehículo se encuentra en pausa'}), 200
                 
+                parqueo = Parqueo(
+                    vehiculo_id=vehiculo.id,
+                    modulo_id=modulo.id,
+                )
+
+                db.session.add(parqueo)
+                db.session.commit()
+                
                 return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.', 'tipoVehiculo': tipo_vehiculo}), 200
 
 

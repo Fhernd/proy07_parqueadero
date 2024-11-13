@@ -422,7 +422,7 @@
                     });
 
                     esArrendamiento = true;
-                    tipoVehiculo = response.tipoVehiculo;
+                    tipoVehiculo = response.tipoVehiculo.nombre;
 
                     agregarVehiculoTabla({ placa, tipoVehiculo, fechaHoraEntrada: new Date().toISOString(), modulo: moduloNombre, tipoVehiculo, esArrendamiento: esArrendamiento });
 
