@@ -364,7 +364,7 @@
         });
     });
 
-    function finalizarIngresoVehiculo(vehiculoTipoId, opcionesTipoVehiculo, tarifaId=null) {
+    function finalizarIngresoVehiculo(vehiculoTipoId, opcionesTipoVehiculo, tarifaId = null) {
         $.LoadingOverlay('show');
 
         const moduloSeleccionado = document.querySelector('.parking-spot.selected');
@@ -534,12 +534,13 @@
             </tr>
         `;
         tableBody.insertAdjacentHTML('beforeend', row);
-        if (!esArrendamiento) {
-            setInterval(() => {
-                updateTimer(index, fechaEntrada);
+
+        setInterval(() => {
+            updateTimer(index, fechaEntrada);
+            if (!esArrendamiento) {
                 actualizarTotal(index, parqueo.tipoVehiculoAsignado.tarifa, fechaEntrada);
-            }, 1000);
-        }   
+            }
+        }, 1000);
     }
 
     /**
