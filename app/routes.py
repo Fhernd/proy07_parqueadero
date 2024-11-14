@@ -1734,10 +1734,12 @@ def ingresar_parqueo():
                     modulo_id=modulo.id,
                 )
 
+                tarifa = Tarifa.query.get(arrendamiento.tarifa_id)
+
                 db.session.add(parqueo)
                 db.session.commit()
-                
-                return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.', 'tipoVehiculo': tipo_vehiculo}), 200
+
+                return jsonify({'status': 'arrendamiento', 'message': 'El vehículo cuenta con un arrendamiento activo. Puede ingresar al parqueadero.', 'tipoVehiculo': tipo_vehiculo, 'tarifa': tarifa}), 200
 
 
         if vehiculo is None:
