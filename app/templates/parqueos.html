@@ -574,6 +574,9 @@
             const fechaEntrada = moment(parqueo.fechaHoraEntrada);
             const esArrendamiento = parqueo.esArrendamiento;
             const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.vehiculo.tarifa.nombre} ($${formatearDinero(parqueo.vehiculo.tarifa.costo)})`;
+
+            const total = esArrendamiento ? parquedo.tarifa.costo : '1.000';
+
             const row = `
                     <tr>
                         <td>${parqueo.vehiculo.placa}</td>
@@ -582,7 +585,7 @@
                         <td>${parqueo.modulo.nombre}</td>
                         <td class="timer" id="timer-${index}"></td>
                         <td>${celdaArrendamientoONormal}</td>
-                        <td id="total-${index}">1.000</td>
+                        <td id="total-${index}">${total}</td>
                         <td>
                             <button class="btn btn-warning" id="btnRetirar-${index}">Retirar</button>
                             <button class="btn btn-primary" id="btnVerVehiculo-${index}"><i class="fas fa-car"></i></button>
@@ -592,7 +595,9 @@
                 `;
             tableBody.insertAdjacentHTML('beforeend', row);
             updateTimer(index, fechaEntrada);
-            actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
+            if (!esArrendamiento) {
+                actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
+            }
 
             $(`#btnRetirar-${index}`).click(retirarVehiculo);
             $(`#btnVerVehiculo-${index}`).click(verVehiculo);
