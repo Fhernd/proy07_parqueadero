@@ -986,9 +986,14 @@
     function inicializarTemporizadores(parqueos) {
         parqueos.forEach((parqueo, index) => {
             const fechaEntrada = moment(parqueo.fechaHoraEntrada);
+
+            const esArrendamiento = parqueo.esArrendamiento;
+
             setInterval(() => {
                 updateTimer(index, fechaEntrada);
-                actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
+                if (!esArrendamiento) {
+                    actualizarTotal(index, parqueo.vehiculo.tarifa, fechaEntrada);
+                }
             }, 1000);
         });
     }
