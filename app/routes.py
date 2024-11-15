@@ -1808,11 +1808,7 @@ def parqueos_activos(sede_id):
                     'marca': parqueo.vehiculo.marca,
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
-                    'tarifa': {
-                        'id': parqueo.vehiculo.tarifa.id,
-                        'nombre': parqueo.vehiculo.tarifa.nombre,
-                        'costo': parqueo.vehiculo.tarifa.costo
-                    }
+                    'tarifa': determinar_tarifa(parqueo)
                 },
                 'modulo': {
                     'id': parqueo.modulo_id,
@@ -1827,6 +1823,21 @@ def parqueos_activos(sede_id):
             for parqueo in parqueos
         ]
     }), 200
+
+
+def determinar_tarifa(parqueo):
+    """
+    Determina la tarifa de un parqueo.
+
+    :param parqueo: Parqueo.
+    :return: Tarifa.
+    """
+    arrendamiento = Arrendamiento.query.filter_by(vehiculo_id=parqueo.vehiculo_id).first()
+
+    if arrendamiento is not None:
+        return arrendamiento.tarifa.nombre
+
+    return parqueo.vehiculo.tarifa.nombre
 
 
 @app.route('/parqueo/vehiculo/retirar', methods=['POST'])
