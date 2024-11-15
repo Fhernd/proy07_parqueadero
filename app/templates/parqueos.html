@@ -575,7 +575,7 @@
             const esArrendamiento = parqueo.esArrendamiento;
             const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.vehiculo.tarifa.nombre} ($${formatearDinero(parqueo.vehiculo.tarifa.costo)})`;
 
-            const total = esArrendamiento ? parquedo.tarifa.costo : '1.000';
+            const total = esArrendamiento ? parqueo.vehiculo.tarifa.costo : '1.000';
 
             const row = `
                     <tr>
