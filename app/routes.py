@@ -1832,13 +1832,18 @@ def determinar_tarifa(parqueo):
     :param parqueo: Parqueo.
     :return: Tarifa.
     """
-    arrendamiento = Arrendamiento.query.filter_by(vehiculo_id=parqueo.vehiculo_id).first()
+    fecha_actual = datetime.now()
 
-    if arrendamiento is not None:
-        return arrendamiento.tarifa.nombre
+    arrendamiento = Arrendamiento.query.filter(
+        Arrendamiento.vehiculo_id == parqueo.vehiculo_id,
+        Arrendamiento.fecha_inicio <= fecha_actual,
+        Arrendamiento.fecha_fin >= fecha_actual
+    ).first()
 
-    return parqueo.vehiculo.tarifa.nombre
-
+    if arrendamiento:
+        return arrendamiento.tarifa
+    
+    return parqueo.vehiculo.tarifa
 
 @app.route('/parqueo/vehiculo/retirar', methods=['POST'])
 def retirar_vehiculo():
