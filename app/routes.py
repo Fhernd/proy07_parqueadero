@@ -1808,7 +1808,7 @@ def parqueos_activos(sede_id):
                     'marca': parqueo.vehiculo.marca,
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
-                    'tarifa': determinar_tarifa(parqueo)
+                    'tarifa': jsonify(determinar_tarifa(parqueo))
                 },
                 'modulo': {
                     'id': parqueo.modulo_id,
@@ -1841,9 +1841,18 @@ def determinar_tarifa(parqueo):
     ).first()
 
     if arrendamiento:
-        return arrendamiento.tarifa
+        return {
+            'id': arrendamiento.tarifa_id,
+            'nombre': arrendamiento.tarifa.nombre,
+            'costo': arrendamiento.tarifa.costo
+        }
     
-    return parqueo.vehiculo.tarifa
+    return {
+        'id': parqueo.vehiculo.tarifa_id,
+        'nombre': parqueo.vehiculo.tarifa.nombre,
+        'costo': parqueo.vehiculo.tarifa.costo
+    }
+
 
 @app.route('/parqueo/vehiculo/retirar', methods=['POST'])
 def retirar_vehiculo():
