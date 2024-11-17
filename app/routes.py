@@ -1808,7 +1808,7 @@ def parqueos_activos(sede_id):
                     'marca': parqueo.vehiculo.marca,
                     'modelo': parqueo.vehiculo.modelo,
                     'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
-                    'tarifa': jsonify(determinar_tarifa(parqueo))
+                    'tarifa': determinar_tarifa(parqueo)
                 },
                 'modulo': {
                     'id': parqueo.modulo_id,
