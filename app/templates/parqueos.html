@@ -575,7 +575,7 @@
             const esArrendamiento = parqueo.esArrendamiento;
             const celdaArrendamientoONormal = esArrendamiento ? 'Arrendamiento' : `${parqueo.vehiculo.tarifa.nombre} ($${formatearDinero(parqueo.vehiculo.tarifa.costo)})`;
 
-            const total = esArrendamiento ? parqueo.vehiculo.tarifa.costo : '1.000';
+            const total = esArrendamiento ? formatearDinero(parqueo.vehiculo.tarifa.costo) : '1.000';
 
             const row = `
                     <tr>
@@ -1043,7 +1043,7 @@
         });
     }
 
-    function e(parqueo) {
+    function agregarVehiculoTabla(parqueo) {
         moment.locale('es');
         const fechaEntrada = moment(parqueo.fechaHoraEntrada);
         const tableBody = document.getElementById('parqueos-table');
