@@ -891,7 +891,7 @@
         const mediosPago = window.mediosPago;
 
         const esArrendamiento = event.target.getAttribute('data-es-arrendamiento') === 'true';
-        let contenidoTotal = esArrendamiento ? 'Valor ya cancelado' : `<h3 class="text-success"><strong>${total}</strong></h3>`;
+        let contenidoTotal = esArrendamiento ? `<h3 class="text-warning"><strong>Valor ya cancelado</strong></h3>` : `<h3 class="text-success"><strong>${total}</strong></h3>`;
 
         Swal.fire({
             title: "<strong>Retiro de Vehículo</strong>",
