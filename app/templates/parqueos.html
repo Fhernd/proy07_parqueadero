@@ -587,7 +587,7 @@
                         <td>${celdaArrendamientoONormal}</td>
                         <td id="total-${index}">${total}</td>
                         <td>
-                            <button class="btn btn-warning" id="btnRetirar-${index}">Retirar</button>
+                            <button class="btn btn-warning" id="btnRetirar-${index}" data-es-arrendamiento="${esArrendamiento}">Retirar</button>
                             <button class="btn btn-primary" id="btnVerVehiculo-${index}"><i class="fas fa-car"></i></button>
                             <button class="btn btn-info" id="btnVerCliente-${index}"><i class="fas fa-user-alt"></i></button>
                         </td>
@@ -889,6 +889,8 @@
         const totalEntero = numeral(total.replaceAll('.', ',')).value();
 
         const mediosPago = window.mediosPago;
+
+        const esArrendamiento = event.target.getAttribute('data-es-arrendamiento') === 'true';
 
         Swal.fire({
             title: "<strong>Retiro de Vehículo</strong>",
