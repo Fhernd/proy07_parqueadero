@@ -891,6 +891,7 @@
         const mediosPago = window.mediosPago;
 
         const esArrendamiento = event.target.getAttribute('data-es-arrendamiento') === 'true';
+        let contenidoTotal = esArrendamiento ? 'Valor ya cancelado' : `<h3 class="text-success"><strong>${total}</strong></h3>`;
 
         Swal.fire({
             title: "<strong>Retiro de Vehículo</strong>",
@@ -900,7 +901,7 @@
                     <div class="row">
                         <div class="col-md-12 text-center mb-3">
                         <h5 class="text-info">Total a Pagar:</h5>
-                        <h3 class="text-success"><strong>${total}</strong></h3>
+                        ${contenidoTotal}
                         </div>
                         <div class="col-md-12 text-center mb-3">
                             <h5 class="text-info">Placa del Vehículo:</h5>
