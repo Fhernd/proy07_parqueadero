@@ -219,6 +219,23 @@
     </div>
 </div>
 
+<style>
+    #datetime-box {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #333;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+</style>
+<div id="datetime-box"></div>
+
 <div id="data-tipos-vehiculos" data-tipos-vehiculos='{{ tipos_vehiculos|tojson|safe }}'></div>
 <div id="data-medios-pago" data-medios-pago='{{ medios_pago |tojson|safe }}'></div>
 <div id="data-tarifas" data-tarifas='{{ tarifas |tojson|safe }}'></div>
@@ -235,6 +252,8 @@
 
 <script>
     $(document).ready(function () {
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
         $('#btnSeleccionarSede').click(function () {
             const sedeNombre = $('#sedeId option:selected').text();
             const sedeId = $('#sedeId').val();
@@ -363,6 +382,12 @@
             }
         });
     });
+
+    function updateDateTime() {
+        const now = moment(); // Obtiene la fecha y hora actual
+        const formattedDate = now.format('dddd D, MMMM YYYY; HH:mm:ss'); // Formato personalizado
+        document.getElementById('datetime-box').innerText = formattedDate; // Muestra en el rectángulo
+    }
 
     function finalizarIngresoVehiculo(vehiculoTipoId, opcionesTipoVehiculo, tarifaId = null) {
         $.LoadingOverlay('show');
