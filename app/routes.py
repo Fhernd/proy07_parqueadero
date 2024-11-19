@@ -1860,6 +1860,7 @@ def retirar_vehiculo():
     placa = data.get('placa')
     total_pagado = data.get('totalPagado')
     medio_pago_id = data.get('metodoPagoId')
+    es_arrendamiento = data.get('esArrendamiento')
 
     vehiculo = Vehiculo.query.filter_by(placa=placa).first()
     if not vehiculo:
@@ -1870,8 +1871,9 @@ def retirar_vehiculo():
         return jsonify({'status': 'error', 'message': 'Parqueo no encontrado o ya retirado'}), 404
 
     parqueo.fecha_hora_salida = datetime.now()
-    parqueo.total_pagado = total_pagado
-    parqueo.metodo_pago_id = medio_pago_id
+    if not es_arrendamiento:
+        parqueo.total_pagado = total_pagado
+        parqueo.metodo_pago_id = medio_pago_id
 
     db.session.commit()
 
