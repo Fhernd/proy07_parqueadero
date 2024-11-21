@@ -106,84 +106,87 @@ def vehiculo_tipo():
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo, tarifas=tarifas)
 
 
-@app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
-@login_required
-@propietario_admin_permission.require(http_exception=403)
-def vehiculo_tipo_delete(id):
-    try:
-        vehiculo_tipo = VehiculoTipo.query.get(id)
+from routes import register_routes
 
-        if vehiculo_tipo is None:
-            return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
+register_routes(app)
+# @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
+# @login_required
+# @propietario_admin_permission.require(http_exception=403)
+# def vehiculo_tipo_delete(id):
+#     try:
+#         vehiculo_tipo = VehiculoTipo.query.get(id)
 
-        db.session.delete(vehiculo_tipo)
-        db.session.commit()
+#         if vehiculo_tipo is None:
+#             return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
 
-        return jsonify({'status': 'success', 'message': 'Tipo de vehículo eliminado'}), 200
+#         db.session.delete(vehiculo_tipo)
+#         db.session.commit()
 
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+#         return jsonify({'status': 'success', 'message': 'Tipo de vehículo eliminado'}), 200
 
-
-@app.route('/vehiculo-tipo', methods=['POST'])
-@login_required
-@propietario_admin_permission.require(http_exception=403)
-def vehiculo_tipo_crear():
-    try:
-        data = request.get_json()
-        vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'), tarifa_id=data.get('tarifaId'))
-
-        db.session.add(vehiculo_tipo)
-        db.session.commit()
-
-        tarifa = Tarifa.query.get(data.get('tarifaId'))
-
-        return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado', 'data': {
-            'id': vehiculo_tipo.id,
-            'nombre': vehiculo_tipo.nombre,
-            'tarifa': {
-                'id': tarifa.id,
-                'nombre': tarifa.nombre,
-                'costo': tarifa.costo
-            }
-        }}), 201
-
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/vehiculo-tipo/<int:id>', methods=['PUT'])
-@login_required
-@propietario_admin_permission.require(http_exception=403)
-def vehiculo_tipo_update(id):
-    """
-    Actualiza un tipo de vehículo.
+# @app.route('/vehiculo-tipo', methods=['POST'])
+# @login_required
+# @propietario_admin_permission.require(http_exception=403)
+# def vehiculo_tipo_crear():
+#     try:
+#         data = request.get_json()
+#         vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'), tarifa_id=data.get('tarifaId'))
 
-    :param id: Identificador del tipo de vehículo.
-    :return: Respuesta JSON.
-    """
-    try:
-        data = request.get_json()
-        vehiculo_tipo = VehiculoTipo.query.get(id)
+#         db.session.add(vehiculo_tipo)
+#         db.session.commit()
 
-        if vehiculo_tipo is None:
-            return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
+#         tarifa = Tarifa.query.get(data.get('tarifaId'))
 
-        vehiculo_tipo.nombre = data.get('nombre')
-        vehiculo_tipo.updated_at = db.func.current_timestamp()
+#         return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado', 'data': {
+#             'id': vehiculo_tipo.id,
+#             'nombre': vehiculo_tipo.nombre,
+#             'tarifa': {
+#                 'id': tarifa.id,
+#                 'nombre': tarifa.nombre,
+#                 'costo': tarifa.costo
+#             }
+#         }}), 201
 
-        db.session.commit()
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-        return jsonify({'status': 'success', 'message': 'Tipo de vehículo actualizado', 'data': {
-            'id': vehiculo_tipo.id,
-            'nombre': vehiculo_tipo.nombre
-        }}), 200
 
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+# @app.route('/vehiculo-tipo/<int:id>', methods=['PUT'])
+# @login_required
+# @propietario_admin_permission.require(http_exception=403)
+# def vehiculo_tipo_update(id):
+#     """
+#     Actualiza un tipo de vehículo.
+
+#     :param id: Identificador del tipo de vehículo.
+#     :return: Respuesta JSON.
+#     """
+#     try:
+#         data = request.get_json()
+#         vehiculo_tipo = VehiculoTipo.query.get(id)
+
+#         if vehiculo_tipo is None:
+#             return jsonify({'status': 'failure', 'message': 'Tipo de vehículo encontrado'}), 404
+
+#         vehiculo_tipo.nombre = data.get('nombre')
+#         vehiculo_tipo.updated_at = db.func.current_timestamp()
+
+#         db.session.commit()
+
+#         return jsonify({'status': 'success', 'message': 'Tipo de vehículo actualizado', 'data': {
+#             'id': vehiculo_tipo.id,
+#             'nombre': vehiculo_tipo.nombre
+#         }}), 200
+
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
 @app.route("/tarifa-tipo", methods=['GET'])
