@@ -9,7 +9,7 @@ from app.routes import propietario_admin_permission
 from app.models import VehiculoTipo
 
 
-class VehicleRoutes:
+class VehiculoTipoRoutes:
     def __init__(self):
         self.blueprint = Blueprint('vehicle', __name__)
         self.add_routes()
