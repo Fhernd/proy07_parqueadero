@@ -106,9 +106,10 @@ def vehiculo_tipo():
     return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo, tarifas=tarifas)
 
 
-from routes import register_routes
+from app.vehiculo_tipo_routes import VehiculoTipoRoutes
+app.register_blueprint(VehiculoTipoRoutes().blueprint, url_prefix='/')
 
-register_routes(app)
+
 # @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])
 # @login_required
 # @propietario_admin_permission.require(http_exception=403)

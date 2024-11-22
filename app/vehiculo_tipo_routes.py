@@ -4,7 +4,7 @@ from flask_login import login_required
 from app.models import VehiculoTipo
 from app.models import Tarifa
 
-from app import app, db
+from app import db
 from app.routes import propietario_admin_permission
 from app.models import VehiculoTipo
 
