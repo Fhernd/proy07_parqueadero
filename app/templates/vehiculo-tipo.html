@@ -18,9 +18,6 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Tarifa ID</th>
-                        <th>Tarifa nombre</th>
-                        <th>Tarifa costo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -29,9 +26,6 @@
                     <tr>
                         <td>{{ tipo.id }}</td>
                         <td>{{ tipo.nombre }}</td>
-                        <td>{{ tipo.tarifa.id }}</td>
-                        <td>{{ tipo.tarifa.nombre }}</td>
-                        <td class="costo-tarifa">{{ tipo.tarifa.costo }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -82,14 +76,9 @@
             "searching": true,
             "columnDefs": [
                 {
-                    "targets": 5,
+                    "targets": 2,
                     "data": null,
                     "defaultContent": "<button class='btn btn-warning edit' title='Editar'><i class='fas fa-edit'></i></button> <button class='btn btn-danger delete' title='Eliminar'><i class='fas fa-trash'></i></button>"
-                },
-                {
-                    "targets": [2],
-                    "visible": false,
-                    "searchable": false
                 }
             ],
             language: {
