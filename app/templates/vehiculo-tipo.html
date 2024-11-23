@@ -148,6 +148,8 @@
         $('#frmCrearEditar').submit(function (e) {
             e.preventDefault();
 
+            $.LoadingOverlay('show');
+
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => {
@@ -168,6 +170,7 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 success: (response) => {
+                    $.LoadingOverlay('hide');
                     if (response.status == 'success') {
                         Swal.fire({
                             title: "Registro guardado",
@@ -191,6 +194,14 @@
                             icon: "error"
                         });
                     }
+                },
+                error: (error) => {
+                    $.LoadingOverlay('hide');
+                    Swal.fire({
+                        title: "Advertencia",
+                        text: "Ocurrió un error al intentar guardar el registro.",
+                        icon: "warning"
+                    });
                 }
             });
         });
