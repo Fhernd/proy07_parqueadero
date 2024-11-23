@@ -98,7 +98,7 @@ app.register_blueprint(VehiculoTipoRoutes().blueprint)
 @app.route("/tarifas", methods=['GET'])
 @login_required
 @todos_permiso.require(http_exception=403)
-def get_tarifa_tipos():
+def get_tarifas():
     """
     Recupera los tipos de tarifa.
 
