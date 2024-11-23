@@ -54,21 +54,14 @@ class VehiculoTipoRoutes:
         def vehiculo_tipo_crear():
             try:
                 data = request.get_json()
-                vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'), tarifa_id=data.get('tarifaId'))
+                vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'))
 
                 db.session.add(vehiculo_tipo)
                 db.session.commit()
 
-                tarifa = Tarifa.query.get(data.get('tarifaId'))
-
                 return jsonify({'status': 'success', 'message': 'Tipo de vehículo creado', 'data': {
                     'id': vehiculo_tipo.id,
-                    'nombre': vehiculo_tipo.nombre,
-                    'tarifa': {
-                        'id': tarifa.id,
-                        'nombre': tarifa.nombre,
-                        'costo': tarifa.costo
-                    }
+                    'nombre': vehiculo_tipo.nombre
                 }}), 201
 
             except Exception as e:
