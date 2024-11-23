@@ -10,11 +10,20 @@ from app.models import VehiculoTipo
 
 
 class VehiculoTipoRoutes:
+    """
+    Clase que gestiona las rutas de los tipos de vehículo.
+    """
     def __init__(self):
+        """
+        Constructor de la clase.
+        """
         self.blueprint = Blueprint('vehicle', __name__)
         self.add_routes()
 
     def add_routes(self):
+        """
+        Agrega las rutas de los tipos de vehículo.
+        """
         @self.blueprint.route("/vehiculo-tipo", methods=['GET'])
         @login_required
         @propietario_admin_permission.require(http_exception=403)
@@ -32,6 +41,11 @@ class VehiculoTipoRoutes:
         @login_required
         @propietario_admin_permission.require(http_exception=403)
         def vehiculo_tipo_delete(id):
+            """
+            Elimina un tipo de vehículo.
+            
+            :param id: Identificador del tipo de vehículo.
+            """
             try:
                 vehiculo_tipo = VehiculoTipo.query.get(id)
 
@@ -52,6 +66,11 @@ class VehiculoTipoRoutes:
         @login_required
         @propietario_admin_permission.require(http_exception=403)
         def vehiculo_tipo_crear():
+            """
+            Crea un tipo de vehículo.
+
+            :return: Respuesta JSON.
+            """
             try:
                 data = request.get_json()
                 vehiculo_tipo = VehiculoTipo(nombre=data.get('nombre'))
