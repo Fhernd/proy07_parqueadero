@@ -91,23 +91,8 @@ def dashboard():
     g.template_name = 'base.html'
     return render_template('dashboard.html', titulo='Dashboard')
 
-
-@app.route("/vehiculo-tipo", methods=['GET'])
-@login_required
-@propietario_admin_permission.require(http_exception=403)
-def vehiculo_tipo():
-    """
-    Muestra la lista de tipos de vehículo.
-    """
-    g.template_name = 'base.html'
-    
-    tipos_vehiculo = VehiculoTipo.query.all()
-    tarifas = Tarifa.query.all()
-    return render_template("vehiculo-tipo.html", titulo='Tipo de Vehículo', tipos_vehiculo=tipos_vehiculo, tarifas=tarifas)
-
-
 from app.vehiculo_tipo_routes import VehiculoTipoRoutes
-app.register_blueprint(VehiculoTipoRoutes().blueprint, url_prefix='/')
+app.register_blueprint(VehiculoTipoRoutes().blueprint)
 
 
 # @app.route('/vehiculo-tipo/<int:id>', methods=['DELETE'])

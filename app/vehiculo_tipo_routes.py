@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, g, jsonify, render_template, request
 from flask_login import login_required
 
 from app.models import VehiculoTipo
@@ -17,7 +17,7 @@ class VehiculoTipoRoutes:
         """
         Constructor de la clase.
         """
-        self.blueprint = Blueprint('vehicle', __name__)
+        self.blueprint = Blueprint('vehiculo_tipo', __name__)
         self.add_routes()
 
     def add_routes(self):
