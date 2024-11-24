@@ -38,7 +38,7 @@
                 {% if admin_permission.can() or propietario_admin_permission.can() %}
                     <h6 class="collapse-header">Vehículos:</h6>
                     <a class="collapse-item" href="{{ url_for('vehiculo_tipo.vehiculo_tipo') }}">Tipos de vehículo</a>
-                    <a class="collapse-item" href="{{ url_for('tarifa_tipo') }}">Tipos de tarifa</a>
+                    <a class="collapse-item" href="{{ url_for('tarifa_tipo.tarifa_tipo') }}">Tipos de tarifa</a>
                     <a class="collapse-item" href="{{ url_for('medio_pago') }}">Medios de pago</a>
                 {% endif %}
                 {% if propietario_admin_permission.can() %}
