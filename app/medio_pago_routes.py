@@ -69,7 +69,8 @@ class MedioPagoRoutes:
 
                 return jsonify({'status': 'success', 'message': 'Medio de pago creado', 'data': {
                     'id': entidad.id,
-                    'nombre': entidad.nombre
+                    'nombre': entidad.nombre,
+                    'activo': entidad.activo
                 }}), 201
 
             except Exception as e:

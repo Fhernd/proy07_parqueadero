@@ -93,9 +93,11 @@ def dashboard():
 
 from app.vehiculo_tipo_routes import VehiculoTipoRoutes
 from app.tarifa_tipo_routes import TarifaTipoRoutes
+from app.medio_pago_routes import MedioPagoRoutes
 
 app.register_blueprint(VehiculoTipoRoutes().blueprint)
 app.register_blueprint(TarifaTipoRoutes().blueprint)
+app.register_blueprint(MedioPagoRoutes().blueprint)
 
 
 @app.route("/tarifas", methods=['GET'])
