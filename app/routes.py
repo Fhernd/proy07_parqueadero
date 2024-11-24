@@ -92,7 +92,10 @@ def dashboard():
     return render_template('dashboard.html', titulo='Dashboard')
 
 from app.vehiculo_tipo_routes import VehiculoTipoRoutes
+from app.tarifa_tipo_routes import TarifaTipoRoutes
+
 app.register_blueprint(VehiculoTipoRoutes().blueprint)
+app.register_blueprint(TarifaTipoRoutes().blueprint)
 
 
 @app.route("/tarifas", methods=['GET'])
