@@ -638,7 +638,12 @@
                             });
                         }
                     });
-
+                } else if (response.status == 'existente') {
+                    Swal.fire({
+                        title: "Advertecia",
+                        text: response.message,
+                        icon: "warning"
+                    });
                 } else {
                     window.location.href = '/usuario/' + data[0] + '/sede';
                 }
