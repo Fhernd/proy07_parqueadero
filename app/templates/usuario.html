@@ -448,6 +448,12 @@
 
                             $('#tblDatos tbody').on('click', 'button.asignar-sede', asignarSede);
                         });
+                    } else if (response.status == 'existente') {
+                        Swal.fire({
+                            title: "Advertencia",
+                            text: `El documento ${data['documento']} ya se encuentra registrado.`,
+                            icon: "warning"
+                        });
                     } else {
                         Swal.fire({
                             title: "Error",
