@@ -91,6 +91,7 @@ class UsuarioRoutes:
                 }}), 201
 
             except Exception as e:
+                print('error crear usuario', e)
                 db.session.rollback()
                 return jsonify({'status': 'error', 'message': str(e)}), 500
 
