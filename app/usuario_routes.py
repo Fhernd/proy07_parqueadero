@@ -61,6 +61,11 @@ class UsuarioRoutes:
             try:
                 data = request.get_json()
 
+                entidad = Usuario.query.filter_by(documento=data.get('documento')).first()
+
+                if entidad is not None:
+                    return jsonify({'status': 'existente', 'message': 'Ya existe un usuario con el documento dado.'}), 200
+
                 hashed_password = generate_password_hash(data.get('password'), method='pbkdf2:sha256')
 
                 entidad = Usuario(
