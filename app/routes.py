@@ -95,10 +95,12 @@ from app.vehiculo_tipo_routes import VehiculoTipoRoutes
 from app.tarifa_tipo_routes import TarifaTipoRoutes
 from app.medio_pago_routes import MedioPagoRoutes
 from app.cliente_routes import ClienteRoutes
+from app.sede_routes import SedeRoutes
 from app.usuario_routes import UsuarioRoutes
 
 app.register_blueprint(ClienteRoutes().blueprint)
 app.register_blueprint(MedioPagoRoutes().blueprint)
+app.register_blueprint(SedeRoutes().blueprint)
 app.register_blueprint(TarifaTipoRoutes().blueprint)
 app.register_blueprint(UsuarioRoutes().blueprint)
 app.register_blueprint(VehiculoTipoRoutes().blueprint)
