@@ -130,5 +130,5 @@ class AuthRoutes:
             logout_user()
             identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
 
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
