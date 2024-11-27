@@ -152,3 +152,29 @@ class ClienteRoutes:
             except Exception as e:
                 db.session.rollback()
                 return jsonify({'status': 'error', 'message': str(e)}), 500
+            
+        @self.blueprint.route('/cliente/<string:documento>/puntos', methods=['GET'])
+        @login_required
+        @todos_permiso.require(http_exception=403)
+        def get_cliente_puntos(documento):
+            """
+            Obtiene los puntos de un cliente.
+
+            :param documento: Documento del cliente.
+
+            :return: Respuesta JSON.
+            """
+            cliente = Cliente.query.filter_by(documento=documento).first()
+            puntos = cliente.puntos
+
+            total_puntos = sum([punto.cantidad for punto in puntos])
+            
+            puntos = {
+                'data': {
+                    'documento': documento,
+                    'puntos': total_puntos,
+                },
+                'status': 'success',
+            }
+
+            return jsonify(puntos)
