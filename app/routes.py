@@ -91,6 +91,8 @@ def dashboard():
     g.template_name = 'base.html'
     return render_template('dashboard.html', titulo='Dashboard')
 
+
+from app.auth_routes import AuthRoutes
 from app.cliente_vehiculo_routes import ClienteVehiculoRoutes
 from app.cliente_vehiculo_arrendamiento_routes import ClienteVehiculoArrendamientoRoutes
 from app.vehiculo_tipo_routes import VehiculoTipoRoutes
@@ -100,6 +102,7 @@ from app.cliente_routes import ClienteRoutes
 from app.sede_routes import SedeRoutes
 from app.usuario_routes import UsuarioRoutes
 
+app.register_blueprint(AuthRoutes().blueprint)
 app.register_blueprint(ClienteRoutes().blueprint)
 app.register_blueprint(ClienteVehiculoRoutes().blueprint)
 app.register_blueprint(ClienteVehiculoArrendamientoRoutes().blueprint)
@@ -179,64 +182,6 @@ def parqueadero():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
-
-
-@app.route("/login", methods=['GET'])
-def login():
-    """
-    Muestra la página de inicio de sesión.
-
-    :return: Plantilla HTML.
-    """
-    return render_template('login.html', titulo='Iniciar Sesión')
-
-
-@app.route("/login", methods=['POST'])
-def login_post():
-    """
-    Inicia sesión en la aplicación.
-
-    :return: Redirección a la página de inicio.
-    """
-    if current_user.is_authenticated:
-        identity_changed.send(current_app._get_current_object(), identity=Identity(current_user.id))
-        return jsonify({"success": True, "redirect_url": url_for('dashboard')})
-    
-    data = request.get_json()
-    email = data.get('email')
-
-    usuario = Usuario.query.filter_by(email=email).first()
-
-    if usuario is None or not usuario.check_password(data.get('password')) or not usuario.activo:
-        return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
-
-    login_user(usuario)
-    identity_changed.send(current_app._get_current_object(), identity=Identity(usuario.id))
-
-    next = request.args.get('next')
-
-    if not next:
-        roles = [rol.nombre for rol in usuario.roles]
-        if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
-            return jsonify({"success": True, "redirect_url": url_for('parqueos')})
-        else:
-            return jsonify({"success": True, "redirect_url": url_for('dashboard')})
-    else:
-        return jsonify({"success": True, "redirect_url": next})
-
-
-@app.route("/logout", methods=['GET'])
-@login_required
-def logout():
-    """
-    Cierra sesión en la aplicación.
-
-    :return: Redirección a la página de inicio.
-    """
-    logout_user()
-    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
-
-    return redirect(url_for('login'))
 
 
 @app.route('/perfil', methods=['GET', 'POST'])

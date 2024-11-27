@@ -1,12 +1,14 @@
-from flask import Blueprint, g, jsonify, render_template, request
-from flask_login import login_required
+from flask import Blueprint, g, jsonify, render_template, request, current_app, redirect, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+from flask_principal import Identity, AnonymousIdentity
 from werkzeug.security import generate_password_hash
 
 from app.models import Pais, Usuario
 
 from app import db
-from app.routes import propietario_admin_permission
-from app.routes import todos_permiso
+from app.routes import identity_changed, propietario_admin_permission
+from app.routes import todos_permiso, tiene_rol
+from app.util.roles_enum import Roles
 
 
 class AuthRoutes:
@@ -72,3 +74,61 @@ class AuthRoutes:
             except Exception as e:
                 db.session.rollback()
                 return jsonify({'status': 'error', 'message': str(e)}), 500
+        
+        @self.blueprint.route("/login", methods=['GET'])
+        def login():
+            """
+            Muestra la página de inicio de sesión.
+
+            :return: Plantilla HTML.
+            """
+            return render_template('login.html', titulo='Iniciar Sesión')
+
+
+        @self.blueprint.route("/login", methods=['POST'])
+        def login_post():
+            """
+            Inicia sesión en la aplicación.
+
+            :return: Redirección a la página de inicio.
+            """
+            if current_user.is_authenticated:
+                identity_changed.send(current_app._get_current_object(), identity=Identity(current_user.id))
+                return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+            
+            data = request.get_json()
+            email = data.get('email')
+
+            usuario = Usuario.query.filter_by(email=email).first()
+
+            if usuario is None or not usuario.check_password(data.get('password')) or not usuario.activo:
+                return jsonify({"success": False, "message": "Credenciales inválidas"}), 401
+
+            login_user(usuario)
+            identity_changed.send(current_app._get_current_object(), identity=Identity(usuario.id))
+
+            next = request.args.get('next')
+
+            if not next:
+                roles = [rol.nombre for rol in usuario.roles]
+                if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
+                    return jsonify({"success": True, "redirect_url": url_for('parqueos')})
+                else:
+                    return jsonify({"success": True, "redirect_url": url_for('dashboard')})
+            else:
+                return jsonify({"success": True, "redirect_url": next})
+
+
+        @self.blueprint.route("/logout", methods=['GET'])
+        @login_required
+        def logout():
+            """
+            Cierra sesión en la aplicación.
+
+            :return: Redirección a la página de inicio.
+            """
+            logout_user()
+            identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
+
+            return redirect(url_for('login'))
+
