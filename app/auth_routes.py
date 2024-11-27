@@ -3,11 +3,11 @@ from flask_login import current_user, login_required, login_user, logout_user
 from flask_principal import Identity, AnonymousIdentity
 from werkzeug.security import generate_password_hash
 
-from app.models import Pais, Usuario
+from app.models import Pais, Rol, Usuario
 
 from app import db
-from app.routes import identity_changed, propietario_admin_permission
-from app.routes import todos_permiso, tiene_rol
+from app.routes import identity_changed, propietario_admin_permission, propietario_permission
+from app.routes import tiene_rol
 from app.util.roles_enum import Roles
 
 
@@ -132,3 +132,14 @@ class AuthRoutes:
 
             return redirect(url_for('auth.login'))
 
+        @self.blueprint.route("/rol", methods=['GET'])
+        @login_required
+        @propietario_permission.require(http_exception=403)
+        def rol():
+            """
+            Muestra la lista de roles.
+            """
+            g.template_name = 'base.html'
+            
+            entidades = Rol.query.all()
+            return render_template('rol.html', titulo='Roles', entidades=entidades)

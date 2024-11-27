@@ -131,19 +131,6 @@ def get_tarifas():
     } for entidad in entidades]}), 200
 
 
-@app.route("/rol", methods=['GET'])
-@login_required
-@propietario_permission.require(http_exception=403)
-def rol():
-    """
-    Muestra la lista de roles.
-    """
-    g.template_name = 'base.html'
-    
-    entidades = Rol.query.all()
-    return render_template('rol.html', titulo='Roles', entidades=entidades)
-
-
 @app.route("/parqueadero", methods=['POST'])
 @login_required
 @propietario_permission.require(http_exception=403)

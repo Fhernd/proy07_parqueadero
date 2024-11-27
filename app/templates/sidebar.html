@@ -48,7 +48,7 @@
                 {% if propietario_admin_permission.can() %}
                 <h6 class="collapse-header">Administración:</h6>
                 {% if propietario_permission.can() %}
-                <a class="collapse-item" href="{{ url_for('rol') }}">Roles</a>
+                <a class="collapse-item" href="{{ url_for('auth.rol') }}">Roles</a>
                 {% endif %}
                 <a class="collapse-item" href="{{ url_for('usuario.usuario') }}">Usuarios</a>
                 {% endif %}
