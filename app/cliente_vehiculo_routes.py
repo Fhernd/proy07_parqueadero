@@ -8,12 +8,18 @@ from app.routes import todos_permiso
 
 
 class ClienteVehiculoRoutes:
+    """
+    Clase que gestiona las rutas de los vehículos de los clientes.
+    """
     def __init__(self):
+        """
+        Constructor de la clase.
+        """
         self.blueprint = Blueprint('cliente_vehiculo', __name__)
         self.add_routes()
 
     def add_routes(self):
-        @app.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
+        @self.blueprint.route('/cliente/<string:documento>/vehiculos', methods=['GET'])
         @login_required
         @todos_permiso.require(http_exception=403)
         def cliente_vehiculos(documento):
@@ -36,7 +42,7 @@ class ClienteVehiculoRoutes:
             } for vehiculo in vehiculos]}), 200
 
 
-        @app.route('/cliente/crear-vehiculo', methods=['POST'])
+        @self.blueprint.route('/cliente/crear-vehiculo', methods=['POST'])
         @login_required
         @todos_permiso.require(http_exception=403)
         def cliente_crear_vehiculo():
@@ -78,7 +84,7 @@ class ClienteVehiculoRoutes:
                 return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-        @app.route('/cliente/editar-vehiculo/<int:vehiculo_id>', methods=['PUT'])
+        @self.blueprint.route('/cliente/editar-vehiculo/<int:vehiculo_id>', methods=['PUT'])
         @login_required
         @todos_permiso.require(http_exception=403)
         def cliente_editar_vehiculo(vehiculo_id):
@@ -119,7 +125,7 @@ class ClienteVehiculoRoutes:
                 return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-        @app.route('/cliente/vehiculo/<int:vehiculo_id>/cambiar-disponibilidad', methods=['DELETE'])
+        @self.blueprint.route('/cliente/vehiculo/<int:vehiculo_id>/cambiar-disponibilidad', methods=['DELETE'])
         @login_required
         @todos_permiso.require(http_exception=403)
         def cliente_eliminar_vehiculo(vehiculo_id):
@@ -145,7 +151,7 @@ class ClienteVehiculoRoutes:
                 return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-        @app.route('/cliente/vehiculo/<int:vehiculo_id>/arrendamientos', methods=['GET'])
+        @self.blueprint.route('/cliente/vehiculo/<int:vehiculo_id>/arrendamientos', methods=['GET'])
         @login_required
         @todos_permiso.require(http_exception=403)
         def cliente_vehiculo_arrendamientos(vehiculo_id):
