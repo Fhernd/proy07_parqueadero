@@ -92,6 +92,7 @@ def dashboard():
     return render_template('dashboard.html', titulo='Dashboard')
 
 from app.cliente_vehiculo_routes import ClienteVehiculoRoutes
+from app.cliente_vehiculo_arrendamiento_routes import ClienteVehiculoArrendamientoRoutes
 from app.vehiculo_tipo_routes import VehiculoTipoRoutes
 from app.tarifa_tipo_routes import TarifaTipoRoutes
 from app.medio_pago_routes import MedioPagoRoutes
@@ -101,6 +102,7 @@ from app.usuario_routes import UsuarioRoutes
 
 app.register_blueprint(ClienteRoutes().blueprint)
 app.register_blueprint(ClienteVehiculoRoutes().blueprint)
+app.register_blueprint(ClienteVehiculoArrendamientoRoutes().blueprint)
 app.register_blueprint(MedioPagoRoutes().blueprint)
 app.register_blueprint(SedeRoutes().blueprint)
 app.register_blueprint(TarifaTipoRoutes().blueprint)

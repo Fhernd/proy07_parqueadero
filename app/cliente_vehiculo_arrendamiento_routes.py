@@ -1,12 +1,11 @@
 from datetime import datetime
 
-from flask import Blueprint, g, jsonify, render_template, request
-from flask_login import current_user, login_required
+from flask import Blueprint, jsonify, request
+from flask_login import login_required
 
 from app.models import Arrendamiento
 
 from app import db
-from app.routes import propietario_admin_permission, usuario_rol
 from app.routes import todos_permiso
 
 
