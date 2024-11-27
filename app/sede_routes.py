@@ -1,11 +1,13 @@
+from datetime import datetime
+
 from flask import Blueprint, g, jsonify, render_template, request
 from flask_login import current_user, login_required
 
-from app.models import Modulo, Parqueadero, Parqueo, Sede, SedeUsuario, Usuario
+from app.models import Arrendamiento, Modulo, Parqueadero, Parqueo, Sede, SedeUsuario, Usuario
 
 from app import db
-from app.routes import propietario_admin_permission, usuario_rol
-from app.routes import todos_permiso
+from app.routes import propietario_admin_permission
+from app.routes import todos_permiso, operario_permission
 
 
 class SedeRoutes:
@@ -311,3 +313,77 @@ class SedeRoutes:
                 'sede_id': asignacion.sede_id,
                 'usuario_id': asignacion.usuario_id
             } for asignacion in asignaciones]}), 200
+        
+        @self.blueprint.route('/sede/<int:sede_id>/parqueos-activos', methods=['GET'])
+        @login_required
+        @operario_permission.require(http_exception=403)
+        def parqueos_activos(sede_id):
+            """
+            Obtiene los parqueos activos de una sede.
+
+            :param sede_id: Identificador de la sede.
+
+            :return: Respuesta JSON.
+            """
+            parqueos = (
+                Parqueo.query
+                .join(Modulo, Parqueo.modulo_id == Modulo.id)
+                .filter(Modulo.sede_id == sede_id, Parqueo.fecha_hora_salida == None)
+                .all()
+            )
+
+            return jsonify({
+                'status': 'success',
+                'message': 'Consulta realizada de forma satisfactoria',
+                'data': [
+                    {
+                        'id': parqueo.id,
+                        'vehiculo': {
+                            'id': parqueo.vehiculo_id,
+                            'placa': parqueo.vehiculo.placa,
+                            'marca': parqueo.vehiculo.marca,
+                            'modelo': parqueo.vehiculo.modelo,
+                            'tipo': parqueo.vehiculo.vehiculo_tipo.nombre,
+                            'tarifa': determinar_tarifa(parqueo)
+                        },
+                        'modulo': {
+                            'id': parqueo.modulo_id,
+                            'nombre': parqueo.modulo.nombre,
+                            'habilitado': parqueo.modulo.habilitado,
+                            'descripcion': parqueo.modulo.descripcion
+                        },
+                        'fechaHoraEntrada': parqueo.fecha_hora_entrada,
+                        'fechaHoraSalida': parqueo.fecha_hora_salida,
+                        'esArrendamiento': Arrendamiento.query.filter_by(vehiculo_id=parqueo.vehiculo_id).first() is not None
+                    }
+                    for parqueo in parqueos
+                ]
+            }), 200
+
+        def determinar_tarifa(parqueo):
+            """
+            Determina la tarifa de un parqueo.
+
+            :param parqueo: Parqueo.
+            :return: Tarifa.
+            """
+            fecha_actual = datetime.now()
+
+            arrendamiento = Arrendamiento.query.filter(
+                Arrendamiento.vehiculo_id == parqueo.vehiculo_id,
+                Arrendamiento.fecha_inicio <= fecha_actual,
+                Arrendamiento.fecha_fin >= fecha_actual
+            ).first()
+
+            if arrendamiento:
+                return {
+                    'id': arrendamiento.tarifa_id,
+                    'nombre': arrendamiento.tarifa.nombre,
+                    'costo': arrendamiento.tarifa.costo
+                }
+            
+            return {
+                'id': parqueo.vehiculo.tarifa_id,
+                'nombre': parqueo.vehiculo.tarifa.nombre,
+                'costo': parqueo.vehiculo.tarifa.costo
+            }
