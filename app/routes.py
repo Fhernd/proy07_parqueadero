@@ -654,35 +654,6 @@ def retirar_vehiculo():
     return jsonify({'status': 'success', 'message': 'Vehículo retirado exitosamente'}), 200
 
 
-@app.route('/cliente/vehiculo/arrendamiento/<int:arrendamiento_id>/cambiar-estado-pausa', methods=['PUT'])
-@login_required
-@todos_permiso.require(http_exception=403)
-def cambiar_estado_pausa(arrendamiento_id):
-    data = request.get_json()
-    tiempo_pausa = data.get('tiempoPausa')
-
-    arrendamiento = Arrendamiento.query.get(arrendamiento_id)
-    if not arrendamiento:
-        return jsonify({'status': 'error', 'message': 'Arrendamiento no encontrado'}), 404
-    
-    fecha_actual = datetime.now()
-    fecha_actual += timedelta(days=tiempo_pausa)
-    fecha_fin = arrendamiento.fecha_fin
-    diferencia = (fecha_fin - fecha_actual).days
-
-    if diferencia < tiempo_pausa:
-        return jsonify({'status': 'tiempoMenor', 'message': 'El tiempo de pausa no puede ser mayor al tiempo restante del arrendamiento.'}), 200
-
-    arrendamiento.tiempo_pausa = tiempo_pausa
-    arrendamiento.ha_sido_pausado = True
-    arrendamiento.fecha_fin += timedelta(days=tiempo_pausa)
-    arrendamiento.fecha_pausa = fecha_actual
-
-    db.session.commit()
-
-    return jsonify({'status': 'success', 'message': 'Estado de pausa cambiado exitosamente'}), 200
-
-
 @app.route('/medio-pago/<int:medioPagoId>/activar-desactivar', methods=['PUT'])
 @login_required
 @propietario_admin_permission.require(http_exception=403)
