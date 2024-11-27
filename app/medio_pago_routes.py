@@ -134,3 +134,18 @@ class MedioPagoRoutes:
             except Exception as e:
                 db.session.rollback()
                 return jsonify({'status': 'error', 'message': str(e)}), 500
+
+        @self.blueprint.route('/medio-pago/<int:medioPagoId>/activar-desactivar', methods=['PUT'])
+        @login_required
+        @propietario_admin_permission.require(http_exception=403)
+        def activar_desactivar_medio_pago(medioPagoId):
+            medio_pago = MedioPago.query.get(medioPagoId)
+            if not medio_pago:
+                return jsonify({'status': 'error', 'message': 'Medio de pago no encontrado'}), 404
+
+            medio_pago.activo = not medio_pago.activo
+
+            db.session.commit()
+
+            estado = 'activado' if medio_pago.activo else 'desactivado'
+            return jsonify({'status': 'success', 'message': f'Medio de pago {estado} exitosamente'}), 200
