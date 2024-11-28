@@ -1,25 +1,13 @@
-from datetime import datetime, timedelta
-import io
-import os
-import tempfile
-
-from flask import current_app, flash, g, jsonify, redirect, render_template, request, send_file, url_for
+from flask import g, render_template
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded, identity_changed, Identity, AnonymousIdentity
 from werkzeug.security import generate_password_hash
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import cm
-import qrcode
 
 from app import app, db
 
 from app.forms import CambiarClaveForm, ParqueaderoInformacionForm, UsuarioForm
 from app.models import Arrendamiento, Cliente, MedioPago, Modulo, Pais, Parqueadero, Parqueo, Periodicidad, Rol, Sede, SedeUsuario, Tarifa, TarifaTipo, Usuario, Vehiculo, VehiculoTipo, usuario_rol
 from app.util.roles_enum import Roles
-from app.util.utilitarios import to_json
 
 propietario_role = RoleNeed(Roles.PROPIETARIO.value)
 admin_role = RoleNeed(Roles.ADMINISTRADOR.value)
