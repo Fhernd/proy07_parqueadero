@@ -171,44 +171,6 @@ def parqueadero():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-@app.route('/perfil', methods=['GET', 'POST'])
-@login_required
-@todos_permiso.require(http_exception=403)
-def perfil():
-    """
-    Muestra el perfil del usuario.
-
-    :return: Plantilla HTML.
-    """
-    g.template_name = 'base.html'
-    
-    form = UsuarioForm()
-    cambiar_clave_form = CambiarClaveForm()
-
-    if form.submit.data and form.validate_on_submit():
-        current_user.documento = form.documento.data
-        current_user.nombres = form.nombres.data
-        current_user.apellidos = form.apellidos.data
-        current_user.telefono = form.telefono.data
-
-        db.session.commit()
-        flash('Perfil actualizado correctamente.', 'perfil-success')
-        return redirect(url_for('perfil'))
-
-    if cambiar_clave_form.submit.data and cambiar_clave_form.validate_on_submit():
-        clave_actual = cambiar_clave_form.clave_actual.data
-
-        if not current_user.check_password(clave_actual):
-            flash('La contraseña actual es incorrecta', 'cambio-clave-danger')
-        else:
-            current_user.set_password(cambiar_clave_form.clave_nueva.data)
-            db.session.commit()
-            flash('Contraseña cambiada correctamente.', 'cambio-clave-success')
-            return redirect(url_for('perfil'))
-
-    return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)
-
-
 @app.route('/parqueadero-informacion', methods=['GET', 'POST'])
 @login_required
 @propietario_admin_permission.require(http_exception=403)
