@@ -99,6 +99,7 @@ from app.vehiculo_tipo_routes import VehiculoTipoRoutes
 from app.tarifa_tipo_routes import TarifaTipoRoutes
 from app.medio_pago_routes import MedioPagoRoutes
 from app.cliente_routes import ClienteRoutes
+from app.parqueadero_routes import ParqueaderoRoutes
 from app.sede_routes import SedeRoutes
 from app.usuario_routes import UsuarioRoutes
 
@@ -107,6 +108,7 @@ app.register_blueprint(ClienteRoutes().blueprint)
 app.register_blueprint(ClienteVehiculoRoutes().blueprint)
 app.register_blueprint(ClienteVehiculoArrendamientoRoutes().blueprint)
 app.register_blueprint(MedioPagoRoutes().blueprint)
+app.register_blueprint(ParqueaderoRoutes().blueprint)
 app.register_blueprint(SedeRoutes().blueprint)
 app.register_blueprint(TarifaTipoRoutes().blueprint)
 app.register_blueprint(UsuarioRoutes().blueprint)

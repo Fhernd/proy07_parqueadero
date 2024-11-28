@@ -2,7 +2,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" 
-   href="{% if operario_permission.can() %}{{ url_for('parqueos') }}{% else %}#unauthorized{% endif %}">
+   href="{% if operario_permission.can() %}{{ url_for('parqueadero.parqueos') }}{% else %}#unauthorized{% endif %}">
     <img src="{{ url_for('static', filename='images/logo-generico.png') }}" alt="Logo" style="width: 50px; height: 50px;">
 </a>
 

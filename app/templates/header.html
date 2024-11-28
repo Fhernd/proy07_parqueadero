@@ -180,12 +180,12 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{{ url_for('perfil') }}">
+                <a class="dropdown-item" href="{{ url_for('auth.perfil') }}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Perfil
                 </a>
                 {% if propietario_admin_permission.can() %}
-                <a class="dropdown-item" href="{{ url_for('parqueadero_informacion')}}">
+                <a class="dropdown-item" href="{{ url_for('parqueadero.parqueadero_informacion')}}">
                     <i class="fas fa-parking fa-sm fa-fw mr-2 text-gray-400"></i>
                     Información parqueadero
                 </a>

@@ -113,7 +113,7 @@ class AuthRoutes:
             if not next:
                 roles = [rol.nombre for rol in usuario.roles]
                 if tiene_rol(current_user.roles, [Roles.OPERARIO.value]):
-                    return jsonify({"success": True, "redirect_url": url_for('parqueos')})
+                    return jsonify({"success": True, "redirect_url": url_for('parqueadero.parqueos')})
                 else:
                     return jsonify({"success": True, "redirect_url": url_for('dashboard')})
             else:
@@ -167,7 +167,7 @@ class AuthRoutes:
 
                 db.session.commit()
                 flash('Perfil actualizado correctamente.', 'perfil-success')
-                return redirect(url_for('perfil'))
+                return redirect(url_for('auth.perfil'))
 
             if cambiar_clave_form.submit.data and cambiar_clave_form.validate_on_submit():
                 clave_actual = cambiar_clave_form.clave_actual.data
@@ -178,6 +178,6 @@ class AuthRoutes:
                     current_user.set_password(cambiar_clave_form.clave_nueva.data)
                     db.session.commit()
                     flash('Contraseña cambiada correctamente.', 'cambio-clave-success')
-                    return redirect(url_for('perfil'))
+                    return redirect(url_for('auth.perfil'))
 
             return render_template('perfil.html', titulo='Perfil', form=form, cambiar_clave_form=cambiar_clave_form)

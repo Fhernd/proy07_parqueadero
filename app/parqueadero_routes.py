@@ -93,7 +93,7 @@ class ParqueaderoRoutes:
                 form.populate_obj(parqueadero)
                 db.session.commit()
                 flash('Información del parqueadero actualizada correctamente.', 'parqueadero-informacion-success')
-                return redirect(url_for('parqueadero_informacion'))
+                return redirect(url_for('parqueadero.parqueadero_informacion'))
             
             return render_template('parqueadero-informacion.html', titulo='Información del Parqueadero', form=form)
 
