@@ -113,24 +113,6 @@ app.register_blueprint(UsuarioRoutes().blueprint)
 app.register_blueprint(VehiculoTipoRoutes().blueprint)
 
 
-@app.route("/tarifas", methods=['GET'])
-@login_required
-@todos_permiso.require(http_exception=403)
-def get_tarifas():
-    """
-    Recupera los tipos de tarifa.
-
-    :return: Respuesta JSON.
-    """
-    entidades = Tarifa.query.all()
-    
-    return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
-        'id': entidad.id,
-        'costo': entidad.costo,
-        'nombre': entidad.nombre,
-    } for entidad in entidades]}), 200
-
-
 @app.route("/parqueadero", methods=['POST'])
 @login_required
 @propietario_permission.require(http_exception=403)

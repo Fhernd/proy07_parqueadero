@@ -1,7 +1,7 @@
 from flask import Blueprint, g, jsonify, render_template, request
 from flask_login import login_required
 
-from app.models import MedioPago
+from app.models import MedioPago, Tarifa
 
 from app import db
 from app.routes import propietario_admin_permission
@@ -149,3 +149,20 @@ class MedioPagoRoutes:
 
             estado = 'activado' if medio_pago.activo else 'desactivado'
             return jsonify({'status': 'success', 'message': f'Medio de pago {estado} exitosamente'}), 200
+
+        @self.blueprint.route("/tarifas", methods=['GET'])
+        @login_required
+        @todos_permiso.require(http_exception=403)
+        def get_tarifas():
+            """
+            Recupera los tipos de tarifa.
+
+            :return: Respuesta JSON.
+            """
+            entidades = Tarifa.query.all()
+            
+            return jsonify({'status': 'success', 'message': 'Consulta realizada de forma satisfactoria', 'data': [{
+                'id': entidad.id,
+                'costo': entidad.costo,
+                'nombre': entidad.nombre,
+            } for entidad in entidades]}), 200
