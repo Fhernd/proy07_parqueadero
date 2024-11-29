@@ -71,3 +71,41 @@ Sigue estos pasos para instalar Python en Windows:
 
 ¡Listo! Python debería estar funcionando en tu sistema. 🎉
 
+### 3.1.2 Instalación de Python en Linux
+
+Sigue estos pasos para instalar Python en tu sistema Linux:
+
+1. **Actualizar los paquetes del sistema:**
+   - Abre la terminal y ejecuta:
+     ```bash
+     sudo apt update
+     sudo apt upgrade
+     ```
+
+2. **Instalar Python:**
+   - Ejecuta el siguiente comando para instalar Python desde los repositorios oficiales:
+     ```bash
+     sudo apt install python3
+     ```
+
+3. **Verificar la instalación:**
+   - Confirma que Python se haya instalado correctamente ejecutando:
+     ```bash
+     python3 --version
+     ```
+
+4. **Instalar `pip` (gestor de paquetes de Python):**
+   - Si necesitas instalar `pip`, ejecuta:
+     ```bash
+     sudo apt install python3-pip
+     ```
+
+5. **Verificar la instalación de `pip`:**
+   - Comprueba que `pip` esté instalado:
+     ```bash
+     pip3 --version
+     ```
+
+---
+
+¡Python estará listo para usar en tu sistema Linux! 🎉
