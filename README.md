@@ -29,4 +29,45 @@ Por cada una de estas tecnologías se usaron librerías para las siguientes tare
 
 # 3. Instalación
 
-...
+## 3.1 Python
+
+### 3.1.1 Instalación de Python en Windows
+
+Sigue estos pasos para instalar Python en Windows:
+
+1. **Descargar Python:**
+   - Ve al sitio oficial de Python: [https://www.python.org/downloads/](https://www.python.org/downloads/).
+   - Haz clic en el botón `Download Python [versión]` (se detectará automáticamente la versión adecuada para tu sistema).
+
+2. **Ejecutar el instalador:**
+   - Abre el archivo descargado (por ejemplo, `python-[versión].exe`).
+   - **Marcar la casilla**: `Add Python to PATH` antes de continuar.
+   - Haz clic en **Install Now** para realizar una instalación rápida.
+
+3. **Verificar la instalación:**
+   - Abre el terminal o `Command Prompt` (CMD).
+   - Escribe:
+     ```bash
+     python --version
+     ```
+     o
+     ```bash
+     python -V
+     ```
+     Deberías ver la versión instalada.
+
+4. **Opcional: Instalar `pip` (gestor de paquetes):**
+   - Python incluye `pip` por defecto. Verifica que esté instalado con:
+     ```bash
+     pip --version
+     ```
+
+---
+
+**Solución de problemas comunes**
+- Si `python` no se reconoce en el terminal, verifica que esté agregado al **PATH**:
+  - Ve a **Configuración avanzada del sistema** > **Variables de entorno**.
+  - Asegúrate de que la carpeta de instalación de Python (por ejemplo, `C:\Python39\`) esté en la variable `PATH`.
+
+¡Listo! Python debería estar funcionando en tu sistema. 🎉
+
