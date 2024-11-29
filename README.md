@@ -109,3 +109,42 @@ Sigue estos pasos para instalar Python en tu sistema Linux:
 ---
 
 ¡Python estará listo para usar en tu sistema Linux! 🎉
+
+
+### 3.1.3 Instalación de Python 3 en macOS
+
+Sigue estos pasos para instalar Python 3 en tu sistema macOS:
+
+1. **Instalar Homebrew:**
+   - Homebrew es un gestor de paquetes para macOS que facilita la instalación de software. Si no tienes Homebrew instalado, abre la Terminal y ejecuta el siguiente comando:
+     ```bash
+     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+     ```
+
+2. **Actualizar Homebrew:**
+   - Asegúrate de que Homebrew esté actualizado ejecutando:
+     ```bash
+     brew update
+     ```
+
+3. **Instalar Python 3:**
+   - Utiliza Homebrew para instalar Python 3:
+     ```bash
+     brew install python
+     ```
+
+4. **Verificar la instalación:**
+   - Confirma que Python 3 se haya instalado correctamente ejecutando:
+     ```bash
+     python3 --version
+     ```
+
+5. **Instalar `pip` (gestor de paquetes de Python):**
+   - `pip` debería instalarse automáticamente con Python 3. Verifica su instalación ejecutando:
+     ```bash
+     pip3 --version
+     ```
+
+---
+
+¡Python 3 estará listo para usar en tu sistema macOS! 🎉
