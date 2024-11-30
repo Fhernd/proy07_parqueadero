@@ -148,3 +148,47 @@ Sigue estos pasos para instalar Python 3 en tu sistema macOS:
 ---
 
 ¡Python 3 estará listo para usar en tu sistema macOS! 🎉
+
+
+## 3.2 Creación y activación de un ambiente virtual
+
+### 3.2.1 Windows
+
+1. Crear una carpeta
+
+```bash
+mkdir parqueadero
+cd parqueadero
+```
+
+2. Crear ambiente virtual
+
+
+```bash
+python -m venv env
+```
+
+3. Activar ambiente virtual
+
+```bash
+env\Scripts\activate.bat
+```
+
+### 3.2.2 macOS / Linux
+
+1. Crear una carpeta
+
+```bash
+mkdir parqueadero
+cd parqueadero
+```
+
+2. Creación
+```bash
+python -m venv env
+````
+
+3. Activación
+```bash
+source env/bin/activate
+```
