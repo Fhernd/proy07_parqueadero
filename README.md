@@ -1,5 +1,7 @@
 # 1. Introducción
 
+![Inicio de sesión de usuario](docs/images/01-inicio-sesion-usuario.png)
+
 Este proyecto comprende una aplicación para la gestión de un parqueadero. Se trata de una aplicación web en el que se proveen diferentes roles de usuario para la gestión de datos. Entre esos roles se cuenta:
 
 - Propietario: representa a la persona encargada de la gestión de más alto nivel (o jerarquía) dentro de la aplicación. Puede crear otros usuarios y modificar datos. Es quien más permisos y autorizaciones tiene en la aplicación.
@@ -223,3 +225,6 @@ En la terminal escribimos:
 ```bash
 flask run
 ```
+
+# 5. Capturas de pantalla
+
