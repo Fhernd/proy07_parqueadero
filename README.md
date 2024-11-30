@@ -213,3 +213,13 @@ pip install -r requirements.txt
 ```
 
 Tenga en cuenta que en otras plataformas operacionales el comando de PIP puede ser ```pip3```.
+
+# 4. Ejecución del proyecto
+
+Una vez instaladas las dependencias y con el ambiente virtual activo procedemos a ejecutar la aplicación web de gestión de parqueadero.
+
+En la terminal escribimos:
+
+```bash
+flask run
+```
