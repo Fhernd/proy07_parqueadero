@@ -192,3 +192,24 @@ python -m venv env
 ```bash
 source env/bin/activate
 ```
+
+## 3.3 Instalación de las librerías o dependencias del proyecto
+
+Para poner en ejercución este proyecto es necesario con tar con las siguientes librerías:
+
+- email-validator
+- Flask
+- Flask-Login
+- Flask-Principal
+- Flask-SQLAlchemy
+- Flask-WTF
+- QRCode
+- ReportLab
+
+Para poder instalar estas librerías ejecutamos el siguiente comando:
+
+```bash
+pip install -r requirements.txt
+```
+
+Tenga en cuenta que en otras plataformas operacionales el comando de PIP puede ser ```pip3```.
