@@ -238,4 +238,12 @@ flask run
 
 ## 5.3 Ejecución del proyecto desde la terminal
 
-![Ejecución del proyecto desde la terminal](docs/images/04-ejecucion-proyecto-desde-terminal)
+![Ejecución del proyecto desde la terminal](docs/images/04-ejecucion-proyecto-desde-terminal.png)
+
+## 5.4 Pantalla de inicio de sesión
+
+![Inicio de sesión de usuario](docs/images/01-inicio-sesion-usuario.png)
+
+## 5.5 Parqueos activos
+
+![Inicio de sesión de usuario](docs/images/05-parqueos-activos.png)
