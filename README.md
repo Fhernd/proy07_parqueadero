@@ -228,3 +228,14 @@ flask run
 
 # 5. Capturas de pantalla
 
+## 5.1 Estructura de archivos y directorios
+
+![Estructura de archivos y directorios](docs/images/02-estructura-archivos-directorios.png)
+
+## 5.2 Dependencias o módulos Python
+
+![Dependencias o módulos Python](docs/images/03-dependencias-python.png)
+
+## 5.3 Ejecución del proyecto desde la terminal
+
+![Ejecución del proyecto desde la terminal](docs/images/04-ejecucion-proyecto-desde-terminal)
