@@ -250,6 +250,8 @@ flask run
 
 ## 5.6 Vista de clientes
 
-![Inicio de sesión de usuario](docs/images/06-clientes.png)
+![Vista de clientes](docs/images/06-clientes.png)
 
-## 5.7 
+## 5.7 Vista de los vehículos de un cliente
+
+![Vista de los vehículos de un cliente](docs/images/07-cliente-vehiculos.png)
