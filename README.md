@@ -247,3 +247,9 @@ flask run
 ## 5.5 Parqueos activos
 
 ![Inicio de sesión de usuario](docs/images/05-parqueos-activos.png)
+
+## 5.6 Vista de clientes
+
+![Inicio de sesión de usuario](docs/images/06-clientes.png)
+
+## 5.7 
