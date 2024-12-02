@@ -267,3 +267,7 @@ flask run
 ## 5.10 Vista de los medios de pago
 
 ![Vista de los medios de pago](docs/images/10-medios-pago.png)
+
+## 5.10 Vista de los usuarios
+
+![Vista de los usuarios](docs/images/11-usuarios.png)
