@@ -263,3 +263,7 @@ flask run
 ## 5.9 Vista de los tipos de tarifa
 
 ![Vista de los tipos de tarifa](docs/images/09-tipos-tarifa.png)
+
+## 5.10 Vista de los medios de pago
+
+![Vista de los medios de pago](docs/images/10-medios-pago.png)
