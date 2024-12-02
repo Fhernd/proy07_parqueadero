@@ -195,7 +195,17 @@ python -m venv env
 source env/bin/activate
 ```
 
-## 3.3 Instalación de las librerías o dependencias del proyecto
+## 3.3 Clonación del repositorio oficial
+
+En la terminal escribir el comando:
+
+```bash
+git clone https://github.com/Fhernd/proy07_parqueadero.git
+```
+
+Hay que tener en cuenta que para ejecutar este comando debemos estar en la carpeta ```parqueadero``` (o el nombre que le hayamos asigando).
+
+## 3.4 Instalación de las librerías o dependencias del proyecto
 
 Para poner en ejercución este proyecto es necesario con tar con las siguientes librerías:
 
