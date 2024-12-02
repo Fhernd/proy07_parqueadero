@@ -260,4 +260,6 @@ flask run
 
 ![Vista de los tipos de vehículo](docs/images/08-tipos-vehiculo.png)
 
-## 5.9 
+## 5.9 Vista de los tipos de tarifa
+
+![Vista de los tipos de tarifa](docs/images/09-tipos-tarifa.png)
