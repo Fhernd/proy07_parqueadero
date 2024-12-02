@@ -255,3 +255,9 @@ flask run
 ## 5.7 Vista de los vehículos de un cliente
 
 ![Vista de los vehículos de un cliente](docs/images/07-cliente-vehiculos.png)
+
+## 5.8 Vista de los tipos de vehículo
+
+![Vista de los tipos de vehículo](docs/images/08-tipos-vehiculo.png)
+
+## 5.9 
